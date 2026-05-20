@@ -3,178 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AULA PLC HMI - SCADA PRO</title>
+<title>AulaPLC | SCADA Industrial</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#070b10;color:#fff;overflow:hidden}
-
-/* TOP */
-.topbar{
-display:flex;justify-content:space-between;align-items:center;
-height:70px;padding:0 20px;
-background:#0f1722;border-bottom:2px solid #00ff88;
+:root{
+  --bg:#0a0f18;
+  --panel:#111a2b;
+  --panel2:#0e1624;
+  --accent:#00ff99;
+  --danger:#ff3b3b;
+  --text:#d6e2ff;
+  --border:#1f2b3d;
 }
-.logo{color:#00ff88;font-size:20px;font-weight:bold}
-.badges{display:flex;gap:10px}
-.badge{padding:8px 12px;background:#1b2635;border-radius:10px;font-size:12px}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* HEADER */
+header{
+  height:65px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 20px;
+  background:var(--panel);
+  border-bottom:1px solid var(--accent);
+}
+
+header h1{
+  font-size:18px;
+  color:var(--accent);
+  letter-spacing:1px;
+}
+
+.statusbar{
+  display:flex;
+  gap:10px;
+}
+
+.status{
+  padding:6px 10px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:12px;
+}
 
 /* LAYOUT */
-.container{display:flex;height:calc(100vh - 70px)}
+.container{
+  display:flex;
+  height:calc(100vh - 65px);
+}
 
+/* SIDEBAR */
 .sidebar{
-width:220px;background:#0d141f;
-padding:15px;border-right:1px solid #1c2a3a
+  width:230px;
+  background:var(--panel2);
+  border-right:1px solid var(--border);
+  padding:15px;
 }
+
 .sidebar button{
-width:100%;padding:12px;margin-bottom:10px;
-background:#162233;border:none;border-radius:10px;
-color:#fff;cursor:pointer;transition:.2s
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#162235;
+  color:var(--text);
+  transition:.2s;
 }
-.sidebar button:hover{background:#00ff88;color:#000}
+
+.sidebar button:hover{
+  background:var(--accent);
+  color:#000;
+}
 
 /* MAIN */
-.main{flex:1;padding:15px}
+.main{
+  flex:1;
+  padding:20px;
+  overflow:auto;
+}
 
-/* PAGES */
-.page{display:none}
-.page.active{display:block}
-
-/* GRID */
+/* CARDS */
 .grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
 }
 
 .card{
-background:#0f1a28;
-border:1px solid #1d2c3f;
-border-radius:15px;
-padding:15px
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:15px;
 }
 
-.title{color:#00ff88;margin-bottom:10px}
+.card h3{
+  color:var(--accent);
+  margin-bottom:10px;
+}
 
 /* MOTOR */
 .motor{
-width:120px;height:120px;
-border-radius:50%;
-margin:auto;
-border:8px solid #333;
-background:#222;
-animation:spin 1.5s linear infinite;
-animation-play-state:paused
+  width:110px;
+  height:110px;
+  margin:auto;
+  border-radius:50%;
+  border:8px solid #333;
+  background:#1b1b1b;
+  animation:spin 1.2s linear infinite;
+  animation-play-state:paused;
 }
-@keyframes spin{100%{transform:rotate(360deg)}}
+
+@keyframes spin{
+  100%{transform:rotate(360deg)}
+}
 
 /* BUTTONS */
-.btns{display:flex;gap:10px;justify-content:center;margin-top:10px}
-button.ctrl{
-padding:10px 15px;border:none;border-radius:10px;
-cursor:pointer;font-weight:bold
+.btns{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
 }
-.start{background:#00c853}
-.stop{background:#d50000}
 
-/* SENSORS */
-.sensors{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.btn{
+  padding:10px 14px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.start{background:var(--accent)}
+.stop{background:var(--danger);color:#fff}
+
+/* SENSOR */
+.sensors{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
 .sensor{
-background:#162233;padding:10px;border-radius:10px;text-align:center
+  background:var(--panel2);
+  padding:10px;
+  border-radius:10px;
+  text-align:center;
+  border:1px solid var(--border);
 }
+
 .light{
-width:14px;height:14px;border-radius:50%;
-background:#444;margin:8px auto
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#444;
+  margin:8px auto;
 }
-.light.on{background:#00ff88;box-shadow:0 0 10px #00ff88}
 
-/* BIG COUNTER */
+.light.on{
+  background:var(--accent);
+  box-shadow:0 0 10px var(--accent);
+}
+
+/* BIG NUMBER */
 .big{
-font-size:55px;
-text-align:center;
-color:#00ff88
+  font-size:50px;
+  text-align:center;
+  color:var(--accent);
 }
-
-/* GRAPH */
-.graph{
-height:120px;
-background:linear-gradient(#1b2a3d 1px,transparent 1px),
-linear-gradient(90deg,#1b2a3d 1px,transparent 1px);
-background-size:20px 20px;
-position:relative;overflow:hidden
-}
-.line{
-position:absolute;width:120%;height:3px;
-background:#00ff88;
-top:50%;left:-50px;
-animation:move 2s linear infinite;
-animation-play-state:paused
-}
-@keyframes move{100%{transform:translateX(100px)}}
-
-/* ALARM */
-.alarm{
-background:#2a0f14;
-border:1px solid red;
-padding:15px;border-radius:10px
-}
-
-.ok{color:#00ff88}
-.bad{color:red}
 
 /* LOG */
 .log{
-height:200px;
-overflow:auto;
-background:#0b121b;
-padding:10px;
-border-radius:10px;
-font-size:12px
+  height:200px;
+  overflow:auto;
+  font-size:12px;
 }
-.log p{margin-bottom:5px;color:#aaa}
+
+.log p{
+  margin-bottom:6px;
+  color:#aab6d3;
+}
+
+/* PLC STATUS */
+.ok{color:var(--accent)}
+.bad{color:var(--danger)}
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-<div class="logo">⚡ AULA PLC SCADA SYSTEM</div>
+<header>
+<h1>⚙ AULA PLC - SCADA INDUSTRIAL</h1>
 
-<div class="badges">
-<div class="badge" id="cpu">CPU OK</div>
-<div class="badge" id="plc">PLC STOP</div>
-<div class="badge" id="net">NET OK</div>
+<div class="statusbar">
+<div class="status" id="cpu">CPU OK</div>
+<div class="status" id="plcStatus">PLC STOP</div>
+<div class="status">NET OK</div>
 </div>
-</div>
+</header>
 
 <div class="container">
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 <button onclick="show('dash')">Dashboard</button>
-<button onclick="show('plc')">PLC</button>
+<button onclick="show('plc')">PLC Status</button>
 <button onclick="show('alarm')">Alarmas</button>
-<button onclick="show('log')">Historial</button>
+<button onclick="show('log')">Eventos</button>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
 <!-- DASH -->
-<div id="dash" class="page active">
+<div id="dash" class="page">
 
 <div class="grid">
 
 <div class="card">
-<div class="title">Motor Principal</div>
+<h3>Motor Principal</h3>
 <div class="motor" id="motor"></div>
 
 <div class="btns">
-<button class="ctrl start" onclick="start()">START</button>
-<button class="ctrl stop" onclick="stop()">STOP</button>
+<button class="btn start" onclick="start()">START</button>
+<button class="btn stop" onclick="stop()">STOP</button>
 </div>
 </div>
 
 <div class="card">
-<div class="title">Sensores</div>
+<h3>Sensores Industriales</h3>
 <div class="sensors">
 <div class="sensor">S1<div class="light"></div></div>
 <div class="sensor">S2<div class="light"></div></div>
@@ -184,9 +249,8 @@ font-size:12px
 </div>
 
 <div class="card">
-<div class="title">Producción</div>
+<h3>Producción</h3>
 <div class="big" id="count">0</div>
-<div class="graph"><div class="line"></div></div>
 </div>
 
 </div>
@@ -194,25 +258,25 @@ font-size:12px
 </div>
 
 <!-- PLC -->
-<div id="plc" class="page">
+<div id="plc" class="page" style="display:none">
 <div class="card">
-<div class="title">Estado PLC</div>
-<p id="plcState" class="bad">STOPPED</p>
+<h3>Estado PLC</h3>
+<p id="plcText" class="bad">STOPPED</p>
 </div>
 </div>
 
-<!-- ALARM -->
-<div id="alarm" class="page">
-<div class="card alarm">
-<div class="title">Alarmas</div>
+<!-- ALARMAS -->
+<div id="alarm" class="page" style="display:none">
+<div class="card">
+<h3>Alarmas del Sistema</h3>
 <p id="alarmText" class="bad">SIN ALARMAS</p>
 </div>
 </div>
 
 <!-- LOG -->
-<div id="log" class="page">
+<div id="log" class="page" style="display:none">
 <div class="card">
-<div class="title">Historial de Eventos</div>
+<h3>Historial</h3>
 <div class="log" id="logBox"></div>
 </div>
 </div>
@@ -227,11 +291,8 @@ let count=0
 let timer
 
 const motor=document.getElementById("motor")
-const line=document.querySelector(".line")
-const counter=document.getElementById("count")
 const lights=document.querySelectorAll(".light")
-const plcState=document.getElementById("plcState")
-const alarmText=document.getElementById("alarmText")
+const counter=document.getElementById("count")
 const logBox=document.getElementById("logBox")
 
 function log(msg){
@@ -241,8 +302,8 @@ logBox.prepend(p)
 }
 
 function show(page){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
-document.getElementById(page).classList.add("active")
+document.querySelectorAll(".page").forEach(p=>p.style.display="none")
+document.getElementById(page).style.display="block"
 }
 
 function start(){
@@ -251,17 +312,7 @@ if(running) return
 running=true
 
 motor.style.animationPlayState="running"
-line.style.animationPlayState="running"
-
-document.getElementById("plc").innerText="PLC RUN"
-
-plcState.innerText="RUNNING"
-plcState.className="ok"
-
-alarmText.innerText="SYSTEM OK"
-alarmText.className="ok"
-
-lights.forEach(l=>l.classList.add("on"))
+document.getElementById("plcStatus").innerText="PLC RUN"
 
 log("Sistema iniciado")
 
@@ -270,38 +321,26 @@ timer=setInterval(()=>{
 count++
 counter.innerText=count
 
-// sensores aleatorios
 lights.forEach(l=>{
-if(Math.random()>0.7){
-l.classList.toggle("on")
-}
+if(Math.random()>0.6) l.classList.toggle("on")
 })
 
-},700)
+},600)
 
 }
 
 function stop(){
 
 running=false
-
 motor.style.animationPlayState="paused"
-line.style.animationPlayState="paused"
 
-document.getElementById("plc").innerText="PLC STOP"
-
-plcState.innerText="STOPPED"
-plcState.className="bad"
-
-alarmText.innerText="SYSTEM STOPPED"
-alarmText.className="bad"
-
-lights.forEach(l=>l.classList.remove("on"))
+document.getElementById("plcStatus").innerText="PLC STOP"
 
 log("Sistema detenido")
 
 clearInterval(timer)
 
+lights.forEach(l=>l.classList.remove("on"))
 }
 
 </script>
