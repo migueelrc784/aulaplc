@@ -1,40 +1,49 @@
+<!--
+========================================================
+AUTOMATION STUDIO X PRO
+VERSIÓN UNIVERSITARIA INDUSTRIAL
+PLC + HMI + SCADA + LADDER REAL
+========================================================
+-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Automation Studio X | PLC Engineering Suite</title>
+<title>Automation Studio X PRO</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* ======================================================
+/* =========================================================
 ROOT
-====================================================== */
+========================================================= */
 
 :root{
 
---bg:#060b14;
+--bg:#050b14;
 --panel:#0f1725;
---panel2:#131f33;
---line:#22344c;
+--panel2:#111d30;
+--line:#22354c;
 --text:#dce9ff;
 
 --green:#00ff99;
 --green2:#00d67f;
 
---red:#ff4565;
+--red:#ff3d5e;
 --blue:#00c3ff;
 --yellow:#ffcc00;
---purple:#b26cff;
+--purple:#ab6bff;
 
 }
 
-/* ======================================================
+/* =========================================================
 BASE
-====================================================== */
+========================================================= */
 
 *{
 margin:0;
@@ -45,12 +54,13 @@ box-sizing:border-box;
 body{
 
 background:
-radial-gradient(circle at top left,#102038 0%,transparent 30%),
-radial-gradient(circle at bottom right,#081728 0%,transparent 30%),
+radial-gradient(circle at top left,#132541 0%,transparent 30%),
+radial-gradient(circle at bottom right,#07121f 0%,transparent 30%),
 var(--bg);
 
-color:var(--text);
 font-family:Inter,sans-serif;
+color:var(--text);
+
 overflow:hidden;
 
 }
@@ -64,20 +74,21 @@ background:var(--green);
 border-radius:20px;
 }
 
-/* ======================================================
+/* =========================================================
 HEADER
-====================================================== */
+========================================================= */
 
 header{
 
 height:75px;
-background:#09111d;
 
 display:flex;
 justify-content:space-between;
 align-items:center;
 
 padding:0 25px;
+
+background:#09111d;
 
 border-bottom:1px solid var(--line);
 
@@ -95,14 +106,16 @@ gap:15px;
 
 font-family:Orbitron;
 font-size:22px;
-letter-spacing:2px;
 color:var(--green);
+letter-spacing:2px;
 
 }
 
 .logo p{
+
 font-size:12px;
-color:#8ca5c7;
+color:#8aa2c4;
+
 }
 
 .topbar{
@@ -116,11 +129,11 @@ gap:10px;
 
 background:var(--panel);
 
+border:1px solid var(--line);
+
 padding:10px 15px;
 
 border-radius:10px;
-
-border:1px solid var(--line);
 
 font-size:12px;
 
@@ -138,23 +151,25 @@ color:var(--green);
 color:var(--red);
 }
 
-/* ======================================================
+/* =========================================================
 LAYOUT
-====================================================== */
+========================================================= */
 
 .wrapper{
 display:flex;
 height:calc(100vh - 75px);
 }
 
-/* ======================================================
+/* =========================================================
 SIDEBAR
-====================================================== */
+========================================================= */
 
 .sidebar{
 
-width:270px;
+width:280px;
+
 background:#09111b;
+
 border-right:1px solid var(--line);
 
 padding:20px;
@@ -166,12 +181,14 @@ overflow:auto;
 .menu-title{
 
 font-size:12px;
+
 text-transform:uppercase;
+
 letter-spacing:2px;
 
 margin-bottom:15px;
 
-color:#7f97bb;
+color:#8098ba;
 
 }
 
@@ -183,7 +200,7 @@ margin-bottom:12px;
 
 padding:15px;
 
-background:linear-gradient(145deg,#132238,#101b2c);
+background:linear-gradient(145deg,#122138,#0f1a2b);
 
 border:1px solid var(--line);
 
@@ -195,9 +212,9 @@ cursor:pointer;
 
 transition:.2s;
 
-text-align:left;
-
 font-weight:600;
+
+text-align:left;
 
 }
 
@@ -211,39 +228,41 @@ color:var(--green);
 
 }
 
-/* ======================================================
+/* =========================================================
 MAIN
-====================================================== */
+========================================================= */
 
 .main{
 
 flex:1;
-overflow:auto;
+
 padding:25px;
+
+overflow:auto;
 
 }
 
-/* ======================================================
+/* =========================================================
 GRID
-====================================================== */
+========================================================= */
 
 .grid{
 
 display:grid;
 
-grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
 
 gap:20px;
 
 }
 
-/* ======================================================
+/* =========================================================
 CARD
-====================================================== */
+========================================================= */
 
 .card{
 
-background:linear-gradient(145deg,#111b2c,#0d1524);
+background:linear-gradient(145deg,#101a2c,#0d1524);
 
 border:1px solid var(--line);
 
@@ -257,37 +276,21 @@ overflow:hidden;
 
 }
 
-.card::before{
-
-content:"";
-
-position:absolute;
-
-width:350px;
-height:350px;
-
-background:radial-gradient(circle,var(--green) 0%,transparent 70%);
-
-opacity:.04;
-
-top:-180px;
-right:-180px;
-
-}
-
 .card h2{
 
 font-family:Orbitron;
+
 font-size:18px;
+
 color:var(--green);
 
-margin-bottom:18px;
+margin-bottom:20px;
 
 }
 
-/* ======================================================
+/* =========================================================
 BUTTONS
-====================================================== */
+========================================================= */
 
 .controls{
 
@@ -299,15 +302,15 @@ flex-wrap:wrap;
 
 .btn{
 
-padding:12px 15px;
+padding:12px 16px;
 
 border:none;
 
 border-radius:10px;
 
-font-weight:700;
-
 cursor:pointer;
+
+font-weight:700;
 
 transition:.2s;
 
@@ -319,139 +322,207 @@ transform:scale(1.03);
 
 .green{
 background:linear-gradient(90deg,var(--green),var(--green2));
-color:#00150c;
+color:#00160d;
 }
 
 .red{
-background:linear-gradient(90deg,#ff4565,#ff6f8b);
+background:linear-gradient(90deg,#ff3d5e,#ff6680);
 color:white;
 }
 
 .blue{
-background:linear-gradient(90deg,#00c3ff,#3a7bff);
+background:linear-gradient(90deg,#00c3ff,#356cff);
 color:white;
 }
 
 .yellow{
-background:linear-gradient(90deg,#ffcc00,#ff9f00);
+background:linear-gradient(90deg,#ffcc00,#ff9800);
 color:black;
 }
 
-/* ======================================================
-MOTOR
-====================================================== */
+/* =========================================================
+REAL MOTOR
+========================================================= */
 
-.motor-wrap{
+.motor-area{
 
 display:flex;
 justify-content:center;
 align-items:center;
-height:230px;
+flex-direction:column;
+
+gap:20px;
 
 }
 
-.motor{
+.motor-real{
 
-width:150px;
-height:150px;
-
-border-radius:50%;
-
-border:10px solid #344054;
-
-background:#111;
+width:320px;
+height:180px;
 
 position:relative;
 
-animation:spin 1.1s linear infinite;
+background:linear-gradient(145deg,#5f6b7c,#2f3845);
+
+border-radius:20px;
+
+border:5px solid #8593a6;
+
+box-shadow:
+inset 0 0 30px rgba(255,255,255,.1),
+0 0 30px rgba(0,0,0,.4);
+
+overflow:hidden;
+
+}
+
+.motor-lines{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+background:
+repeating-linear-gradient(
+90deg,
+transparent 0,
+transparent 10px,
+rgba(255,255,255,.08) 10px,
+rgba(255,255,255,.08) 14px
+);
+
+}
+
+.shaft{
+
+position:absolute;
+
+width:80px;
+height:40px;
+
+background:#777;
+
+right:-50px;
+top:70px;
+
+border-radius:10px;
+
+}
+
+.fan{
+
+position:absolute;
+
+width:80px;
+height:80px;
+
+border:6px solid #999;
+
+border-radius:50%;
+
+left:20px;
+top:50px;
+
+animation:spin 0.5s linear infinite;
 animation-play-state:paused;
 
 }
 
-.motor::before{
+.fan::before,
+.fan::after{
 
 content:"";
 
 position:absolute;
 
-width:28px;
-height:28px;
+width:6px;
+height:70px;
 
-background:var(--green);
+background:#aaa;
 
-border-radius:50%;
-
-top:10px;
 left:50%;
+top:50%;
 
-transform:translateX(-50%);
+transform:translate(-50%,-50%);
 
+}
+
+.fan::after{
+transform:translate(-50%,-50%) rotate(90deg);
 }
 
 @keyframes spin{
-
 100%{
 transform:rotate(360deg);
 }
+}
+
+/* =========================================================
+TRIANGLE CONNECTION
+========================================================= */
+
+.delta{
+
+display:flex;
+justify-content:center;
+margin-top:10px;
 
 }
 
-/* ======================================================
-SENSORS
-====================================================== */
+.delta svg{
+width:180px;
+}
 
-.sensor-grid{
+/* =========================================================
+LIGHTS
+========================================================= */
 
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
+.lights{
+
+display:flex;
+gap:20px;
+justify-content:center;
 
 }
 
-.sensor{
+.pilot{
 
-background:var(--panel2);
-
-padding:15px;
-
-border-radius:14px;
-
-border:1px solid var(--line);
-
-text-align:center;
-
-}
-
-.light{
-
-width:18px;
-height:18px;
+width:35px;
+height:35px;
 
 border-radius:50%;
 
-background:#444;
+background:#333;
 
-margin:10px auto;
+border:3px solid #555;
 
 transition:.2s;
 
 }
 
-.light.on{
-
-background:var(--green);
-
-box-shadow:0 0 20px var(--green);
-
+.on-green{
+background:lime;
+box-shadow:0 0 20px lime;
 }
 
-/* ======================================================
+.on-red{
+background:red;
+box-shadow:0 0 20px red;
+}
+
+.on-blue{
+background:deepskyblue;
+box-shadow:0 0 20px deepskyblue;
+}
+
+/* =========================================================
 LADDER
-====================================================== */
+========================================================= */
 
-.ladder-editor{
+.ladder{
 
-background:#09111b;
+background:#08111b;
 
 border:1px solid var(--line);
 
@@ -461,6 +532,8 @@ padding:20px;
 
 overflow:auto;
 
+min-height:450px;
+
 }
 
 .rung{
@@ -469,33 +542,27 @@ display:flex;
 align-items:center;
 gap:10px;
 
-margin-bottom:30px;
+margin-bottom:35px;
 
 font-family:monospace;
 
 }
 
 .contact,
-.coil{
+.coil,
+.timer{
 
-padding:10px 14px;
+padding:12px 14px;
 
 border:2px solid var(--green);
 
-min-width:120px;
+min-width:130px;
 
 text-align:center;
 
 cursor:pointer;
 
-transition:.2s;
-
-}
-
-.contact:hover,
-.coil:hover{
-
-background:rgba(0,255,153,.1);
+user-select:none;
 
 }
 
@@ -509,62 +576,71 @@ background:var(--green);
 
 }
 
-.active-rung{
+.active{
 
-box-shadow:0 0 20px rgba(0,255,153,.5);
+background:rgba(0,255,153,.1);
 
-background:rgba(0,255,153,.08);
+box-shadow:0 0 20px rgba(0,255,153,.4);
 
 }
 
-/* ======================================================
-CODE EDITOR
-====================================================== */
+/* =========================================================
+INPUTS
+========================================================= */
 
-textarea{
+.io-grid{
 
-width:100%;
-height:260px;
+display:grid;
 
-background:#09111b;
+grid-template-columns:repeat(3,1fr);
 
-color:#d8f0ff;
+gap:15px;
 
-border:1px solid var(--line);
+}
 
-border-radius:12px;
+.io{
+
+background:var(--panel2);
 
 padding:15px;
 
-font-family:Consolas;
+border-radius:12px;
 
-resize:none;
+border:1px solid var(--line);
 
-font-size:14px;
+text-align:center;
 
 }
 
-/* ======================================================
-HMI TANK
-====================================================== */
+.io button{
 
-.tank-area{
+margin-top:10px;
+
+width:100%;
+
+}
+
+/* =========================================================
+TANK
+========================================================= */
+
+.tank-wrap{
 
 display:flex;
 justify-content:center;
 align-items:center;
-gap:40px;
+gap:50px;
 
 }
 
 .tank{
 
-width:140px;
-height:260px;
+width:180px;
+height:350px;
 
-border:4px solid #62738a;
+border:5px solid #718198;
 
-border-radius:0 0 20px 20px;
+border-radius:0 0 25px 25px;
 
 position:relative;
 
@@ -578,21 +654,53 @@ background:#08111b;
 
 position:absolute;
 
-width:100%;
-
 bottom:0;
 
-height:40%;
+width:100%;
 
-background:linear-gradient(180deg,#00c3ff,#004dff);
+height:0%;
 
-transition:.4s;
+background:
+linear-gradient(
+180deg,
+#00d0ff,
+#004dff
+);
+
+transition:.2s;
 
 }
 
-/* ======================================================
+.water::before{
+
+content:"";
+
+position:absolute;
+
+width:200%;
+height:20px;
+
+background:rgba(255,255,255,.2);
+
+animation:wave 2s linear infinite;
+
+}
+
+@keyframes wave{
+
+0%{
+left:-100%;
+}
+
+100%{
+left:100%;
+}
+
+}
+
+/* =========================================================
 GAUGES
-====================================================== */
+========================================================= */
 
 .gauge{
 
@@ -620,25 +728,9 @@ transition:.4s;
 
 }
 
-/* ======================================================
-BIG NUMBER
-====================================================== */
-
-.big{
-
-font-size:60px;
-
-font-family:Orbitron;
-
-text-align:center;
-
-color:var(--green);
-
-}
-
-/* ======================================================
+/* =========================================================
 LOG
-====================================================== */
+========================================================= */
 
 .log{
 
@@ -660,67 +752,9 @@ border-left:3px solid var(--green);
 
 }
 
-/* ======================================================
-PLC MEMORY
-====================================================== */
-
-.mem-list{
-
-display:flex;
-flex-direction:column;
-gap:12px;
-
-}
-
-.mem{
-
-background:var(--panel2);
-
-padding:12px;
-
-border-radius:10px;
-
-border:1px solid var(--line);
-
-display:flex;
-justify-content:space-between;
-
-}
-
-/* ======================================================
-FBD
-====================================================== */
-
-.fbd{
-
-display:flex;
-gap:20px;
-align-items:center;
-flex-wrap:wrap;
-
-}
-
-.block{
-
-padding:20px;
-
-background:#101c2f;
-
-border:2px solid var(--green);
-
-border-radius:12px;
-
-min-width:130px;
-
-text-align:center;
-
-font-weight:700;
-
-}
-
-/* ======================================================
+/* =========================================================
 RESPONSIVE
-====================================================== */
+========================================================= */
 
 @media(max-width:900px){
 
@@ -742,6 +776,7 @@ min-width:240px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -750,13 +785,17 @@ min-width:240px;
 
 <div class="logo">
 
-<div style="font-size:35px">⚡</div>
+<div style="font-size:35px">
+⚡
+</div>
 
 <div>
 
-<h1>AUTOMATION STUDIO X</h1>
+<h1>AUTOMATION STUDIO X PRO</h1>
 
-<p>PLC • SCADA • HMI • Ladder • SCL • FBD • STL</p>
+<p>
+PLC • SCADA • HMI • LADDER • CADe_SIMU STYLE
+</p>
 
 </div>
 
@@ -764,7 +803,7 @@ min-width:240px;
 
 <div class="topbar">
 
-<div class="status online" id="cpuStatus">
+<div class="status online">
 CPU RUN
 </div>
 
@@ -777,7 +816,7 @@ PROFINET OK
 </div>
 
 <div class="status">
-TIA PORTAL
+380V AC
 </div>
 
 </div>
@@ -786,38 +825,26 @@ TIA PORTAL
 
 <div class="wrapper">
 
-<!-- ======================================================
+<!-- =========================================================
 SIDEBAR
-====================================================== -->
+========================================================= -->
 
 <div class="sidebar">
 
 <div class="menu-title">
-MÓDULOS
+AUTOMATION
 </div>
 
 <button onclick="showPage('dashboard')">
-🏭 Dashboard Industrial
+🏭 Motor Industrial
 </button>
 
 <button onclick="showPage('ladderPage')">
-🪜 Editor Ladder
+🪜 Ladder Editor
 </button>
 
-<button onclick="showPage('sclPage')">
-💻 SCL / Structured Text
-</button>
-
-<button onclick="showPage('fbdPage')">
-🔲 Function Block Diagram
-</button>
-
-<button onclick="showPage('hmiPage')">
-🖥 HMI Interactivo
-</button>
-
-<button onclick="showPage('memoryPage')">
-🧠 PLC Memory
+<button onclick="showPage('tankPage')">
+🖥 HMI Tanque
 </button>
 
 <button onclick="showPage('logsPage')">
@@ -826,15 +853,15 @@ MÓDULOS
 
 </div>
 
-<!-- ======================================================
+<!-- =========================================================
 MAIN
-====================================================== -->
+========================================================= -->
 
 <div class="main">
 
-<!-- ======================================================
+<!-- =========================================================
 DASHBOARD
-====================================================== -->
+========================================================= -->
 
 <div class="page" id="dashboard">
 
@@ -842,77 +869,50 @@ DASHBOARD
 
 <div class="card">
 
-<h2>MOTOR INDUSTRIAL</h2>
+<h2>MOTOR TRIFÁSICO REALISTA</h2>
 
-<div class="motor-wrap">
-<div class="motor" id="motor"></div>
-</div>
+<div class="motor-area">
 
-<div class="controls">
+<div class="motor-real">
 
-<button class="btn green" onclick="startSystem()">
-START
-</button>
+<div class="motor-lines"></div>
 
-<button class="btn red" onclick="stopSystem()">
-STOP
-</button>
+<div class="fan" id="fan"></div>
 
-<button class="btn blue" onclick="resetCounter()">
-RESET
-</button>
-
-<button class="btn yellow" onclick="toggleAuto()">
-AUTO
-</button>
+<div class="shaft"></div>
 
 </div>
 
-</div>
+<div class="delta">
 
-<div class="card">
+<svg viewBox="0 0 200 120">
 
-<h2>SENSORES DIGITALES</h2>
+<polygon
+points="100,10 20,100 180,100"
+fill="none"
+stroke="#00ff99"
+stroke-width="5"
+/>
 
-<div class="sensor-grid">
+<text x="90" y="8" fill="white">
+U
+</text>
 
-<div class="sensor">
-Sensor S1
-<div class="light" id="s1"></div>
-</div>
+<text x="8" y="110" fill="white">
+V
+</text>
 
-<div class="sensor">
-Sensor S2
-<div class="light" id="s2"></div>
-</div>
+<text x="180" y="110" fill="white">
+W
+</text>
 
-<div class="sensor">
-Sensor S3
-<div class="light" id="s3"></div>
-</div>
-
-<div class="sensor">
-Sensor S4
-<div class="light" id="s4"></div>
-</div>
+</svg>
 
 </div>
 
 </div>
 
-<div class="card">
-
-<h2>PRODUCCIÓN</h2>
-
-<div class="big" id="counter">
-0
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>RPM Y TEMPERATURA</h2>
+<br>
 
 RPM:
 <span id="rpmText">
@@ -934,52 +934,164 @@ Temperatura:
 <div class="fill" id="tempFill"></div>
 </div>
 
+<br><br>
+
+<div class="lights">
+
+<div class="pilot" id="greenLight"></div>
+
+<div class="pilot" id="redLight"></div>
+
+<div class="pilot" id="blueLight"></div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>ENTRADAS Y SALIDAS</h2>
+
+<div class="io-grid">
+
+<div class="io">
+
+I0.0 START
+
+<button class="btn green" onclick="toggleInput('start')">
+Pulsar
+</button>
+
+</div>
+
+<div class="io">
+
+I0.1 STOP
+
+<button class="btn red" onclick="toggleInput('stop')">
+Pulsar
+</button>
+
+</div>
+
+<div class="io">
+
+I0.2 EMERGENCY
+
+<button class="btn yellow" onclick="toggleInput('emergency')">
+EMG
+</button>
+
+</div>
+
+<div class="io">
+Q0.0 MOTOR
+</div>
+
+<div class="io">
+Q0.1 GREEN
+</div>
+
+<div class="io">
+Q0.2 RED
+</div>
+
+<div class="io">
+Q0.3 BLUE
 </div>
 
 </div>
 
 </div>
 
-<!-- ======================================================
+</div>
+
+</div>
+
+<!-- =========================================================
 LADDER
-====================================================== -->
+========================================================= -->
 
 <div class="page" id="ladderPage" style="display:none">
 
 <div class="card">
 
-<h2>EDITOR LADDER INTERACTIVO</h2>
+<h2>LADDER PROGRAMMING</h2>
 
 <div class="controls">
 
-<button class="btn green" onclick="addRung()">
-+ Añadir Rung
+<button class="btn green" onclick="addContact()">
++ Contacto
 </button>
 
-<button class="btn blue" onclick="toggleSealIn()">
-Enclavamiento
+<button class="btn blue" onclick="addCoil()">
++ Bobina
 </button>
 
-<button class="btn yellow" onclick="simulateLadder()">
-Simular
+<button class="btn yellow" onclick="addTimer()">
++ Temporizador
+</button>
+
+<button class="btn red" onclick="simulatePLC()">
+SIMULAR
 </button>
 
 </div>
 
 <br>
 
-<div class="ladder-editor" id="ladderEditor">
+<div class="ladder" id="ladder">
 
-<div class="rung active-rung">
+<div class="rung active">
 
 <div class="contact" contenteditable="true">
-I0.0 START
+I0.0
+</div>
+
+<div class="line"></div>
+
+<div class="contact" contenteditable="true">
+/I0.1
+</div>
+
+<div class="line"></div>
+
+<div class="contact" contenteditable="true">
+/I0.2
 </div>
 
 <div class="line"></div>
 
 <div class="coil" contenteditable="true">
-Q0.0 MOTOR
+Q0.0
+</div>
+
+</div>
+
+<div class="rung">
+
+<div class="contact" contenteditable="true">
+Q0.0
+</div>
+
+<div class="line"></div>
+
+<div class="coil" contenteditable="true">
+Q0.1
+</div>
+
+</div>
+
+<div class="rung">
+
+<div class="contact" contenteditable="true">
+/Q0.0
+</div>
+
+<div class="line"></div>
+
+<div class="coil" contenteditable="true">
+Q0.2
 </div>
 
 </div>
@@ -990,146 +1102,45 @@ Q0.0 MOTOR
 
 </div>
 
-<!-- ======================================================
-SCL
-====================================================== -->
+<!-- =========================================================
+TANK
+========================================================= -->
 
-<div class="page" id="sclPage" style="display:none">
-
-<div class="card">
-
-<h2>SCL / STRUCTURED TEXT</h2>
-
-<textarea id="sclCode">
-IF Start_Button = TRUE THEN
-    Motor := TRUE;
-END_IF;
-
-IF Stop_Button = TRUE THEN
-    Motor := FALSE;
-END_IF;
-
-IF Temperature > 70 THEN
-    Alarm := TRUE;
-END_IF;
-</textarea>
-
-<br><br>
-
-<div class="controls">
-
-<button class="btn green" onclick="runSCL()">
-Compilar
-</button>
-
-<button class="btn blue" onclick="loadPID()">
-Cargar PID
-</button>
-
-<button class="btn yellow" onclick="loadTankCode()">
-Código Tanque
-</button>
-
-</div>
-
-<br>
-
-<div id="sclOutput">
-Esperando compilación...
-</div>
-
-</div>
-
-</div>
-
-<!-- ======================================================
-FBD
-====================================================== -->
-
-<div class="page" id="fbdPage" style="display:none">
-
-<div class="card">
-
-<h2>FUNCTION BLOCK DIAGRAM</h2>
-
-<div class="fbd">
-
-<div class="block">
-START
-</div>
-
-➡
-
-<div class="block">
-AND
-</div>
-
-➡
-
-<div class="block">
-TIMER
-</div>
-
-➡
-
-<div class="block">
-MOTOR
-</div>
-
-</div>
-
-<br>
-
-<div class="controls">
-
-<button class="btn green" onclick="addBlock()">
-Añadir Bloque
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ======================================================
-HMI
-====================================================== -->
-
-<div class="page" id="hmiPage" style="display:none">
+<div class="page" id="tankPage" style="display:none">
 
 <div class="grid">
 
 <div class="card">
 
-<h2>HMI TANQUE</h2>
+<h2>TANQUE INDUSTRIAL</h2>
 
-<div class="tank-area">
+<div class="tank-wrap">
 
 <div class="tank">
+
 <div class="water" id="water"></div>
+
 </div>
 
 </div>
 
 <br>
 
-<div style="text-align:center;font-size:30px">
-<span id="levelText">
-40%
+Nivel:
+<span id="liters">
+0 cm³
 </span>
-</div>
 
-<br>
+<br><br>
 
 <div class="controls">
 
-<button class="btn green" onclick="increaseLevel()">
-Subir Nivel
+<button class="btn green" onclick="openValve()">
+Abrir Válvula
 </button>
 
-<button class="btn red" onclick="decreaseLevel()">
-Bajar Nivel
+<button class="btn red" onclick="closeValve()">
+Cerrar Válvula
 </button>
 
 </div>
@@ -1138,31 +1149,15 @@ Bajar Nivel
 
 <div class="card">
 
-<h2>CONTROL PID</h2>
+<h2>CONTROL KP</h2>
 
 KP:
-<input type="range" min="0" max="100" value="50" id="kp">
+<input type="range" min="1" max="100" value="30" id="kp">
 
 <br><br>
 
-KI:
-<input type="range" min="0" max="100" value="30" id="ki">
-
-<br><br>
-
-KD:
-<input type="range" min="0" max="100" value="10" id="kd">
-
-<br><br>
-
-<div id="pidValues">
-
-KP = 50
-<br>
-KI = 30
-<br>
-KD = 10
-
+<div id="kpText">
+Velocidad = 30%
 </div>
 
 </div>
@@ -1171,60 +1166,15 @@ KD = 10
 
 </div>
 
-<!-- ======================================================
-MEMORY
-====================================================== -->
-
-<div class="page" id="memoryPage" style="display:none">
-
-<div class="card">
-
-<h2>PLC MEMORY</h2>
-
-<div class="mem-list">
-
-<div class="mem">
-<span>I0.0</span>
-<span id="mem1">FALSE</span>
-</div>
-
-<div class="mem">
-<span>Q0.0</span>
-<span id="mem2">FALSE</span>
-</div>
-
-<div class="mem">
-<span>M0.0</span>
-<span id="mem3">FALSE</span>
-</div>
-
-<div class="mem">
-<span>DB1</span>
-<span>1024 Bytes</span>
-</div>
-
-<div class="mem">
-<span>CPU</span>
-<span id="cpuMode">
-RUN
-</span>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ======================================================
+<!-- =========================================================
 LOGS
-====================================================== -->
+========================================================= -->
 
 <div class="page" id="logsPage" style="display:none">
 
 <div class="card">
 
-<h2>EVENTOS DEL SISTEMA</h2>
+<h2>EVENTOS</h2>
 
 <div class="log" id="logBox"></div>
 
@@ -1238,39 +1188,20 @@ LOGS
 
 <script>
 
-/* ======================================================
+/* =========================================================
 VARIABLES
-====================================================== */
+========================================================= */
 
 let running=false
-let autoMode=false
-let counter=0
-let level=40
-let timer
+let rpm=0
+let temp=25
 
-const motor=document.getElementById("motor")
-const plcStatus=document.getElementById("plcStatus")
+let fillLevel=0
+let valveOpen=false
 
-/* ======================================================
-LOG
-====================================================== */
-
-function addLog(text){
-
-const p=document.createElement("p")
-
-p.innerHTML=
-new Date().toLocaleTimeString()+
-" → "+
-text
-
-document.getElementById("logBox").prepend(p)
-
-}
-
-/* ======================================================
+/* =========================================================
 PAGE
-====================================================== */
+========================================================= */
 
 function showPage(page){
 
@@ -1282,117 +1213,147 @@ document.getElementById(page)
 
 }
 
-/* ======================================================
-SYSTEM
-====================================================== */
+/* =========================================================
+LOG
+========================================================= */
 
-function startSystem(){
+function log(text){
 
-if(running) return
+const p=document.createElement("p")
+
+p.innerHTML=
+new Date().toLocaleTimeString()+
+" → "+
+text
+
+document.getElementById("logBox")
+.prepend(p)
+
+}
+
+/* =========================================================
+INPUTS
+========================================================= */
+
+function toggleInput(type){
+
+if(type==="start"){
 
 running=true
 
-motor.style.animationPlayState="running"
+document.getElementById("plcStatus")
+.innerHTML="PLC RUN"
 
-plcStatus.innerHTML="PLC RUN"
+document.getElementById("plcStatus")
+.classList.remove("offline")
 
-plcStatus.classList.remove("offline")
-plcStatus.classList.add("online")
+document.getElementById("plcStatus")
+.classList.add("online")
 
-document.getElementById("mem2").innerHTML="TRUE"
+document.getElementById("fan")
+.style.animationPlayState="running"
 
-addLog("Motor iniciado")
+document.getElementById("greenLight")
+.classList.add("on-green")
 
-timer=setInterval(()=>{
+document.getElementById("redLight")
+.classList.remove("on-red")
 
-counter++
+log("I0.0 START ACTIVADO")
 
-document.getElementById("counter")
-.innerHTML=counter
+}
 
-let rpm=Math.floor(Math.random()*3000)
+if(type==="stop"){
+
+running=false
+
+document.getElementById("fan")
+.style.animationPlayState="paused"
+
+document.getElementById("greenLight")
+.classList.remove("on-green")
+
+document.getElementById("redLight")
+.classList.add("on-red")
+
+log("I0.1 STOP ACTIVADO")
+
+}
+
+if(type==="emergency"){
+
+running=false
+
+document.getElementById("fan")
+.style.animationPlayState="paused"
+
+document.getElementById("redLight")
+.classList.add("on-red")
+
+document.getElementById("blueLight")
+.classList.add("on-blue")
+
+log("EMERGENCIA ACTIVADA")
+
+}
+
+}
+
+/* =========================================================
+REALISTIC MOTOR
+========================================================= */
+
+setInterval(()=>{
+
+if(running){
+
+rpm += Math.random()*150
+
+if(rpm>1750){
+rpm=1750
+}
+
+temp += Math.random()*0.8
+
+if(temp>85){
+temp=85
+}
+
+}else{
+
+rpm -= 80
+
+if(rpm<0){
+rpm=0
+}
+
+temp -= 0.3
+
+if(temp<25){
+temp=25
+}
+
+}
 
 document.getElementById("rpmText")
-.innerHTML=rpm
+.innerHTML=Math.floor(rpm)+" RPM"
 
 document.getElementById("rpmFill")
-.style.width=(rpm/30)+"%"
-
-let temp=Math.floor(Math.random()*90)
+.style.width=(rpm/17.5)+"%"
 
 document.getElementById("tempText")
-.innerHTML=temp
+.innerHTML=Math.floor(temp)
 
 document.getElementById("tempFill")
 .style.width=temp+"%"
 
-document.querySelectorAll(".light")
-.forEach(light=>{
+},100)
 
-if(Math.random()>.5){
-light.classList.add("on")
-}else{
-light.classList.remove("on")
-}
-
-})
-
-if(temp>70){
-
-addLog("ALARMA: Alta temperatura")
-
-}
-
-},1000)
-
-}
-
-function stopSystem(){
-
-running=false
-
-clearInterval(timer)
-
-motor.style.animationPlayState="paused"
-
-plcStatus.innerHTML="PLC STOP"
-
-plcStatus.classList.remove("online")
-plcStatus.classList.add("offline")
-
-document.getElementById("mem2").innerHTML="FALSE"
-
-addLog("Motor detenido")
-
-}
-
-function resetCounter(){
-
-counter=0
-
-document.getElementById("counter")
-.innerHTML=0
-
-addLog("Contador reseteado")
-
-}
-
-function toggleAuto(){
-
-autoMode=!autoMode
-
-document.getElementById("mem3")
-.innerHTML=autoMode
-
-addLog("Modo AUTO: "+autoMode)
-
-}
-
-/* ======================================================
+/* =========================================================
 LADDER
-====================================================== */
+========================================================= */
 
-function addRung(){
+function addContact(){
 
 const rung=document.createElement("div")
 
@@ -1412,195 +1373,141 @@ Q0.X
 
 `
 
-document.getElementById("ladderEditor")
+document.getElementById("ladder")
 .appendChild(rung)
 
-addLog("Nuevo rung añadido")
+log("Nuevo contacto agregado")
 
 }
 
-function toggleSealIn(){
+function addCoil(){
 
 const rung=document.createElement("div")
 
-rung.className="rung active-rung"
+rung.className="rung"
 
 rung.innerHTML=`
 
-<div class="contact">
-I0.0 START
+<div class="contact" contenteditable="true">
+I0.X
 </div>
 
 <div class="line"></div>
 
-<div class="contact">
-Q0.0
-</div>
-
-<div class="line"></div>
-
-<div class="coil">
-Q0.0 MOTOR
+<div class="coil" contenteditable="true">
+Q0.X
 </div>
 
 `
 
-document.getElementById("ladderEditor")
+document.getElementById("ladder")
 .appendChild(rung)
 
-addLog("Enclavamiento agregado")
+log("Nueva bobina agregada")
 
 }
 
-function simulateLadder(){
+function addTimer(){
 
-addLog("Simulación Ladder ejecutada")
+const rung=document.createElement("div")
+
+rung.className="rung"
+
+rung.innerHTML=`
+
+<div class="contact" contenteditable="true">
+I0.0
+</div>
+
+<div class="line"></div>
+
+<div class="timer" contenteditable="true">
+TON T1 5s
+</div>
+
+<div class="line"></div>
+
+<div class="coil" contenteditable="true">
+Q0.3
+</div>
+
+`
+
+document.getElementById("ladder")
+.appendChild(rung)
+
+log("Temporizador agregado")
 
 }
 
-/* ======================================================
-SCL
-====================================================== */
+function simulatePLC(){
 
-function runSCL(){
+log("PLC SIMULADO")
 
-const code=document.getElementById("sclCode").value
+}
 
-document.getElementById("sclOutput")
+/* =========================================================
+TANK
+========================================================= */
+
+function openValve(){
+
+valveOpen=true
+
+log("Válvula abierta")
+
+}
+
+function closeValve(){
+
+valveOpen=false
+
+log("Válvula cerrada")
+
+}
+
+setInterval(()=>{
+
+let kp=document.getElementById("kp").value
+
+document.getElementById("kpText")
 .innerHTML=
-"✔ Código compilado correctamente"
+"Velocidad = "+kp+"%"
 
-addLog("Código SCL compilado")
+if(valveOpen){
 
+fillLevel += kp/50
+
+if(fillLevel>100){
+fillLevel=100
 }
 
-function loadPID(){
+}else{
 
-document.getElementById("sclCode").value=`
+fillLevel -= kp/80
 
-IF Auto = TRUE THEN
-
-Output :=
-(KP * Error) +
-(KI * Integral) +
-(KD * Derivative);
-
-END_IF;
-
-`
-
-addLog("PID cargado")
-
-}
-
-function loadTankCode(){
-
-document.getElementById("sclCode").value=`
-
-IF Tank_Level < 30 THEN
-Pump := TRUE;
-END_IF;
-
-IF Tank_Level > 80 THEN
-Pump := FALSE;
-END_IF;
-
-`
-
-addLog("Control de tanque cargado")
-
-}
-
-/* ======================================================
-FBD
-====================================================== */
-
-function addBlock(){
-
-const block=document.createElement("div")
-
-block.className="block"
-
-block.innerHTML="NEW BLOCK"
-
-document.querySelector(".fbd")
-.appendChild(block)
-
-addLog("Nuevo bloque FBD añadido")
-
-}
-
-/* ======================================================
-HMI
-====================================================== */
-
-function increaseLevel(){
-
-if(level<100){
-
-level+=10
-
-updateTank()
-
+if(fillLevel<0){
+fillLevel=0
 }
 
 }
-
-function decreaseLevel(){
-
-if(level>0){
-
-level-=10
-
-updateTank()
-
-}
-
-}
-
-function updateTank(){
 
 document.getElementById("water")
-.style.height=level+"%"
+.style.height=fillLevel+"%"
 
-document.getElementById("levelText")
-.innerHTML=level+"%"
+let volume=Math.floor(fillLevel*100)
 
-addLog("Nivel tanque: "+level+"%")
-
-}
-
-/* ======================================================
-PID
-====================================================== */
-
-document.getElementById("kp").oninput=updatePID
-document.getElementById("ki").oninput=updatePID
-document.getElementById("kd").oninput=updatePID
-
-function updatePID(){
-
-const kp=document.getElementById("kp").value
-const ki=document.getElementById("ki").value
-const kd=document.getElementById("kd").value
-
-document.getElementById("pidValues")
+document.getElementById("liters")
 .innerHTML=
-`
-KP = ${kp}
-<br>
-KI = ${ki}
-<br>
-KD = ${kd}
-`
+volume+" cm³"
 
-}
+},50)
 
-/* ======================================================
+/* =========================================================
 INIT
-====================================================== */
+========================================================= */
 
-addLog("Automation Studio iniciado")
+log("Automation Studio iniciado")
 
 </script>
 
