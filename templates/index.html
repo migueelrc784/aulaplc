@@ -1,471 +1,310 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AULA PLC HMI - SCADA PRO</title>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#070b10;color:#fff;overflow:hidden}
 
-    <title>PLC AI SYSTEM</title>
+/* TOP */
+.topbar{
+display:flex;justify-content:space-between;align-items:center;
+height:70px;padding:0 20px;
+background:#0f1722;border-bottom:2px solid #00ff88;
+}
+.logo{color:#00ff88;font-size:20px;font-weight:bold}
+.badges{display:flex;gap:10px}
+.badge{padding:8px 12px;background:#1b2635;border-radius:10px;font-size:12px}
 
-    <style>
+/* LAYOUT */
+.container{display:flex;height:calc(100vh - 70px)}
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-        }
+.sidebar{
+width:220px;background:#0d141f;
+padding:15px;border-right:1px solid #1c2a3a
+}
+.sidebar button{
+width:100%;padding:12px;margin-bottom:10px;
+background:#162233;border:none;border-radius:10px;
+color:#fff;cursor:pointer;transition:.2s
+}
+.sidebar button:hover{background:#00ff88;color:#000}
 
-        body{
-            background:#0b0f14;
-            font-family:Arial, Helvetica, sans-serif;
-            color:white;
-            overflow:hidden;
-        }
+/* MAIN */
+.main{flex:1;padding:15px}
 
-        .topbar{
-            width:100%;
-            height:70px;
-            background:#121922;
-            border-bottom:2px solid #00ff88;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:0 30px;
-        }
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
 
-        .logo{
-            font-size:30px;
-            font-weight:bold;
-            color:#00ff88;
-        }
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px
+}
 
-        .status{
-            display:flex;
-            gap:15px;
-        }
+.card{
+background:#0f1a28;
+border:1px solid #1d2c3f;
+border-radius:15px;
+padding:15px
+}
 
-        .status-card{
-            background:#1b2430;
-            padding:10px 20px;
-            border-radius:12px;
-            border:1px solid #2d3948;
-        }
+.title{color:#00ff88;margin-bottom:10px}
 
-        .container{
-            display:flex;
-            height:calc(100vh - 70px);
-        }
+/* MOTOR */
+.motor{
+width:120px;height:120px;
+border-radius:50%;
+margin:auto;
+border:8px solid #333;
+background:#222;
+animation:spin 1.5s linear infinite;
+animation-play-state:paused
+}
+@keyframes spin{100%{transform:rotate(360deg)}}
 
-        .sidebar{
-            width:250px;
-            background:#10161f;
-            border-right:2px solid #1d2633;
-            padding:20px;
-        }
+/* BUTTONS */
+.btns{display:flex;gap:10px;justify-content:center;margin-top:10px}
+button.ctrl{
+padding:10px 15px;border:none;border-radius:10px;
+cursor:pointer;font-weight:bold
+}
+.start{background:#00c853}
+.stop{background:#d50000}
 
-        .sidebar h2{
-            color:#00ff88;
-            margin-bottom:25px;
-        }
+/* SENSORS */
+.sensors{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.sensor{
+background:#162233;padding:10px;border-radius:10px;text-align:center
+}
+.light{
+width:14px;height:14px;border-radius:50%;
+background:#444;margin:8px auto
+}
+.light.on{background:#00ff88;box-shadow:0 0 10px #00ff88}
 
-        .sidebar button{
-            width:100%;
-            padding:15px;
-            margin-bottom:15px;
-            border:none;
-            border-radius:12px;
-            background:#1a2330;
-            color:white;
-            cursor:pointer;
-            transition:0.3s;
-            font-size:16px;
-        }
+/* BIG COUNTER */
+.big{
+font-size:55px;
+text-align:center;
+color:#00ff88
+}
 
-        .sidebar button:hover{
-            background:#00ff88;
-            color:black;
-        }
+/* GRAPH */
+.graph{
+height:120px;
+background:linear-gradient(#1b2a3d 1px,transparent 1px),
+linear-gradient(90deg,#1b2a3d 1px,transparent 1px);
+background-size:20px 20px;
+position:relative;overflow:hidden
+}
+.line{
+position:absolute;width:120%;height:3px;
+background:#00ff88;
+top:50%;left:-50px;
+animation:move 2s linear infinite;
+animation-play-state:paused
+}
+@keyframes move{100%{transform:translateX(100px)}}
 
-        .main{
-            flex:1;
-            padding:30px;
-        }
+/* ALARM */
+.alarm{
+background:#2a0f14;
+border:1px solid red;
+padding:15px;border-radius:10px
+}
 
-        .dashboard{
-            display:grid;
-            grid-template-columns:repeat(3,1fr);
-            gap:25px;
-        }
+.ok{color:#00ff88}
+.bad{color:red}
 
-        .panel{
-            background:#101826;
-            border:1px solid #243244;
-            border-radius:22px;
-            padding:25px;
-            box-shadow:0 0 25px rgba(0,0,0,0.5);
-        }
-
-        .panel h2{
-            color:#00ff88;
-            margin-bottom:20px;
-        }
-
-        .motor-box{
-            text-align:center;
-        }
-
-        .motor{
-            width:150px;
-            height:150px;
-            margin:auto;
-            border-radius:50%;
-            background:linear-gradient(145deg,#444,#222);
-            border:10px solid #666;
-            box-shadow:none;
-            animation:spin 2s linear infinite;
-            animation-play-state: paused;
-        }
-
-        @keyframes spin{
-
-            from{
-                transform:rotate(0deg);
-            }
-
-            to{
-                transform:rotate(360deg);
-            }
-
-        }
-
-        .controls{
-            display:flex;
-            justify-content:center;
-            gap:20px;
-            margin-top:30px;
-        }
-
-        .controls button{
-            border:none;
-            padding:15px 30px;
-            border-radius:12px;
-            color:white;
-            font-size:20px;
-            cursor:pointer;
-            transition:0.3s;
-        }
-
-        .controls button:hover{
-            transform:scale(1.05);
-        }
-
-        .start{
-            background:#00c853;
-        }
-
-        .stop{
-            background:#d50000;
-        }
-
-        .sensor-grid{
-            display:grid;
-            grid-template-columns:repeat(2,1fr);
-            gap:15px;
-        }
-
-        .sensor{
-            background:#1a2330;
-            padding:20px;
-            border-radius:15px;
-            text-align:center;
-        }
-
-        .sensor-light{
-            width:25px;
-            height:25px;
-            background:gray;
-            border-radius:50%;
-            margin:15px auto;
-            transition:0.3s;
-        }
-
-        .sensor-light.active{
-            background:lime;
-            box-shadow:0 0 20px lime;
-        }
-
-        .production-number{
-            font-size:70px;
-            color:#00ff88;
-        }
-
-        .graph{
-            width:100%;
-            height:200px;
-            margin-top:20px;
-            border-radius:15px;
-            overflow:hidden;
-            background:
-            linear-gradient(to right,#1f2a39 1px,transparent 1px),
-            linear-gradient(to bottom,#1f2a39 1px,transparent 1px);
-
-            background-size:20px 20px;
-            position:relative;
-        }
-
-        .line{
-            position:absolute;
-            width:120%;
-            height:4px;
-            background:#00ff88;
-            top:50%;
-            left:-50px;
-            animation:wave 3s linear infinite;
-            animation-play-state: paused;
-        }
-
-        @keyframes wave{
-
-            from{
-                transform:translateX(-100px);
-            }
-
-            to{
-                transform:translateX(100px);
-            }
-
-        }
-
-        .alarm{
-            margin-top:25px;
-            background:#2b0d0d;
-            border:1px solid red;
-            border-radius:18px;
-            padding:25px;
-        }
-
-        .alarm h2{
-            color:red;
-            margin-bottom:10px;
-        }
-
-        .alarm-status{
-            color:#00ff88;
-            font-weight:bold;
-        }
-
-    </style>
-
+/* LOG */
+.log{
+height:200px;
+overflow:auto;
+background:#0b121b;
+padding:10px;
+border-radius:10px;
+font-size:12px
+}
+.log p{margin-bottom:5px;color:#aaa}
+</style>
 </head>
 
 <body>
 
-    <div class="topbar">
+<div class="topbar">
+<div class="logo">⚡ AULA PLC SCADA SYSTEM</div>
+
+<div class="badges">
+<div class="badge" id="cpu">CPU OK</div>
+<div class="badge" id="plc">PLC STOP</div>
+<div class="badge" id="net">NET OK</div>
+</div>
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+<button onclick="show('dash')">Dashboard</button>
+<button onclick="show('plc')">PLC</button>
+<button onclick="show('alarm')">Alarmas</button>
+<button onclick="show('log')">Historial</button>
+</div>
+
+<div class="main">
+
+<!-- DASH -->
+<div id="dash" class="page active">
+
+<div class="grid">
+
+<div class="card">
+<div class="title">Motor Principal</div>
+<div class="motor" id="motor"></div>
+
+<div class="btns">
+<button class="ctrl start" onclick="start()">START</button>
+<button class="ctrl stop" onclick="stop()">STOP</button>
+</div>
+</div>
+
+<div class="card">
+<div class="title">Sensores</div>
+<div class="sensors">
+<div class="sensor">S1<div class="light"></div></div>
+<div class="sensor">S2<div class="light"></div></div>
+<div class="sensor">S3<div class="light"></div></div>
+<div class="sensor">S4<div class="light"></div></div>
+</div>
+</div>
+
+<div class="card">
+<div class="title">Producción</div>
+<div class="big" id="count">0</div>
+<div class="graph"><div class="line"></div></div>
+</div>
 
-        <div class="logo">
-            PLC AI SYSTEM
-        </div>
+</div>
 
-        <div class="status">
+</div>
 
-            <div class="status-card">
-                CPU: ONLINE
-            </div>
+<!-- PLC -->
+<div id="plc" class="page">
+<div class="card">
+<div class="title">Estado PLC</div>
+<p id="plcState" class="bad">STOPPED</p>
+</div>
+</div>
 
-            <div class="status-card">
-                PLC: RUN
-            </div>
+<!-- ALARM -->
+<div id="alarm" class="page">
+<div class="card alarm">
+<div class="title">Alarmas</div>
+<p id="alarmText" class="bad">SIN ALARMAS</p>
+</div>
+</div>
 
-            <div class="status-card">
-                NETWORK: OK
-            </div>
+<!-- LOG -->
+<div id="log" class="page">
+<div class="card">
+<div class="title">Historial de Eventos</div>
+<div class="log" id="logBox"></div>
+</div>
+</div>
 
-        </div>
+</div>
+</div>
 
-    </div>
+<script>
 
-    <div class="container">
+let running=false
+let count=0
+let timer
 
-        <div class="sidebar">
+const motor=document.getElementById("motor")
+const line=document.querySelector(".line")
+const counter=document.getElementById("count")
+const lights=document.querySelectorAll(".light")
+const plcState=document.getElementById("plcState")
+const alarmText=document.getElementById("alarmText")
+const logBox=document.getElementById("logBox")
 
-            <h2>MENÚ</h2>
+function log(msg){
+let p=document.createElement("p")
+p.innerText=new Date().toLocaleTimeString()+" - "+msg
+logBox.prepend(p)
+}
 
-            <button>Dashboard</button>
-            <button>PLC</button>
-            <button>HMI</button>
-            <button>Alarmas</button>
-            <button>Historial</button>
-            <button>Configuración</button>
+function show(page){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
+document.getElementById(page).classList.add("active")
+}
 
-        </div>
+function start(){
 
-        <div class="main">
+if(running) return
+running=true
 
-            <div class="dashboard">
+motor.style.animationPlayState="running"
+line.style.animationPlayState="running"
 
-                <div class="panel motor-box">
+document.getElementById("plc").innerText="PLC RUN"
 
-                    <h2>Motor Principal</h2>
+plcState.innerText="RUNNING"
+plcState.className="ok"
 
-                    <div class="motor"></div>
+alarmText.innerText="SYSTEM OK"
+alarmText.className="ok"
 
-                    <div class="controls">
+lights.forEach(l=>l.classList.add("on"))
 
-                        <button class="start">
-                            START
-                        </button>
+log("Sistema iniciado")
 
-                        <button class="stop">
-                            STOP
-                        </button>
+timer=setInterval(()=>{
 
-                    </div>
+count++
+counter.innerText=count
 
-                </div>
+// sensores aleatorios
+lights.forEach(l=>{
+if(Math.random()>0.7){
+l.classList.toggle("on")
+}
+})
 
-                <div class="panel">
+},700)
 
-                    <h2>Sensores</h2>
+}
 
-                    <div class="sensor-grid">
+function stop(){
 
-                        <div class="sensor">
-                            Sensor 1
-                            <div class="sensor-light"></div>
-                        </div>
+running=false
 
-                        <div class="sensor">
-                            Sensor 2
-                            <div class="sensor-light"></div>
-                        </div>
+motor.style.animationPlayState="paused"
+line.style.animationPlayState="paused"
 
-                        <div class="sensor">
-                            Sensor 3
-                            <div class="sensor-light"></div>
-                        </div>
+document.getElementById("plc").innerText="PLC STOP"
 
-                        <div class="sensor">
-                            Sensor 4
-                            <div class="sensor-light"></div>
-                        </div>
+plcState.innerText="STOPPED"
+plcState.className="bad"
 
-                    </div>
+alarmText.innerText="SYSTEM STOPPED"
+alarmText.className="bad"
 
-                </div>
+lights.forEach(l=>l.classList.remove("on"))
 
-                <div class="panel">
+log("Sistema detenido")
 
-                    <h2>Producción</h2>
+clearInterval(timer)
 
-                    <div class="production-number" id="counter">
-                        0
-                    </div>
+}
 
-                    <p>Cajas procesadas</p>
-
-                    <div class="graph">
-                        <div class="line"></div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="alarm">
-
-                <h2>ALARMAS ACTIVAS</h2>
-
-                <p class="alarm-status" id="alarmText">
-                    Sistema detenido
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <script>
-
-        const motor = document.querySelector(".motor")
-
-        const startBtn = document.querySelector(".start")
-
-        const stopBtn = document.querySelector(".stop")
-
-        const sensors = document.querySelectorAll(".sensor-light")
-
-        const line = document.querySelector(".line")
-
-        const counter = document.getElementById("counter")
-
-        const alarmText = document.getElementById("alarmText")
-
-        let running = false
-
-        let production = 0
-
-        let interval
-
-        startBtn.onclick = () => {
-
-            if(running) return
-
-            running = true
-
-            motor.style.animationPlayState = "running"
-
-            motor.style.boxShadow = "0 0 40px lime"
-
-            line.style.animationPlayState = "running"
-
-            alarmText.innerText = "Sistema en funcionamiento"
-
-            alarmText.style.color = "lime"
-
-            sensors.forEach(sensor => {
-
-                sensor.classList.add("active")
-
-            })
-
-            interval = setInterval(() => {
-
-                production++
-
-                counter.innerText = production
-
-            }, 1000)
-
-        }
-
-        stopBtn.onclick = () => {
-
-            running = false
-
-            motor.style.animationPlayState = "paused"
-
-            motor.style.boxShadow = "none"
-
-            line.style.animationPlayState = "paused"
-
-            alarmText.innerText = "Sistema detenido"
-
-            alarmText.style.color = "red"
-
-            sensors.forEach(sensor => {
-
-                sensor.classList.remove("active")
-
-            })
-
-            clearInterval(interval)
-
-        }
-
-    </script>
+</script>
 
 </body>
-
 </html>
