@@ -1,1257 +1,451 @@
-<!--
-=========================================================
-AUTOMATION STUDIO X
-PLC LADDER ENGINE REAL
-SIMULADOR ESTILO TIA PORTAL + CADe_SIMU
-=========================================================
-
-FUNCIONES:
-✔ Ladder funcional
-✔ Entradas I0.0 I0.1 I0.2
-✔ Salidas Q0.0 Q0.1 Q0.2 Q0.3
-✔ Contactos NO y NC
-✔ Bobinas
-✔ Enclavamiento
-✔ Simulación PLC Scan Cycle
-✔ Forzar entradas
-✔ Luces piloto reales
-✔ Motor industrial
-✔ Estado RUN/STOP
-✔ Lógica ladder editable
-✔ Temporizador TON básico
-✔ Simulación en tiempo real
-
-=========================================================
--->
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>PLC Ladder Simulator PRO</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- =========================================================
+TIA PORTAL STYLE LADDER CSS
+ESTILO REAL SIEMENS
+========================================================= -->
 
 <style>
 
-/* ===================================================== */
+/* =========================================================
+LADDER REAL STYLE
+========================================================= */
 
-:root{
+.ladder-workspace{
 
---bg:#050b14;
---panel:#101927;
---panel2:#132033;
---line:#22354b;
-
---green:#00ff99;
---green2:#00d67f;
-
---red:#ff4565;
---blue:#00c3ff;
---yellow:#ffcc00;
-
---text:#dbe7ff;
-
-}
-
-/* ===================================================== */
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-
-background:
-radial-gradient(circle at top left,#102038 0%,transparent 30%),
-radial-gradient(circle at bottom right,#081624 0%,transparent 30%),
-var(--bg);
-
-font-family:Inter,sans-serif;
-
-color:var(--text);
-
-overflow:hidden;
-
-}
-
-/* ===================================================== */
-
-header{
-
-height:75px;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:0 25px;
-
-background:#08111d;
-
-border-bottom:1px solid var(--line);
-
-}
-
-.logo{
-
-display:flex;
-align-items:center;
-gap:15px;
-
-}
-
-.logo h1{
-
-font-family:Orbitron;
-font-size:22px;
-letter-spacing:2px;
-
-color:var(--green);
-
-}
-
-.topbar{
-
-display:flex;
-gap:10px;
-
-}
-
-.status{
-
-background:var(--panel);
-
-padding:10px 15px;
+background:#f3f3f3;
 
 border-radius:10px;
 
-border:1px solid var(--line);
-
-font-size:12px;
-
-min-width:120px;
-
-text-align:center;
-
-}
-
-.run{
-color:var(--green);
-}
-
-.stop{
-color:var(--red);
-}
-
-/* ===================================================== */
-
-.wrapper{
-
-display:flex;
-
-height:calc(100vh - 75px);
-
-}
-
-/* ===================================================== */
-
-.sidebar{
-
-width:300px;
-
-background:#09111b;
-
-border-right:1px solid var(--line);
-
-padding:20px;
+padding:30px;
 
 overflow:auto;
 
-}
+min-height:700px;
 
-/* ===================================================== */
-
-.card{
-
-background:linear-gradient(145deg,#101a2c,#0d1524);
-
-border:1px solid var(--line);
-
-border-radius:18px;
-
-padding:20px;
-
-margin-bottom:20px;
+font-family:Arial;
 
 }
 
-.card h2{
-
-font-family:Orbitron;
-font-size:16px;
-
-margin-bottom:20px;
-
-color:var(--green);
-
-}
-
-/* ===================================================== */
-
-.io-grid{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:12px;
-
-}
-
-.io{
-
-background:var(--panel2);
-
-padding:15px;
-
-border-radius:12px;
-
-border:1px solid var(--line);
-
-text-align:center;
-
-}
-
-.io button{
-
-margin-top:10px;
-
-width:100%;
-
-padding:10px;
-
-border:none;
-
-border-radius:10px;
-
-font-weight:700;
-
-cursor:pointer;
-
-}
-
-/* ===================================================== */
-
-.green{
-background:linear-gradient(90deg,var(--green),var(--green2));
-}
-
-.red{
-background:linear-gradient(90deg,#ff4565,#ff6780);
-color:white;
-}
-
-.blue{
-background:linear-gradient(90deg,#00c3ff,#3f72ff);
-color:white;
-}
-
-.yellow{
-background:linear-gradient(90deg,#ffcc00,#ff9800);
-}
-
-/* ===================================================== */
-
-.main{
-
-flex:1;
-
-padding:20px;
-
-overflow:auto;
-
-}
-
-/* ===================================================== */
-
-.ladder{
-
-background:#08111b;
-
-border:1px solid var(--line);
-
-border-radius:15px;
-
-padding:20px;
-
-min-height:600px;
-
-overflow:auto;
-
-}
-
-/* ===================================================== */
+/* =========================================================
+RUNG
+========================================================= */
 
 .rung{
 
 display:flex;
+
 align-items:center;
 
-gap:10px;
+position:relative;
 
-margin-bottom:35px;
+margin-bottom:45px;
 
-}
-
-/* ===================================================== */
-
-.rail{
-
-width:6px;
-height:60px;
-
-background:var(--green);
+min-height:70px;
 
 }
 
-/* ===================================================== */
+/* =========================================================
+POWER RAILS
+========================================================= */
 
-.contact,
-.coil,
-.timer{
+.left-rail,
+.right-rail{
 
-padding:12px 14px;
+width:5px;
 
-border:2px solid var(--green);
+background:#444;
 
-min-width:120px;
+height:70px;
 
-text-align:center;
+}
+
+/* =========================================================
+WIRE
+========================================================= */
+
+.wire{
+
+height:3px;
+
+background:#444;
+
+flex:1;
+
+}
+
+/* =========================================================
+CONTACTS
+========================================================= */
+
+.contact{
+
+width:90px;
+height:40px;
+
+position:relative;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:12px;
+
+margin:0 10px;
 
 cursor:pointer;
 
 user-select:none;
 
-font-family:monospace;
-
-transition:.2s;
-
-background:#0f1826;
-
 }
 
-.contact:hover,
-.coil:hover,
-.timer:hover{
+/* NORMAL OPEN */
 
-background:rgba(0,255,153,.08);
-
-}
-
-.powered{
-
-background:rgba(0,255,153,.12);
-
-box-shadow:0 0 20px rgba(0,255,153,.4);
-
-}
-
-/* ===================================================== */
-
-.line{
-
-flex:1;
-
-height:2px;
-
-background:var(--green);
-
-}
-
-/* ===================================================== */
-
-.controls{
-
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-
-margin-bottom:20px;
-
-}
-
-.btn{
-
-padding:12px 16px;
-
-border:none;
-
-border-radius:10px;
-
-font-weight:700;
-
-cursor:pointer;
-
-transition:.2s;
-
-}
-
-.btn:hover{
-transform:scale(1.03);
-}
-
-/* ===================================================== */
-
-.motor-box{
-
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-
-gap:20px;
-
-}
-
-/* ===================================================== */
-
-.motor{
-
-width:250px;
-height:140px;
-
-background:linear-gradient(145deg,#5d6877,#303844);
-
-border-radius:20px;
-
-border:5px solid #7f8b9c;
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.fan{
-
-position:absolute;
-
-width:70px;
-height:70px;
-
-border-radius:50%;
-
-border:6px solid #bbb;
-
-left:20px;
-top:30px;
-
-animation:spin .3s linear infinite;
-animation-play-state:paused;
-
-}
-
-.fan::before,
-.fan::after{
+.contact.no::before,
+.contact.no::after{
 
 content:"";
 
 position:absolute;
 
-width:5px;
-height:60px;
+width:3px;
+height:40px;
 
-background:#ccc;
-
-left:50%;
-top:50%;
-
-transform:translate(-50%,-50%);
+background:#444;
 
 }
 
-.fan::after{
-transform:translate(-50%,-50%) rotate(90deg);
+.contact.no::before{
+left:18px;
 }
 
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
+.contact.no::after{
+right:18px;
 }
 
-/* ===================================================== */
+/* NORMAL CLOSED */
 
-.pilots{
+.contact.nc::before,
+.contact.nc::after{
+
+content:"";
+
+position:absolute;
+
+width:3px;
+height:40px;
+
+background:#444;
+
+}
+
+.contact.nc::before{
+left:18px;
+}
+
+.contact.nc::after{
+right:18px;
+}
+
+.contact.nc .slash{
+
+position:absolute;
+
+width:55px;
+height:3px;
+
+background:#444;
+
+transform:rotate(-45deg);
+
+}
+
+/* =========================================================
+COIL
+========================================================= */
+
+.coil{
+
+width:100px;
+height:50px;
+
+position:relative;
 
 display:flex;
-gap:20px;
+justify-content:center;
+align-items:center;
+
+font-size:12px;
+
+margin:0 10px;
 
 }
 
-.pilot{
+/* COIL SHAPE */
 
-width:35px;
-height:35px;
+.coil::before,
+.coil::after{
+
+content:"";
+
+position:absolute;
+
+width:28px;
+height:45px;
+
+border:3px solid #444;
 
 border-radius:50%;
 
-background:#333;
-
-border:3px solid #555;
-
 }
 
-.on-green{
-background:lime;
-box-shadow:0 0 20px lime;
+.coil::before{
+left:10px;
+border-right:none;
 }
 
-.on-red{
-background:red;
-box-shadow:0 0 20px red;
+.coil::after{
+right:10px;
+border-left:none;
 }
 
-.on-blue{
-background:deepskyblue;
-box-shadow:0 0 20px deepskyblue;
-}
+/* =========================================================
+TON TIMER
+========================================================= */
 
-/* ===================================================== */
+.timer{
 
-.memory{
+width:130px;
+height:70px;
+
+border:3px solid #444;
+
+background:white;
 
 display:flex;
 flex-direction:column;
-gap:10px;
+justify-content:center;
+align-items:center;
+
+font-size:11px;
+
+margin:0 10px;
+
+position:relative;
 
 }
 
-.mem{
+/* =========================================================
+ACTIVE ELEMENT
+========================================================= */
 
-background:var(--panel2);
+.active{
 
-padding:12px;
-
-border-radius:10px;
-
-display:flex;
-justify-content:space-between;
-
-border:1px solid var(--line);
+filter:drop-shadow(0 0 8px lime);
 
 }
 
-/* ===================================================== */
+.active .wire,
+.active{
+background-color:transparent;
+}
 
-.log{
+/* =========================================================
+ADDRESS
+========================================================= */
 
-height:180px;
+.addr{
 
-overflow:auto;
+position:absolute;
+
+top:-18px;
+
+font-size:11px;
+
+color:#008000;
+
+font-weight:bold;
 
 }
 
-.log p{
+.symbol{
 
-padding:10px;
+font-size:11px;
 
-margin-bottom:10px;
-
-background:#0d1626;
-
-border-left:3px solid var(--green);
-
-font-size:13px;
+margin-top:5px;
 
 }
 
-/* ===================================================== */
+/* =========================================================
+TIA STYLE TEXT
+========================================================= */
+
+.tia-title{
+
+font-size:14px;
+
+font-weight:bold;
+
+margin-bottom:20px;
+
+color:#222;
+
+}
 
 </style>
 
-</head>
+<!-- =========================================================
+TIA PORTAL STYLE HTML
+========================================================= -->
 
-<body>
+<div class="ladder-workspace">
 
-<header>
-
-<div class="logo">
-
-<div style="font-size:35px">
-⚡
+<div class="tia-title">
+Main [OB1]
 </div>
 
-<div>
+<!-- =========================================================
+RUNG 1
+========================================================= -->
 
-<h1>PLC LADDER ENGINE PRO</h1>
+<div class="rung">
 
-<div style="font-size:12px;color:#86a2c7">
-TIA PORTAL STYLE SIMULATOR
-</div>
+<div class="left-rail"></div>
 
-</div>
+<div class="wire"></div>
 
-</div>
+<!-- NO -->
 
-<div class="topbar">
+<div class="contact no active">
 
-<div class="status run" id="cpuState">
-CPU RUN
-</div>
+<div class="addr">%I0.0</div>
 
-<div class="status stop" id="plcState">
-PLC STOP
-</div>
-
-<div class="status">
-SCAN 10ms
-</div>
+Selector_ON
 
 </div>
 
-</header>
+<div class="wire"></div>
 
-<div class="wrapper">
+<!-- NC -->
 
-<!-- =====================================================
-SIDEBAR
-===================================================== -->
+<div class="contact nc">
 
-<div class="sidebar">
+<div class="addr">%I0.1</div>
 
-<div class="card">
+<div class="slash"></div>
 
-<h2>ENTRADAS</h2>
-
-<div class="io-grid">
-
-<div class="io">
-
-I0.0 START
-
-<button class="green" onclick="toggleInput('I0.0')">
-FORZAR
-</button>
+STOP
 
 </div>
 
-<div class="io">
+<div class="wire"></div>
 
-I0.1 STOP
-
-<button class="red" onclick="toggleInput('I0.1')">
-FORZAR
-</button>
-
-</div>
-
-<div class="io">
-
-I0.2 EMG
-
-<button class="yellow" onclick="toggleInput('I0.2')">
-FORZAR
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>SALIDAS</h2>
-
-<div class="memory">
-
-<div class="mem">
-<span>Q0.0 MOTOR</span>
-<span id="q00">
-FALSE
-</span>
-</div>
-
-<div class="mem">
-<span>Q0.1 VERDE</span>
-<span id="q01">
-FALSE
-</span>
-</div>
-
-<div class="mem">
-<span>Q0.2 ROJO</span>
-<span id="q02">
-FALSE
-</span>
-</div>
-
-<div class="mem">
-<span>Q0.3 AZUL</span>
-<span id="q03">
-FALSE
-</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>MOTOR + PILOTOS</h2>
-
-<div class="motor-box">
-
-<div class="motor">
-
-<div class="fan" id="fan"></div>
-
-</div>
-
-<div class="pilots">
-
-<div class="pilot" id="greenPilot"></div>
-
-<div class="pilot" id="redPilot"></div>
-
-<div class="pilot" id="bluePilot"></div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>EVENTOS</h2>
-
-<div class="log" id="logBox"></div>
-
-</div>
-
-</div>
-
-<!-- =====================================================
-MAIN
-===================================================== -->
-
-<div class="main">
-
-<div class="controls">
-
-<button class="btn green" onclick="addNO()">
-+ NO
-</button>
-
-<button class="btn yellow" onclick="addNC()">
-+ NC
-</button>
-
-<button class="btn blue" onclick="addCoil()">
-+ COIL
-</button>
-
-<button class="btn red" onclick="addTON()">
-+ TON
-</button>
-
-<button class="btn green" onclick="runSimulation()">
-SIMULAR
-</button>
-
-</div>
-
-<!-- =====================================================
-LADDER
-===================================================== -->
-
-<div class="ladder" id="ladder">
-
-<!-- RUNG 1 -->
-
-<div class="rung" data-rung="1">
-
-<div class="rail"></div>
-
-<div class="contact powered"
-data-type="NO"
-data-address="I0.0">
-I0.0
-</div>
-
-<div class="line"></div>
-
-<div class="contact powered"
-data-type="NC"
-data-address="I0.1">
-/I0.1
-</div>
-
-<div class="line"></div>
-
-<div class="contact powered"
-data-type="NC"
-data-address="I0.2">
-/I0.2
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.0">
-(Q0.0)
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-<!-- RUNG 2 -->
-
-<div class="rung" data-rung="2">
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="Q0.0">
-Q0.0
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.1">
-(Q0.1)
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-<!-- RUNG 3 -->
-
-<div class="rung" data-rung="3">
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NC"
-data-address="Q0.0">
-/Q0.0
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.2">
-(Q0.2)
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-/* =====================================================
-PLC MEMORY
-===================================================== */
-
-const memory={
-
-"I0.0":false,
-"I0.1":false,
-"I0.2":false,
-
-"Q0.0":false,
-"Q0.1":false,
-"Q0.2":false,
-"Q0.3":false
-
-}
-
-/* =====================================================
-LOG
-===================================================== */
-
-function log(text){
-
-const p=document.createElement("p")
-
-p.innerHTML=
-new Date().toLocaleTimeString()+
-" → "+
-text
-
-document.getElementById("logBox")
-.prepend(p)
-
-}
-
-/* =====================================================
-TOGGLE INPUT
-===================================================== */
-
-function toggleInput(addr){
-
-memory[addr]=!memory[addr]
-
-log(addr+" = "+memory[addr])
-
-runPLC()
-
-}
-
-/* =====================================================
-PLC ENGINE
-===================================================== */
-
-function evaluateContact(type,address){
-
-let val=memory[address]
-
-if(type==="NO"){
-return val
-}
-
-if(type==="NC"){
-return !val
-}
-
-return false
-
-}
-
-/* =====================================================
-RUN PLC
-===================================================== */
-
-function runPLC(){
-
-const rungs=document.querySelectorAll(".rung")
-
-/* RESET OUTPUTS */
-
-memory["Q0.0"]=false
-memory["Q0.1"]=false
-memory["Q0.2"]=false
-memory["Q0.3"]=false
-
-rungs.forEach(rung=>{
-
-let power=true
-
-const elements=rung.children
-
-elements.forEach(el=>{
-
-/* CONTACTS */
-
-if(el.classList.contains("contact")){
-
-const type=el.dataset.type
-const addr=el.dataset.address
-
-const state=evaluateContact(type,addr)
-
-if(state){
-
-el.classList.add("powered")
-
-}else{
-
-el.classList.remove("powered")
-
-power=false
-
-}
-
-}
-
-/* COILS */
-
-if(el.classList.contains("coil")){
-
-const addr=el.dataset.address
-
-memory[addr]=power
-
-if(power){
-
-el.classList.add("powered")
-
-}else{
-
-el.classList.remove("powered")
-
-}
-
-}
-
-})
-
-})
-
-updateOutputs()
-
-}
-
-/* =====================================================
-UPDATE OUTPUTS
-===================================================== */
-
-function updateOutputs(){
-
-document.getElementById("q00").innerHTML=memory["Q0.0"]
-document.getElementById("q01").innerHTML=memory["Q0.1"]
-document.getElementById("q02").innerHTML=memory["Q0.2"]
-document.getElementById("q03").innerHTML=memory["Q0.3"]
-
-/* MOTOR */
-
-if(memory["Q0.0"]){
-
-document.getElementById("fan")
-.style.animationPlayState="running"
-
-document.getElementById("plcState")
-.innerHTML="PLC RUN"
-
-document.getElementById("plcState")
-.className="status run"
-
-}else{
-
-document.getElementById("fan")
-.style.animationPlayState="paused"
-
-document.getElementById("plcState")
-.innerHTML="PLC STOP"
-
-document.getElementById("plcState")
-.className="status stop"
-
-}
-
-/* PILOTS */
-
-document.getElementById("greenPilot")
-.className=
-memory["Q0.1"]
-?
-"pilot on-green"
-:
-"pilot"
-
-document.getElementById("redPilot")
-.className=
-memory["Q0.2"]
-?
-"pilot on-red"
-:
-"pilot"
-
-document.getElementById("bluePilot")
-.className=
-memory["Q0.3"]
-?
-"pilot on-blue"
-:
-"pilot"
-
-}
-
-/* =====================================================
-BUTTONS
-===================================================== */
-
-function addNO(){
-
-const rung=document.createElement("div")
-
-rung.className="rung"
-
-rung.innerHTML=`
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="I0.0">
-I0.0
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.3">
-(Q0.3)
-</div>
-
-<div class="rail"></div>
-
-`
-
-document.getElementById("ladder")
-.appendChild(rung)
-
-log("Contacto NO agregado")
-
-}
-
-function addNC(){
-
-const rung=document.createElement("div")
-
-rung.className="rung"
-
-rung.innerHTML=`
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NC"
-data-address="I0.1">
-/I0.1
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.3">
-(Q0.3)
-</div>
-
-<div class="rail"></div>
-
-`
-
-document.getElementById("ladder")
-.appendChild(rung)
-
-log("Contacto NC agregado")
-
-}
-
-function addCoil(){
-
-const rung=document.createElement("div")
-
-rung.className="rung"
-
-rung.innerHTML=`
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="I0.0">
-I0.0
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.3">
-(Q0.3)
-</div>
-
-<div class="rail"></div>
-
-`
-
-document.getElementById("ladder")
-.appendChild(rung)
-
-log("Bobina agregada")
-
-}
-
-function addTON(){
-
-const rung=document.createElement("div")
-
-rung.className="rung"
-
-rung.innerHTML=`
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="I0.0">
-I0.0
-</div>
-
-<div class="line"></div>
+<!-- TON -->
 
 <div class="timer">
-TON T1 5s
+
+<div class="addr">%TM0</div>
+
+TON
+
+<div class="symbol">
+PT = T#5s
 </div>
 
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.3">
-(Q0.3)
 </div>
 
-<div class="rail"></div>
+<div class="wire"></div>
 
-`
+<!-- COIL -->
 
-document.getElementById("ladder")
-.appendChild(rung)
+<div class="coil active">
 
-log("TON agregado")
+<div class="addr">%Q0.0</div>
 
-}
+Motor_1
 
-/* =====================================================
-SIMULATION
-===================================================== */
+</div>
 
-function runSimulation(){
+<div class="wire"></div>
 
-runPLC()
+<div class="right-rail"></div>
 
-log("PLC Scan ejecutado")
+</div>
 
-}
+<!-- =========================================================
+RUNG 2
+========================================================= -->
 
-/* =====================================================
-PLC SCAN CYCLE
-===================================================== */
+<div class="rung">
 
-setInterval(()=>{
+<div class="left-rail"></div>
 
-runPLC()
+<div class="wire"></div>
 
-},100)
+<!-- CONTACT -->
 
-/* =====================================================
-INIT
-===================================================== */
+<div class="contact no active">
 
-log("PLC ENGINE INICIADO")
+<div class="addr">%Q0.0</div>
 
-</script>
+Motor_1
 
-</body>
-</html>
+</div>
+
+<div class="wire"></div>
+
+<!-- COIL -->
+
+<div class="coil active">
+
+<div class="addr">%Q0.1</div>
+
+Luz_Verde
+
+</div>
+
+<div class="wire"></div>
+
+<div class="right-rail"></div>
+
+</div>
+
+<!-- =========================================================
+RUNG 3
+========================================================= -->
+
+<div class="rung">
+
+<div class="left-rail"></div>
+
+<div class="wire"></div>
+
+<!-- NC -->
+
+<div class="contact nc">
+
+<div class="addr">%Q0.0</div>
+
+<div class="slash"></div>
+
+Motor_1
+
+</div>
+
+<div class="wire"></div>
+
+<!-- COIL -->
+
+<div class="coil">
+
+<div class="addr">%Q0.2</div>
+
+Luz_Roja
+
+</div>
+
+<div class="wire"></div>
+
+<div class="right-rail"></div>
+
+</div>
+
+</div>
