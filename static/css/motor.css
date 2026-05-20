@@ -1,11 +1,125 @@
-.motor-area
-.motor-real
-.motor-lines
-.shaft
-.fan
-.delta
-.lights
-.pilot
-.on-green
-.on-red
-.on-blue
+.motor-area{
+
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.motor-real{
+
+width:320px;
+height:180px;
+
+position:relative;
+
+background:linear-gradient(145deg,#5f6b7c,#2f3845);
+
+border-radius:20px;
+
+border:5px solid #8593a6;
+
+box-shadow:
+inset 0 0 30px rgba(255,255,255,.1),
+0 0 30px rgba(0,0,0,.4);
+
+overflow:hidden;
+
+}
+
+.motor-lines{
+
+position:absolute;
+
+width:100%;
+height:100%;
+
+background:
+repeating-linear-gradient(
+90deg,
+transparent 0,
+transparent 10px,
+rgba(255,255,255,.08) 10px,
+rgba(255,255,255,.08) 14px
+);
+
+}
+
+.shaft{
+
+position:absolute;
+
+width:80px;
+height:40px;
+
+background:#777;
+
+right:-50px;
+top:70px;
+
+border-radius:10px;
+
+}
+
+.fan{
+
+position:absolute;
+
+width:80px;
+height:80px;
+
+border:6px solid #999;
+
+border-radius:50%;
+
+left:20px;
+top:50px;
+
+animation:spin 0.5s linear infinite;
+animation-play-state:paused;
+
+}
+
+.fan::before,
+.fan::after{
+
+content:"";
+
+position:absolute;
+
+width:6px;
+height:70px;
+
+background:#aaa;
+
+left:50%;
+top:50%;
+
+transform:translate(-50%,-50%);
+
+}
+
+.fan::after{
+transform:translate(-50%,-50%) rotate(90deg);
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+.delta{
+
+display:flex;
+justify-content:center;
+margin-top:10px;
+
+}
+
+.delta svg{
+width:180px;
+}
