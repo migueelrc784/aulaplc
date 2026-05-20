@@ -1,19 +1,17 @@
 from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pathlib import Path
 
 app = FastAPI()
 
-BASE_DIR = Path(__file__).resolve().parent
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-templates = Jinja2Templates(
-    directory=str(BASE_DIR / "templates")
-)
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 def inicio(request: Request):
 
     return templates.TemplateResponse(
-        request,
-        "index.html"
+        "index.html",
+        {"request": request}
     )
