@@ -1,346 +1,1207 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AulaPLC | SCADA Industrial</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>AUTOMATION LAB PRO | PLC • SCADA • HMI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --bg:#0a0f18;
-  --panel:#111a2b;
-  --panel2:#0e1624;
-  --accent:#00ff99;
-  --danger:#ff3b3b;
-  --text:#d6e2ff;
-  --border:#1f2b3d;
+  --bg:#050b14;
+  --panel:#0f1725;
+  --panel2:#101c2e;
+  --line:#22344d;
+  --text:#dbe8ff;
+  --green:#00ff9d;
+  --green2:#00d47e;
+  --red:#ff3d5e;
+  --yellow:#ffc400;
+  --blue:#00c3ff;
+  --purple:#9b5cff;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 body{
-  background:var(--bg);
+  background:
+  radial-gradient(circle at top left,#0f2038 0%,transparent 30%),
+  radial-gradient(circle at bottom right,#091728 0%,transparent 30%),
+  var(--bg);
+
   color:var(--text);
+  font-family:Inter,sans-serif;
+  overflow:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:var(--green);
+  border-radius:10px;
 }
 
 /* HEADER */
+
 header{
-  height:65px;
+  height:72px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:0 20px;
-  background:var(--panel);
-  border-bottom:1px solid var(--accent);
+  padding:0 25px;
+  border-bottom:1px solid var(--line);
+  background:#08111f;
+  box-shadow:0 0 20px rgba(0,0,0,.4);
 }
 
-header h1{
-  font-size:18px;
-  color:var(--accent);
-  letter-spacing:1px;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:15px;
 }
 
-.statusbar{
+.logo h1{
+  font-family:Orbitron;
+  color:var(--green);
+  font-size:20px;
+  letter-spacing:2px;
+}
+
+.logo span{
+  font-size:12px;
+  color:#88a6c9;
+}
+
+.header-right{
   display:flex;
   gap:10px;
 }
 
 .status{
-  padding:6px 10px;
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:8px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  padding:10px 14px;
+  border-radius:10px;
   font-size:12px;
+  min-width:120px;
+  text-align:center;
+}
+
+.online{
+  color:var(--green);
+}
+
+.offline{
+  color:var(--red);
 }
 
 /* LAYOUT */
-.container{
+
+.wrapper{
   display:flex;
-  height:calc(100vh - 65px);
+  height:calc(100vh - 72px);
 }
 
 /* SIDEBAR */
+
 .sidebar{
-  width:230px;
-  background:var(--panel2);
-  border-right:1px solid var(--border);
-  padding:15px;
-}
-
-.sidebar button{
-  width:100%;
-  padding:12px;
-  margin-bottom:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  background:#162235;
-  color:var(--text);
-  transition:.2s;
-}
-
-.sidebar button:hover{
-  background:var(--accent);
-  color:#000;
-}
-
-/* MAIN */
-.main{
-  flex:1;
+  width:260px;
+  background:#08111d;
+  border-right:1px solid var(--line);
   padding:20px;
   overflow:auto;
 }
 
-/* CARDS */
+.menu-title{
+  color:#7890b2;
+  margin-bottom:15px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.sidebar button{
+  width:100%;
+  margin-bottom:12px;
+  padding:14px;
+  background:linear-gradient(145deg,#132237,#0d1727);
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:var(--text);
+  cursor:pointer;
+  transition:.25s;
+  text-align:left;
+  font-weight:600;
+}
+
+.sidebar button:hover{
+  transform:translateX(5px);
+  border-color:var(--green);
+  color:var(--green);
+  box-shadow:0 0 15px rgba(0,255,157,.15);
+}
+
+/* MAIN */
+
+.main{
+  flex:1;
+  overflow:auto;
+  padding:25px;
+}
+
+/* GRID */
+
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:15px;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:20px;
 }
+
+/* CARD */
 
 .card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:15px;
+  background:linear-gradient(145deg,#101a2c,#0d1524);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
 
-.card h3{
-  color:var(--accent);
-  margin-bottom:10px;
+.card::before{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  background:radial-gradient(circle,var(--green) 0%,transparent 70%);
+  opacity:.04;
+  top:-120px;
+  right:-120px;
+}
+
+.card h2{
+  color:var(--green);
+  margin-bottom:18px;
+  font-size:18px;
+  font-family:Orbitron;
 }
 
 /* MOTOR */
+
+.motor-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:220px;
+}
+
 .motor{
-  width:110px;
-  height:110px;
-  margin:auto;
+  width:140px;
+  height:140px;
   border-radius:50%;
-  border:8px solid #333;
-  background:#1b1b1b;
+  border:10px solid #2b3649;
+  position:relative;
   animation:spin 1.2s linear infinite;
   animation-play-state:paused;
+  background:#111;
+  box-shadow:
+  inset 0 0 20px rgba(0,0,0,.7),
+  0 0 20px rgba(0,255,157,.1);
+}
+
+.motor::before{
+  content:"";
+  position:absolute;
+  width:25px;
+  height:25px;
+  background:var(--green);
+  border-radius:50%;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
 }
 
 @keyframes spin{
-  100%{transform:rotate(360deg)}
+  100%{
+    transform:rotate(360deg);
+  }
 }
 
 /* BUTTONS */
-.btns{
+
+.controls{
   display:flex;
-  justify-content:center;
   gap:10px;
-  margin-top:10px;
+  justify-content:center;
 }
 
 .btn{
-  padding:10px 14px;
+  flex:1;
+  padding:12px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
+  font-weight:700;
   cursor:pointer;
-  font-weight:bold;
+  transition:.2s;
 }
 
-.start{background:var(--accent)}
-.stop{background:var(--danger);color:#fff}
+.start{
+  background:linear-gradient(90deg,var(--green),var(--green2));
+  color:#001b10;
+}
+
+.stop{
+  background:linear-gradient(90deg,#ff3d5e,#ff5b78);
+  color:white;
+}
+
+.reset{
+  background:linear-gradient(90deg,#3f5cff,#00c3ff);
+  color:white;
+}
+
+.btn:hover{
+  transform:scale(1.03);
+}
 
 /* SENSOR */
-.sensors{
+
+.sensor-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  gap:15px;
 }
 
 .sensor{
   background:var(--panel2);
-  padding:10px;
-  border-radius:10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:15px;
   text-align:center;
-  border:1px solid var(--border);
+}
+
+.sensor h3{
+  margin-bottom:10px;
+  font-size:14px;
 }
 
 .light{
-  width:12px;
-  height:12px;
+  width:18px;
+  height:18px;
   border-radius:50%;
   background:#444;
-  margin:8px auto;
+  margin:auto;
+  transition:.2s;
 }
 
 .light.on{
-  background:var(--accent);
-  box-shadow:0 0 10px var(--accent);
+  background:var(--green);
+  box-shadow:0 0 18px var(--green);
 }
 
-/* BIG NUMBER */
-.big{
-  font-size:50px;
+/* GAUGES */
+
+.gauge{
+  height:12px;
+  background:#0b1018;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.gauge-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--green),#00c3ff);
+  transition:.5s;
+}
+
+/* BIG */
+
+.big-number{
+  font-size:60px;
   text-align:center;
-  color:var(--accent);
+  font-family:Orbitron;
+  color:var(--green);
+}
+
+/* PLC MEMORY */
+
+.memory{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.mem{
+  background:var(--panel2);
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+}
+
+/* LADDER */
+
+.ladder{
+  background:#0a111c;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:20px;
+  overflow:auto;
+}
+
+.rung{
+  margin-bottom:25px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:monospace;
+  color:#d0f7ff;
+  font-size:15px;
+}
+
+.contact,
+.coil{
+  border:2px solid var(--green);
+  padding:8px 12px;
+  min-width:90px;
+  text-align:center;
+}
+
+.line{
+  flex:1;
+  height:2px;
+  background:var(--green);
 }
 
 /* LOG */
+
 .log{
-  height:200px;
+  height:250px;
   overflow:auto;
-  font-size:12px;
+  font-size:13px;
 }
 
 .log p{
-  margin-bottom:6px;
-  color:#aab6d3;
+  margin-bottom:10px;
+  padding:8px;
+  border-left:3px solid var(--green);
+  background:#0d1626;
 }
 
-/* PLC STATUS */
-.ok{color:var(--accent)}
-.bad{color:var(--danger)}
+/* HMI TANK */
+
+.tank-area{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:40px;
+}
+
+.tank{
+  width:130px;
+  height:250px;
+  border:4px solid #5c6d87;
+  border-radius:0 0 20px 20px;
+  position:relative;
+  overflow:hidden;
+  background:#08111b;
+}
+
+.water{
+  position:absolute;
+  width:100%;
+  bottom:0;
+  height:40%;
+  background:linear-gradient(180deg,#00c3ff,#0048ff);
+  transition:.5s;
+}
+
+.pipe{
+  width:160px;
+  height:16px;
+  background:#56657a;
+  border-radius:20px;
+  position:relative;
+}
+
+.flow{
+  position:absolute;
+  width:40px;
+  height:100%;
+  background:var(--green);
+  animation:flow 1s linear infinite;
+}
+
+@keyframes flow{
+  from{
+    left:-40px;
+  }
+  to{
+    left:100%;
+  }
+}
+
+/* ALARM */
+
+.alarm-box{
+  background:#2a0d14;
+  border:1px solid #ff3d5e;
+  padding:20px;
+  border-radius:12px;
+  color:#ff7b90;
+  font-weight:600;
+}
+
+/* FOOTER */
+
+footer{
+  margin-top:25px;
+  color:#68809f;
+  font-size:12px;
+  text-align:center;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+  .wrapper{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+    display:flex;
+    gap:10px;
+    overflow:auto;
+  }
+
+  .sidebar button{
+    min-width:220px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>⚙ AULA PLC - SCADA INDUSTRIAL</h1>
 
-<div class="statusbar">
-<div class="status" id="cpu">CPU OK</div>
-<div class="status" id="plcStatus">PLC STOP</div>
-<div class="status">NET OK</div>
+<div class="logo">
+<div style="font-size:30px">⚡</div>
+
+<div>
+<h1>AUTOMATION LAB PRO</h1>
+<span>PLC • SCADA • HMI • Ladder • Industrial Control</span>
 </div>
+</div>
+
+<div class="header-right">
+
+<div class="status online" id="cpuStatus">
+CPU RUNNING
+</div>
+
+<div class="status offline" id="plcStatus">
+PLC STOP
+</div>
+
+<div class="status">
+ETHERNET OK
+</div>
+
+<div class="status">
+TIA PORTAL
+</div>
+
+</div>
+
 </header>
 
-<div class="container">
+<div class="wrapper">
 
 <!-- SIDEBAR -->
+
 <div class="sidebar">
-<button onclick="show('dash')">Dashboard</button>
-<button onclick="show('plc')">PLC Status</button>
-<button onclick="show('alarm')">Alarmas</button>
-<button onclick="show('log')">Eventos</button>
+
+<div class="menu-title">
+MÓDULOS
+</div>
+
+<button onclick="showPage('dashboard')">
+🏭 Dashboard Industrial
+</button>
+
+<button onclick="showPage('hmi')">
+🖥 HMI Tanque
+</button>
+
+<button onclick="showPage('ladder')">
+🪜 Programación Ladder
+</button>
+
+<button onclick="showPage('plc')">
+🧠 Memoria PLC
+</button>
+
+<button onclick="showPage('alarms')">
+🚨 Alarmas
+</button>
+
+<button onclick="showPage('logs')">
+📋 Eventos
+</button>
+
+<button onclick="showPage('iot')">
+🌐 IoT Industrial
+</button>
+
 </div>
 
 <!-- MAIN -->
+
 <div class="main">
 
-<!-- DASH -->
-<div id="dash" class="page">
+<!-- DASHBOARD -->
+
+<div class="page" id="dashboard">
 
 <div class="grid">
 
 <div class="card">
-<h3>Motor Principal</h3>
+
+<h2>MOTOR TRIFÁSICO</h2>
+
+<div class="motor-container">
 <div class="motor" id="motor"></div>
-
-<div class="btns">
-<button class="btn start" onclick="start()">START</button>
-<button class="btn stop" onclick="stop()">STOP</button>
 </div>
+
+<div class="controls">
+<button class="btn start" onclick="startSystem()">
+START
+</button>
+
+<button class="btn stop" onclick="stopSystem()">
+STOP
+</button>
+
+<button class="btn reset" onclick="resetSystem()">
+RESET
+</button>
+</div>
+
 </div>
 
 <div class="card">
-<h3>Sensores Industriales</h3>
-<div class="sensors">
-<div class="sensor">S1<div class="light"></div></div>
-<div class="sensor">S2<div class="light"></div></div>
-<div class="sensor">S3<div class="light"></div></div>
-<div class="sensor">S4<div class="light"></div></div>
+
+<h2>SENSORES DIGITALES</h2>
+
+<div class="sensor-grid">
+
+<div class="sensor">
+<h3>Sensor S1</h3>
+<div class="light" id="s1"></div>
 </div>
+
+<div class="sensor">
+<h3>Sensor S2</h3>
+<div class="light" id="s2"></div>
+</div>
+
+<div class="sensor">
+<h3>Sensor S3</h3>
+<div class="light" id="s3"></div>
+</div>
+
+<div class="sensor">
+<h3>Sensor S4</h3>
+<div class="light" id="s4"></div>
+</div>
+
+</div>
+
 </div>
 
 <div class="card">
-<h3>Producción</h3>
-<div class="big" id="count">0</div>
+
+<h2>PRODUCCIÓN TOTAL</h2>
+
+<div class="big-number" id="counter">
+0
 </div>
+
+</div>
+
+<div class="card">
+
+<h2>VELOCIDAD MOTOR</h2>
+
+<div>
+RPM: <span id="rpmValue">0</span>
+</div>
+
+<div class="gauge">
+<div class="gauge-fill" id="rpmBar"></div>
+</div>
+
+<br>
+
+<div>
+Temperatura: <span id="tempValue">25</span>°C
+</div>
+
+<div class="gauge">
+<div class="gauge-fill" id="tempBar"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- HMI -->
+
+<div class="page" id="hmi" style="display:none">
+
+<div class="grid">
+
+<div class="card">
+
+<h2>HMI NIVEL DE TANQUE</h2>
+
+<div class="tank-area">
+
+<div class="pipe">
+<div class="flow"></div>
+</div>
+
+<div class="tank">
+<div class="water" id="water"></div>
+</div>
+
+</div>
+
+<br>
+
+<div style="text-align:center;font-size:24px">
+Nivel:
+<span id="levelValue">40%</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>CONTROL DE VÁLVULAS</h2>
+
+<div class="controls">
+
+<button class="btn start" onclick="increaseLevel()">
+ABRIR
+</button>
+
+<button class="btn stop" onclick="decreaseLevel()">
+CERRAR
+</button>
+
+</div>
+
+<br>
+
+<p>
+✔ Sensor de nivel analógico
+</p>
+
+<br>
+
+<p>
+✔ Control PID Simulado
+</p>
+
+<br>
+
+<p>
+✔ HMI estilo SCADA Siemens
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LADDER -->
+
+<div class="page" id="ladder" style="display:none">
+
+<div class="card">
+
+<h2>PROGRAMACIÓN LADDER</h2>
+
+<div class="ladder">
+
+<div class="rung">
+| |
+<div class="contact">I0.0 START</div>
+<div class="line"></div>
+<div class="coil">( ) Q0.0 MOTOR</div>
+</div>
+
+<div class="rung">
+|/|
+<div class="contact">I0.1 STOP</div>
+<div class="line"></div>
+<div class="coil">( ) RESET</div>
+</div>
+
+<div class="rung">
+| |
+<div class="contact">M0.0 AUTO</div>
+<div class="line"></div>
+<div class="coil">( ) BOMBA</div>
+</div>
+
+<div class="rung">
+| |
+<div class="contact">TIMER T1</div>
+<div class="line"></div>
+<div class="coil">( ) ALARMA</div>
+</div>
+
+</div>
+
+<br>
+
+<h2>EXPLICACIÓN</h2>
+
+<p>
+• I0.0 = Entrada digital botón START
+</p>
+
+<br>
+
+<p>
+• Q0.0 = Salida digital motor
+</p>
+
+<br>
+
+<p>
+• M0.0 = Marca interna PLC
+</p>
+
+<br>
+
+<p>
+• TIMER T1 = Temporizador industrial
+</p>
 
 </div>
 
 </div>
 
 <!-- PLC -->
-<div id="plc" class="page" style="display:none">
+
+<div class="page" id="plc" style="display:none">
+
+<div class="grid">
+
 <div class="card">
-<h3>Estado PLC</h3>
-<p id="plcText" class="bad">STOPPED</p>
-</div>
+
+<h2>MEMORIA PLC</h2>
+
+<div class="memory">
+
+<div class="mem">
+<span>DB1</span>
+<span id="db1">1024 Bytes</span>
 </div>
 
-<!-- ALARMAS -->
-<div id="alarm" class="page" style="display:none">
-<div class="card">
-<h3>Alarmas del Sistema</h3>
-<p id="alarmText" class="bad">SIN ALARMAS</p>
-</div>
+<div class="mem">
+<span>Entradas</span>
+<span>I0.0 - I0.7</span>
 </div>
 
-<!-- LOG -->
-<div id="log" class="page" style="display:none">
+<div class="mem">
+<span>Salidas</span>
+<span>Q0.0 - Q0.7</span>
+</div>
+
+<div class="mem">
+<span>Marcas</span>
+<span>M0.0 - M1.5</span>
+</div>
+
+<div class="mem">
+<span>Estado CPU</span>
+<span id="cpuMode">RUN</span>
+</div>
+
+</div>
+
+</div>
+
 <div class="card">
-<h3>Historial</h3>
-<div class="log" id="logBox"></div>
+
+<h2>COMUNICACIÓN</h2>
+
+<p>
+✔ PROFINET
+</p>
+
+<br>
+
+<p>
+✔ MODBUS TCP/IP
+</p>
+
+<br>
+
+<p>
+✔ OPC UA
+</p>
+
+<br>
+
+<p>
+✔ Ethernet Industrial
+</p>
+
+<br>
+
+<p>
+✔ MQTT IoT
+</p>
+
 </div>
+
 </div>
+
+</div>
+
+<!-- ALARMS -->
+
+<div class="page" id="alarms" style="display:none">
+
+<div class="card">
+
+<h2>ALARMAS INDUSTRIALES</h2>
+
+<div class="alarm-box" id="alarmText">
+SIN ALARMAS ACTIVAS
+</div>
+
+</div>
+
+</div>
+
+<!-- LOGS -->
+
+<div class="page" id="logs" style="display:none">
+
+<div class="card">
+
+<h2>HISTORIAL DE EVENTOS</h2>
+
+<div class="log" id="logsBox"></div>
+
+</div>
+
+</div>
+
+<!-- IOT -->
+
+<div class="page" id="iot" style="display:none">
+
+<div class="grid">
+
+<div class="card">
+
+<h2>IoT INDUSTRIAL</h2>
+
+<p>
+✔ Dashboard Web
+</p>
+
+<br>
+
+<p>
+✔ PLC conectado a nube
+</p>
+
+<br>
+
+<p>
+✔ Sensores en tiempo real
+</p>
+
+<br>
+
+<p>
+✔ Base de datos industrial
+</p>
+
+<br>
+
+<p>
+✔ MQTT Broker
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>TECNOLOGÍAS</h2>
+
+<p>
+• Siemens TIA Portal
+</p>
+
+<br>
+
+<p>
+• Factory IO
+</p>
+
+<br>
+
+<p>
+• WinCC SCADA
+</p>
+
+<br>
+
+<p>
+• Arduino Industrial
+</p>
+
+<br>
+
+<p>
+• ABB Robotics
+</p>
+
+<br>
+
+<p>
+• Node-RED
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+AUTOMATION LAB PRO © 2026 | Ingeniería en Automatización y Control
+</footer>
 
 </div>
 </div>
 
 <script>
 
+/* VARIABLES */
+
 let running=false
-let count=0
+let counter=0
+let level=40
 let timer
 
 const motor=document.getElementById("motor")
-const lights=document.querySelectorAll(".light")
-const counter=document.getElementById("count")
-const logBox=document.getElementById("logBox")
+const plcStatus=document.getElementById("plcStatus")
+const logsBox=document.getElementById("logsBox")
 
-function log(msg){
-let p=document.createElement("p")
-p.innerText=new Date().toLocaleTimeString()+" - "+msg
-logBox.prepend(p)
-}
+/* LOG */
 
-function show(page){
-document.querySelectorAll(".page").forEach(p=>p.style.display="none")
-document.getElementById(page).style.display="block"
-}
+function addLog(text){
 
-function start(){
+  const p=document.createElement("p")
 
-if(running) return
-running=true
+  p.innerHTML=
+  new Date().toLocaleTimeString()+
+  " → "+
+  text
 
-motor.style.animationPlayState="running"
-document.getElementById("plcStatus").innerText="PLC RUN"
-
-log("Sistema iniciado")
-
-timer=setInterval(()=>{
-
-count++
-counter.innerText=count
-
-lights.forEach(l=>{
-if(Math.random()>0.6) l.classList.toggle("on")
-})
-
-},600)
+  logsBox.prepend(p)
 
 }
 
-function stop(){
+/* PAGE */
 
-running=false
-motor.style.animationPlayState="paused"
+function showPage(page){
 
-document.getElementById("plcStatus").innerText="PLC STOP"
+  document.querySelectorAll(".page")
+  .forEach(p=>p.style.display="none")
 
-log("Sistema detenido")
+  document.getElementById(page)
+  .style.display="block"
 
-clearInterval(timer)
+}
 
-lights.forEach(l=>l.classList.remove("on"))
+/* START */
+
+function startSystem(){
+
+  if(running) return
+
+  running=true
+
+  motor.style.animationPlayState="running"
+
+  plcStatus.innerHTML="PLC RUN"
+  plcStatus.classList.remove("offline")
+  plcStatus.classList.add("online")
+
+  addLog("Sistema iniciado")
+
+  timer=setInterval(()=>{
+
+    counter++
+
+    document.getElementById("counter")
+    .innerText=counter
+
+    /* RPM */
+
+    let rpm=Math.floor(Math.random()*3000)
+
+    document.getElementById("rpmValue")
+    .innerText=rpm
+
+    document.getElementById("rpmBar")
+    .style.width=(rpm/30)+"%"
+
+    /* TEMP */
+
+    let temp=Math.floor(Math.random()*80)
+
+    document.getElementById("tempValue")
+    .innerText=temp
+
+    document.getElementById("tempBar")
+    .style.width=temp+"%"
+
+    /* SENSORS */
+
+    document.querySelectorAll(".light")
+    .forEach(light=>{
+
+      if(Math.random()>.5){
+        light.classList.add("on")
+      }else{
+        light.classList.remove("on")
+      }
+
+    })
+
+    /* ALARMS */
+
+    if(temp>70){
+
+      document.getElementById("alarmText")
+      .innerHTML="⚠ TEMPERATURA ALTA EN MOTOR"
+
+    }else{
+
+      document.getElementById("alarmText")
+      .innerHTML="SIN ALARMAS ACTIVAS"
+
+    }
+
+  },1000)
+
+}
+
+/* STOP */
+
+function stopSystem(){
+
+  running=false
+
+  clearInterval(timer)
+
+  motor.style.animationPlayState="paused"
+
+  plcStatus.innerHTML="PLC STOP"
+  plcStatus.classList.remove("online")
+  plcStatus.classList.add("offline")
+
+  addLog("Sistema detenido")
+
+}
+
+/* RESET */
+
+function resetSystem(){
+
+  counter=0
+
+  document.getElementById("counter")
+  .innerText=0
+
+  addLog("Contador reseteado")
+
+}
+
+/* TANK */
+
+function increaseLevel(){
+
+  if(level<100){
+
+    level+=10
+
+    updateTank()
+
+    addLog("Válvula abierta")
+
+  }
+
+}
+
+function decreaseLevel(){
+
+  if(level>0){
+
+    level-=10
+
+    updateTank()
+
+    addLog("Válvula cerrada")
+
+  }
+
+}
+
+function updateTank(){
+
+  document.getElementById("water")
+  .style.height=level+"%"
+
+  document.getElementById("levelValue")
+  .innerText=level+"%"
+
 }
 
 </script>
