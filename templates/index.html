@@ -93,6 +93,64 @@ color:#8da8c7;
 
 }
 
+/* =========================================================
+FORCED INPUT
+========================================================= */
+
+.io-forced{
+
+border:2px solid #00ff99 !important;
+
+box-shadow:
+0 0 15px #00ff99;
+
+}
+
+/* =========================================================
+PILOTS
+========================================================= */
+
+.pilot{
+
+width:30px;
+
+height:30px;
+
+border-radius:50%;
+
+background:#222;
+
+transition:.2s;
+
+}
+
+.active-green{
+
+background:#00ff99;
+
+box-shadow:
+0 0 20px #00ff99;
+
+}
+
+.active-red{
+
+background:#ff3355;
+
+box-shadow:
+0 0 20px #ff3355;
+
+}
+
+.active-yellow{
+
+background:#ffd000;
+
+box-shadow:
+0 0 20px #ffd000;
+
+}
+
 </style>
 
 </head>
@@ -147,7 +205,9 @@ PLC LADDER ENGINE REALTIME
 
 </div>
 
-<!-- STATUS -->
+<!-- =========================================================
+STATUS
+========================================================= -->
 
 <div class="top-status">
 
@@ -161,7 +221,7 @@ CPU RUN
 <div class="status-box stop"
 id="plcState">
 
-PLC STOP
+PLC RUN
 
 </div>
 
@@ -203,7 +263,8 @@ ENTRADAS DIGITALES
 
 <!-- I0.0 -->
 
-<div class="io-card">
+<div class="io-card"
+id="card-I0.0">
 
 <div class="io-name">
 I0.0 START
@@ -221,7 +282,8 @@ FORZAR
 
 <!-- I0.1 -->
 
-<div class="io-card">
+<div class="io-card"
+id="card-I0.1">
 
 <div class="io-name">
 I0.1 STOP
@@ -239,7 +301,8 @@ FORZAR
 
 <!-- I0.2 -->
 
-<div class="io-card">
+<div class="io-card"
+id="card-I0.2">
 
 <div class="io-name">
 I0.2 EMERGENCY
@@ -257,7 +320,8 @@ FORZAR
 
 <!-- I0.3 -->
 
-<div class="io-card">
+<div class="io-card"
+id="card-I0.3">
 
 <div class="io-name">
 I0.3 SENSOR
@@ -266,6 +330,44 @@ I0.3 SENSOR
 <button
 class="btn blue"
 onclick="toggleInput('I0.3')">
+
+FORZAR
+
+</button>
+
+</div>
+
+<!-- I0.4 -->
+
+<div class="io-card"
+id="card-I0.4">
+
+<div class="io-name">
+I0.4 AUX
+</div>
+
+<button
+class="btn green"
+onclick="toggleInput('I0.4')">
+
+FORZAR
+
+</button>
+
+</div>
+
+<!-- I0.5 -->
+
+<div class="io-card"
+id="card-I0.5">
+
+<div class="io-name">
+I0.5 AUX
+</div>
+
+<button
+class="btn blue"
+onclick="toggleInput('I0.5')">
 
 FORZAR
 
@@ -296,7 +398,6 @@ Q0.0 MOTOR
 </span>
 
 <span
-id="q00"
 data-output="Q0.0">
 
 FALSE
@@ -308,11 +409,10 @@ FALSE
 <div class="memory-item">
 
 <span>
-Q0.1 VERDE
+Q0.1 LUZ VERDE
 </span>
 
 <span
-id="q01"
 data-output="Q0.1">
 
 FALSE
@@ -324,11 +424,10 @@ FALSE
 <div class="memory-item">
 
 <span>
-Q0.2 ROJO
+Q0.2 LUZ ROJA
 </span>
 
 <span
-id="q02"
 data-output="Q0.2">
 
 FALSE
@@ -340,95 +439,14 @@ FALSE
 <div class="memory-item">
 
 <span>
-Q0.3 AZUL
+Q0.3 LUZ AMARILLA
 </span>
 
 <span
-id="q03"
 data-output="Q0.3">
 
 FALSE
 
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =========================================================
-MARKERS
-========================================================= -->
-
-<div class="panel">
-
-<h2>
-MEMORIAS INTERNAS
-</h2>
-
-<div class="memory-list">
-
-<div class="memory-item">
-
-<span>
-M0.0
-</span>
-
-<span id="m00">
-FALSE
-</span>
-
-</div>
-
-<div class="memory-item">
-
-<span>
-M0.1
-</span>
-
-<span id="m01">
-FALSE
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =========================================================
-TIMERS
-========================================================= -->
-
-<div class="panel">
-
-<h2>
-TIMERS
-</h2>
-
-<div class="memory-list">
-
-<div class="memory-item">
-
-<span>
-T0.0
-</span>
-
-<span id="t00">
-OFF
-</span>
-
-</div>
-
-<div class="memory-item">
-
-<span>
-T0.1
-</span>
-
-<span id="t01">
-OFF
 </span>
 
 </div>
@@ -460,7 +478,7 @@ id="fan">
 
 </div>
 
-<!-- CONNECTION IMAGE -->
+<!-- IMAGE -->
 
 <div class="connection-image-box">
 
@@ -492,7 +510,7 @@ id="bluePilot">
 
 </div>
 
-<!-- BUTTONS -->
+<!-- MOTOR BUTTONS -->
 
 <div class="toolbar">
 
@@ -512,22 +530,6 @@ TRIANGULO
 
 </button>
 
-<button
-class="btn green"
-onclick="startIndustrialMotor()">
-
-START
-
-</button>
-
-<button
-class="btn red"
-onclick="stopIndustrialMotor()">
-
-STOP
-
-</button>
-
 </div>
 
 <!-- INFO -->
@@ -541,18 +543,6 @@ RPM:
 <span id="rpmValue">
 
 0 RPM
-
-</span>
-
-</div>
-
-<div class="info-box">
-
-MODO:
-
-<span id="connectionMode">
-
-SIN CONFIGURAR
 
 </span>
 
@@ -577,7 +567,7 @@ DETENIDO
 </div>
 
 <!-- =========================================================
-EVENT LOG
+EVENTOS
 ========================================================= -->
 
 <div class="panel">
@@ -607,20 +597,44 @@ TOOLBAR
 
 <div class="toolbar">
 
-<button class="btn green">
+<button
+class="btn green"
+onclick="addNO()">
+
 + CONTACTO NO
+
 </button>
 
-<button class="btn yellow">
+<button
+class="btn yellow"
+onclick="addNC()">
+
 + CONTACTO NC
+
 </button>
 
-<button class="btn blue">
+<button
+class="btn blue"
+onclick="addCoil()">
+
 + BOBINA
+
 </button>
 
-<button class="btn red">
+<button
+class="btn red"
+onclick="addTON()">
+
 + TON
+
+</button>
+
+<button
+class="btn blue"
+onclick="addRung()">
+
++ RUNG
+
 </button>
 
 <button
@@ -642,14 +656,12 @@ id="ladder">
 
 <!-- =========================================================
 RUNG 1
-START / STOP MOTOR
+MOTOR
 ========================================================= -->
 
 <div class="rung">
 
 <div class="rail"></div>
-
-<!-- START -->
 
 <div
 class="contact"
@@ -658,11 +670,13 @@ data-address="I0.0">
 
 I0.0
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
-
-<!-- STOP -->
 
 <div
 class="contact"
@@ -671,11 +685,13 @@ data-address="I0.1">
 
 /I0.1
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
-
-<!-- EMERGENCY -->
 
 <div
 class="contact"
@@ -684,11 +700,13 @@ data-address="I0.2">
 
 /I0.2
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
-
-<!-- MOTOR -->
 
 <div
 class="coil"
@@ -696,6 +714,10 @@ data-address="Q0.0"
 data-coil="normal">
 
 (Q0.0)
+
+<div class="delete-element">
+✕
+</div>
 
 </div>
 
@@ -705,7 +727,7 @@ data-coil="normal">
 
 <!-- =========================================================
 RUNG 2
-GREEN PILOT
+GREEN
 ========================================================= -->
 
 <div class="rung">
@@ -719,6 +741,10 @@ data-address="Q0.0">
 
 Q0.0
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
@@ -730,6 +756,10 @@ data-coil="normal">
 
 (Q0.1)
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="rail"></div>
@@ -738,7 +768,7 @@ data-coil="normal">
 
 <!-- =========================================================
 RUNG 3
-RED PILOT
+RED
 ========================================================= -->
 
 <div class="rung">
@@ -752,6 +782,10 @@ data-address="Q0.0">
 
 /Q0.0
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
@@ -763,6 +797,10 @@ data-coil="normal">
 
 (Q0.2)
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="rail"></div>
@@ -771,7 +809,7 @@ data-coil="normal">
 
 <!-- =========================================================
 RUNG 4
-TON TIMER
+TON
 ========================================================= -->
 
 <div class="rung">
@@ -785,6 +823,10 @@ data-address="I0.3">
 
 I0.3
 
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
@@ -795,6 +837,10 @@ data-address="T0.0"
 data-preset="3000">
 
 TON T0.0
+
+<div class="delete-element">
+✕
+</div>
 
 </div>
 
@@ -807,71 +853,9 @@ data-coil="normal">
 
 (Q0.3)
 
+<div class="delete-element">
+✕
 </div>
-
-<div class="rail"></div>
-
-</div>
-
-<!-- =========================================================
-RUNG 5
-SET MEMORY
-========================================================= -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div
-class="contact"
-data-type="NO"
-data-address="I0.0">
-
-I0.0
-
-</div>
-
-<div class="line"></div>
-
-<div
-class="coil"
-data-address="M0.0"
-data-coil="set">
-
-(S M0.0)
-
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-<!-- =========================================================
-RUNG 6
-RESET MEMORY
-========================================================= -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div
-class="contact"
-data-type="NO"
-data-address="I0.1">
-
-I0.1
-
-</div>
-
-<div class="line"></div>
-
-<div
-class="coil"
-data-address="M0.0"
-data-coil="reset">
-
-(R M0.0)
 
 </div>
 

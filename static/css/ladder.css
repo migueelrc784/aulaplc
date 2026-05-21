@@ -516,3 +516,98 @@ POWER ANIMATION
 animation:pulseGlow 1.2s infinite;
 
 }
+/* =====================================================
+DELETE BUTTON
+===================================================== */
+
+.delete-element{
+
+position:absolute;
+
+top:-10px;
+
+right:-10px;
+
+width:20px;
+
+height:20px;
+
+border-radius:50%;
+
+background:#ff3355;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:12px;
+
+font-weight:700;
+
+cursor:pointer;
+
+color:white;
+
+box-shadow:
+0 0 10px rgba(255,0,0,.5);
+
+}
+
+/* =====================================================
+PILOTS
+===================================================== */
+
+.active-green{
+
+background:#00ff99 !important;
+
+box-shadow:
+0 0 20px #00ff99;
+
+}
+
+.active-red{
+
+background:#ff3355 !important;
+
+box-shadow:
+0 0 20px #ff3355;
+
+}
+
+.active-yellow{
+
+background:#ffd000 !important;
+
+box-shadow:
+0 0 20px #ffd000;
+
+}
+
+/* =====================================================
+MOTOR RUNNING
+===================================================== */
+
+.running{
+
+animation:spinMotor .5s linear infinite;
+
+}
+
+@keyframes spinMotor{
+
+from{
+
+transform:rotate(0deg);
+
+}
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
