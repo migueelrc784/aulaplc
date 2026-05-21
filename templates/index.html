@@ -4,23 +4,16 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<title>AUTOMATION STUDIO X</title>
 
-<title>
-AUTOMATION STUDIO X
-</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link
-href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/main.css') }}">
-
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/ladder.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ladder.css') }}">
 
 <style>
 
@@ -29,21 +22,16 @@ BASE
 ========================================================= */
 
 *{
-
 margin:0;
 padding:0;
 box-sizing:border-box;
-
 }
 
 body{
-
 background:#07111d;
 font-family:Inter,sans-serif;
 color:white;
-
 overflow:hidden;
-
 }
 
 /* =========================================================
@@ -51,39 +39,25 @@ LOADER
 ========================================================= */
 
 .loading{
-
 height:100vh;
-
 display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-
 gap:20px;
-
-background:
-radial-gradient(circle at center,#10243b 0%,#07111d 70%);
-
+background:radial-gradient(circle at center,#10243b 0%,#07111d 70%);
 }
 
 .loading h1{
-
 font-family:Orbitron;
 font-size:42px;
-
 color:#00ff99;
-
 letter-spacing:3px;
-
-text-shadow:
-0 0 15px #00ff99;
-
+text-shadow:0 0 15px #00ff99;
 }
 
 .loading p{
-
 color:#8ca7c5;
-
 }
 
 /* =========================================================
@@ -91,12 +65,9 @@ APP
 ========================================================= */
 
 #app{
-
 height:100vh;
-
 display:flex;
 flex-direction:column;
-
 }
 
 /* =========================================================
@@ -104,75 +75,47 @@ HEADER
 ========================================================= */
 
 .top-header{
-
 height:80px;
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 padding:0 30px;
-
-background:
-linear-gradient(180deg,#0f2032 0%,#09131d 100%);
-
+background:linear-gradient(180deg,#0f2032 0%,#09131d 100%);
 border-bottom:1px solid #18324d;
-
-box-shadow:
-0 5px 25px rgba(0,0,0,.45);
-
+box-shadow:0 5px 25px rgba(0,0,0,.45);
 }
 
 .logo-area{
-
 display:flex;
 align-items:center;
-
 gap:18px;
-
 }
 
 .logo-icon{
-
 width:52px;
 height:52px;
-
 border-radius:14px;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
 background:#00ff99;
-
 color:#02120b;
-
 font-size:28px;
 font-weight:700;
-
-box-shadow:
-0 0 20px #00ff99;
-
+box-shadow:0 0 20px #00ff99;
 }
 
 .title{
-
 font-family:Orbitron;
 font-size:24px;
-
 color:#ffffff;
-
 }
 
 .subtitle{
-
 font-size:12px;
 letter-spacing:2px;
-
 color:#7f9ab7;
-
 margin-top:2px;
-
 }
 
 /* =========================================================
@@ -180,35 +123,23 @@ STATUS
 ========================================================= */
 
 .top-status{
-
 display:flex;
 gap:12px;
-
 }
 
 .status-box{
-
 padding:12px 18px;
-
 border-radius:10px;
-
 background:#14283d;
-
 border:1px solid #23415f;
-
 font-size:13px;
 font-weight:700;
-
 }
 
 .run{
-
 background:#00ff99;
 color:#00150d;
-
-box-shadow:
-0 0 15px #00ff99;
-
+box-shadow:0 0 15px #00ff99;
 }
 
 /* =========================================================
@@ -216,14 +147,10 @@ LAYOUT
 ========================================================= */
 
 .layout{
-
 flex:1;
-
 display:grid;
 grid-template-columns:420px 1fr;
-
 overflow:hidden;
-
 }
 
 /* =========================================================
@@ -231,16 +158,10 @@ SIDEBAR
 ========================================================= */
 
 .sidebar{
-
 padding:20px;
-
 overflow:auto;
-
-background:
-linear-gradient(180deg,#0a1520 0%,#09111a 100%);
-
+background:linear-gradient(180deg,#0a1520 0%,#09111a 100%);
 border-right:1px solid #1a2f45;
-
 }
 
 /* =========================================================
@@ -248,33 +169,19 @@ PANEL
 ========================================================= */
 
 .panel{
-
-background:
-linear-gradient(180deg,#0e1c2b 0%,#0b1621 100%);
-
+background:linear-gradient(180deg,#0e1c2b 0%,#0b1621 100%);
 border:1px solid #17314a;
-
 border-radius:18px;
-
 padding:20px;
-
 margin-bottom:20px;
-
-box-shadow:
-0 0 20px rgba(0,0,0,.35);
-
+box-shadow:0 0 20px rgba(0,0,0,.35);
 }
 
 .panel h2{
-
 font-size:15px;
-
 margin-bottom:18px;
-
 letter-spacing:1px;
-
 color:#d7e4f1;
-
 }
 
 /* =========================================================
@@ -282,52 +189,28 @@ INPUTS
 ========================================================= */
 
 .io-grid{
-
 display:grid;
 grid-template-columns:1fr 1fr;
-
 gap:14px;
-
 }
 
 .io-card{
-
 background:#132638;
-
 border:1px solid #27435f;
-
 border-radius:14px;
-
 padding:14px;
-
 transition:.2s;
-
 }
 
 .io-card:hover{
-
 transform:translateY(-2px);
-
 border-color:#00ff99;
-
 }
 
 .io-name{
-
 font-size:13px;
 font-weight:700;
-
 margin-bottom:12px;
-
-}
-
-.io-forced{
-
-border:1px solid #00ff99 !important;
-
-box-shadow:
-0 0 12px rgba(0,255,153,.4);
-
 }
 
 /* =========================================================
@@ -335,54 +218,39 @@ BUTTONS
 ========================================================= */
 
 .btn{
-
 border:none;
-
 border-radius:12px;
-
 padding:12px 16px;
-
 font-weight:700;
-
 cursor:pointer;
-
 transition:.15s;
-
 color:white;
-
 }
 
 .btn:hover{
-
 transform:translateY(-2px);
-
 filter:brightness(1.1);
-
 }
 
 .green{
-
 background:#00d98b;
-
 }
 
 .red{
-
 background:#ff3355;
-
 }
 
 .blue{
-
 background:#1cbcff;
-
 }
 
 .yellow{
-
 background:#ffc400;
 color:black;
+}
 
+.purple{
+background:#8b5cf6;
 }
 
 /* =========================================================
@@ -390,170 +258,99 @@ OUTPUTS
 ========================================================= */
 
 .memory-list{
-
 display:flex;
 flex-direction:column;
-
 gap:10px;
-
 }
 
 .memory-item{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 padding:12px 14px;
-
 background:#132638;
-
 border-radius:12px;
-
 border:1px solid #223d58;
-
 font-size:13px;
-
 }
 
 .on{
-
 color:#00ff99;
 font-weight:700;
-
 }
 
 /* =========================================================
-MOTOR PANEL
+MOTOR
 ========================================================= */
 
 .motor-container{
-
 display:flex;
 flex-direction:column;
 align-items:center;
-
 gap:20px;
-
 }
 
-/* motor */
-
 .motor{
-
 width:170px;
 height:170px;
-
 border-radius:50%;
-
 position:relative;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
-background:
-radial-gradient(circle,#2d435a 0%,#132232 70%);
-
+background:radial-gradient(circle,#2d435a 0%,#132232 70%);
 border:6px solid #5f7d99;
-
 box-shadow:
 inset 0 0 30px rgba(255,255,255,.08),
 0 0 30px rgba(0,0,0,.45);
-
 }
-
-/* center */
 
 .motor::before{
-
 content:"";
-
 position:absolute;
-
 width:34px;
 height:34px;
-
 border-radius:50%;
-
 background:#9eb6ce;
-
 z-index:10;
-
 }
 
-/* fan */
-
 .fan{
-
 width:120px;
 height:120px;
-
 border-radius:50%;
-
 position:relative;
-
 transition:1s linear;
-
 }
 
 .fan::before,
 .fan::after{
-
 content:"";
-
 position:absolute;
-
 left:50%;
 top:50%;
-
 width:18px;
 height:55px;
-
 background:#dce7f2;
-
 border-radius:20px;
-
 transform-origin:center -10px;
-
 }
 
 .fan::before{
-
-transform:
-translate(-50%,-50%)
-rotate(45deg);
-
+transform:translate(-50%,-50%) rotate(45deg);
 }
 
 .fan::after{
-
-transform:
-translate(-50%,-50%)
-rotate(-45deg);
-
+transform:translate(-50%,-50%) rotate(-45deg);
 }
 
 .rotating{
-
 animation:spin .8s linear infinite;
-
 }
 
 @keyframes spin{
-
-from{
-
-transform:rotate(0deg);
-
-}
-
-to{
-
-transform:rotate(360deg);
-
-}
-
+from{transform:rotate(0deg);}
+to{transform:rotate(360deg);}
 }
 
 /* =========================================================
@@ -561,50 +358,21 @@ PILOTS
 ========================================================= */
 
 .pilot-row{
-
 display:flex;
 gap:20px;
-
 }
 
 .pilot{
-
 width:28px;
 height:28px;
-
 border-radius:50%;
-
 background:#1c1c1c;
-
 border:2px solid #4c5d70;
-
 }
 
 .active-green{
-
 background:#00ff99;
-
-box-shadow:
-0 0 15px #00ff99;
-
-}
-
-.active-red{
-
-background:#ff3355;
-
-box-shadow:
-0 0 15px #ff3355;
-
-}
-
-.active-yellow{
-
-background:#ffd000;
-
-box-shadow:
-0 0 15px #ffd000;
-
+box-shadow:0 0 15px #00ff99;
 }
 
 /* =========================================================
@@ -612,30 +380,19 @@ MOTOR INFO
 ========================================================= */
 
 .motor-info{
-
 width:100%;
-
 display:grid;
 grid-template-columns:1fr 1fr;
-
 gap:12px;
-
 }
 
 .info-box{
-
 padding:14px;
-
 background:#132638;
-
 border-radius:12px;
-
 border:1px solid #26415d;
-
 text-align:center;
-
 font-size:13px;
-
 }
 
 /* =========================================================
@@ -643,23 +400,14 @@ LOGS
 ========================================================= */
 
 .log-box{
-
 height:180px;
-
 overflow:auto;
-
 background:black;
-
 border-radius:12px;
-
 padding:12px;
-
 font-family:Consolas;
-
 font-size:12px;
-
 color:#00ff99;
-
 }
 
 /* =========================================================
@@ -667,12 +415,9 @@ MAIN
 ========================================================= */
 
 .main{
-
 overflow:hidden;
-
 display:flex;
 flex-direction:column;
-
 }
 
 /* =========================================================
@@ -680,24 +425,99 @@ TOP TOOLBAR
 ========================================================= */
 
 .toolbar{
-
 display:flex;
 gap:14px;
-
 padding:18px;
-
 background:#09131d;
-
 border-bottom:1px solid #1a2f45;
-
+flex-wrap:wrap;
 }
 
 .toolbar .btn{
-
 min-width:170px;
-
 font-size:13px;
+}
 
+/* =========================================================
+COURSES SECTION
+========================================================= */
+
+.courses-section{
+padding:20px;
+overflow:auto;
+}
+
+.section-title{
+font-family:Orbitron;
+font-size:26px;
+margin-bottom:20px;
+color:#00ff99;
+}
+
+.course-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+.course-card{
+background:linear-gradient(180deg,#102031 0%,#0b1724 100%);
+border:1px solid #1f3a55;
+border-radius:18px;
+overflow:hidden;
+transition:.25s;
+box-shadow:0 0 20px rgba(0,0,0,.35);
+}
+
+.course-card:hover{
+transform:translateY(-5px);
+border-color:#00ff99;
+}
+
+.course-banner{
+height:160px;
+background:linear-gradient(135deg,#00ff99,#00b7ff);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:50px;
+}
+
+.course-content{
+padding:20px;
+}
+
+.course-content h3{
+font-size:20px;
+margin-bottom:10px;
+}
+
+.course-content p{
+font-size:14px;
+color:#9fb4c8;
+line-height:1.5;
+margin-bottom:18px;
+}
+
+.course-footer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.price{
+font-size:20px;
+font-weight:700;
+color:#00ff99;
+}
+
+.course-btn{
+padding:10px 18px;
+border:none;
+border-radius:10px;
+background:#00d98b;
+font-weight:700;
+cursor:pointer;
 }
 
 /* =========================================================
@@ -705,23 +525,17 @@ SCROLLBAR
 ========================================================= */
 
 ::-webkit-scrollbar{
-
 width:10px;
 height:10px;
-
 }
 
 ::-webkit-scrollbar-thumb{
-
 background:#21415d;
 border-radius:10px;
-
 }
 
 ::-webkit-scrollbar-track{
-
 background:#08111a;
-
 }
 
 </style>
@@ -730,25 +544,10 @@ background:#08111a;
 
 <body>
 
-<!-- =========================================================
-LOADER
-========================================================= -->
-
 <div id="loader" class="loading">
-
-<h1>
-⚡ AUTOMATION STUDIO X
-</h1>
-
-<p>
-Inicializando PLC Runtime Engine...
-</p>
-
+<h1>⚡ AUTOMATION STUDIO X</h1>
+<p>Inicializando PLC Runtime Engine...</p>
 </div>
-
-<!-- =========================================================
-APP
-========================================================= -->
 
 <div id="app" style="display:none;">
 
@@ -761,33 +560,20 @@ APP
 </div>
 
 <div>
-
-<div class="title">
-AUTOMATION STUDIO X
-</div>
-
-<div class="subtitle">
-PLC LADDER ENGINE
-</div>
-
+<div class="title">AUTOMATION STUDIO X</div>
+<div class="subtitle">PLC LADDER ENGINE</div>
 </div>
 
 </div>
 
 <div class="top-status">
 
-<div class="status-box run"
-id="cpuState">
-
+<div class="status-box run" id="cpuState">
 CPU RUN
-
 </div>
 
-<div class="status-box run"
-id="plcState">
-
+<div class="status-box run" id="plcState">
 PLC RUN
-
 </div>
 
 <div class="status-box">
@@ -808,210 +594,112 @@ ETHERNET OK
 
 <aside class="sidebar">
 
-<!-- INPUTS -->
+<div class="panel">
+
+<h2>PLATAFORMA</h2>
+
+<button class="btn green" style="width:100%;margin-bottom:12px;">
+SIMULADOR PLC
+</button>
+
+<button class="btn purple" style="width:100%;margin-bottom:12px;">
+CURSOS PREMIUM
+</button>
+
+<a href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f" target="_blank">
+
+<button class="btn blue" style="width:100%;">
+SUSCRIPCIÓN PRO
+</button>
+
+</a>
+
+</div>
 
 <div class="panel">
 
-<h2>
-ENTRADAS DIGITALES
-</h2>
+<h2>ENTRADAS DIGITALES</h2>
 
 <div class="io-grid">
 
-<div class="io-card" id="card-I0.0">
-
-<div class="io-name">
-I0.0 START
+<div class="io-card">
+<div class="io-name">I0.0 START</div>
+<button class="btn green">FORZAR</button>
 </div>
 
-<button class="btn green"
-onclick="toggleInput('I0.0')">
-
-FORZAR
-
-</button>
-
+<div class="io-card">
+<div class="io-name">I0.1 STOP</div>
+<button class="btn red">FORZAR</button>
 </div>
 
-<div class="io-card" id="card-I0.1">
-
-<div class="io-name">
-I0.1 STOP
+<div class="io-card">
+<div class="io-name">I0.2 EMERGENCY</div>
+<button class="btn yellow">FORZAR</button>
 </div>
 
-<button class="btn red"
-onclick="toggleInput('I0.1')">
-
-FORZAR
-
-</button>
-
-</div>
-
-<div class="io-card" id="card-I0.2">
-
-<div class="io-name">
-I0.2 EMERGENCY
-</div>
-
-<button class="btn yellow"
-onclick="toggleInput('I0.2')">
-
-FORZAR
-
-</button>
-
-</div>
-
-<div class="io-card" id="card-I0.3">
-
-<div class="io-name">
-I0.3 SENSOR
-</div>
-
-<button class="btn blue"
-onclick="toggleInput('I0.3')">
-
-FORZAR
-
-</button>
-
+<div class="io-card">
+<div class="io-name">I0.3 SENSOR</div>
+<button class="btn blue">FORZAR</button>
 </div>
 
 </div>
 
 </div>
-
-<!-- OUTPUTS -->
 
 <div class="panel">
 
-<h2>
-SALIDAS PLC
-</h2>
+<h2>SALIDAS PLC</h2>
 
 <div class="memory-list">
 
 <div class="memory-item">
-
 <span>Q0.0 MOTOR</span>
-
-<span data-output="Q0.0">
-FALSE
-</span>
-
+<span class="on">TRUE</span>
 </div>
 
 <div class="memory-item">
-
 <span>Q0.1 VERDE</span>
-
-<span data-output="Q0.1">
-FALSE
-</span>
-
+<span class="on">TRUE</span>
 </div>
 
 <div class="memory-item">
-
 <span>Q0.2 ROJO</span>
-
-<span data-output="Q0.2">
-FALSE
-</span>
-
-</div>
-
-<div class="memory-item">
-
-<span>Q0.3 TIMER</span>
-
-<span data-output="Q0.3">
-FALSE
-</span>
-
+<span>FALSE</span>
 </div>
 
 </div>
 
 </div>
-
-<!-- MOTOR -->
 
 <div class="panel">
 
-<h2>
-MOTOR TRIFÁSICO
-</h2>
+<h2>MOTOR TRIFÁSICO</h2>
 
 <div class="motor-container">
 
 <div class="motor">
-
-<div class="fan"
-id="fan">
-
-</div>
-
+<div class="fan rotating"></div>
 </div>
 
 <div class="pilot-row">
-
-<div class="pilot"
-id="greenPilot">
-
-</div>
-
-<div class="pilot"
-id="redPilot">
-
-</div>
-
-<div class="pilot"
-id="bluePilot">
-
-</div>
-
+<div class="pilot active-green"></div>
+<div class="pilot"></div>
+<div class="pilot"></div>
 </div>
 
 <div class="motor-info">
 
 <div class="info-box">
-
 RPM<br>
-
-<span id="rpmValue">
-0 RPM
-</span>
-
+1750 RPM
 </div>
 
 <div class="info-box">
-
 ESTADO<br>
-
-<span id="motorState">
-STOP
-</span>
-
+RUNNING
 </div>
 
 </div>
-
-</div>
-
-</div>
-
-<!-- LOGS -->
-
-<div class="panel">
-
-<h2>
-EVENTOS PLC
-</h2>
-
-<div class="log-box"
-id="logBox">
 
 </div>
 
@@ -1025,152 +713,118 @@ id="logBox">
 
 <div class="toolbar">
 
-<button class="btn green"
-onclick="addNO()">
+<button class="btn green">CONTACTO NO</button>
+<button class="btn yellow">CONTACTO NC</button>
+<button class="btn blue">BOBINA</button>
+<button class="btn red">TEMPORIZADOR</button>
+<button class="btn blue">NUEVO RUNG</button>
+<button class="btn green">SIMULAR PLC</button>
 
-CONTACTO NO
+</div>
 
+<div class="courses-section">
+
+<h1 class="section-title">
+CURSOS PREMIUM PLC & AUTOMATIZACIÓN
+</h1>
+
+<div class="course-grid">
+
+<div class="course-card">
+
+<div class="course-banner">
+⚡
+</div>
+
+<div class="course-content">
+
+<h3>
+PLC DESDE CERO
+</h3>
+
+<p>
+Aprende lógica Ladder, entradas digitales, salidas, timers, memoria interna y simulación industrial paso a paso.
+</p>
+
+<div class="course-footer">
+
+<div class="price">
+$19.990
+</div>
+
+<button class="course-btn">
+VER CURSO
 </button>
 
-<button class="btn yellow"
-onclick="addNC()">
+</div>
 
-CONTACTO NC
+</div>
 
-</button>
+</div>
 
-<button class="btn blue"
-onclick="addCoil()">
+<div class="course-card">
 
-BOBINA
+<div class="course-banner">
+🤖
+</div>
 
-</button>
+<div class="course-content">
 
-<button class="btn red"
-onclick="addTON()">
+<h3>
+HMI & SCADA INDUSTRIAL
+</h3>
 
-TEMPORIZADOR
+<p>
+Diseña pantallas HMI modernas, alarmas, tendencias y sistemas SCADA industriales profesionales.
+</p>
 
-</button>
+<div class="course-footer">
 
-<button class="btn blue"
-onclick="addRung()">
+<div class="price">
+$24.990
+</div>
 
-NUEVO RUNG
-
-</button>
-
-<button class="btn green"
-onclick="runSimulation()">
-
-SIMULAR PLC
-
+<button class="course-btn">
+VER CURSO
 </button>
 
 </div>
 
-<div class="ladder-area"
-id="ladder">
-
-<!-- RUNG 1 -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="I0.0">
-
-I0.0
-
-<div class="delete-element">
-✕
 </div>
 
 </div>
 
-<div class="line"></div>
+<div class="course-card">
 
-<div class="contact"
-data-type="NC"
-data-address="I0.1">
+<div class="course-banner">
+🏭
+</div>
 
-/I0.1
+<div class="course-content">
 
-<div class="diag"></div>
+<h3>
+AUTOMATIZACIÓN INDUSTRIAL
+</h3>
 
-<div class="delete-element">
-✕
+<p>
+Curso completo orientado a estudiantes técnicos y universitarios con proyectos reales de automatización.
+</p>
+
+<div class="course-footer">
+
+<div class="price">
+$29.990
+</div>
+
+<button class="course-btn">
+VER CURSO
+</button>
+
 </div>
 
 </div>
 
-<div class="line"></div>
-
-<div class="contact"
-data-type="NC"
-data-address="I0.2">
-
-/I0.2
-
-<div class="diag"></div>
-
-<div class="delete-element">
-✕
 </div>
-
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.0">
-
-(Q0.0)
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-<!-- RUNG 2 -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="Q0.0">
-
-Q0.0
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.1">
-
-(Q0.1)
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="rail"></div>
 
 </div>
 
@@ -1182,41 +836,14 @@ data-address="Q0.1">
 
 </div>
 
-<!-- JS -->
-
-<script
-src="{{ url_for('static', filename='js/logs.js') }}">
-</script>
-
-<script
-src="{{ url_for('static', filename='js/motor.js') }}">
-</script>
-
-<script
-src="{{ url_for('static', filename='js/plc_engine.js') }}">
-</script>
-
-<script
-src="{{ url_for('static', filename='js/ladder.js') }}">
-</script>
-
 <script>
 
 window.onload=()=>{
 
 setTimeout(()=>{
 
-document.getElementById("loader")
-.style.display="none"
-
-document.getElementById("app")
-.style.display="flex"
-
-log(
-"SISTEMA PLC INICIADO"
-)
-
-scanPLC()
+document.getElementById("loader").style.display="none"
+document.getElementById("app").style.display="flex"
 
 },1000)
 
