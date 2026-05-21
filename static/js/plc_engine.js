@@ -4,37 +4,31 @@ PLC MEMORY
 
 const plcMemory={
 
-/* ENTRADAS */
-
 "I0.0":false,
 "I0.1":false,
 "I0.2":false,
-
-/* SALIDAS */
+"I0.3":false,
 
 "Q0.0":false,
 "Q0.1":false,
 "Q0.2":false,
+"Q0.3":false,
 
 }
 
 /* =====================================================
-EVALUAR CONTACTO
+CONTACTOS
 ===================================================== */
 
 function evaluateContact(type,address){
 
 const value=plcMemory[address]
 
-/* NORMAL OPEN */
-
 if(type==="NO"){
 
 return value
 
 }
-
-/* NORMAL CLOSED */
 
 if(type==="NC"){
 
@@ -59,67 +53,89 @@ const rungs=document.querySelectorAll(".rung")
 plcMemory["Q0.0"]=false
 plcMemory["Q0.1"]=false
 plcMemory["Q0.2"]=false
+plcMemory["Q0.3"]=false
 
 rungs.forEach(rung=>{
 
 let rungPower=true
 
-const elements=rung.querySelectorAll(
-".contact,.coil"
-)
+const contacts=
+rung.querySelectorAll(".contact")
 
-elements.forEach(el=>{
+const coil=
+rung.querySelector(".coil")
+
+const lines=
+rung.querySelectorAll(".line")
 
 /* =====================================================
 CONTACTOS
 ===================================================== */
 
-if(el.classList.contains("contact")){
+contacts.forEach(contact=>{
 
-const type=el.dataset.type
-
-const address=el.dataset.address
-
-const result=
-evaluateContact(type,address)
+const result=evaluateContact(
+contact.dataset.type,
+contact.dataset.address
+)
 
 if(result){
 
-el.classList.add("powered")
+contact.classList.add("powered")
 
 }else{
 
-el.classList.remove("powered")
+contact.classList.remove("powered")
 
 rungPower=false
 
 }
 
-}
+})
 
 /* =====================================================
-BOBINAS
+LINEAS
 ===================================================== */
 
-if(el.classList.contains("coil")){
+lines.forEach(line=>{
 
-const address=el.dataset.address
+if(rungPower){
+
+line.classList.add("powered")
+
+}else{
+
+line.classList.remove("powered")
+
+}
+
+})
+
+/* =====================================================
+BOBINA
+===================================================== */
+
+if(coil){
+
+const address=coil.dataset.address
 
 plcMemory[address]=rungPower
 
 if(rungPower){
 
-el.classList.add("powered")
+coil.classList.add("powered")
+
+rung.classList.add("active")
 
 }else{
 
-el.classList.remove("powered")
+coil.classList.remove("powered")
+
+rung.classList.remove("active")
 
 }
 
 }
-
-})
 
 })
 
