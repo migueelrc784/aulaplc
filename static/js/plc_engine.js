@@ -2,7 +2,7 @@
 PLC MEMORY
 ===================================================== */
 
-const plcMemory = {
+const plcMemory={
 
 inputs:{},
 outputs:{},
@@ -19,7 +19,9 @@ INIT INPUTS
 "I0.0",
 "I0.1",
 "I0.2",
-"I0.3"
+"I0.3",
+"I0.4",
+"I0.5"
 ].forEach(input=>{
 
 plcMemory.inputs[input]=false
@@ -84,25 +86,39 @@ READ ADDRESS
 
 function readAddress(address){
 
+/* INPUTS */
+
 if(address.startsWith("I")){
 
-return plcMemory.inputs[address]
+return plcMemory.inputs[address] || false
 
 }
+
+/* OUTPUTS */
 
 if(address.startsWith("Q")){
 
-return plcMemory.outputs[address]
+return plcMemory.outputs[address] || false
 
 }
+
+/* MARKERS */
 
 if(address.startsWith("M")){
 
-return plcMemory.markers[address]
+return plcMemory.markers[address] || false
 
 }
 
+/* TIMERS */
+
 if(address.startsWith("T")){
+
+if(!plcMemory.timers[address]){
+
+return false
+
+}
 
 return plcMemory.timers[address].done
 
@@ -118,11 +134,15 @@ WRITE ADDRESS
 
 function writeAddress(address,value){
 
+/* OUTPUT */
+
 if(address.startsWith("Q")){
 
 plcMemory.outputs[address]=value
 
 }
+
+/* MARKER */
 
 if(address.startsWith("M")){
 
@@ -138,16 +158,24 @@ CONTACT EVALUATION
 
 function evaluateContact(contact){
 
-const type=contact.dataset.type
-const address=contact.dataset.address
+const type=
+contact.dataset.type
 
-const value=readAddress(address)
+const address=
+contact.dataset.address
+
+const value=
+readAddress(address)
+
+/* NORMAL OPEN */
 
 if(type==="NO"){
 
 return value
 
 }
+
+/* NORMAL CLOSED */
 
 if(type==="NC"){
 
@@ -183,14 +211,17 @@ TON TIMER
 
 function processTON(timer,power){
 
-const address=timer.dataset.address
+const address=
+timer.dataset.address
 
 const preset=
-parseInt(timer.dataset.preset || 3000)
+parseInt(
+timer.dataset.preset || 3000
+)
 
-const t=plcMemory.timers[address]
+/* CREATE TIMER */
 
-if(!t){
+if(!plcMemory.timers[address]){
 
 plcMemory.timers[address]={
 
@@ -203,37 +234,45 @@ preset:preset
 
 }
 
-const current=plcMemory.timers[address]
+const t=
+plcMemory.timers[address]
+
+/* TIMER POWERED */
 
 if(power){
 
-if(!current.running){
+if(!t.running){
 
-current.running=true
-current.start=Date.now()
+t.running=true
+
+t.start=Date.now()
 
 }
 
 const elapsed=
-Date.now()-current.start
+Date.now()-t.start
 
 if(elapsed>=preset){
 
-current.done=true
+t.done=true
 
 }
+
+/* TIMER OFF */
 
 }else{
 
-current.running=false
-current.done=false
-current.start=0
+t.running=false
+
+t.done=false
+
+t.start=0
 
 }
 
-updateVisual(timer,current.done)
+updateVisual(timer,t.done)
 
-return current.done
+return t.done
 
 }
 
@@ -243,7 +282,8 @@ PROCESS COIL
 
 function processCoil(coil,power){
 
-const address=coil.dataset.address
+const address=
+coil.dataset.address
 
 const mode=
 coil.dataset.coil || "normal"
@@ -280,7 +320,25 @@ writeAddress(address,false)
 
 }
 
-updateVisual(coil,readAddress(address))
+updateVisual(
+coil,
+readAddress(address)
+)
+
+}
+
+/* =====================================================
+RESET OUTPUTS EACH SCAN
+===================================================== */
+
+function resetOutputs(){
+
+Object.keys(plcMemory.outputs)
+.forEach(output=>{
+
+plcMemory.outputs[output]=false
+
+})
 
 }
 
@@ -290,21 +348,37 @@ SCAN PLC
 
 function scanPLC(){
 
+/* RESET OUTPUTS */
+
+resetOutputs()
+
+/* GET RUNGS */
+
 const rungs=
 document.querySelectorAll(".rung")
 
+/* =====================================================
+PROCESS RUNGS
+===================================================== */
+
 rungs.forEach(rung=>{
 
-let power=true
+let rungPower=true
 
 const elements=
 rung.querySelectorAll(
-".contact,.timer,.coil,.line"
+".contact,.timer,.line,.coil"
 )
+
+/* =====================================================
+ELEMENT LOOP
+===================================================== */
 
 elements.forEach(element=>{
 
-/* CONTACT */
+/* =====================================================
+CONTACT
+===================================================== */
 
 if(
 element.classList.contains("contact")
@@ -313,46 +387,69 @@ element.classList.contains("contact")
 const result=
 evaluateContact(element)
 
-power=power && result
+rungPower=
+rungPower && result
 
-updateVisual(element,result)
+updateVisual(
+element,
+result
+)
 
 }
 
-/* TIMER */
+/* =====================================================
+TIMER
+===================================================== */
 
 if(
 element.classList.contains("timer")
 ){
 
-power=
-processTON(element,power)
+rungPower=
+processTON(
+element,
+rungPower
+)
 
 }
 
-/* LINE */
+/* =====================================================
+LINE
+===================================================== */
 
 if(
 element.classList.contains("line")
 ){
 
-updateVisual(element,power)
+updateVisual(
+element,
+rungPower
+)
 
 }
 
-/* COIL */
+/* =====================================================
+COIL
+===================================================== */
 
 if(
 element.classList.contains("coil")
 ){
 
-processCoil(element,power)
+processCoil(
+element,
+rungPower
+)
 
 }
 
 })
 
-if(power){
+/* =====================================================
+RUNG VISUAL
+===================================================== */
+
+if(rungPower){
 
 rung.classList.add("active")
 
@@ -363,6 +460,10 @@ rung.classList.remove("active")
 }
 
 })
+
+/* =====================================================
+UPDATE UI
+===================================================== */
 
 updateOutputs()
 

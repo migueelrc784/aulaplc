@@ -44,13 +44,9 @@ href="{{ url_for('static', filename='css/responsive.css') }}">
 body{
 
 margin:0;
-
 background:#07111d;
-
 font-family:Inter,sans-serif;
-
 color:white;
-
 overflow:hidden;
 
 }
@@ -62,15 +58,10 @@ PRELOADER
 .loading{
 
 height:100vh;
-
 display:flex;
-
 justify-content:center;
-
 align-items:center;
-
 flex-direction:column;
-
 gap:20px;
 
 }
@@ -78,11 +69,8 @@ gap:20px;
 .loading h1{
 
 font-family:Orbitron;
-
 color:#00ff99;
-
 font-size:40px;
-
 letter-spacing:3px;
 
 }
@@ -94,7 +82,7 @@ color:#8da8c7;
 }
 
 /* =========================================================
-FORCED INPUT
+INPUT FORCED
 ========================================================= */
 
 .io-forced{
@@ -102,7 +90,8 @@ FORCED INPUT
 border:2px solid #00ff99 !important;
 
 box-shadow:
-0 0 15px #00ff99;
+0 0 15px #00ff99,
+0 0 30px rgba(0,255,153,.5);
 
 }
 
@@ -113,13 +102,9 @@ PILOTS
 .pilot{
 
 width:30px;
-
 height:30px;
-
 border-radius:50%;
-
-background:#222;
-
+background:#1a1a1a;
 transition:.2s;
 
 }
@@ -127,27 +112,100 @@ transition:.2s;
 .active-green{
 
 background:#00ff99;
-
-box-shadow:
-0 0 20px #00ff99;
+box-shadow:0 0 20px #00ff99;
 
 }
 
 .active-red{
 
 background:#ff3355;
-
-box-shadow:
-0 0 20px #ff3355;
+box-shadow:0 0 20px #ff3355;
 
 }
 
 .active-yellow{
 
 background:#ffd000;
+box-shadow:0 0 20px #ffd000;
+
+}
+
+/* =========================================================
+DELETE ELEMENT
+========================================================= */
+
+.delete-element{
+
+position:absolute;
+
+top:-8px;
+right:-8px;
+
+width:18px;
+height:18px;
+
+border-radius:50%;
+
+background:#ff3355;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:11px;
+font-weight:700;
+
+cursor:pointer;
+
+z-index:10;
+
+}
+
+/* =========================================================
+OUTPUT ACTIVE
+========================================================= */
+
+.on{
+
+color:#00ff99;
+font-weight:700;
+
+}
+
+/* =========================================================
+TIMER
+========================================================= */
+
+.timer{
+
+width:130px;
+height:50px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:#3b3b55;
+
+border:2px solid #6f7cff;
+
+font-family:Consolas;
+
+font-weight:700;
+
+position:relative;
+
+transition:.2s;
+
+}
+
+.timer.powered{
+
+background:#00ff99;
+color:#001b10;
 
 box-shadow:
-0 0 20px #ffd000;
+0 0 15px #00ff99;
 
 }
 
@@ -205,9 +263,7 @@ PLC LADDER ENGINE REALTIME
 
 </div>
 
-<!-- =========================================================
-STATUS
-========================================================= -->
+<!-- STATUS -->
 
 <div class="top-status">
 
@@ -218,7 +274,7 @@ CPU RUN
 
 </div>
 
-<div class="status-box stop"
+<div class="status-box run"
 id="plcState">
 
 PLC RUN
@@ -397,11 +453,8 @@ SALIDAS PLC
 Q0.0 MOTOR
 </span>
 
-<span
-data-output="Q0.0">
-
+<span data-output="Q0.0">
 FALSE
-
 </span>
 
 </div>
@@ -409,14 +462,11 @@ FALSE
 <div class="memory-item">
 
 <span>
-Q0.1 LUZ VERDE
+Q0.1 VERDE
 </span>
 
-<span
-data-output="Q0.1">
-
+<span data-output="Q0.1">
 FALSE
-
 </span>
 
 </div>
@@ -424,14 +474,11 @@ FALSE
 <div class="memory-item">
 
 <span>
-Q0.2 LUZ ROJA
+Q0.2 ROJO
 </span>
 
-<span
-data-output="Q0.2">
-
+<span data-output="Q0.2">
 FALSE
-
 </span>
 
 </div>
@@ -439,14 +486,11 @@ FALSE
 <div class="memory-item">
 
 <span>
-Q0.3 LUZ AMARILLA
+Q0.3 AMARILLO
 </span>
 
-<span
-data-output="Q0.3">
-
+<span data-output="Q0.3">
 FALSE
-
 </span>
 
 </div>
@@ -467,8 +511,6 @@ MOTOR INDUSTRIAL
 
 <div class="motor-container">
 
-<!-- MOTOR -->
-
 <div class="motor">
 
 <div class="fan"
@@ -477,8 +519,6 @@ id="fan">
 </div>
 
 </div>
-
-<!-- IMAGE -->
 
 <div class="connection-image-box">
 
@@ -510,7 +550,7 @@ id="bluePilot">
 
 </div>
 
-<!-- MOTOR BUTTONS -->
+<!-- BUTTONS -->
 
 <div class="toolbar">
 
@@ -539,11 +579,8 @@ TRIANGULO
 <div class="info-box">
 
 RPM:
-
 <span id="rpmValue">
-
 0 RPM
-
 </span>
 
 </div>
@@ -551,11 +588,8 @@ RPM:
 <div class="info-box">
 
 ESTADO:
-
 <span id="motorState">
-
 DETENIDO
-
 </span>
 
 </div>
@@ -567,7 +601,7 @@ DETENIDO
 </div>
 
 <!-- =========================================================
-EVENTOS
+LOGS
 ========================================================= -->
 
 <div class="panel">
@@ -648,7 +682,7 @@ SIMULAR PLC
 </div>
 
 <!-- =========================================================
-LADDER AREA
+LADDER
 ========================================================= -->
 
 <div class="ladder-area"
@@ -656,7 +690,6 @@ id="ladder">
 
 <!-- =========================================================
 RUNG 1
-MOTOR
 ========================================================= -->
 
 <div class="rung">
@@ -727,7 +760,6 @@ data-coil="normal">
 
 <!-- =========================================================
 RUNG 2
-GREEN
 ========================================================= -->
 
 <div class="rung">
@@ -768,7 +800,6 @@ data-coil="normal">
 
 <!-- =========================================================
 RUNG 3
-RED
 ========================================================= -->
 
 <div class="rung">
@@ -808,8 +839,7 @@ data-coil="normal">
 </div>
 
 <!-- =========================================================
-RUNG 4
-TON
+RUNG 4 TIMER
 ========================================================= -->
 
 <div class="rung">
@@ -894,6 +924,8 @@ src="{{ url_for('static', filename='js/logs.js') }}">
 <script
 src="{{ url_for('static', filename='js/ui.js') }}">
 </script>
+
+<!-- IMPORTANT ORDER -->
 
 <script
 src="{{ url_for('static', filename='js/plc_engine.js') }}">
