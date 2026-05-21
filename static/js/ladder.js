@@ -23,38 +23,120 @@ const outputAddresses=[
 ]
 
 /* =====================================================
-TOGGLE INPUT
+TOGGLE INPUT REAL
 ===================================================== */
 
 function toggleInput(address){
 
+/* TOGGLE STATE */
+
 plcMemory.inputs[address]=
 !plcMemory.inputs[address]
 
-log(
-address+
-" = "+
+const state=
 plcMemory.inputs[address]
+
+/* =====================================================
+INPUT CARD VISUAL
+===================================================== */
+
+const card=
+document.getElementById(
+`card-${address}`
 )
+
+if(card){
+
+if(state){
+
+card.classList.add("io-forced")
+
+}else{
+
+card.classList.remove("io-forced")
+
+}
+
+}
+
+/* =====================================================
+UPDATE CONTACTS
+===================================================== */
+
+const contacts=
+document.querySelectorAll(
+`.contact[data-address="${address}"]`
+)
+
+contacts.forEach(contact=>{
+
+const type=
+contact.dataset.type
+
+/* NO */
+
+if(type==="NO"){
+
+if(state){
+
+contact.classList.add("powered")
+
+}else{
+
+contact.classList.remove("powered")
+
+}
+
+}
+
+/* NC */
+
+if(type==="NC"){
+
+if(state){
+
+contact.classList.remove("powered")
+
+}else{
+
+contact.classList.add("powered")
+
+}
+
+}
+
+})
+
+/* =====================================================
+LOG
+===================================================== */
+
+log(
+`${address} = ${state}`
+)
+
+/* =====================================================
+SCAN PLC
+===================================================== */
 
 scanPLC()
 
 }
 
 /* =====================================================
-CLICK CONTACT
+CONTACT CLICK
 ===================================================== */
 
 document.addEventListener("click",e=>{
 
-/* CONTACT */
+/* =====================================================
+CLICK CONTACT
+===================================================== */
 
 if(e.target.classList.contains("contact")){
 
 const address=
 e.target.dataset.address
-
-/* ONLY INPUTS */
 
 if(address.startsWith("I")){
 
@@ -64,7 +146,9 @@ toggleInput(address)
 
 }
 
-/* DELETE ELEMENT */
+/* =====================================================
+DELETE ELEMENT
+===================================================== */
 
 if(e.target.classList.contains("delete-element")){
 
@@ -77,7 +161,7 @@ scanPLC()
 })
 
 /* =====================================================
-SIMULATION
+RUN SIMULATION
 ===================================================== */
 
 function runSimulation(){
@@ -98,10 +182,12 @@ scanPLC()
 
 updatePhysicalOutputs()
 
+updateMemoryUI()
+
 },100)
 
 /* =====================================================
-UPDATE OUTPUTS UI
+UPDATE OUTPUTS
 ===================================================== */
 
 function updateOutputs(){
@@ -137,34 +223,116 @@ element.classList.remove("on")
 }
 
 /* =====================================================
+UPDATE MEMORY UI
+===================================================== */
+
+function updateMemoryUI(){
+
+/* MARKERS */
+
+Object.keys(plcMemory.markers)
+.forEach(marker=>{
+
+const element=
+document.getElementById(
+marker.toLowerCase().replace(".","")
+)
+
+if(!element)return
+
+const value=
+plcMemory.markers[marker]
+
+element.innerText=
+value ? "TRUE":"FALSE"
+
+})
+
+/* TIMERS */
+
+Object.keys(plcMemory.timers)
+.forEach(timer=>{
+
+const element=
+document.getElementById(
+timer.toLowerCase().replace(".","")
+)
+
+if(!element)return
+
+const value=
+plcMemory.timers[timer].done
+
+element.innerText=
+value ? "ON":"OFF"
+
+})
+
+}
+
+/* =====================================================
 PHYSICAL OUTPUTS
 ===================================================== */
 
 function updatePhysicalOutputs(){
 
 /* =====================================================
-Q0.0 MOTOR
+MOTOR
 ===================================================== */
 
-const motor=
+const fan=
 document.getElementById("fan")
 
-if(motor){
+const motorState=
+document.getElementById("motorState")
+
+const rpm=
+document.getElementById("rpmValue")
+
+if(fan){
 
 if(plcMemory.outputs["Q0.0"]){
 
-motor.classList.add("running")
+fan.classList.add("running")
+
+if(motorState){
+
+motorState.innerText=
+"ENCENDIDO"
+
+}
+
+if(rpm){
+
+rpm.innerText=
+"1750 RPM"
+
+}
 
 }else{
 
-motor.classList.remove("running")
+fan.classList.remove("running")
+
+if(motorState){
+
+motorState.innerText=
+"DETENIDO"
+
+}
+
+if(rpm){
+
+rpm.innerText=
+"0 RPM"
+
+}
 
 }
 
 }
 
 /* =====================================================
-Q0.1 GREEN
+GREEN PILOT
 ===================================================== */
 
 const green=
@@ -185,7 +353,7 @@ green.classList.remove("active-green")
 }
 
 /* =====================================================
-Q0.2 RED
+RED PILOT
 ===================================================== */
 
 const red=
@@ -206,21 +374,21 @@ red.classList.remove("active-red")
 }
 
 /* =====================================================
-Q0.3 YELLOW
+YELLOW PILOT
 ===================================================== */
 
-const blue=
+const yellow=
 document.getElementById("bluePilot")
 
-if(blue){
+if(yellow){
 
 if(plcMemory.outputs["Q0.3"]){
 
-blue.classList.add("active-yellow")
+yellow.classList.add("active-yellow")
 
 }else{
 
-blue.classList.remove("active-yellow")
+yellow.classList.remove("active-yellow")
 
 }
 
@@ -236,7 +404,7 @@ function addNO(){
 
 const address=
 prompt(
-"Direccion contacto NO:\n\nI0.0 hasta I0.5\nQ0.0 hasta Q0.3",
+"Direccion contacto NO\n\nI0.0 -> I0.5\nQ0.0 -> Q0.3",
 "I0.0"
 )
 
@@ -298,6 +466,7 @@ if(type==="NO"){
 contact.innerHTML=
 `
 ${address}
+
 <div class="delete-element">
 ✕
 </div>
@@ -308,6 +477,7 @@ ${address}
 contact.innerHTML=
 `
 /${address}
+
 <div class="delete-element">
 ✕
 </div>
@@ -337,7 +507,7 @@ function addCoil(){
 
 const address=
 prompt(
-"Direccion bobina:\nQ0.0 hasta Q0.3",
+"Direccion bobina\nQ0.0 -> Q0.3",
 "Q0.0"
 )
 
@@ -430,7 +600,7 @@ scanPLC()
 }
 
 /* =====================================================
-NEW RUNG
+ADD RUNG
 ===================================================== */
 
 function addRung(){
