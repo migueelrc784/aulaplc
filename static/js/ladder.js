@@ -23,31 +23,22 @@ const outputAddresses=[
 ]
 
 /* =====================================================
-TOGGLE INPUT REAL
+TOGGLE INPUT
 ===================================================== */
 
 function toggleInput(address){
 
-/* TOGGLE STATE */
-
 plcMemory.inputs[address]=
 !plcMemory.inputs[address]
 
-const state=
-plcMemory.inputs[address]
-
-/* =====================================================
-INPUT CARD VISUAL
-===================================================== */
-
 const card=
 document.getElementById(
-`card-${address}`
+"card-"+address
 )
 
 if(card){
 
-if(state){
+if(plcMemory.inputs[address]){
 
 card.classList.add("io-forced")
 
@@ -59,116 +50,25 @@ card.classList.remove("io-forced")
 
 }
 
-/* =====================================================
-UPDATE CONTACTS
-===================================================== */
-
-const contacts=
-document.querySelectorAll(
-`.contact[data-address="${address}"]`
-)
-
-contacts.forEach(contact=>{
-
-const type=
-contact.dataset.type
-
-/* NO */
-
-if(type==="NO"){
-
-if(state){
-
-contact.classList.add("powered")
-
-}else{
-
-contact.classList.remove("powered")
-
-}
-
-}
-
-/* NC */
-
-if(type==="NC"){
-
-if(state){
-
-contact.classList.remove("powered")
-
-}else{
-
-contact.classList.add("powered")
-
-}
-
-}
-
-})
-
-/* =====================================================
-LOG
-===================================================== */
-
 log(
-`${address} = ${state}`
+address+
+" = "+
+plcMemory.inputs[address]
 )
 
-/* =====================================================
-SCAN PLC
-===================================================== */
-
 scanPLC()
 
 }
 
 /* =====================================================
-CONTACT CLICK
-===================================================== */
-
-document.addEventListener("click",e=>{
-
-/* =====================================================
-CLICK CONTACT
-===================================================== */
-
-if(e.target.classList.contains("contact")){
-
-const address=
-e.target.dataset.address
-
-if(address.startsWith("I")){
-
-toggleInput(address)
-
-}
-
-}
-
-/* =====================================================
-DELETE ELEMENT
-===================================================== */
-
-if(e.target.classList.contains("delete-element")){
-
-e.target.parentElement.remove()
-
-scanPLC()
-
-}
-
-})
-
-/* =====================================================
-RUN SIMULATION
+RUN PLC
 ===================================================== */
 
 function runSimulation(){
 
 scanPLC()
 
-log("PLC RUNNING")
+log("PLC SCAN")
 
 }
 
@@ -180,10 +80,6 @@ setInterval(()=>{
 
 scanPLC()
 
-updatePhysicalOutputs()
-
-updateMemoryUI()
-
 },100)
 
 /* =====================================================
@@ -192,21 +88,18 @@ UPDATE OUTPUTS
 
 function updateOutputs(){
 
-Object.keys(plcMemory.outputs)
-.forEach(output=>{
+document
+.querySelectorAll("[data-output]")
+.forEach(element=>{
 
-const element=
-document.querySelector(
-`[data-output="${output}"]`
-)
-
-if(!element)return
+const address=
+element.dataset.output
 
 const value=
-plcMemory.outputs[output]
+plcMemory.outputs[address]
 
 element.innerText=
-value ? "TRUE":"FALSE"
+value ? "TRUE" : "FALSE"
 
 if(value){
 
@@ -220,65 +113,12 @@ element.classList.remove("on")
 
 })
 
-}
-
-/* =====================================================
-UPDATE MEMORY UI
-===================================================== */
-
-function updateMemoryUI(){
-
-/* MARKERS */
-
-Object.keys(plcMemory.markers)
-.forEach(marker=>{
-
-const element=
-document.getElementById(
-marker.toLowerCase().replace(".","")
-)
-
-if(!element)return
-
-const value=
-plcMemory.markers[marker]
-
-element.innerText=
-value ? "TRUE":"FALSE"
-
-})
-
-/* TIMERS */
-
-Object.keys(plcMemory.timers)
-.forEach(timer=>{
-
-const element=
-document.getElementById(
-timer.toLowerCase().replace(".","")
-)
-
-if(!element)return
-
-const value=
-plcMemory.timers[timer].done
-
-element.innerText=
-value ? "ON":"OFF"
-
-})
-
-}
-
-/* =====================================================
-PHYSICAL OUTPUTS
-===================================================== */
-
-function updatePhysicalOutputs(){
-
 /* =====================================================
 MOTOR
 ===================================================== */
+
+const motor=
+plcMemory.outputs["Q0.0"]
 
 const fan=
 document.getElementById("fan")
@@ -291,36 +131,24 @@ document.getElementById("rpmValue")
 
 if(fan){
 
-if(plcMemory.outputs["Q0.0"]){
+if(motor){
 
-fan.classList.add("running")
-
-if(motorState){
+fan.style.animation=
+"spin 0.7s linear infinite"
 
 motorState.innerText=
 "ENCENDIDO"
 
-}
-
-if(rpm){
-
 rpm.innerText=
 "1750 RPM"
 
-}
-
 }else{
 
-fan.classList.remove("running")
-
-if(motorState){
+fan.style.animation=
+"none"
 
 motorState.innerText=
 "DETENIDO"
-
-}
-
-if(rpm){
 
 rpm.innerText=
 "0 RPM"
@@ -329,161 +157,235 @@ rpm.innerText=
 
 }
 
-}
-
 /* =====================================================
-GREEN PILOT
+PILOTS
 ===================================================== */
 
 const green=
 document.getElementById("greenPilot")
 
-if(green){
-
-if(plcMemory.outputs["Q0.1"]){
-
-green.classList.add("active-green")
-
-}else{
-
-green.classList.remove("active-green")
-
-}
-
-}
-
-/* =====================================================
-RED PILOT
-===================================================== */
-
 const red=
 document.getElementById("redPilot")
-
-if(red){
-
-if(plcMemory.outputs["Q0.2"]){
-
-red.classList.add("active-red")
-
-}else{
-
-red.classList.remove("active-red")
-
-}
-
-}
-
-/* =====================================================
-YELLOW PILOT
-===================================================== */
 
 const yellow=
 document.getElementById("bluePilot")
 
-if(yellow){
+if(green){
 
-if(plcMemory.outputs["Q0.3"]){
-
-yellow.classList.add("active-yellow")
-
-}else{
-
-yellow.classList.remove("active-yellow")
+green.classList.toggle(
+"active-green",
+plcMemory.outputs["Q0.1"]
+)
 
 }
+
+if(red){
+
+red.classList.toggle(
+"active-red",
+plcMemory.outputs["Q0.2"]
+)
+
+}
+
+if(yellow){
+
+yellow.classList.toggle(
+"active-yellow",
+plcMemory.outputs["Q0.3"]
+)
 
 }
 
 }
 
 /* =====================================================
-ADD CONTACT NO
+CONTACT CLICK FORCE
+===================================================== */
+
+function initContactEvents(){
+
+document
+.querySelectorAll(".contact")
+.forEach(contact=>{
+
+contact.onclick=(e)=>{
+
+if(
+e.target.classList.contains(
+"delete-element"
+)
+){
+
+return
+
+}
+
+const address=
+contact.dataset.address
+
+/* ONLY INPUTS */
+
+if(address.startsWith("I")){
+
+toggleInput(address)
+
+}
+
+/* TOGGLE TYPE */
+
+if(contact.dataset.type==="NO"){
+
+contact.dataset.type="NC"
+
+contact.innerHTML=
+"/"+address+
+'<div class="delete-element">✕</div>'
+
+}else{
+
+contact.dataset.type="NO"
+
+contact.innerHTML=
+address+
+'<div class="delete-element">✕</div>'
+
+}
+
+scanPLC()
+
+}
+
+})
+
+}
+
+/* =====================================================
+DELETE ELEMENTS
+===================================================== */
+
+function initDeleteButtons(){
+
+document
+.querySelectorAll(".delete-element")
+.forEach(button=>{
+
+button.onclick=(e)=>{
+
+e.stopPropagation()
+
+const parent=
+button.parentElement
+
+if(parent){
+
+parent.remove()
+
+scanPLC()
+
+}
+
+}
+
+})
+
+}
+
+/* =====================================================
+DRAG SYSTEM
+===================================================== */
+
+let dragged=null
+
+function initDrag(){
+
+document
+.querySelectorAll(
+".contact,.coil,.timer"
+)
+.forEach(element=>{
+
+element.draggable=true
+
+element.addEventListener(
+"dragstart",
+()=>{
+
+dragged=element
+
+})
+
+element.addEventListener(
+"dragover",
+(e)=>{
+
+e.preventDefault()
+
+})
+
+element.addEventListener(
+"drop",
+(e)=>{
+
+e.preventDefault()
+
+if(
+dragged &&
+dragged!==element
+){
+
+const parent=
+element.parentNode
+
+parent.insertBefore(
+dragged,
+element
+)
+
+scanPLC()
+
+}
+
+})
+
+})
+
+}
+
+/* =====================================================
+ADD NO
 ===================================================== */
 
 function addNO(){
 
+const rung=
+document.querySelector(".rung")
+
 const address=
 prompt(
-"Direccion contacto NO\n\nI0.0 -> I0.5\nQ0.0 -> Q0.3",
+"Direccion INPUT",
 "I0.0"
 )
 
 if(!address)return
-
-createContact(
-"NO",
-address
-)
-
-}
-
-/* =====================================================
-ADD CONTACT NC
-===================================================== */
-
-function addNC(){
-
-const address=
-prompt(
-"Direccion contacto NC",
-"I0.1"
-)
-
-if(!address)return
-
-createContact(
-"NC",
-address
-)
-
-}
-
-/* =====================================================
-CREATE CONTACT
-===================================================== */
-
-function createContact(type,address){
-
-const rung=
-document.querySelector(".rung:last-child")
-
-const line=
-document.createElement("div")
-
-line.className="line"
 
 const contact=
 document.createElement("div")
 
 contact.className="contact"
 
-contact.dataset.type=type
+contact.dataset.type="NO"
 
 contact.dataset.address=address
 
-if(type==="NO"){
-
 contact.innerHTML=
-`
-${address}
+address+
+'<div class="delete-element">✕</div>'
 
-<div class="delete-element">
-✕
-</div>
-`
+const line=
+document.createElement("div")
 
-}else{
-
-contact.innerHTML=
-`
-/${address}
-
-<div class="delete-element">
-✕
-</div>
-`
-
-}
+line.className="line"
 
 rung.insertBefore(
 line,
@@ -492,10 +394,59 @@ rung.lastElementChild
 
 rung.insertBefore(
 contact,
+line
+)
+
+refreshLadder()
+
+}
+
+/* =====================================================
+ADD NC
+===================================================== */
+
+function addNC(){
+
+const rung=
+document.querySelector(".rung")
+
+const address=
+prompt(
+"Direccion INPUT",
+"I0.1"
+)
+
+if(!address)return
+
+const contact=
+document.createElement("div")
+
+contact.className="contact"
+
+contact.dataset.type="NC"
+
+contact.dataset.address=address
+
+contact.innerHTML=
+"/"+address+
+'<div class="delete-element">✕</div>'
+
+const line=
+document.createElement("div")
+
+line.className="line"
+
+rung.insertBefore(
+line,
 rung.lastElementChild
 )
 
-scanPLC()
+rung.insertBefore(
+contact,
+line
+)
+
+refreshLadder()
 
 }
 
@@ -505,21 +456,16 @@ ADD COIL
 
 function addCoil(){
 
+const rung=
+document.querySelector(".rung")
+
 const address=
 prompt(
-"Direccion bobina\nQ0.0 -> Q0.3",
+"Direccion OUTPUT",
 "Q0.0"
 )
 
 if(!address)return
-
-const rung=
-document.querySelector(".rung:last-child")
-
-const line=
-document.createElement("div")
-
-line.className="line"
 
 const coil=
 document.createElement("div")
@@ -531,13 +477,13 @@ coil.dataset.address=address
 coil.dataset.coil="normal"
 
 coil.innerHTML=
-`
-(${address})
+"("+address+")"+
+'<div class="delete-element">✕</div>'
 
-<div class="delete-element">
-✕
-</div>
-`
+const line=
+document.createElement("div")
+
+line.className="line"
 
 rung.insertBefore(
 line,
@@ -546,10 +492,10 @@ rung.lastElementChild
 
 rung.insertBefore(
 coil,
-rung.lastElementChild
+line
 )
 
-scanPLC()
+refreshLadder()
 
 }
 
@@ -560,30 +506,25 @@ ADD TON
 function addTON(){
 
 const rung=
-document.querySelector(".rung:last-child")
-
-const line=
-document.createElement("div")
-
-line.className="line"
+document.querySelector(".rung")
 
 const timer=
 document.createElement("div")
 
 timer.className="timer"
 
-timer.dataset.address="T0.0"
+timer.dataset.address="T0.1"
 
-timer.dataset.preset="3000"
+timer.dataset.preset="5000"
 
 timer.innerHTML=
-`
-TON T0.0
+"TON T0.1"+
+'<div class="delete-element">✕</div>'
 
-<div class="delete-element">
-✕
-</div>
-`
+const line=
+document.createElement("div")
+
+line.className="line"
 
 rung.insertBefore(
 line,
@@ -592,10 +533,10 @@ rung.lastElementChild
 
 rung.insertBefore(
 timer,
-rung.lastElementChild
+line
 )
 
-scanPLC()
+refreshLadder()
 
 }
 
@@ -613,12 +554,9 @@ document.createElement("div")
 
 rung.className="rung"
 
-rung.innerHTML=
-`
+rung.innerHTML=`
 
 <div class="rail"></div>
-
-<div class="line"></div>
 
 <div class="rail"></div>
 
@@ -629,22 +567,30 @@ ladder.appendChild(rung)
 }
 
 /* =====================================================
-LOGGER
+REFRESH
 ===================================================== */
 
-function log(text){
+function refreshLadder(){
 
-const logBox=
-document.getElementById("logBox")
+initContactEvents()
 
-if(!logBox)return
+initDeleteButtons()
 
-const item=
-document.createElement("div")
+initDrag()
 
-item.innerText=
-`[PLC] ${text}`
-
-logBox.prepend(item)
+scanPLC()
 
 }
+
+/* =====================================================
+INIT
+===================================================== */
+
+window.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+refreshLadder()
+
+}
+)
