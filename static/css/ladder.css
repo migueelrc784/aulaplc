@@ -1,492 +1,194 @@
-/* =========================================================
-LADDER AREA
-========================================================= */
-
 .ladder-area{
 
+padding:30px;
 display:flex;
 flex-direction:column;
-gap:30px;
-
-padding:30px;
-
-overflow:auto;
-
-height:calc(100vh - 120px);
-
-background:
-linear-gradient(180deg,#07101b 0%,#081827 100%);
+gap:40px;
 
 }
-
-/* =========================================================
-RUNG
-========================================================= */
 
 .rung{
 
 position:relative;
-
 display:flex;
 align-items:center;
+gap:25px;
 
-min-height:110px;
+min-height:120px;
 
-padding:0 40px;
+padding:30px;
+
+border-radius:24px;
 
 background:
-linear-gradient(180deg,#0d1d2f 0%,#091624 100%);
 
-border:1px solid #12304d;
+linear-gradient(
+90deg,
+rgba(0,255,170,.08),
+rgba(0,20,40,.5)
+);
 
-border-radius:18px;
-
-box-shadow:
-0 0 20px rgba(0,0,0,.45),
-inset 0 0 20px rgba(0,255,150,.03);
+border:1px solid rgba(0,255,170,.15);
 
 overflow-x:auto;
 
 }
 
-/* =========================================================
-POWER RAILS
-========================================================= */
+.rung-powered{
+
+box-shadow:
+0 0 25px rgba(0,255,170,.25);
+
+}
 
 .rail{
 
-width:10px;
+width:8px;
 height:80px;
 
 border-radius:20px;
 
-background:#2e4764;
-
-position:relative;
-
-transition:.15s;
-
-flex-shrink:0;
-
-}
-
-.rail.powered{
-
-background:#00ff99;
+background:#00ffaa;
 
 box-shadow:
-0 0 10px #00ff99,
-0 0 20px rgba(0,255,153,.6),
-0 0 40px rgba(0,255,153,.35);
+0 0 20px #00ffaa;
 
 }
 
-/* =========================================================
-POWER FLOW LINE
-========================================================= */
+.wire{
 
-.line{
-
-width:60px;
 height:6px;
+width:120px;
 
 border-radius:10px;
 
-background:#29435d;
-
-position:relative;
-
-transition:.15s;
-
-flex-shrink:0;
-
-}
-
-.line.powered{
-
-background:#00ff99;
+background:#00ffaa;
 
 box-shadow:
-0 0 10px #00ff99,
-0 0 18px rgba(0,255,153,.6);
+0 0 15px #00ffaa;
 
 }
 
-/* =========================================================
-CONTACTS
-========================================================= */
-
-.contact{
+.ladder-element{
 
 position:relative;
-
-width:90px;
-height:70px;
 
 display:flex;
-justify-content:center;
+flex-direction:column;
 align-items:center;
+justify-content:center;
 
-font-size:13px;
-font-weight:700;
+min-width:100px;
 
-color:#c8d7ea;
-
-user-select:none;
-
-transition:.15s;
-
-flex-shrink:0;
+cursor:grab;
 
 }
 
-/* vertical bars */
+.contact-symbol{
 
-.contact::before,
-.contact::after{
+width:110px;
+height:60px;
 
-content:"";
-
-position:absolute;
-
-top:8px;
-
-width:4px;
-height:54px;
-
-border-radius:10px;
-
-background:#8ba2bb;
-
-transition:.15s;
-
-}
-
-.contact::before{
-
-left:20px;
-
-}
-
-.contact::after{
-
-right:20px;
-
-}
-
-/* NO */
-
-.contact[data-type="NO"]::before,
-.contact[data-type="NO"]::after{
-
-background:#dce8f5;
-
-}
-
-/* NC diagonal */
-
-.contact[data-type="NC"] .diag{
-
-position:absolute;
-
-width:60px;
-height:4px;
-
-background:#dce8f5;
-
-transform:rotate(-55deg);
-
-border-radius:10px;
-
-}
-
-/* powered */
-
-.contact.powered{
-
-color:#00ff99;
-
-}
-
-.contact.powered::before,
-.contact.powered::after{
-
-background:#00ff99;
-
-box-shadow:
-0 0 10px #00ff99,
-0 0 18px rgba(0,255,153,.6);
-
-}
-
-.contact.powered .diag{
-
-background:#00ff99;
-
-box-shadow:
-0 0 10px #00ff99;
-
-}
-
-/* =========================================================
-COILS
-========================================================= */
-
-.coil{
+border:2px solid #00ffaa;
 
 position:relative;
 
-width:100px;
-height:70px;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-font-size:13px;
-font-weight:700;
-
-color:#dce8f5;
-
-transition:.15s;
-
-flex-shrink:0;
+box-shadow:
+0 0 15px rgba(0,255,170,.4);
 
 }
 
-/* left arc */
-
-.coil::before{
+.contact-symbol::before{
 
 content:"";
 
 position:absolute;
 
 left:18px;
-top:10px;
+top:8px;
 
-width:26px;
-height:46px;
+width:3px;
+height:42px;
 
-border:4px solid #cfe0f3;
-
-border-right:none;
-
-border-radius:40px 0 0 40px;
-
-transition:.15s;
+background:#00ffaa;
 
 }
 
-/* right arc */
-
-.coil::after{
+.contact-symbol::after{
 
 content:"";
 
 position:absolute;
 
 right:18px;
-top:10px;
+top:8px;
 
-width:26px;
-height:46px;
+width:3px;
+height:42px;
 
-border:4px solid #cfe0f3;
-
-border-left:none;
-
-border-radius:0 40px 40px 0;
-
-transition:.15s;
+background:#00ffaa;
 
 }
 
-/* energized */
-
-.coil.energized{
-
-color:#00ff99;
-
-text-shadow:0 0 10px #00ff99;
-
-}
-
-.coil.energized::before,
-.coil.energized::after{
-
-border-color:#00ff99;
-
-box-shadow:
-0 0 10px #00ff99,
-0 0 18px rgba(0,255,153,.5);
-
-}
-
-/* =========================================================
-TON TIMER
-========================================================= */
-
-.timer{
-
-position:relative;
-
-width:120px;
-height:70px;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-flex-direction:column;
-
-background:#16283a;
-
-border:2px solid #3b5878;
-
-border-radius:12px;
-
-font-size:12px;
-font-weight:700;
-
-color:#d7e3f0;
-
-transition:.15s;
-
-flex-shrink:0;
-
-}
-
-.timer::before{
-
-content:"TON";
-
-font-size:12px;
-
-opacity:.7;
-
-margin-bottom:4px;
-
-}
-
-.timer.powered{
-
-background:#00ff99;
-
-color:#00160d;
-
-border-color:#00ff99;
-
-box-shadow:
-0 0 12px #00ff99,
-0 0 25px rgba(0,255,153,.5);
-
-}
-
-/* =========================================================
-DELETE
-========================================================= */
-
-.delete-element{
+.diag{
 
 position:absolute;
 
-top:-8px;
-right:-8px;
+width:3px;
+height:50px;
 
-width:18px;
-height:18px;
+background:#00ffaa;
 
-border-radius:50%;
+transform:rotate(35deg);
 
-background:#ff3355;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-font-size:10px;
-font-weight:700;
-
-cursor:pointer;
-
-z-index:10;
-
-opacity:.85;
+left:50px;
+top:3px;
 
 }
 
-/* =========================================================
-ENERGY ANIMATION
-========================================================= */
+.coil-symbol{
 
-.line.powered::after{
+width:90px;
+height:60px;
 
-content:"";
-
-position:absolute;
-
-top:-4px;
-left:-10px;
-
-width:14px;
-height:14px;
+border-left:4px solid #00ffaa;
+border-right:4px solid #00ffaa;
 
 border-radius:50%;
-
-background:#00ff99;
-
-animation:flow 1s linear infinite;
 
 box-shadow:
-0 0 10px #00ff99;
+0 0 15px rgba(0,255,170,.4);
 
 }
 
-@keyframes flow{
+.tag{
 
-0%{
+margin-top:10px;
 
-left:-10px;
-opacity:0;
+font-weight:700;
 
-}
+color:#00ffaa;
 
-20%{
+font-family:Consolas;
 
-opacity:1;
-
-}
-
-100%{
-
-left:100%;
-opacity:0;
+outline:none;
 
 }
 
-}
+.energized .contact-symbol,
+.energized .coil-symbol{
 
-/* =========================================================
-SCROLL
-========================================================= */
+box-shadow:
+0 0 30px #00ffaa,
+0 0 50px rgba(0,255,170,.6);
 
-.ladder-area::-webkit-scrollbar{
-
-height:10px;
-width:10px;
-
-}
-
-.ladder-area::-webkit-scrollbar-thumb{
-
-background:#1f3f5f;
-border-radius:10px;
+background:
+rgba(0,255,170,.08);
 
 }
 
-.ladder-area::-webkit-scrollbar-track{
+.dragging{
 
-background:#09111b;
+opacity:.4;
 
 }
