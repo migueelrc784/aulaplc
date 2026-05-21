@@ -1,596 +1,383 @@
-/* =====================================================
-AVAILABLE ADDRESSES
-===================================================== */
-
-const inputAddresses=[
-
-"I0.0",
-"I0.1",
-"I0.2",
-"I0.3",
-"I0.4",
-"I0.5"
-
-]
-
-const outputAddresses=[
-
-"Q0.0",
-"Q0.1",
-"Q0.2",
-"Q0.3"
-
-]
-
-/* =====================================================
+/* =========================================================
 TOGGLE INPUT
-===================================================== */
+========================================================= */
 
 function toggleInput(address){
 
-plcMemory.inputs[address]=
-!plcMemory.inputs[address]
+    plcMemory.inputs[address]=
+    !plcMemory.inputs[address]
 
-const card=
-document.getElementById(
-"card-"+address
-)
+    const card=
+    document.getElementById(
+        "card-"+address
+    )
 
-if(card){
+    if(card){
 
-if(plcMemory.inputs[address]){
+        card.classList.toggle(
+            "io-forced",
+            plcMemory.inputs[address]
+        )
 
-card.classList.add("io-forced")
+    }
 
-}else{
+    log(
+        address+
+        " = "+
+        plcMemory.inputs[address]
+    )
 
-card.classList.remove("io-forced")
-
-}
-
-}
-
-log(
-address+
-" = "+
-plcMemory.inputs[address]
-)
-
-scanPLC()
+    scanPLC()
 
 }
 
-/* =====================================================
-RUN PLC
-===================================================== */
-
-function runSimulation(){
-
-scanPLC()
-
-log("PLC SCAN")
-
-}
-
-/* =====================================================
+/* =========================================================
 AUTO SCAN
-===================================================== */
+========================================================= */
 
 setInterval(()=>{
 
-scanPLC()
+    scanPLC()
 
 },100)
 
-/* =====================================================
+/* =========================================================
+RUN
+========================================================= */
+
+function runSimulation(){
+
+    scanPLC()
+
+    log("PLC SCAN OK")
+
+}
+
+/* =========================================================
 UPDATE OUTPUTS
-===================================================== */
+========================================================= */
 
 function updateOutputs(){
 
-document
-.querySelectorAll("[data-output]")
-.forEach(element=>{
+    document
+    .querySelectorAll("[data-output]")
+    .forEach(output=>{
 
-const address=
-element.dataset.output
+        const address=
+        output.dataset.output
 
-const value=
-plcMemory.outputs[address]
+        const value=
+        plcMemory.outputs[address]
 
-element.innerText=
-value ? "TRUE" : "FALSE"
+        output.innerText=
+        value ? "TRUE":"FALSE"
 
-if(value){
+        output.classList.toggle(
+            "on",
+            value
+        )
 
-element.classList.add("on")
+    })
 
-}else{
-
-element.classList.remove("on")
+    updateMotor()
+    updatePilots()
 
 }
 
-})
-
-/* =====================================================
+/* =========================================================
 MOTOR
-===================================================== */
+========================================================= */
 
-const motor=
-plcMemory.outputs["Q0.0"]
+function updateMotor(){
 
-const fan=
-document.getElementById("fan")
+    const motor=
+    plcMemory.outputs["Q0.0"]
 
-const motorState=
-document.getElementById("motorState")
+    const fan=
+    document.getElementById("fan")
 
-const rpm=
-document.getElementById("rpmValue")
+    const rpm=
+    document.getElementById("rpmValue")
 
-if(fan){
+    const state=
+    document.getElementById("motorState")
 
-if(motor){
+    if(!fan)return
 
-fan.style.animation=
-"spin 0.7s linear infinite"
+    if(motor){
 
-motorState.innerText=
-"ENCENDIDO"
+        fan.style.animation=
+        "spinMotor .5s linear infinite"
 
-rpm.innerText=
-"1750 RPM"
+        rpm.innerText=
+        "1750 RPM"
 
-}else{
+        state.innerText=
+        "ENCENDIDO"
 
-fan.style.animation=
-"none"
+    }else{
 
-motorState.innerText=
-"DETENIDO"
+        fan.style.animation=
+        "none"
 
-rpm.innerText=
-"0 RPM"
+        rpm.innerText=
+        "0 RPM"
+
+        state.innerText=
+        "DETENIDO"
+
+    }
 
 }
 
-}
-
-/* =====================================================
+/* =========================================================
 PILOTS
-===================================================== */
+========================================================= */
 
-const green=
-document.getElementById("greenPilot")
+function updatePilots(){
 
-const red=
-document.getElementById("redPilot")
+    document
+    .getElementById("greenPilot")
+    ?.classList.toggle(
+        "active-green",
+        plcMemory.outputs["Q0.1"]
+    )
 
-const yellow=
-document.getElementById("bluePilot")
+    document
+    .getElementById("redPilot")
+    ?.classList.toggle(
+        "active-red",
+        plcMemory.outputs["Q0.2"]
+    )
 
-if(green){
-
-green.classList.toggle(
-"active-green",
-plcMemory.outputs["Q0.1"]
-)
-
-}
-
-if(red){
-
-red.classList.toggle(
-"active-red",
-plcMemory.outputs["Q0.2"]
-)
+    document
+    .getElementById("bluePilot")
+    ?.classList.toggle(
+        "active-yellow",
+        plcMemory.outputs["Q0.3"]
+    )
 
 }
 
-if(yellow){
-
-yellow.classList.toggle(
-"active-yellow",
-plcMemory.outputs["Q0.3"]
-)
-
-}
-
-}
-
-/* =====================================================
-CONTACT CLICK FORCE
-===================================================== */
-
-function initContactEvents(){
-
-document
-.querySelectorAll(".contact")
-.forEach(contact=>{
-
-contact.onclick=(e)=>{
-
-if(
-e.target.classList.contains(
-"delete-element"
-)
-){
-
-return
-
-}
-
-const address=
-contact.dataset.address
-
-/* ONLY INPUTS */
-
-if(address.startsWith("I")){
-
-toggleInput(address)
-
-}
-
-/* TOGGLE TYPE */
-
-if(contact.dataset.type==="NO"){
-
-contact.dataset.type="NC"
-
-contact.innerHTML=
-"/"+address+
-'<div class="delete-element">✕</div>'
-
-}else{
-
-contact.dataset.type="NO"
-
-contact.innerHTML=
-address+
-'<div class="delete-element">✕</div>'
-
-}
-
-scanPLC()
-
-}
-
-})
-
-}
-
-/* =====================================================
-DELETE ELEMENTS
-===================================================== */
+/* =========================================================
+DELETE BUTTONS
+========================================================= */
 
 function initDeleteButtons(){
 
-document
-.querySelectorAll(".delete-element")
-.forEach(button=>{
+    document
+    .querySelectorAll(".delete-element")
+    .forEach(btn=>{
 
-button.onclick=(e)=>{
+        btn.onclick=(e)=>{
 
-e.stopPropagation()
+            e.stopPropagation()
 
-const parent=
-button.parentElement
+            btn.parentElement.remove()
 
-if(parent){
+            scanPLC()
 
-parent.remove()
+        }
 
-scanPLC()
-
-}
+    })
 
 }
 
-})
+/* =========================================================
+ADD CONTACT
+========================================================= */
+
+function createContact(type){
+
+    const address=
+    prompt(
+        "Direccion",
+        "I0.0"
+    )
+
+    if(!address)return
+
+    return `
+
+    <div
+    class="contact"
+    data-type="${type}"
+    data-address="${address}">
+
+    ${type==="NC" ? "/" : ""}
+    ${address}
+
+    <div class="delete-element">
+    ✕
+    </div>
+
+    </div>
+
+    <div class="line"></div>
+
+    `
 
 }
 
-/* =====================================================
-DRAG SYSTEM
-===================================================== */
-
-let dragged=null
-
-function initDrag(){
-
-document
-.querySelectorAll(
-".contact,.coil,.timer"
-)
-.forEach(element=>{
-
-element.draggable=true
-
-element.addEventListener(
-"dragstart",
-()=>{
-
-dragged=element
-
-})
-
-element.addEventListener(
-"dragover",
-(e)=>{
-
-e.preventDefault()
-
-})
-
-element.addEventListener(
-"drop",
-(e)=>{
-
-e.preventDefault()
-
-if(
-dragged &&
-dragged!==element
-){
-
-const parent=
-element.parentNode
-
-parent.insertBefore(
-dragged,
-element
-)
-
-scanPLC()
-
-}
-
-})
-
-})
-
-}
-
-/* =====================================================
+/* =========================================================
 ADD NO
-===================================================== */
+========================================================= */
 
 function addNO(){
 
-const rung=
-document.querySelector(".rung")
-
-const address=
-prompt(
-"Direccion INPUT",
-"I0.0"
-)
-
-if(!address)return
-
-const contact=
-document.createElement("div")
-
-contact.className="contact"
-
-contact.dataset.type="NO"
-
-contact.dataset.address=address
-
-contact.innerHTML=
-address+
-'<div class="delete-element">✕</div>'
-
-const line=
-document.createElement("div")
-
-line.className="line"
-
-rung.insertBefore(
-line,
-rung.lastElementChild
-)
-
-rung.insertBefore(
-contact,
-line
-)
-
-refreshLadder()
+    insertIntoRung(
+        createContact("NO")
+    )
 
 }
 
-/* =====================================================
+/* =========================================================
 ADD NC
-===================================================== */
+========================================================= */
 
 function addNC(){
 
-const rung=
-document.querySelector(".rung")
-
-const address=
-prompt(
-"Direccion INPUT",
-"I0.1"
-)
-
-if(!address)return
-
-const contact=
-document.createElement("div")
-
-contact.className="contact"
-
-contact.dataset.type="NC"
-
-contact.dataset.address=address
-
-contact.innerHTML=
-"/"+address+
-'<div class="delete-element">✕</div>'
-
-const line=
-document.createElement("div")
-
-line.className="line"
-
-rung.insertBefore(
-line,
-rung.lastElementChild
-)
-
-rung.insertBefore(
-contact,
-line
-)
-
-refreshLadder()
+    insertIntoRung(
+        createContact("NC")
+    )
 
 }
 
-/* =====================================================
+/* =========================================================
 ADD COIL
-===================================================== */
+========================================================= */
 
 function addCoil(){
 
-const rung=
-document.querySelector(".rung")
+    const address=
+    prompt(
+        "Direccion OUTPUT",
+        "Q0.0"
+    )
 
-const address=
-prompt(
-"Direccion OUTPUT",
-"Q0.0"
-)
+    if(!address)return
 
-if(!address)return
+    insertIntoRung(`
 
-const coil=
-document.createElement("div")
+    <div
+    class="coil"
+    data-address="${address}">
 
-coil.className="coil"
+    (${address})
 
-coil.dataset.address=address
+    <div class="delete-element">
+    ✕
+    </div>
 
-coil.dataset.coil="normal"
+    </div>
 
-coil.innerHTML=
-"("+address+")"+
-'<div class="delete-element">✕</div>'
+    <div class="line"></div>
 
-const line=
-document.createElement("div")
-
-line.className="line"
-
-rung.insertBefore(
-line,
-rung.lastElementChild
-)
-
-rung.insertBefore(
-coil,
-line
-)
-
-refreshLadder()
+    `)
 
 }
 
-/* =====================================================
+/* =========================================================
 ADD TON
-===================================================== */
+========================================================= */
 
 function addTON(){
 
-const rung=
-document.querySelector(".rung")
+    const address=
+    prompt(
+        "Timer",
+        "T0.0"
+    )
 
-const timer=
-document.createElement("div")
+    if(!address)return
 
-timer.className="timer"
+    insertIntoRung(`
 
-timer.dataset.address="T0.1"
+    <div
+    class="timer"
+    data-address="${address}"
+    data-preset="3000">
 
-timer.dataset.preset="5000"
+    TON ${address}
 
-timer.innerHTML=
-"TON T0.1"+
-'<div class="delete-element">✕</div>'
+    <div class="delete-element">
+    ✕
+    </div>
 
-const line=
-document.createElement("div")
+    </div>
 
-line.className="line"
+    <div class="line"></div>
 
-rung.insertBefore(
-line,
-rung.lastElementChild
-)
-
-rung.insertBefore(
-timer,
-line
-)
-
-refreshLadder()
+    `)
 
 }
 
-/* =====================================================
+/* =========================================================
+INSERT
+========================================================= */
+
+function insertIntoRung(html){
+
+    const rung=
+    document.querySelector(".rung")
+
+    rung.insertAdjacentHTML(
+        "beforeend",
+        html
+    )
+
+    refreshLadder()
+
+}
+
+/* =========================================================
 ADD RUNG
-===================================================== */
+========================================================= */
 
 function addRung(){
 
-const ladder=
-document.getElementById("ladder")
+    const ladder=
+    document.getElementById("ladder")
 
-const rung=
-document.createElement("div")
+    ladder.insertAdjacentHTML(
+        "beforeend",
 
-rung.className="rung"
+        `
 
-rung.innerHTML=`
+        <div class="rung">
 
-<div class="rail"></div>
+        <div class="rail"></div>
 
-<div class="rail"></div>
+        <div class="line"></div>
 
-`
+        <div class="rail"></div>
 
-ladder.appendChild(rung)
+        </div>
+
+        `
+    )
 
 }
 
-/* =====================================================
+/* =========================================================
 REFRESH
-===================================================== */
+========================================================= */
 
 function refreshLadder(){
 
-initContactEvents()
+    initDeleteButtons()
 
-initDeleteButtons()
-
-initDrag()
-
-scanPLC()
+    scanPLC()
 
 }
 
-/* =====================================================
+/* =========================================================
 INIT
-===================================================== */
+========================================================= */
 
 window.addEventListener(
-"DOMContentLoaded",
-()=>{
-
-refreshLadder()
-
-}
+    "DOMContentLoaded",
+    ()=>{
+        refreshLadder()
+    }
 )

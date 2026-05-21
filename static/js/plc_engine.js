@@ -1,19 +1,19 @@
-/* =====================================================
+/* =========================================================
 PLC MEMORY
-===================================================== */
+========================================================= */
 
 const plcMemory={
 
-inputs:{},
-outputs:{},
-markers:{},
-timers:{}
+    inputs:{},
+    outputs:{},
+    markers:{},
+    timers:{}
 
 }
 
-/* =====================================================
-INIT INPUTS
-===================================================== */
+/* =========================================================
+INIT IO
+========================================================= */
 
 [
 "I0.0",
@@ -22,449 +22,322 @@ INIT INPUTS
 "I0.3",
 "I0.4",
 "I0.5"
-].forEach(input=>{
+].forEach(i=>{
 
-plcMemory.inputs[input]=false
+    plcMemory.inputs[i]=false
 
 })
-
-/* =====================================================
-INIT OUTPUTS
-===================================================== */
 
 [
 "Q0.0",
 "Q0.1",
 "Q0.2",
 "Q0.3"
-].forEach(output=>{
+].forEach(q=>{
 
-plcMemory.outputs[output]=false
-
-})
-
-/* =====================================================
-INIT MARKERS
-===================================================== */
-
-[
-"M0.0",
-"M0.1",
-"M0.2",
-"M0.3"
-].forEach(marker=>{
-
-plcMemory.markers[marker]=false
+    plcMemory.outputs[q]=false
 
 })
 
-/* =====================================================
-INIT TIMERS
-===================================================== */
+/* =========================================================
+TIMERS
+========================================================= */
 
 plcMemory.timers["T0.0"]={
 
-done:false,
-running:false,
-start:0,
-preset:3000
+    EN:false,
+    TT:false,
+    DN:false,
+    ACC:0,
+    PRE:3000,
+    START:0
 
 }
 
-plcMemory.timers["T0.1"]={
-
-done:false,
-running:false,
-start:0,
-preset:5000
-
-}
-
-/* =====================================================
+/* =========================================================
 READ ADDRESS
-===================================================== */
+========================================================= */
 
 function readAddress(address){
 
-/* INPUTS */
+    if(address.startsWith("I")){
 
-if(address.startsWith("I")){
+        return plcMemory.inputs[address] || false
 
-return plcMemory.inputs[address] || false
+    }
 
-}
+    if(address.startsWith("Q")){
 
-/* OUTPUTS */
+        return plcMemory.outputs[address] || false
 
-if(address.startsWith("Q")){
+    }
 
-return plcMemory.outputs[address] || false
+    if(address.startsWith("M")){
 
-}
+        return plcMemory.markers[address] || false
 
-/* MARKERS */
+    }
 
-if(address.startsWith("M")){
+    if(address.startsWith("T")){
 
-return plcMemory.markers[address] || false
+        return plcMemory.timers[address]?.DN || false
 
-}
+    }
 
-/* TIMERS */
-
-if(address.startsWith("T")){
-
-if(!plcMemory.timers[address]){
-
-return false
+    return false
 
 }
 
-return plcMemory.timers[address].done
-
-}
-
-return false
-
-}
-
-/* =====================================================
+/* =========================================================
 WRITE ADDRESS
-===================================================== */
+========================================================= */
 
 function writeAddress(address,value){
 
-/* OUTPUT */
+    if(address.startsWith("Q")){
 
-if(address.startsWith("Q")){
+        plcMemory.outputs[address]=value
 
-plcMemory.outputs[address]=value
+    }
 
-}
+    if(address.startsWith("M")){
 
-/* MARKER */
+        plcMemory.markers[address]=value
 
-if(address.startsWith("M")){
-
-plcMemory.markers[address]=value
+    }
 
 }
 
+/* =========================================================
+VISUAL POWER
+========================================================= */
+
+function setPowered(element,power){
+
+    element.classList.toggle(
+        "powered",
+        power
+    )
+
 }
 
-/* =====================================================
-CONTACT EVALUATION
-===================================================== */
+/* =========================================================
+CONTACT
+========================================================= */
 
 function evaluateContact(contact){
 
-const type=
-contact.dataset.type
+    const address=
+    contact.dataset.address
 
-const address=
-contact.dataset.address
+    const type=
+    contact.dataset.type
 
-const value=
-readAddress(address)
+    const value=
+    readAddress(address)
 
-/* NORMAL OPEN */
+    if(type==="NO"){
 
-if(type==="NO"){
+        return value
 
-return value
+    }
 
-}
+    if(type==="NC"){
 
-/* NORMAL CLOSED */
+        return !value
 
-if(type==="NC"){
+    }
 
-return !value
-
-}
-
-return false
+    return false
 
 }
 
-/* =====================================================
-UPDATE VISUAL
-===================================================== */
-
-function updateVisual(element,powered){
-
-if(powered){
-
-element.classList.add("powered")
-
-}else{
-
-element.classList.remove("powered")
-
-}
-
-}
-
-/* =====================================================
+/* =========================================================
 TON TIMER
-===================================================== */
+========================================================= */
 
 function processTON(timer,power){
 
-const address=
-timer.dataset.address
+    const address=
+    timer.dataset.address
 
-const preset=
-parseInt(
-timer.dataset.preset || 3000
-)
+    const preset=
+    parseInt(
+        timer.dataset.preset || 3000
+    )
 
-/* CREATE TIMER */
+    if(!plcMemory.timers[address]){
 
-if(!plcMemory.timers[address]){
+        plcMemory.timers[address]={
 
-plcMemory.timers[address]={
+            EN:false,
+            TT:false,
+            DN:false,
+            ACC:0,
+            PRE:preset,
+            START:0
 
-done:false,
-running:false,
-start:0,
-preset:preset
+        }
+
+    }
+
+    const t=
+    plcMemory.timers[address]
+
+    if(power){
+
+        t.EN=true
+
+        if(t.START===0){
+
+            t.START=Date.now()
+
+        }
+
+        t.ACC=
+        Date.now()-t.START
+
+        t.TT=
+        t.ACC<preset
+
+        t.DN=
+        t.ACC>=preset
+
+    }else{
+
+        t.EN=false
+        t.TT=false
+        t.DN=false
+        t.ACC=0
+        t.START=0
+
+    }
+
+    timer.innerHTML=`
+    TON ${address}
+    <small>${Math.floor(t.ACC/1000)}s</small>
+    <div class="delete-element">✕</div>
+    `
+
+    setPowered(timer,t.DN)
+
+    return t.DN
 
 }
 
-}
-
-const t=
-plcMemory.timers[address]
-
-/* TIMER POWERED */
-
-if(power){
-
-if(!t.running){
-
-t.running=true
-
-t.start=Date.now()
-
-}
-
-const elapsed=
-Date.now()-t.start
-
-if(elapsed>=preset){
-
-t.done=true
-
-}
-
-/* TIMER OFF */
-
-}else{
-
-t.running=false
-
-t.done=false
-
-t.start=0
-
-}
-
-updateVisual(timer,t.done)
-
-return t.done
-
-}
-
-/* =====================================================
-PROCESS COIL
-===================================================== */
+/* =========================================================
+COIL
+========================================================= */
 
 function processCoil(coil,power){
 
-const address=
-coil.dataset.address
+    const address=
+    coil.dataset.address
 
-const mode=
-coil.dataset.coil || "normal"
+    writeAddress(
+        address,
+        power
+    )
 
-/* NORMAL */
-
-if(mode==="normal"){
-
-writeAddress(address,power)
-
-}
-
-/* SET */
-
-if(mode==="set"){
-
-if(power){
-
-writeAddress(address,true)
+    setPowered(
+        coil,
+        power
+    )
 
 }
 
-}
-
-/* RESET */
-
-if(mode==="reset"){
-
-if(power){
-
-writeAddress(address,false)
-
-}
-
-}
-
-updateVisual(
-coil,
-readAddress(address)
-)
-
-}
-
-/* =====================================================
-RESET OUTPUTS EACH SCAN
-===================================================== */
+/* =========================================================
+RESET OUTPUTS
+========================================================= */
 
 function resetOutputs(){
 
-Object.keys(plcMemory.outputs)
-.forEach(output=>{
+    Object.keys(plcMemory.outputs)
+    .forEach(output=>{
 
-plcMemory.outputs[output]=false
+        plcMemory.outputs[output]=false
 
-})
+    })
 
 }
 
-/* =====================================================
+/* =========================================================
 SCAN PLC
-===================================================== */
+========================================================= */
 
 function scanPLC(){
 
-/* RESET OUTPUTS */
+    resetOutputs()
 
-resetOutputs()
+    const rungs=
+    document.querySelectorAll(".rung")
 
-/* GET RUNGS */
+    rungs.forEach(rung=>{
 
-const rungs=
-document.querySelectorAll(".rung")
+        let rungPower=true
 
-/* =====================================================
-PROCESS RUNGS
-===================================================== */
+        const elements=
+        rung.querySelectorAll(
+            ".contact,.timer,.coil"
+        )
 
-rungs.forEach(rung=>{
+        elements.forEach(element=>{
 
-let rungPower=true
+            /* CONTACT */
 
-const elements=
-rung.querySelectorAll(
-".contact,.timer,.line,.coil"
-)
+            if(
+                element.classList.contains("contact")
+            ){
 
-/* =====================================================
-ELEMENT LOOP
-===================================================== */
+                const result=
+                evaluateContact(element)
 
-elements.forEach(element=>{
+                setPowered(
+                    element,
+                    result
+                )
 
-/* =====================================================
-CONTACT
-===================================================== */
+                rungPower=
+                rungPower && result
 
-if(
-element.classList.contains("contact")
-){
+            }
 
-const result=
-evaluateContact(element)
+            /* TIMER */
 
-rungPower=
-rungPower && result
+            if(
+                element.classList.contains("timer")
+            ){
 
-updateVisual(
-element,
-result
-)
+                rungPower=
+                processTON(
+                    element,
+                    rungPower
+                )
 
-}
+            }
 
-/* =====================================================
-TIMER
-===================================================== */
+            /* COIL */
 
-if(
-element.classList.contains("timer")
-){
+            if(
+                element.classList.contains("coil")
+            ){
 
-rungPower=
-processTON(
-element,
-rungPower
-)
+                processCoil(
+                    element,
+                    rungPower
+                )
 
-}
+            }
 
-/* =====================================================
-LINE
-===================================================== */
+        })
 
-if(
-element.classList.contains("line")
-){
+        rung.classList.toggle(
+            "active",
+            rungPower
+        )
 
-updateVisual(
-element,
-rungPower
-)
+    })
 
-}
-
-/* =====================================================
-COIL
-===================================================== */
-
-if(
-element.classList.contains("coil")
-){
-
-processCoil(
-element,
-rungPower
-)
-
-}
-
-})
-
-/* =====================================================
-RUNG VISUAL
-===================================================== */
-
-if(rungPower){
-
-rung.classList.add("active")
-
-}else{
-
-rung.classList.remove("active")
-
-}
-
-})
-
-/* =====================================================
-UPDATE UI
-===================================================== */
-
-updateOutputs()
+    updateOutputs()
 
 }
