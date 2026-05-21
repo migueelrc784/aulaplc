@@ -254,13 +254,66 @@ FORZAR
 <div class="pilot" id="greenPilot"></div>
 <div class="pilot" id="redPilot"></div>
 <div class="pilot" id="bluePilot"></div>
+<div class="toolbar">
 
+<button class="btn green"
+onclick="connectStar()">
+
+ESTRELLA
+
+</button>
+
+<button class="btn blue"
+onclick="connectDelta()">
+
+TRIANGULO
+
+</button>
+
+<button class="btn green"
+onclick="startIndustrialMotor()">
+
+START
+
+</button>
+
+<button class="btn red"
+onclick="stopIndustrialMotor()">
+
+STOP
+
+</button>
+
+</div>
 </div>
 
 </div>
 
 </div>
+<div class="motor-info">
 
+<div class="info-box">
+RPM:
+<span id="rpmValue">
+0 RPM
+</span>
+</div>
+
+<div class="info-box">
+MODO:
+<span id="connectionMode">
+SIN CONFIGURAR
+</span>
+</div>
+
+<div class="info-box">
+ESTADO:
+<span id="motorState">
+DETENIDO
+</span>
+</div>
+
+</div>
 <!-- EVENTS -->
 
 <div class="panel">
