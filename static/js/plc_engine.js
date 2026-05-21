@@ -1,18 +1,24 @@
 /* =========================================================
+PLC ENGINE REAL
+========================================================= */
+
+let plcRunning=false
+
+/* =========================================================
 PLC MEMORY
 ========================================================= */
 
 const plcMemory={
 
-    inputs:{},
-    outputs:{},
-    markers:{},
-    timers:{}
+inputs:{},
+outputs:{},
+markers:{},
+timers:{}
 
 }
 
 /* =========================================================
-INIT IO
+INIT INPUTS
 ========================================================= */
 
 [
@@ -24,9 +30,13 @@ INIT IO
 "I0.5"
 ].forEach(i=>{
 
-    plcMemory.inputs[i]=false
+plcMemory.inputs[i]=false
 
 })
+
+/* =========================================================
+INIT OUTPUTS
+========================================================= */
 
 [
 "Q0.0",
@@ -35,7 +45,7 @@ INIT IO
 "Q0.3"
 ].forEach(q=>{
 
-    plcMemory.outputs[q]=false
+plcMemory.outputs[q]=false
 
 })
 
@@ -45,12 +55,12 @@ TIMERS
 
 plcMemory.timers["T0.0"]={
 
-    EN:false,
-    TT:false,
-    DN:false,
-    ACC:0,
-    PRE:3000,
-    START:0
+EN:false,
+DN:false,
+TT:false,
+ACC:0,
+PRE:3000,
+START:0
 
 }
 
@@ -60,31 +70,31 @@ READ ADDRESS
 
 function readAddress(address){
 
-    if(address.startsWith("I")){
+if(address.startsWith("I")){
 
-        return plcMemory.inputs[address] || false
+return plcMemory.inputs[address]
 
-    }
+}
 
-    if(address.startsWith("Q")){
+if(address.startsWith("Q")){
 
-        return plcMemory.outputs[address] || false
+return plcMemory.outputs[address]
 
-    }
+}
 
-    if(address.startsWith("M")){
+if(address.startsWith("M")){
 
-        return plcMemory.markers[address] || false
+return plcMemory.markers[address]
 
-    }
+}
 
-    if(address.startsWith("T")){
+if(address.startsWith("T")){
 
-        return plcMemory.timers[address]?.DN || false
+return plcMemory.timers[address]?.DN || false
 
-    }
+}
 
-    return false
+return false
 
 }
 
@@ -94,134 +104,162 @@ WRITE ADDRESS
 
 function writeAddress(address,value){
 
-    if(address.startsWith("Q")){
+if(address.startsWith("Q")){
 
-        plcMemory.outputs[address]=value
+plcMemory.outputs[address]=value
 
-    }
+}
 
-    if(address.startsWith("M")){
+if(address.startsWith("M")){
 
-        plcMemory.markers[address]=value
+plcMemory.markers[address]=value
 
-    }
+}
 
 }
 
 /* =========================================================
-VISUAL POWER
+SET POWER FLOW
 ========================================================= */
 
-function setPowered(element,power){
+function setPower(element,power){
 
-    element.classList.toggle(
-        "powered",
-        power
-    )
+element.classList.toggle(
+"powered",
+power
+)
 
 }
 
 /* =========================================================
-CONTACT
+CONTACT EVALUATION
 ========================================================= */
 
 function evaluateContact(contact){
 
-    const address=
-    contact.dataset.address
+const type=
+contact.dataset.type
 
-    const type=
-    contact.dataset.type
+const address=
+contact.dataset.address
 
-    const value=
-    readAddress(address)
+const value=
+readAddress(address)
 
-    if(type==="NO"){
+/* CONTACT VISUAL */
 
-        return value
+if(type==="NO"){
 
-    }
+contact.classList.remove("closed")
 
-    if(type==="NC"){
+if(value){
 
-        return !value
+contact.classList.add("closed")
 
-    }
+}
 
-    return false
+return value
+
+}
+
+/* NC */
+
+if(type==="NC"){
+
+contact.classList.add("closed")
+
+if(value){
+
+contact.classList.remove("closed")
+
+}
+
+return !value
+
+}
+
+return false
 
 }
 
 /* =========================================================
-TON TIMER
+TON
 ========================================================= */
 
 function processTON(timer,power){
 
-    const address=
-    timer.dataset.address
+const address=
+timer.dataset.address
 
-    const preset=
-    parseInt(
-        timer.dataset.preset || 3000
-    )
+const preset=
+parseInt(
+timer.dataset.preset || 3000
+)
 
-    if(!plcMemory.timers[address]){
+if(!plcMemory.timers[address]){
 
-        plcMemory.timers[address]={
+plcMemory.timers[address]={
 
-            EN:false,
-            TT:false,
-            DN:false,
-            ACC:0,
-            PRE:preset,
-            START:0
+EN:false,
+DN:false,
+TT:false,
+ACC:0,
+PRE:preset,
+START:0
 
-        }
+}
 
-    }
+}
 
-    const t=
-    plcMemory.timers[address]
+const t=
+plcMemory.timers[address]
 
-    if(power){
+if(power){
 
-        t.EN=true
+t.EN=true
 
-        if(t.START===0){
+if(t.START===0){
 
-            t.START=Date.now()
+t.START=Date.now()
 
-        }
+}
 
-        t.ACC=
-        Date.now()-t.START
+t.ACC=
+Date.now()-t.START
 
-        t.TT=
-        t.ACC<preset
+t.TT=
+t.ACC<preset
 
-        t.DN=
-        t.ACC>=preset
+t.DN=
+t.ACC>=preset
 
-    }else{
+}else{
 
-        t.EN=false
-        t.TT=false
-        t.DN=false
-        t.ACC=0
-        t.START=0
+t.EN=false
+t.DN=false
+t.TT=false
+t.ACC=0
+t.START=0
 
-    }
+}
 
-    timer.innerHTML=`
-    TON ${address}
-    <small>${Math.floor(t.ACC/1000)}s</small>
-    <div class="delete-element">✕</div>
-    `
+timer.innerHTML=`
 
-    setPowered(timer,t.DN)
+TON ${address}
 
-    return t.DN
+<small>
+${(t.ACC/1000).toFixed(1)}s
+</small>
+
+<div class="delete-element">
+✕
+</div>
+
+`
+
+setPower(timer,t.DN)
+
+return t.DN
 
 }
 
@@ -231,18 +269,12 @@ COIL
 
 function processCoil(coil,power){
 
-    const address=
-    coil.dataset.address
+const address=
+coil.dataset.address
 
-    writeAddress(
-        address,
-        power
-    )
+writeAddress(address,power)
 
-    setPowered(
-        coil,
-        power
-    )
+setPower(coil,power)
 
 }
 
@@ -252,12 +284,12 @@ RESET OUTPUTS
 
 function resetOutputs(){
 
-    Object.keys(plcMemory.outputs)
-    .forEach(output=>{
+Object.keys(plcMemory.outputs)
+.forEach(output=>{
 
-        plcMemory.outputs[output]=false
+plcMemory.outputs[output]=false
 
-    })
+})
 
 }
 
@@ -267,77 +299,92 @@ SCAN PLC
 
 function scanPLC(){
 
-    resetOutputs()
+if(!plcRunning)return
 
-    const rungs=
-    document.querySelectorAll(".rung")
+resetOutputs()
 
-    rungs.forEach(rung=>{
+const rungs=
+document.querySelectorAll(".rung")
 
-        let rungPower=true
+rungs.forEach(rung=>{
 
-        const elements=
-        rung.querySelectorAll(
-            ".contact,.timer,.coil"
-        )
+let rungPower=true
 
-        elements.forEach(element=>{
+const elements=
+rung.querySelectorAll(
+".contact,.line,.timer,.coil"
+)
 
-            /* CONTACT */
+elements.forEach(element=>{
 
-            if(
-                element.classList.contains("contact")
-            ){
+/* CONTACT */
 
-                const result=
-                evaluateContact(element)
+if(
+element.classList.contains("contact")
+){
 
-                setPowered(
-                    element,
-                    result
-                )
+const result=
+evaluateContact(element)
 
-                rungPower=
-                rungPower && result
+rungPower=
+rungPower && result
 
-            }
+setPower(
+element,
+rungPower
+)
 
-            /* TIMER */
+}
 
-            if(
-                element.classList.contains("timer")
-            ){
+/* LINE */
 
-                rungPower=
-                processTON(
-                    element,
-                    rungPower
-                )
+if(
+element.classList.contains("line")
+){
 
-            }
+setPower(
+element,
+rungPower
+)
 
-            /* COIL */
+}
 
-            if(
-                element.classList.contains("coil")
-            ){
+/* TIMER */
 
-                processCoil(
-                    element,
-                    rungPower
-                )
+if(
+element.classList.contains("timer")
+){
 
-            }
+rungPower=
+processTON(
+element,
+rungPower
+)
 
-        })
+}
 
-        rung.classList.toggle(
-            "active",
-            rungPower
-        )
+/* COIL */
 
-    })
+if(
+element.classList.contains("coil")
+){
 
-    updateOutputs()
+processCoil(
+element,
+rungPower
+)
+
+}
+
+})
+
+rung.classList.toggle(
+"active",
+rungPower
+)
+
+})
+
+updateOutputs()
 
 }
