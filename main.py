@@ -7,12 +7,13 @@ app = FastAPI()
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# Templates
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
-# Static files (CSS, JS, imágenes)
-app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
-
+app.mount(
+    "/static",
+    StaticFiles(directory=str(BASE_DIR / "static")),
+    name="static"
+)
 
 @app.get("/")
 def inicio(request: Request):
