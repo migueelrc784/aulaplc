@@ -4,50 +4,93 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AUTOMATION STUDIO X</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<!-- FONTS -->
+<title>
+AUTOMATION STUDIO X
+</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- =========================================================
+FONTS
+========================================================= -->
 
-<!-- CSS -->
+<link
+href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/motor.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/tank.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ladder.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+<!-- =========================================================
+CSS
+========================================================= -->
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/main.css') }}">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/motor.css') }}">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/tank.css') }}">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/ladder.css') }}">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/responsive.css') }}">
 
 <style>
 
 body{
+
 margin:0;
+
 background:#07111d;
+
 font-family:Inter,sans-serif;
+
 color:white;
+
 overflow:hidden;
+
 }
 
+/* =========================================================
+PRELOADER
+========================================================= */
+
 .loading{
+
 height:100vh;
+
 display:flex;
+
 justify-content:center;
+
 align-items:center;
+
 flex-direction:column;
+
 gap:20px;
+
 }
 
 .loading h1{
+
 font-family:Orbitron;
+
 color:#00ff99;
+
 font-size:40px;
+
 letter-spacing:3px;
+
 }
 
 .loading p{
+
 color:#8da8c7;
+
 }
 
 </style>
@@ -57,14 +100,18 @@ color:#8da8c7;
 <body>
 
 <!-- =========================================================
-PRELOADER
+LOADER
 ========================================================= -->
 
 <div id="loader" class="loading">
 
-<h1>⚡ AUTOMATION STUDIO X</h1>
+<h1>
+⚡ AUTOMATION STUDIO X
+</h1>
 
-<p>Iniciando PLC Runtime Engine...</p>
+<p>
+Iniciando PLC Runtime Engine...
+</p>
 
 </div>
 
@@ -73,6 +120,10 @@ APP
 ========================================================= -->
 
 <div id="app" style="display:none;">
+
+<!-- =========================================================
+HEADER
+========================================================= -->
 
 <header class="top-header">
 
@@ -96,18 +147,26 @@ PLC LADDER ENGINE REALTIME
 
 </div>
 
+<!-- STATUS -->
+
 <div class="top-status">
 
-<div class="status-box run" id="cpuState">
+<div class="status-box run"
+id="cpuState">
+
 CPU RUN
+
 </div>
 
-<div class="status-box stop" id="plcState">
+<div class="status-box stop"
+id="plcState">
+
 PLC STOP
+
 </div>
 
 <div class="status-box">
-SCAN 10ms
+SCAN 100ms
 </div>
 
 <div class="status-box">
@@ -130,13 +189,19 @@ SIDEBAR
 
 <aside class="sidebar">
 
-<!-- INPUTS -->
+<!-- =========================================================
+INPUTS
+========================================================= -->
 
 <div class="panel">
 
-<h2>ENTRADAS DIGITALES</h2>
+<h2>
+ENTRADAS DIGITALES
+</h2>
 
 <div class="io-grid">
+
+<!-- I0.0 -->
 
 <div class="io-card">
 
@@ -144,7 +209,8 @@ SIDEBAR
 I0.0 START
 </div>
 
-<button class="btn green"
+<button
+class="btn green"
 onclick="toggleInput('I0.0')">
 
 FORZAR
@@ -153,13 +219,16 @@ FORZAR
 
 </div>
 
+<!-- I0.1 -->
+
 <div class="io-card">
 
 <div class="io-name">
 I0.1 STOP
 </div>
 
-<button class="btn red"
+<button
+class="btn red"
 onclick="toggleInput('I0.1')">
 
 FORZAR
@@ -168,13 +237,16 @@ FORZAR
 
 </div>
 
+<!-- I0.2 -->
+
 <div class="io-card">
 
 <div class="io-name">
 I0.2 EMERGENCY
 </div>
 
-<button class="btn yellow"
+<button
+class="btn yellow"
 onclick="toggleInput('I0.2')">
 
 FORZAR
@@ -183,13 +255,16 @@ FORZAR
 
 </div>
 
+<!-- I0.3 -->
+
 <div class="io-card">
 
 <div class="io-name">
 I0.3 SENSOR
 </div>
 
-<button class="btn blue"
+<button
+class="btn blue"
 onclick="toggleInput('I0.3')">
 
 FORZAR
@@ -202,32 +277,160 @@ FORZAR
 
 </div>
 
-<!-- OUTPUTS -->
+<!-- =========================================================
+OUTPUTS
+========================================================= -->
 
 <div class="panel">
 
-<h2>SALIDAS</h2>
+<h2>
+SALIDAS PLC
+</h2>
 
 <div class="memory-list">
 
 <div class="memory-item">
-<span>Q0.0 MOTOR</span>
-<span id="q00">FALSE</span>
+
+<span>
+Q0.0 MOTOR
+</span>
+
+<span
+id="q00"
+data-output="Q0.0">
+
+FALSE
+
+</span>
+
 </div>
 
 <div class="memory-item">
-<span>Q0.1 VERDE</span>
-<span id="q01">FALSE</span>
+
+<span>
+Q0.1 VERDE
+</span>
+
+<span
+id="q01"
+data-output="Q0.1">
+
+FALSE
+
+</span>
+
 </div>
 
 <div class="memory-item">
-<span>Q0.2 ROJO</span>
-<span id="q02">FALSE</span>
+
+<span>
+Q0.2 ROJO
+</span>
+
+<span
+id="q02"
+data-output="Q0.2">
+
+FALSE
+
+</span>
+
 </div>
 
 <div class="memory-item">
-<span>Q0.3 AZUL</span>
-<span id="q03">FALSE</span>
+
+<span>
+Q0.3 AZUL
+</span>
+
+<span
+id="q03"
+data-output="Q0.3">
+
+FALSE
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+MARKERS
+========================================================= -->
+
+<div class="panel">
+
+<h2>
+MEMORIAS INTERNAS
+</h2>
+
+<div class="memory-list">
+
+<div class="memory-item">
+
+<span>
+M0.0
+</span>
+
+<span id="m00">
+FALSE
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>
+M0.1
+</span>
+
+<span id="m01">
+FALSE
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+TIMERS
+========================================================= -->
+
+<div class="panel">
+
+<h2>
+TIMERS
+</h2>
+
+<div class="memory-list">
+
+<div class="memory-item">
+
+<span>
+T0.0
+</span>
+
+<span id="t00">
+OFF
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>
+T0.1
+</span>
+
+<span id="t01">
+OFF
+</span>
+
 </div>
 
 </div>
@@ -240,7 +443,9 @@ MOTOR
 
 <div class="panel">
 
-<h2>MOTOR INDUSTRIAL</h2>
+<h2>
+MOTOR INDUSTRIAL
+</h2>
 
 <div class="motor-container">
 
@@ -248,60 +453,75 @@ MOTOR
 
 <div class="motor">
 
-<div class="fan" id="fan"></div>
+<div class="fan"
+id="fan">
 
 </div>
 
-<!-- IMAGEN CONEXION -->
+</div>
+
+<!-- CONNECTION IMAGE -->
 
 <div class="connection-image-box">
 
 <img
 id="connectionImage"
 src="/static/img/star.png"
-class="connection-image"
->
+class="connection-image">
 
 </div>
 
-<!-- PILOTOS -->
+<!-- PILOTS -->
 
 <div class="pilot-row">
 
-<div class="pilot" id="greenPilot"></div>
-
-<div class="pilot" id="redPilot"></div>
-
-<div class="pilot" id="bluePilot"></div>
+<div class="pilot"
+id="greenPilot">
 
 </div>
 
-<!-- BOTONES -->
+<div class="pilot"
+id="redPilot">
+
+</div>
+
+<div class="pilot"
+id="bluePilot">
+
+</div>
+
+</div>
+
+<!-- BUTTONS -->
 
 <div class="toolbar">
 
-<button class="btn green"
+<button
+class="btn green"
 onclick="connectStar()">
 
 ESTRELLA
 
 </button>
 
-<button class="btn blue"
+<button
+class="btn blue"
 onclick="connectDelta()">
 
 TRIANGULO
 
 </button>
 
-<button class="btn green"
+<button
+class="btn green"
 onclick="startIndustrialMotor()">
 
 START
 
 </button>
 
-<button class="btn red"
+<button
+class="btn red"
 onclick="stopIndustrialMotor()">
 
 STOP
@@ -317,8 +537,11 @@ STOP
 <div class="info-box">
 
 RPM:
+
 <span id="rpmValue">
+
 0 RPM
+
 </span>
 
 </div>
@@ -326,8 +549,11 @@ RPM:
 <div class="info-box">
 
 MODO:
+
 <span id="connectionMode">
+
 SIN CONFIGURAR
+
 </span>
 
 </div>
@@ -335,8 +561,11 @@ SIN CONFIGURAR
 <div class="info-box">
 
 ESTADO:
+
 <span id="motorState">
+
 DETENIDO
+
 </span>
 
 </div>
@@ -348,14 +577,19 @@ DETENIDO
 </div>
 
 <!-- =========================================================
-EVENTOS
+EVENT LOG
 ========================================================= -->
 
 <div class="panel">
 
-<h2>EVENTOS PLC</h2>
+<h2>
+EVENTOS PLC
+</h2>
 
-<div class="log-box" id="logBox"></div>
+<div class="log-box"
+id="logBox">
+
+</div>
 
 </div>
 
@@ -367,46 +601,58 @@ MAIN
 
 <main class="main">
 
-<!-- TOOLBAR -->
+<!-- =========================================================
+TOOLBAR
+========================================================= -->
 
 <div class="toolbar">
 
-<button class="btn green" onclick="addNO()">
+<button class="btn green">
 + CONTACTO NO
 </button>
 
-<button class="btn yellow" onclick="addNC()">
+<button class="btn yellow">
 + CONTACTO NC
 </button>
 
-<button class="btn blue" onclick="addCoil()">
+<button class="btn blue">
 + BOBINA
 </button>
 
-<button class="btn red" onclick="addTON()">
+<button class="btn red">
 + TON
 </button>
 
-<button class="btn green"
+<button
+class="btn green"
 onclick="runSimulation()">
+
 SIMULAR PLC
+
 </button>
 
 </div>
 
 <!-- =========================================================
-LADDER
+LADDER AREA
 ========================================================= -->
 
-<div class="ladder-area" id="ladder">
+<div class="ladder-area"
+id="ladder">
 
-<!-- RUNG 1 -->
+<!-- =========================================================
+RUNG 1
+START / STOP MOTOR
+========================================================= -->
 
 <div class="rung">
 
 <div class="rail"></div>
 
-<div class="contact"
+<!-- START -->
+
+<div
+class="contact"
 data-type="NO"
 data-address="I0.0">
 
@@ -416,7 +662,10 @@ I0.0
 
 <div class="line"></div>
 
-<div class="contact"
+<!-- STOP -->
+
+<div
+class="contact"
 data-type="NC"
 data-address="I0.1">
 
@@ -426,8 +675,25 @@ data-address="I0.1">
 
 <div class="line"></div>
 
-<div class="coil"
-data-address="Q0.0">
+<!-- EMERGENCY -->
+
+<div
+class="contact"
+data-type="NC"
+data-address="I0.2">
+
+/I0.2
+
+</div>
+
+<div class="line"></div>
+
+<!-- MOTOR -->
+
+<div
+class="coil"
+data-address="Q0.0"
+data-coil="normal">
 
 (Q0.0)
 
@@ -437,13 +703,17 @@ data-address="Q0.0">
 
 </div>
 
-<!-- RUNG 2 -->
+<!-- =========================================================
+RUNG 2
+GREEN PILOT
+========================================================= -->
 
 <div class="rung">
 
 <div class="rail"></div>
 
-<div class="contact"
+<div
+class="contact"
 data-type="NO"
 data-address="Q0.0">
 
@@ -453,8 +723,10 @@ Q0.0
 
 <div class="line"></div>
 
-<div class="coil"
-data-address="Q0.1">
+<div
+class="coil"
+data-address="Q0.1"
+data-coil="normal">
 
 (Q0.1)
 
@@ -464,13 +736,17 @@ data-address="Q0.1">
 
 </div>
 
-<!-- RUNG 3 -->
+<!-- =========================================================
+RUNG 3
+RED PILOT
+========================================================= -->
 
 <div class="rung">
 
 <div class="rail"></div>
 
-<div class="contact"
+<div
+class="contact"
 data-type="NC"
 data-address="Q0.0">
 
@@ -480,10 +756,122 @@ data-address="Q0.0">
 
 <div class="line"></div>
 
-<div class="coil"
-data-address="Q0.2">
+<div
+class="coil"
+data-address="Q0.2"
+data-coil="normal">
 
 (Q0.2)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- =========================================================
+RUNG 4
+TON TIMER
+========================================================= -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div
+class="contact"
+data-type="NO"
+data-address="I0.3">
+
+I0.3
+
+</div>
+
+<div class="line"></div>
+
+<div
+class="timer"
+data-address="T0.0"
+data-preset="3000">
+
+TON T0.0
+
+</div>
+
+<div class="line"></div>
+
+<div
+class="coil"
+data-address="Q0.3"
+data-coil="normal">
+
+(Q0.3)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- =========================================================
+RUNG 5
+SET MEMORY
+========================================================= -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div
+class="contact"
+data-type="NO"
+data-address="I0.0">
+
+I0.0
+
+</div>
+
+<div class="line"></div>
+
+<div
+class="coil"
+data-address="M0.0"
+data-coil="set">
+
+(S M0.0)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- =========================================================
+RUNG 6
+RESET MEMORY
+========================================================= -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div
+class="contact"
+data-type="NO"
+data-address="I0.1">
+
+I0.1
+
+</div>
+
+<div class="line"></div>
+
+<div
+class="coil"
+data-address="M0.0"
+data-coil="reset">
+
+(R M0.0)
 
 </div>
 
@@ -503,13 +891,37 @@ data-address="Q0.2">
 JS
 ========================================================= -->
 
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-<script src="{{ url_for('static', filename='js/motor.js') }}"></script>
-<script src="{{ url_for('static', filename='js/tank.js') }}"></script>
-<script src="{{ url_for('static', filename='js/ladder.js') }}"></script>
-<script src="{{ url_for('static', filename='js/logs.js') }}"></script>
-<script src="{{ url_for('static', filename='js/ui.js') }}"></script>
-<script src="{{ url_for('static', filename='js/plc_engine.js') }}"></script>
+<script
+src="{{ url_for('static', filename='js/main.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/motor.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/tank.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/logs.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/ui.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/plc_engine.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/ladder.js') }}">
+</script>
+
+<!-- =========================================================
+INIT
+========================================================= -->
 
 <script>
 
@@ -517,11 +929,17 @@ window.onload=()=>{
 
 setTimeout(()=>{
 
-document.getElementById("loader").style.display="none"
+document.getElementById("loader")
+.style.display="none"
 
-document.getElementById("app").style.display="block"
+document.getElementById("app")
+.style.display="block"
 
-log("AUTOMATION STUDIO X INICIADO")
+log(
+"AUTOMATION STUDIO X INICIADO"
+)
+
+scanPLC()
 
 },1200)
 

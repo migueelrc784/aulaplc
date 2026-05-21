@@ -1,3 +1,7 @@
+/* =====================================================
+LADDER AREA
+===================================================== */
+
 .ladder-area{
 
 background:#0f1722;
@@ -35,12 +39,27 @@ min-height:70px;
 }
 
 /* =====================================================
+ACTIVE RUNG
+===================================================== */
+
+.rung.active .line{
+
+background:#00ff99;
+
+box-shadow:
+0 0 12px #00ff99,
+0 0 25px rgba(0,255,153,.4);
+
+}
+
+/* =====================================================
 RAILS
 ===================================================== */
 
 .rail{
 
 width:6px;
+
 height:60px;
 
 background:#111;
@@ -52,7 +71,7 @@ margin:0 12px;
 }
 
 /* =====================================================
-LINEAS
+LINES
 ===================================================== */
 
 .line{
@@ -70,7 +89,7 @@ transition:.2s;
 }
 
 /* =====================================================
-LINEA ENERGIZADA
+POWERED LINE
 ===================================================== */
 
 .line.powered{
@@ -84,16 +103,19 @@ box-shadow:
 }
 
 /* =====================================================
-CONTACTOS
+CONTACTS
 ===================================================== */
 
 .contact{
 
 width:130px;
+
 height:46px;
 
 display:flex;
+
 justify-content:center;
+
 align-items:center;
 
 background:
@@ -103,9 +125,7 @@ linear-gradient(
 #2f4f74
 );
 
-border:
-
-2px solid #7ea7d6;
+border:2px solid #7ea7d6;
 
 color:white;
 
@@ -119,10 +139,12 @@ transition:.2s;
 
 user-select:none;
 
+cursor:pointer;
+
 }
 
 /* =====================================================
-LINEAS CONTACTO
+CONTACT TERMINALS
 ===================================================== */
 
 .contact::before,
@@ -133,6 +155,7 @@ content:"";
 position:absolute;
 
 width:22px;
+
 height:4px;
 
 background:#111;
@@ -158,7 +181,7 @@ right:-22px;
 }
 
 /* =====================================================
-CONTACTO ENERGIZADO
+POWERED CONTACT
 ===================================================== */
 
 .contact.powered{
@@ -191,16 +214,19 @@ box-shadow:
 }
 
 /* =====================================================
-BOBINA
+COIL
 ===================================================== */
 
 .coil{
 
 width:130px;
+
 height:50px;
 
 display:flex;
+
 justify-content:center;
+
 align-items:center;
 
 background:
@@ -222,10 +248,12 @@ position:relative;
 
 transition:.2s;
 
+user-select:none;
+
 }
 
 /* =====================================================
-SIMBOLO BOBINA
+COIL SYMBOL
 ===================================================== */
 
 .coil::before,
@@ -236,6 +264,7 @@ content:"";
 position:absolute;
 
 width:18px;
+
 height:36px;
 
 border:3px solid white;
@@ -263,7 +292,7 @@ border-left:none;
 }
 
 /* =====================================================
-BOBINA ACTIVA
+POWERED COIL
 ===================================================== */
 
 .coil.powered{
@@ -293,10 +322,106 @@ border-color:#00ff99;
 }
 
 /* =====================================================
-ENERGIA FLUYENDO
+TON TIMER
 ===================================================== */
 
-.rung.active .line{
+.timer{
+
+width:130px;
+
+height:50px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:
+linear-gradient(
+180deg,
+#ff5e7a,
+#d93c5c
+);
+
+border:2px solid #ff8ba0;
+
+color:white;
+
+font-family:Consolas;
+
+font-weight:700;
+
+position:relative;
+
+transition:.2s;
+
+user-select:none;
+
+}
+
+/* =====================================================
+TIMER TERMINALS
+===================================================== */
+
+.timer::before,
+.timer::after{
+
+content:"";
+
+position:absolute;
+
+width:22px;
+
+height:4px;
+
+background:#111;
+
+top:50%;
+
+transform:translateY(-50%);
+
+transition:.2s;
+
+}
+
+.timer::before{
+
+left:-22px;
+
+}
+
+.timer::after{
+
+right:-22px;
+
+}
+
+/* =====================================================
+POWERED TIMER
+===================================================== */
+
+.timer.powered{
+
+background:
+linear-gradient(
+180deg,
+#00ff99,
+#00c978
+);
+
+border-color:#00ff99;
+
+color:#001b10;
+
+box-shadow:
+0 0 12px #00ff99,
+0 0 30px rgba(0,255,153,.5);
+
+}
+
+.timer.powered::before,
+.timer.powered::after{
 
 background:#00ff99;
 
@@ -306,7 +431,22 @@ box-shadow:
 }
 
 /* =====================================================
-SCROLL
+OUTPUT ACTIVE
+===================================================== */
+
+.on{
+
+color:#00ff99 !important;
+
+font-weight:700;
+
+text-shadow:
+0 0 10px #00ff99;
+
+}
+
+/* =====================================================
+SCROLLBAR
 ===================================================== */
 
 .ladder-area::-webkit-scrollbar{
@@ -320,5 +460,59 @@ width:10px;
 background:#1e344d;
 
 border-radius:20px;
+
+}
+
+/* =====================================================
+HOVER EFFECTS
+===================================================== */
+
+.contact:hover,
+.coil:hover,
+.timer:hover{
+
+transform:scale(1.03);
+
+}
+
+/* =====================================================
+ANIMATION
+===================================================== */
+
+@keyframes pulseGlow{
+
+0%{
+
+box-shadow:
+0 0 5px #00ff99;
+
+}
+
+50%{
+
+box-shadow:
+0 0 20px #00ff99,
+0 0 40px rgba(0,255,153,.5);
+
+}
+
+100%{
+
+box-shadow:
+0 0 5px #00ff99;
+
+}
+
+}
+
+/* =====================================================
+POWER ANIMATION
+===================================================== */
+
+.contact.powered,
+.coil.powered,
+.timer.powered{
+
+animation:pulseGlow 1.2s infinite;
 
 }
