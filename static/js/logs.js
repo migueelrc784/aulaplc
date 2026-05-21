@@ -1,18 +1,13 @@
-console.log("LOGS JS cargado");
+function log(text){
 
-function addLog(text){
+const p=document.createElement("p")
 
-const logBox = document.getElementById("logBox");
+p.innerHTML=
+new Date().toLocaleTimeString()
++" → "+
+text
 
-if(!logBox) return;
-
-const p = document.createElement("p");
-
-p.innerHTML =
-new Date().toLocaleTimeString() +
-" → " +
-text;
-
-logBox.prepend(p);
+document.getElementById("logBox")
+.prepend(p)
 
 }
