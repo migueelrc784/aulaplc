@@ -1,85 +1,401 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
 
-    <title>PLC WEB</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
+<title>Automation Studio X PRO</title>
 
-        body{
-            background:#111;
-            color:white;
-            font-family:Arial;
-            text-align:center;
-            padding-top:50px;
-        }
+<!-- FUENTES -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        h1{
-            color:lime;
-        }
-
-        .panel{
-            background:#222;
-            width:400px;
-            margin:auto;
-            padding:30px;
-            border-radius:20px;
-        }
-
-        button{
-            padding:20px;
-            width:150px;
-            border:none;
-            border-radius:10px;
-            font-size:20px;
-            cursor:pointer;
-            margin:10px;
-        }
-
-        .start{
-            background:green;
-            color:white;
-        }
-
-        .stop{
-            background:red;
-            color:white;
-        }
-
-        .motor{
-            width:100px;
-            height:100px;
-            background:gray;
-            border-radius:50%;
-            margin:auto;
-            margin-top:30px;
-        }
-
-    </style>
+<!-- CSS -->
+<link rel="stylesheet" href="{{ url_for('static', path='/css/main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='/css/motor.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='/css/ladder.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='/css/tank.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='/css/responsive.css') }}">
 
 </head>
 
 <body>
 
-    <div class="panel">
+<!-- =========================================================
+HEADER
+========================================================= -->
 
-        <h1>PLC VIRTUAL</h1>
+<header>
 
-        <p>Panel de Control</p>
+<div class="logo">
 
-        <button class="start">
-            START
-        </button>
+<div class="logo-icon">
+⚡
+</div>
 
-        <button class="stop">
-            STOP
-        </button>
+<div>
 
-        <div class="motor"></div>
+<h1>AUTOMATION STUDIO X PRO</h1>
 
-    </div>
+<p>
+PLC • SCADA • HMI • LADDER • INDUSTRIAL CONTROL
+</p>
+
+</div>
+
+</div>
+
+<div class="topbar">
+
+<div class="status online">
+CPU RUN
+</div>
+
+<div class="status offline" id="plcStatus">
+PLC STOP
+</div>
+
+<div class="status">
+PROFINET OK
+</div>
+
+<div class="status">
+380V AC
+</div>
+
+</div>
+
+</header>
+
+<!-- =========================================================
+LAYOUT
+========================================================= -->
+
+<div class="wrapper">
+
+<!-- =========================================================
+SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+<div class="menu-title">
+AUTOMATION
+</div>
+
+<button onclick="showPage('dashboard')">
+🏭 Motor Industrial
+</button>
+
+<button onclick="showPage('ladderPage')">
+🪜 Ladder Editor
+</button>
+
+<button onclick="showPage('tankPage')">
+🖥 HMI Tanque
+</button>
+
+<button onclick="showPage('logsPage')">
+📋 Eventos
+</button>
+
+</aside>
+
+<!-- =========================================================
+MAIN
+========================================================= -->
+
+<main class="main">
+
+<!-- =========================================================
+DASHBOARD
+========================================================= -->
+
+<section class="page" id="dashboard">
+
+<div class="grid">
+
+<!-- MOTOR -->
+
+<div class="card">
+
+<h2>MOTOR TRIFÁSICO</h2>
+
+<div class="motor-area">
+
+<div class="motor-real">
+
+<div class="motor-lines"></div>
+
+<div class="fan" id="fan"></div>
+
+<div class="shaft"></div>
+
+</div>
+
+</div>
+
+<br>
+
+RPM:
+<span id="rpmText">
+0
+</span>
+
+<div class="gauge">
+<div class="fill" id="rpmFill"></div>
+</div>
+
+<br>
+
+Temperatura:
+<span id="tempText">
+25
+</span>°C
+
+<div class="gauge">
+<div class="fill" id="tempFill"></div>
+</div>
+
+<br><br>
+
+<div class="lights">
+
+<div class="pilot" id="greenLight"></div>
+
+<div class="pilot" id="redLight"></div>
+
+<div class="pilot" id="blueLight"></div>
+
+</div>
+
+</div>
+
+<!-- IO -->
+
+<div class="card">
+
+<h2>ENTRADAS Y SALIDAS</h2>
+
+<div class="io-grid">
+
+<div class="io">
+
+I0.0 START
+
+<button class="btn green" onclick="toggleInput('start')">
+START
+</button>
+
+</div>
+
+<div class="io">
+
+I0.1 STOP
+
+<button class="btn red" onclick="toggleInput('stop')">
+STOP
+</button>
+
+</div>
+
+<div class="io">
+
+I0.2 EMERGENCY
+
+<button class="btn yellow" onclick="toggleInput('emergency')">
+EMG
+</button>
+
+</div>
+
+<div class="io">
+Q0.0 MOTOR
+</div>
+
+<div class="io">
+Q0.1 GREEN
+</div>
+
+<div class="io">
+Q0.2 RED
+</div>
+
+<div class="io">
+Q0.3 BLUE
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+LADDER
+========================================================= -->
+
+<section class="page" id="ladderPage" style="display:none">
+
+<div class="card">
+
+<h2>LADDER PROGRAMMING</h2>
+
+<div class="controls">
+
+<button class="btn green" onclick="addContact()">
++ Contacto
+</button>
+
+<button class="btn blue" onclick="addCoil()">
++ Bobina
+</button>
+
+<button class="btn yellow" onclick="addTimer()">
++ Timer
+</button>
+
+<button class="btn red" onclick="simulatePLC()">
+SIMULAR
+</button>
+
+</div>
+
+<br>
+
+<div class="ladder" id="ladder">
+
+<div class="rung active">
+
+<div class="contact" contenteditable="true">
+I0.0
+</div>
+
+<div class="line"></div>
+
+<div class="contact" contenteditable="true">
+/I0.1
+</div>
+
+<div class="line"></div>
+
+<div class="coil" contenteditable="true">
+Q0.0
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+TANK
+========================================================= -->
+
+<section class="page" id="tankPage" style="display:none">
+
+<div class="grid">
+
+<div class="card">
+
+<h2>TANQUE INDUSTRIAL</h2>
+
+<div class="tank-wrap">
+
+<div class="tank">
+
+<div class="water" id="water"></div>
+
+</div>
+
+</div>
+
+<br>
+
+Nivel:
+<span id="liters">
+0 cm³
+</span>
+
+<br><br>
+
+<div class="controls">
+
+<button class="btn green" onclick="openValve()">
+Abrir
+</button>
+
+<button class="btn red" onclick="closeValve()">
+Cerrar
+</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>CONTROL KP</h2>
+
+KP:
+
+<input type="range"
+min="1"
+max="100"
+value="30"
+id="kp">
+
+<br><br>
+
+<div id="kpText">
+Velocidad = 30%
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================================
+LOGS
+========================================================= -->
+
+<section class="page" id="logsPage" style="display:none">
+
+<div class="card">
+
+<h2>EVENTOS</h2>
+
+<div class="log" id="logBox"></div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+<!-- =========================================================
+JAVASCRIPT
+========================================================= -->
+
+<script src="{{ url_for('static', path='/js/ui.js') }}"></script>
+
+<script src="{{ url_for('static', path='/js/motor.js') }}"></script>
+
+<script src="{{ url_for('static', path='/js/ladder.js') }}"></script>
+
+<script src="{{ url_for('static', path='/js/tank.js') }}"></script>
+
+<script src="{{ url_for('static', path='/js/logs.js') }}"></script>
 
 </body>
-
 </html>
