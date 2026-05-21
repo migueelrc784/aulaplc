@@ -1,29 +1,20 @@
-const memory={
+window.onload=()=>{
 
-"I0.0":false,
-"I0.1":false,
-"I0.2":false,
-"I0.3":false,
+setTimeout(()=>{
 
-"Q0.0":false,
-"Q0.1":false,
-"Q0.2":false,
-"Q0.3":false
+const loader=document.getElementById("loader")
+const app=document.getElementById("app")
 
+if(loader){
+loader.style.display="none"
 }
 
-function toggleInput(addr){
-
-memory[addr]=!memory[addr]
-
-log(addr+" = "+memory[addr])
-
-runPLC()
-
+if(app){
+app.style.display="block"
 }
 
-setInterval(()=>{
+console.log("AUTOMATION STUDIO X INICIADO")
 
-runPLC()
+},1200)
 
-},100)
+}
