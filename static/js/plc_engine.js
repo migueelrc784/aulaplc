@@ -1,295 +1,103 @@
 /* =========================================================
-PLC ENGINE REAL
+PLC ENGINE
 ========================================================= */
 
-let plcRunning=false
+window.inputs={
+
+"I0.0":false,
+"I0.1":false,
+"I0.2":false,
+"I0.3":false,
+"I0.4":false,
+"I0.5":false
+
+}
+
+window.outputs={
+
+"Q0.0":false,
+"Q0.1":false,
+"Q0.2":false,
+"Q0.3":false
+
+}
+
+window.plcRunning=false
 
 /* =========================================================
-PLC MEMORY
+TOGGLE INPUTS
 ========================================================= */
 
-const plcMemory={
+function toggleInput(address){
 
-inputs:{},
-outputs:{},
-markers:{},
-timers:{}
+inputs[address]=!inputs[address]
 
-}
-
-/* =========================================================
-INIT INPUTS
-========================================================= */
-
-[
-"I0.0",
-"I0.1",
-"I0.2",
-"I0.3",
-"I0.4",
-"I0.5"
-].forEach(i=>{
-
-plcMemory.inputs[i]=false
-
-})
-
-/* =========================================================
-INIT OUTPUTS
-========================================================= */
-
-[
-"Q0.0",
-"Q0.1",
-"Q0.2",
-"Q0.3"
-].forEach(q=>{
-
-plcMemory.outputs[q]=false
-
-})
-
-/* =========================================================
-TIMERS
-========================================================= */
-
-plcMemory.timers["T0.0"]={
-
-EN:false,
-DN:false,
-TT:false,
-ACC:0,
-PRE:3000,
-START:0
-
-}
-
-/* =========================================================
-READ ADDRESS
-========================================================= */
-
-function readAddress(address){
-
-if(address.startsWith("I")){
-
-return plcMemory.inputs[address]
-
-}
-
-if(address.startsWith("Q")){
-
-return plcMemory.outputs[address]
-
-}
-
-if(address.startsWith("M")){
-
-return plcMemory.markers[address]
-
-}
-
-if(address.startsWith("T")){
-
-return plcMemory.timers[address]?.DN || false
-
-}
-
-return false
-
-}
-
-/* =========================================================
-WRITE ADDRESS
-========================================================= */
-
-function writeAddress(address,value){
-
-if(address.startsWith("Q")){
-
-plcMemory.outputs[address]=value
-
-}
-
-if(address.startsWith("M")){
-
-plcMemory.markers[address]=value
-
-}
-
-}
-
-/* =========================================================
-SET POWER FLOW
-========================================================= */
-
-function setPower(element,power){
-
-element.classList.toggle(
-"powered",
-power
+const card=document.getElementById(
+`card-${address}`
 )
 
-}
+if(inputs[address]){
 
-/* =========================================================
-CONTACT EVALUATION
-========================================================= */
-
-function evaluateContact(contact){
-
-const type=
-contact.dataset.type
-
-const address=
-contact.dataset.address
-
-const value=
-readAddress(address)
-
-/* CONTACT VISUAL */
-
-if(type==="NO"){
-
-contact.classList.remove("closed")
-
-if(value){
-
-contact.classList.add("closed")
-
-}
-
-return value
-
-}
-
-/* NC */
-
-if(type==="NC"){
-
-contact.classList.add("closed")
-
-if(value){
-
-contact.classList.remove("closed")
-
-}
-
-return !value
-
-}
-
-return false
-
-}
-
-/* =========================================================
-TON
-========================================================= */
-
-function processTON(timer,power){
-
-const address=
-timer.dataset.address
-
-const preset=
-parseInt(
-timer.dataset.preset || 3000
-)
-
-if(!plcMemory.timers[address]){
-
-plcMemory.timers[address]={
-
-EN:false,
-DN:false,
-TT:false,
-ACC:0,
-PRE:preset,
-START:0
-
-}
-
-}
-
-const t=
-plcMemory.timers[address]
-
-if(power){
-
-t.EN=true
-
-if(t.START===0){
-
-t.START=Date.now()
-
-}
-
-t.ACC=
-Date.now()-t.START
-
-t.TT=
-t.ACC<preset
-
-t.DN=
-t.ACC>=preset
+card.classList.add("io-forced")
 
 }else{
 
-t.EN=false
-t.DN=false
-t.TT=false
-t.ACC=0
-t.START=0
+card.classList.remove("io-forced")
 
 }
 
-timer.innerHTML=`
-
-TON ${address}
-
-<small>
-${(t.ACC/1000).toFixed(1)}s
-</small>
-
-<div class="delete-element">
-✕
-</div>
-
-`
-
-setPower(timer,t.DN)
-
-return t.DN
+scanPLC()
 
 }
 
 /* =========================================================
-COIL
+SIMULATION BUTTON
 ========================================================= */
 
-function processCoil(coil,power){
+function runSimulation(){
 
-const address=
-coil.dataset.address
+plcRunning=!plcRunning
 
-writeAddress(address,power)
+const btns=document.querySelectorAll(".toolbar .btn")
 
-setPower(coil,power)
+btns.forEach(btn=>{
+
+if(btn.innerText.includes("SIMULAR")){
+
+btn.innerText=plcRunning
+? "DETENER PLC"
+: "SIMULAR PLC"
 
 }
-
-/* =========================================================
-RESET OUTPUTS
-========================================================= */
-
-function resetOutputs(){
-
-Object.keys(plcMemory.outputs)
-.forEach(output=>{
-
-plcMemory.outputs[output]=false
 
 })
+
+const cpu=document.getElementById("cpuState")
+const plc=document.getElementById("plcState")
+
+if(plcRunning){
+
+cpu.innerText="CPU RUN"
+plc.innerText="PLC RUN"
+
+cpu.style.background="#00ff99"
+plc.style.background="#00ff99"
+
+log("PLC EN RUN")
+
+}else{
+
+cpu.innerText="CPU STOP"
+plc.innerText="PLC STOP"
+
+cpu.style.background="#ff3355"
+plc.style.background="#ff3355"
+
+log("PLC DETENIDO")
+
+}
+
+scanPLC()
 
 }
 
@@ -299,92 +107,194 @@ SCAN PLC
 
 function scanPLC(){
 
-if(!plcRunning)return
+if(!plcRunning){
 
-resetOutputs()
+document.querySelectorAll(".powered")
+.forEach(el=>el.classList.remove("powered"))
 
-const rungs=
-document.querySelectorAll(".rung")
+document.querySelectorAll(".energized")
+.forEach(el=>el.classList.remove("energized"))
+
+return
+
+}
+
+Object.keys(outputs).forEach(q=>{
+
+outputs[q]=false
+
+})
+
+const rungs=document.querySelectorAll(".rung")
 
 rungs.forEach(rung=>{
 
-let rungPower=true
+let power=true
 
-const elements=
-rung.querySelectorAll(
-".contact,.line,.timer,.coil"
-)
+const elements=[...rung.children]
 
-elements.forEach(element=>{
+elements.forEach(el=>{
 
-/* CONTACT */
+/* rail */
 
-if(
-element.classList.contains("contact")
-){
+if(el.classList.contains("rail")){
 
-const result=
-evaluateContact(element)
+if(power){
 
-rungPower=
-rungPower && result
+el.classList.add("powered")
 
-setPower(
-element,
-rungPower
-)
+}else{
+
+el.classList.remove("powered")
 
 }
 
-/* LINE */
+}
 
-if(
-element.classList.contains("line")
-){
+/* line */
 
-setPower(
-element,
-rungPower
-)
+if(el.classList.contains("line")){
+
+if(power){
+
+el.classList.add("powered")
+
+}else{
+
+el.classList.remove("powered")
 
 }
 
-/* TIMER */
+}
 
-if(
-element.classList.contains("timer")
-){
+/* contacts */
 
-rungPower=
-processTON(
-element,
-rungPower
-)
+if(el.classList.contains("contact")){
+
+const addr=el.dataset.address
+const type=el.dataset.type
+
+let value=false
+
+if(addr.startsWith("I")){
+
+value=inputs[addr]
+
+}else{
+
+value=outputs[addr]
 
 }
 
-/* COIL */
+let result=false
 
-if(
-element.classList.contains("coil")
-){
+if(type==="NO"){
 
-processCoil(
-element,
-rungPower
-)
+result=value
+
+}else{
+
+result=!value
+
+}
+
+power=power && result
+
+if(power){
+
+el.classList.add("powered")
+
+}else{
+
+el.classList.remove("powered")
+
+}
+
+}
+
+/* timer */
+
+if(el.classList.contains("timer")){
+
+if(power){
+
+el.classList.add("powered")
+
+}else{
+
+el.classList.remove("powered")
+
+}
+
+}
+
+/* coils */
+
+if(el.classList.contains("coil")){
+
+const addr=el.dataset.address
+
+outputs[addr]=power
+
+if(power){
+
+el.classList.add("energized")
+
+}else{
+
+el.classList.remove("energized")
+
+}
 
 }
 
 })
-
-rung.classList.toggle(
-"active",
-rungPower
-)
 
 })
 
 updateOutputs()
 
+updateMotor()
+
 }
+
+/* =========================================================
+OUTPUTS UI
+========================================================= */
+
+function updateOutputs(){
+
+document.querySelectorAll("[data-output]")
+.forEach(el=>{
+
+const addr=el.dataset.output
+
+if(outputs[addr]){
+
+el.innerText="TRUE"
+el.classList.add("on")
+
+}else{
+
+el.innerText="FALSE"
+el.classList.remove("on")
+
+}
+
+})
+
+}
+
+/* =========================================================
+AUTO SCAN
+========================================================= */
+
+setInterval(()=>{
+
+if(plcRunning){
+
+scanPLC()
+
+}
+
+},120)

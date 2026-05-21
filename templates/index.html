@@ -12,158 +12,409 @@ content="width=device-width, initial-scale=1.0">
 AUTOMATION STUDIO X
 </title>
 
-<!-- =========================================================
-FONTS
-========================================================= -->
-
 <link
 href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
 rel="stylesheet">
-
-<!-- =========================================================
-CSS
-========================================================= -->
 
 <link rel="stylesheet"
 href="{{ url_for('static', filename='css/main.css') }}">
 
 <link rel="stylesheet"
-href="{{ url_for('static', filename='css/motor.css') }}">
-
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/tank.css') }}">
-
-<link rel="stylesheet"
 href="{{ url_for('static', filename='css/ladder.css') }}">
-
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/responsive.css') }}">
 
 <style>
 
-body{
+/* =========================================================
+BASE
+========================================================= */
+
+*{
 
 margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+body{
+
 background:#07111d;
 font-family:Inter,sans-serif;
 color:white;
+
 overflow:hidden;
 
 }
 
 /* =========================================================
-PRELOADER
+LOADER
 ========================================================= */
 
 .loading{
 
 height:100vh;
+
 display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
+
 gap:20px;
+
+background:
+radial-gradient(circle at center,#10243b 0%,#07111d 70%);
 
 }
 
 .loading h1{
 
 font-family:Orbitron;
+font-size:42px;
+
 color:#00ff99;
-font-size:40px;
+
 letter-spacing:3px;
+
+text-shadow:
+0 0 15px #00ff99;
 
 }
 
 .loading p{
 
-color:#8da8c7;
+color:#8ca7c5;
 
 }
 
 /* =========================================================
-INPUT FORCED
+APP
 ========================================================= */
 
-.io-forced{
+#app{
 
-border:2px solid #00ff99 !important;
+height:100vh;
+
+display:flex;
+flex-direction:column;
+
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.top-header{
+
+height:80px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:0 30px;
+
+background:
+linear-gradient(180deg,#0f2032 0%,#09131d 100%);
+
+border-bottom:1px solid #18324d;
 
 box-shadow:
-0 0 15px #00ff99,
-0 0 30px rgba(0,255,153,.5);
+0 5px 25px rgba(0,0,0,.45);
 
 }
 
-/* =========================================================
-PILOTS
-========================================================= */
+.logo-area{
 
-.pilot{
+display:flex;
+align-items:center;
 
-width:30px;
-height:30px;
-border-radius:50%;
-background:#1a1a1a;
-transition:.2s;
+gap:18px;
 
 }
 
-.active-green{
+.logo-icon{
 
-background:#00ff99;
-box-shadow:0 0 20px #00ff99;
+width:52px;
+height:52px;
 
-}
-
-.active-red{
-
-background:#ff3355;
-box-shadow:0 0 20px #ff3355;
-
-}
-
-.active-yellow{
-
-background:#ffd000;
-box-shadow:0 0 20px #ffd000;
-
-}
-
-/* =========================================================
-DELETE ELEMENT
-========================================================= */
-
-.delete-element{
-
-position:absolute;
-
-top:-8px;
-right:-8px;
-
-width:18px;
-height:18px;
-
-border-radius:50%;
-
-background:#ff3355;
+border-radius:14px;
 
 display:flex;
 justify-content:center;
 align-items:center;
 
-font-size:11px;
+background:#00ff99;
+
+color:#02120b;
+
+font-size:28px;
 font-weight:700;
 
-cursor:pointer;
+box-shadow:
+0 0 20px #00ff99;
 
-z-index:10;
+}
+
+.title{
+
+font-family:Orbitron;
+font-size:24px;
+
+color:#ffffff;
+
+}
+
+.subtitle{
+
+font-size:12px;
+letter-spacing:2px;
+
+color:#7f9ab7;
+
+margin-top:2px;
 
 }
 
 /* =========================================================
-OUTPUT ACTIVE
+STATUS
 ========================================================= */
+
+.top-status{
+
+display:flex;
+gap:12px;
+
+}
+
+.status-box{
+
+padding:12px 18px;
+
+border-radius:10px;
+
+background:#14283d;
+
+border:1px solid #23415f;
+
+font-size:13px;
+font-weight:700;
+
+}
+
+.run{
+
+background:#00ff99;
+color:#00150d;
+
+box-shadow:
+0 0 15px #00ff99;
+
+}
+
+/* =========================================================
+LAYOUT
+========================================================= */
+
+.layout{
+
+flex:1;
+
+display:grid;
+grid-template-columns:420px 1fr;
+
+overflow:hidden;
+
+}
+
+/* =========================================================
+SIDEBAR
+========================================================= */
+
+.sidebar{
+
+padding:20px;
+
+overflow:auto;
+
+background:
+linear-gradient(180deg,#0a1520 0%,#09111a 100%);
+
+border-right:1px solid #1a2f45;
+
+}
+
+/* =========================================================
+PANEL
+========================================================= */
+
+.panel{
+
+background:
+linear-gradient(180deg,#0e1c2b 0%,#0b1621 100%);
+
+border:1px solid #17314a;
+
+border-radius:18px;
+
+padding:20px;
+
+margin-bottom:20px;
+
+box-shadow:
+0 0 20px rgba(0,0,0,.35);
+
+}
+
+.panel h2{
+
+font-size:15px;
+
+margin-bottom:18px;
+
+letter-spacing:1px;
+
+color:#d7e4f1;
+
+}
+
+/* =========================================================
+INPUTS
+========================================================= */
+
+.io-grid{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+
+gap:14px;
+
+}
+
+.io-card{
+
+background:#132638;
+
+border:1px solid #27435f;
+
+border-radius:14px;
+
+padding:14px;
+
+transition:.2s;
+
+}
+
+.io-card:hover{
+
+transform:translateY(-2px);
+
+border-color:#00ff99;
+
+}
+
+.io-name{
+
+font-size:13px;
+font-weight:700;
+
+margin-bottom:12px;
+
+}
+
+.io-forced{
+
+border:1px solid #00ff99 !important;
+
+box-shadow:
+0 0 12px rgba(0,255,153,.4);
+
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+.btn{
+
+border:none;
+
+border-radius:12px;
+
+padding:12px 16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.15s;
+
+color:white;
+
+}
+
+.btn:hover{
+
+transform:translateY(-2px);
+
+filter:brightness(1.1);
+
+}
+
+.green{
+
+background:#00d98b;
+
+}
+
+.red{
+
+background:#ff3355;
+
+}
+
+.blue{
+
+background:#1cbcff;
+
+}
+
+.yellow{
+
+background:#ffc400;
+color:black;
+
+}
+
+/* =========================================================
+OUTPUTS
+========================================================= */
+
+.memory-list{
+
+display:flex;
+flex-direction:column;
+
+gap:10px;
+
+}
+
+.memory-item{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:12px 14px;
+
+background:#132638;
+
+border-radius:12px;
+
+border:1px solid #223d58;
+
+font-size:13px;
+
+}
 
 .on{
 
@@ -173,39 +424,303 @@ font-weight:700;
 }
 
 /* =========================================================
-TIMER
+MOTOR PANEL
 ========================================================= */
 
-.timer{
+.motor-container{
 
-width:130px;
-height:50px;
+display:flex;
+flex-direction:column;
+align-items:center;
+
+gap:20px;
+
+}
+
+/* motor */
+
+.motor{
+
+width:170px;
+height:170px;
+
+border-radius:50%;
+
+position:relative;
 
 display:flex;
 justify-content:center;
 align-items:center;
 
-background:#3b3b55;
+background:
+radial-gradient(circle,#2d435a 0%,#132232 70%);
 
-border:2px solid #6f7cff;
+border:6px solid #5f7d99;
 
-font-family:Consolas;
-
-font-weight:700;
-
-position:relative;
-
-transition:.2s;
+box-shadow:
+inset 0 0 30px rgba(255,255,255,.08),
+0 0 30px rgba(0,0,0,.45);
 
 }
 
-.timer.powered{
+/* center */
+
+.motor::before{
+
+content:"";
+
+position:absolute;
+
+width:34px;
+height:34px;
+
+border-radius:50%;
+
+background:#9eb6ce;
+
+z-index:10;
+
+}
+
+/* fan */
+
+.fan{
+
+width:120px;
+height:120px;
+
+border-radius:50%;
+
+position:relative;
+
+transition:1s linear;
+
+}
+
+.fan::before,
+.fan::after{
+
+content:"";
+
+position:absolute;
+
+left:50%;
+top:50%;
+
+width:18px;
+height:55px;
+
+background:#dce7f2;
+
+border-radius:20px;
+
+transform-origin:center -10px;
+
+}
+
+.fan::before{
+
+transform:
+translate(-50%,-50%)
+rotate(45deg);
+
+}
+
+.fan::after{
+
+transform:
+translate(-50%,-50%)
+rotate(-45deg);
+
+}
+
+.rotating{
+
+animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+from{
+
+transform:rotate(0deg);
+
+}
+
+to{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+/* =========================================================
+PILOTS
+========================================================= */
+
+.pilot-row{
+
+display:flex;
+gap:20px;
+
+}
+
+.pilot{
+
+width:28px;
+height:28px;
+
+border-radius:50%;
+
+background:#1c1c1c;
+
+border:2px solid #4c5d70;
+
+}
+
+.active-green{
 
 background:#00ff99;
-color:#001b10;
 
 box-shadow:
 0 0 15px #00ff99;
+
+}
+
+.active-red{
+
+background:#ff3355;
+
+box-shadow:
+0 0 15px #ff3355;
+
+}
+
+.active-yellow{
+
+background:#ffd000;
+
+box-shadow:
+0 0 15px #ffd000;
+
+}
+
+/* =========================================================
+MOTOR INFO
+========================================================= */
+
+.motor-info{
+
+width:100%;
+
+display:grid;
+grid-template-columns:1fr 1fr;
+
+gap:12px;
+
+}
+
+.info-box{
+
+padding:14px;
+
+background:#132638;
+
+border-radius:12px;
+
+border:1px solid #26415d;
+
+text-align:center;
+
+font-size:13px;
+
+}
+
+/* =========================================================
+LOGS
+========================================================= */
+
+.log-box{
+
+height:180px;
+
+overflow:auto;
+
+background:black;
+
+border-radius:12px;
+
+padding:12px;
+
+font-family:Consolas;
+
+font-size:12px;
+
+color:#00ff99;
+
+}
+
+/* =========================================================
+MAIN
+========================================================= */
+
+.main{
+
+overflow:hidden;
+
+display:flex;
+flex-direction:column;
+
+}
+
+/* =========================================================
+TOP TOOLBAR
+========================================================= */
+
+.toolbar{
+
+display:flex;
+gap:14px;
+
+padding:18px;
+
+background:#09131d;
+
+border-bottom:1px solid #1a2f45;
+
+}
+
+.toolbar .btn{
+
+min-width:170px;
+
+font-size:13px;
+
+}
+
+/* =========================================================
+SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar{
+
+width:10px;
+height:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#21415d;
+border-radius:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#08111a;
 
 }
 
@@ -226,7 +741,7 @@ LOADER
 </h1>
 
 <p>
-Iniciando PLC Runtime Engine...
+Inicializando PLC Runtime Engine...
 </p>
 
 </div>
@@ -236,10 +751,6 @@ APP
 ========================================================= -->
 
 <div id="app" style="display:none;">
-
-<!-- =========================================================
-HEADER
-========================================================= -->
 
 <header class="top-header">
 
@@ -251,19 +762,17 @@ HEADER
 
 <div>
 
-<h1 class="title">
+<div class="title">
 AUTOMATION STUDIO X
-</h1>
+</div>
 
 <div class="subtitle">
-PLC LADDER ENGINE REALTIME
+PLC LADDER ENGINE
 </div>
 
 </div>
 
 </div>
-
-<!-- STATUS -->
 
 <div class="top-status">
 
@@ -282,7 +791,7 @@ PLC RUN
 </div>
 
 <div class="status-box">
-SCAN 100ms
+SCAN 120ms
 </div>
 
 <div class="status-box">
@@ -293,21 +802,13 @@ ETHERNET OK
 
 </header>
 
-<!-- =========================================================
-LAYOUT
-========================================================= -->
-
 <div class="layout">
 
-<!-- =========================================================
-SIDEBAR
-========================================================= -->
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
-<!-- =========================================================
-INPUTS
-========================================================= -->
+<!-- INPUTS -->
 
 <div class="panel">
 
@@ -317,17 +818,13 @@ ENTRADAS DIGITALES
 
 <div class="io-grid">
 
-<!-- I0.0 -->
-
-<div class="io-card"
-id="card-I0.0">
+<div class="io-card" id="card-I0.0">
 
 <div class="io-name">
 I0.0 START
 </div>
 
-<button
-class="btn green"
+<button class="btn green"
 onclick="toggleInput('I0.0')">
 
 FORZAR
@@ -336,17 +833,13 @@ FORZAR
 
 </div>
 
-<!-- I0.1 -->
-
-<div class="io-card"
-id="card-I0.1">
+<div class="io-card" id="card-I0.1">
 
 <div class="io-name">
 I0.1 STOP
 </div>
 
-<button
-class="btn red"
+<button class="btn red"
 onclick="toggleInput('I0.1')">
 
 FORZAR
@@ -355,17 +848,13 @@ FORZAR
 
 </div>
 
-<!-- I0.2 -->
-
-<div class="io-card"
-id="card-I0.2">
+<div class="io-card" id="card-I0.2">
 
 <div class="io-name">
 I0.2 EMERGENCY
 </div>
 
-<button
-class="btn yellow"
+<button class="btn yellow"
 onclick="toggleInput('I0.2')">
 
 FORZAR
@@ -374,17 +863,13 @@ FORZAR
 
 </div>
 
-<!-- I0.3 -->
-
-<div class="io-card"
-id="card-I0.3">
+<div class="io-card" id="card-I0.3">
 
 <div class="io-name">
 I0.3 SENSOR
 </div>
 
-<button
-class="btn blue"
+<button class="btn blue"
 onclick="toggleInput('I0.3')">
 
 FORZAR
@@ -393,51 +878,11 @@ FORZAR
 
 </div>
 
-<!-- I0.4 -->
-
-<div class="io-card"
-id="card-I0.4">
-
-<div class="io-name">
-I0.4 AUX
-</div>
-
-<button
-class="btn green"
-onclick="toggleInput('I0.4')">
-
-FORZAR
-
-</button>
-
-</div>
-
-<!-- I0.5 -->
-
-<div class="io-card"
-id="card-I0.5">
-
-<div class="io-name">
-I0.5 AUX
-</div>
-
-<button
-class="btn blue"
-onclick="toggleInput('I0.5')">
-
-FORZAR
-
-</button>
-
 </div>
 
 </div>
 
-</div>
-
-<!-- =========================================================
-OUTPUTS
-========================================================= -->
+<!-- OUTPUTS -->
 
 <div class="panel">
 
@@ -449,9 +894,7 @@ SALIDAS PLC
 
 <div class="memory-item">
 
-<span>
-Q0.0 MOTOR
-</span>
+<span>Q0.0 MOTOR</span>
 
 <span data-output="Q0.0">
 FALSE
@@ -461,9 +904,7 @@ FALSE
 
 <div class="memory-item">
 
-<span>
-Q0.1 VERDE
-</span>
+<span>Q0.1 VERDE</span>
 
 <span data-output="Q0.1">
 FALSE
@@ -473,9 +914,7 @@ FALSE
 
 <div class="memory-item">
 
-<span>
-Q0.2 ROJO
-</span>
+<span>Q0.2 ROJO</span>
 
 <span data-output="Q0.2">
 FALSE
@@ -485,9 +924,7 @@ FALSE
 
 <div class="memory-item">
 
-<span>
-Q0.3 AMARILLO
-</span>
+<span>Q0.3 TIMER</span>
 
 <span data-output="Q0.3">
 FALSE
@@ -499,14 +936,12 @@ FALSE
 
 </div>
 
-<!-- =========================================================
-MOTOR
-========================================================= -->
+<!-- MOTOR -->
 
 <div class="panel">
 
 <h2>
-MOTOR INDUSTRIAL
+MOTOR TRIFÁSICO
 </h2>
 
 <div class="motor-container">
@@ -519,17 +954,6 @@ id="fan">
 </div>
 
 </div>
-
-<div class="connection-image-box">
-
-<img
-id="connectionImage"
-src="/static/img/star.png"
-class="connection-image">
-
-</div>
-
-<!-- PILOTS -->
 
 <div class="pilot-row">
 
@@ -550,35 +974,12 @@ id="bluePilot">
 
 </div>
 
-<!-- BUTTONS -->
-
-<div class="toolbar">
-
-<button
-class="btn green"
-onclick="connectStar()">
-
-ESTRELLA
-
-</button>
-
-<button
-class="btn blue"
-onclick="connectDelta()">
-
-TRIANGULO
-
-</button>
-
-</div>
-
-<!-- INFO -->
-
 <div class="motor-info">
 
 <div class="info-box">
 
-RPM:
+RPM<br>
+
 <span id="rpmValue">
 0 RPM
 </span>
@@ -587,9 +988,10 @@ RPM:
 
 <div class="info-box">
 
-ESTADO:
+ESTADO<br>
+
 <span id="motorState">
-DETENIDO
+STOP
 </span>
 
 </div>
@@ -600,9 +1002,7 @@ DETENIDO
 
 </div>
 
-<!-- =========================================================
-LOGS
-========================================================= -->
+<!-- LOGS -->
 
 <div class="panel">
 
@@ -619,60 +1019,48 @@ id="logBox">
 
 </aside>
 
-<!-- =========================================================
-MAIN
-========================================================= -->
+<!-- MAIN -->
 
 <main class="main">
 
-<!-- =========================================================
-TOOLBAR
-========================================================= -->
-
 <div class="toolbar">
 
-<button
-class="btn green"
+<button class="btn green"
 onclick="addNO()">
 
-+ CONTACTO NO
+CONTACTO NO
 
 </button>
 
-<button
-class="btn yellow"
+<button class="btn yellow"
 onclick="addNC()">
 
-+ CONTACTO NC
+CONTACTO NC
 
 </button>
 
-<button
-class="btn blue"
+<button class="btn blue"
 onclick="addCoil()">
 
-+ BOBINA
+BOBINA
 
 </button>
 
-<button
-class="btn red"
+<button class="btn red"
 onclick="addTON()">
 
-+ TON
+TEMPORIZADOR
 
 </button>
 
-<button
-class="btn blue"
+<button class="btn blue"
 onclick="addRung()">
 
-+ RUNG
+NUEVO RUNG
 
 </button>
 
-<button
-class="btn green"
+<button class="btn green"
 onclick="runSimulation()">
 
 SIMULAR PLC
@@ -681,23 +1069,16 @@ SIMULAR PLC
 
 </div>
 
-<!-- =========================================================
-LADDER
-========================================================= -->
-
 <div class="ladder-area"
 id="ladder">
 
-<!-- =========================================================
-RUNG 1
-========================================================= -->
+<!-- RUNG 1 -->
 
 <div class="rung">
 
 <div class="rail"></div>
 
-<div
-class="contact"
+<div class="contact"
 data-type="NO"
 data-address="I0.0">
 
@@ -711,13 +1092,14 @@ I0.0
 
 <div class="line"></div>
 
-<div
-class="contact"
+<div class="contact"
 data-type="NC"
 data-address="I0.1">
 
 /I0.1
 
+<div class="diag"></div>
+
 <div class="delete-element">
 ✕
 </div>
@@ -726,13 +1108,14 @@ data-address="I0.1">
 
 <div class="line"></div>
 
-<div
-class="contact"
+<div class="contact"
 data-type="NC"
 data-address="I0.2">
 
 /I0.2
 
+<div class="diag"></div>
+
 <div class="delete-element">
 ✕
 </div>
@@ -741,10 +1124,8 @@ data-address="I0.2">
 
 <div class="line"></div>
 
-<div
-class="coil"
-data-address="Q0.0"
-data-coil="normal">
+<div class="coil"
+data-address="Q0.0">
 
 (Q0.0)
 
@@ -758,16 +1139,13 @@ data-coil="normal">
 
 </div>
 
-<!-- =========================================================
-RUNG 2
-========================================================= -->
+<!-- RUNG 2 -->
 
 <div class="rung">
 
 <div class="rail"></div>
 
-<div
-class="contact"
+<div class="contact"
 data-type="NO"
 data-address="Q0.0">
 
@@ -781,107 +1159,10 @@ Q0.0
 
 <div class="line"></div>
 
-<div
-class="coil"
-data-address="Q0.1"
-data-coil="normal">
+<div class="coil"
+data-address="Q0.1">
 
 (Q0.1)
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-<!-- =========================================================
-RUNG 3
-========================================================= -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div
-class="contact"
-data-type="NC"
-data-address="Q0.0">
-
-/Q0.0
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="line"></div>
-
-<div
-class="coil"
-data-address="Q0.2"
-data-coil="normal">
-
-(Q0.2)
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-<!-- =========================================================
-RUNG 4 TIMER
-========================================================= -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div
-class="contact"
-data-type="NO"
-data-address="I0.3">
-
-I0.3
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="line"></div>
-
-<div
-class="timer"
-data-address="T0.0"
-data-preset="3000">
-
-TON T0.0
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="line"></div>
-
-<div
-class="coil"
-data-address="Q0.3"
-data-coil="normal">
-
-(Q0.3)
 
 <div class="delete-element">
 ✕
@@ -901,31 +1182,15 @@ data-coil="normal">
 
 </div>
 
-<!-- =========================================================
-JS
-========================================================= -->
-
-<script
-src="{{ url_for('static', filename='js/main.js') }}">
-</script>
-
-<script
-src="{{ url_for('static', filename='js/motor.js') }}">
-</script>
-
-<script
-src="{{ url_for('static', filename='js/tank.js') }}">
-</script>
+<!-- JS -->
 
 <script
 src="{{ url_for('static', filename='js/logs.js') }}">
 </script>
 
 <script
-src="{{ url_for('static', filename='js/ui.js') }}">
+src="{{ url_for('static', filename='js/motor.js') }}">
 </script>
-
-<!-- IMPORTANT ORDER -->
 
 <script
 src="{{ url_for('static', filename='js/plc_engine.js') }}">
@@ -934,10 +1199,6 @@ src="{{ url_for('static', filename='js/plc_engine.js') }}">
 <script
 src="{{ url_for('static', filename='js/ladder.js') }}">
 </script>
-
-<!-- =========================================================
-INIT
-========================================================= -->
 
 <script>
 
@@ -949,15 +1210,15 @@ document.getElementById("loader")
 .style.display="none"
 
 document.getElementById("app")
-.style.display="block"
+.style.display="flex"
 
 log(
-"AUTOMATION STUDIO X INICIADO"
+"SISTEMA PLC INICIADO"
 )
 
 scanPLC()
 
-},1200)
+},1000)
 
 }
 

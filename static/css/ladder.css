@@ -3,24 +3,19 @@ LADDER AREA
 ========================================================= */
 
 .ladder-area{
-    
-    width:100%;
-    min-height:100vh;
 
-    background:
-    linear-gradient(180deg,#0b1724,#08111c);
+display:flex;
+flex-direction:column;
+gap:30px;
 
-    border:2px solid #1d3047;
+padding:30px;
 
-    border-radius:18px;
+overflow:auto;
 
-    padding:25px;
+height:calc(100vh - 120px);
 
-    overflow:auto;
-
-    box-shadow:
-    inset 0 0 30px rgba(0,255,153,.05),
-    0 0 25px rgba(0,0,0,.5);
+background:
+linear-gradient(180deg,#07101b 0%,#081827 100%);
 
 }
 
@@ -30,63 +25,90 @@ RUNG
 
 .rung{
 
-    position:relative;
+position:relative;
 
-    display:flex;
-    align-items:center;
+display:flex;
+align-items:center;
 
-    min-height:90px;
+min-height:110px;
 
-    margin-bottom:25px;
+padding:0 40px;
 
-    padding:10px 0;
+background:
+linear-gradient(180deg,#0d1d2f 0%,#091624 100%);
 
-}
+border:1px solid #12304d;
 
-/* =========================================================
-POWER FLOW
-========================================================= */
+border-radius:18px;
 
-.rung.powered .line,
-.rung.powered .rail{
+box-shadow:
+0 0 20px rgba(0,0,0,.45),
+inset 0 0 20px rgba(0,255,150,.03);
 
-    background:#00ff99;
-
-    box-shadow:
-    0 0 10px #00ff99,
-    0 0 20px rgba(0,255,153,.6);
+overflow-x:auto;
 
 }
 
 /* =========================================================
-RAILS
+POWER RAILS
 ========================================================= */
 
 .rail{
 
-    width:8px;
-    height:70px;
+width:10px;
+height:80px;
 
-    background:#30465f;
+border-radius:20px;
 
-    border-radius:5px;
+background:#2e4764;
 
-    transition:.15s;
+position:relative;
+
+transition:.15s;
+
+flex-shrink:0;
+
+}
+
+.rail.powered{
+
+background:#00ff99;
+
+box-shadow:
+0 0 10px #00ff99,
+0 0 20px rgba(0,255,153,.6),
+0 0 40px rgba(0,255,153,.35);
 
 }
 
 /* =========================================================
-LINES
+POWER FLOW LINE
 ========================================================= */
 
 .line{
 
-    width:45px;
-    height:6px;
+width:60px;
+height:6px;
 
-    background:#30465f;
+border-radius:10px;
 
-    transition:.15s;
+background:#29435d;
+
+position:relative;
+
+transition:.15s;
+
+flex-shrink:0;
+
+}
+
+.line.powered{
+
+background:#00ff99;
+
+box-shadow:
+0 0 10px #00ff99,
+0 0 18px rgba(0,255,153,.6);
 
 }
 
@@ -96,109 +118,113 @@ CONTACTS
 
 .contact{
 
-    position:relative;
+position:relative;
 
-    width:90px;
-    height:52px;
+width:90px;
+height:70px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+display:flex;
+justify-content:center;
+align-items:center;
 
-    background:#132131;
+font-size:13px;
+font-weight:700;
 
-    border:2px solid #3f5b7a;
+color:#c8d7ea;
 
-    border-radius:12px;
+user-select:none;
 
-    font-size:14px;
-    font-weight:700;
+transition:.15s;
 
-    color:#d7e5f7;
-
-    user-select:none;
-
-    transition:.15s;
-
-    cursor:pointer;
+flex-shrink:0;
 
 }
 
-/* CONTACT SYMBOL */
+/* vertical bars */
 
 .contact::before,
 .contact::after{
 
-    content:"";
+content:"";
 
-    position:absolute;
+position:absolute;
 
-    top:8px;
+top:8px;
 
-    width:3px;
-    height:32px;
+width:4px;
+height:54px;
 
-    background:#d7e5f7;
+border-radius:10px;
 
-    transition:.15s;
+background:#8ba2bb;
+
+transition:.15s;
 
 }
 
 .contact::before{
-    left:22px;
+
+left:20px;
+
 }
 
 .contact::after{
-    right:22px;
-}
 
-/* NC DIAGONAL */
-
-.contact.nc-symbol span{
-
-    position:absolute;
-
-    width:40px;
-    height:3px;
-
-    background:#d7e5f7;
-
-    transform:rotate(-45deg);
+right:20px;
 
 }
 
-/* =========================================================
-CONTACT STATES
-========================================================= */
+/* NO */
 
-.contact.open{
+.contact[data-type="NO"]::before,
+.contact[data-type="NO"]::after{
 
-    background:#2a1b1b;
-    border-color:#ff4b5c;
-
-    color:#ff9da8;
+background:#dce8f5;
 
 }
 
-.contact.closed{
+/* NC diagonal */
 
-    background:#0f2b1e;
-    border-color:#00ff99;
+.contact[data-type="NC"] .diag{
 
-    color:#00ff99;
+position:absolute;
 
-    box-shadow:
-    0 0 12px rgba(0,255,153,.5);
+width:60px;
+height:4px;
+
+background:#dce8f5;
+
+transform:rotate(-55deg);
+
+border-radius:10px;
 
 }
 
-/* ENERGIZED */
+/* powered */
 
-.contact.energized{
+.contact.powered{
 
-    box-shadow:
-    0 0 10px #00ff99,
-    0 0 20px rgba(0,255,153,.7);
+color:#00ff99;
+
+}
+
+.contact.powered::before,
+.contact.powered::after{
+
+background:#00ff99;
+
+box-shadow:
+0 0 10px #00ff99,
+0 0 18px rgba(0,255,153,.6);
+
+}
+
+.contact.powered .diag{
+
+background:#00ff99;
+
+box-shadow:
+0 0 10px #00ff99;
 
 }
 
@@ -208,214 +234,236 @@ COILS
 
 .coil{
 
-    position:relative;
+position:relative;
 
-    width:110px;
-    height:58px;
+width:100px;
+height:70px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+display:flex;
+justify-content:center;
+align-items:center;
 
-    background:#132131;
+font-size:13px;
+font-weight:700;
 
-    border:2px solid #5478a0;
+color:#dce8f5;
 
-    border-radius:14px;
+transition:.15s;
 
-    font-weight:700;
-    font-size:15px;
-
-    color:#d7e5f7;
-
-    transition:.15s;
+flex-shrink:0;
 
 }
 
-/* COIL PARENTESIS */
-
-.coil::before,
-.coil::after{
-
-    position:absolute;
-
-    font-size:28px;
-    color:#c7dfff;
-
-}
+/* left arc */
 
 .coil::before{
 
-    content:"(";
-    left:12px;
+content:"";
+
+position:absolute;
+
+left:18px;
+top:10px;
+
+width:26px;
+height:46px;
+
+border:4px solid #cfe0f3;
+
+border-right:none;
+
+border-radius:40px 0 0 40px;
+
+transition:.15s;
 
 }
+
+/* right arc */
 
 .coil::after{
 
-    content:")";
-    right:12px;
+content:"";
+
+position:absolute;
+
+right:18px;
+top:10px;
+
+width:26px;
+height:46px;
+
+border:4px solid #cfe0f3;
+
+border-left:none;
+
+border-radius:0 40px 40px 0;
+
+transition:.15s;
 
 }
 
-/* COIL ACTIVE */
+/* energized */
 
-.coil.active{
+.coil.energized{
 
-    background:#0f2b1e;
-    border-color:#00ff99;
+color:#00ff99;
 
-    color:#00ff99;
+text-shadow:0 0 10px #00ff99;
 
-    box-shadow:
-    0 0 15px #00ff99,
-    0 0 30px rgba(0,255,153,.5);
+}
+
+.coil.energized::before,
+.coil.energized::after{
+
+border-color:#00ff99;
+
+box-shadow:
+0 0 10px #00ff99,
+0 0 18px rgba(0,255,153,.5);
 
 }
 
 /* =========================================================
-TIMER
+TON TIMER
 ========================================================= */
 
 .timer{
 
-    position:relative;
+position:relative;
 
-    width:150px;
-    height:60px;
+width:120px;
+height:70px;
 
-    background:#1c2037;
+display:flex;
+justify-content:center;
+align-items:center;
 
-    border:2px solid #7186ff;
+flex-direction:column;
 
-    border-radius:14px;
+background:#16283a;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+border:2px solid #3b5878;
 
-    flex-direction:column;
+border-radius:12px;
 
-    font-family:Consolas;
+font-size:12px;
+font-weight:700;
 
-    font-size:13px;
-    font-weight:700;
+color:#d7e3f0;
 
-    color:#c9d5ff;
+transition:.15s;
 
-    transition:.15s;
+flex-shrink:0;
 
 }
 
 .timer::before{
 
-    content:"TON";
+content:"TON";
 
-    position:absolute;
+font-size:12px;
 
-    top:5px;
-    left:8px;
+opacity:.7;
 
-    font-size:11px;
-
-    color:#8ea0ff;
+margin-bottom:4px;
 
 }
 
 .timer.powered{
 
-    background:#0f2b1e;
+background:#00ff99;
 
-    border-color:#00ff99;
+color:#00160d;
 
-    color:#00ff99;
+border-color:#00ff99;
 
-    box-shadow:
-    0 0 15px #00ff99,
-    0 0 30px rgba(0,255,153,.5);
+box-shadow:
+0 0 12px #00ff99,
+0 0 25px rgba(0,255,153,.5);
 
 }
 
 /* =========================================================
-DELETE BUTTON
+DELETE
 ========================================================= */
 
 .delete-element{
 
-    position:absolute;
+position:absolute;
 
-    top:-8px;
-    right:-8px;
+top:-8px;
+right:-8px;
 
-    width:18px;
-    height:18px;
+width:18px;
+height:18px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+border-radius:50%;
 
-    background:#ff3355;
+background:#ff3355;
 
-    border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
 
-    font-size:11px;
-    font-weight:700;
+font-size:10px;
+font-weight:700;
 
-    color:white;
+cursor:pointer;
 
-    cursor:pointer;
+z-index:10;
 
-    z-index:20;
-
-    transition:.15s;
-
-}
-
-.delete-element:hover{
-
-    transform:scale(1.15);
+opacity:.85;
 
 }
 
 /* =========================================================
-POWER ANIMATION
+ENERGY ANIMATION
 ========================================================= */
 
-.rung.powered::after{
+.line.powered::after{
 
-    content:"";
+content:"";
 
-    position:absolute;
+position:absolute;
 
-    left:0;
-    top:50%;
+top:-4px;
+left:-10px;
 
-    width:100%;
-    height:4px;
+width:14px;
+height:14px;
 
-    background:
-    linear-gradient(
-        90deg,
-        transparent,
-        rgba(0,255,153,.9),
-        transparent
-    );
+border-radius:50%;
 
-    animation:flow 1s linear infinite;
+background:#00ff99;
 
-    opacity:.5;
+animation:flow 1s linear infinite;
+
+box-shadow:
+0 0 10px #00ff99;
 
 }
 
 @keyframes flow{
 
-    0%{
-        transform:translateX(-100%);
-    }
+0%{
 
-    100%{
-        transform:translateX(100%);
-    }
+left:-10px;
+opacity:0;
+
+}
+
+20%{
+
+opacity:1;
+
+}
+
+100%{
+
+left:100%;
+opacity:0;
+
+}
 
 }
 
@@ -425,20 +473,20 @@ SCROLL
 
 .ladder-area::-webkit-scrollbar{
 
-    width:10px;
-    height:10px;
+height:10px;
+width:10px;
 
 }
 
 .ladder-area::-webkit-scrollbar-thumb{
 
-    background:#1f3550;
-    border-radius:10px;
+background:#1f3f5f;
+border-radius:10px;
 
 }
 
 .ladder-area::-webkit-scrollbar-track{
 
-    background:#09131f;
+background:#09111b;
 
 }
