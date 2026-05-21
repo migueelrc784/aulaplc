@@ -9,7 +9,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- CSS (FASTAPI / VERCEL FIX) -->
+<!-- CSS (CORRECTO PARA FASTAPI / VERCEL) -->
 <link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', path='css/motor.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', path='css/ladder.css') }}">
@@ -60,17 +60,117 @@
 
 <!-- DASHBOARD -->
 <div class="page" id="dashboard">
-<!-- tu contenido igual -->
+
+<!-- MOTOR MODULE -->
+<div class="card">
+<h2>MOTOR TRIFÁSICO</h2>
+
+<div class="motor-area">
+<div class="motor-real">
+<div class="motor-lines"></div>
+<div class="fan" id="fan"></div>
+<div class="shaft"></div>
+</div>
+</div>
+
+<div class="gauge">
+<div class="fill" id="rpmFill"></div>
+</div>
+
+RPM: <span id="rpmText">0</span>
+
+<br><br>
+
+Temperatura: <span id="tempText">25</span>°C
+
+<div class="gauge">
+<div class="fill" id="tempFill"></div>
+</div>
+
+<div class="lights">
+<div class="pilot" id="greenLight"></div>
+<div class="pilot" id="redLight"></div>
+<div class="pilot" id="blueLight"></div>
+</div>
+
+</div>
+
+<!-- IO PANEL -->
+<div class="card">
+<h2>ENTRADAS / SALIDAS</h2>
+
+<div class="io-grid">
+
+<div class="io">
+I0.0 START
+<button onclick="toggleInput('start')" class="btn green">ON</button>
+</div>
+
+<div class="io">
+I0.1 STOP
+<button onclick="toggleInput('stop')" class="btn red">OFF</button>
+</div>
+
+<div class="io">
+I0.2 EMG
+<button onclick="toggleInput('emergency')" class="btn yellow">EMG</button>
+</div>
+
+<div class="io">Q0.0 MOTOR</div>
+<div class="io">Q0.1 GREEN</div>
+<div class="io">Q0.2 RED</div>
+<div class="io">Q0.3 BLUE</div>
+
+</div>
+
+</div>
+
 </div>
 
 <!-- LADDER -->
 <div class="page" id="ladderPage" style="display:none">
-<!-- tu ladder igual -->
+<div class="card">
+<h2>LADDER EDITOR</h2>
+
+<div class="controls">
+<button class="btn green" onclick="addContact()">+ Contacto</button>
+<button class="btn blue" onclick="addCoil()">+ Bobina</button>
+<button class="btn yellow" onclick="addTimer()">+ Timer</button>
+<button class="btn red" onclick="simulatePLC()">SIMULAR</button>
+</div>
+
+<div class="ladder" id="ladder"></div>
+
+</div>
 </div>
 
 <!-- TANK -->
 <div class="page" id="tankPage" style="display:none">
-<!-- tu tanque igual -->
+
+<div class="card">
+<h2>TANQUE INDUSTRIAL</h2>
+
+<div class="tank">
+<div class="water" id="water"></div>
+</div>
+
+<p>Nivel: <span id="liters">0 cm³</span></p>
+
+<div class="controls">
+<button onclick="openValve()" class="btn green">Abrir</button>
+<button onclick="closeValve()" class="btn red">Cerrar</button>
+</div>
+
+</div>
+
+<div class="card">
+<h2>CONTROL KP</h2>
+
+<input type="range" min="1" max="100" value="30" id="kp">
+
+<div id="kpText">Velocidad = 30%</div>
+</div>
+
 </div>
 
 <!-- LOGS -->
@@ -84,8 +184,12 @@
 </div>
 </div>
 
-<!-- JS (IMPORTANTE: EXTERNO) -->
-<script src="{{ url_for('static', path='js/main.js') }}"></script>
+<!-- JS (SEPARADO Y LIMPIO) -->
+<script src="{{ url_for('static', path='js/ui.js') }}"></script>
+<script src="{{ url_for('static', path='js/motor.js') }}"></script>
+<script src="{{ url_for('static', path='js/ladder.js') }}"></script>
+<script src="{{ url_for('static', path='js/tank.js') }}"></script>
+<script src="{{ url_for('static', path='js/logs.js') }}"></script>
 
 </body>
 </html>
