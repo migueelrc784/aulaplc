@@ -26,7 +26,7 @@ document.getElementById("connectionMode")
 /* CAMBIAR IMAGEN */
 
 document.getElementById("connectionImage")
-.src="/static/img/star.png"
+.src="/static/img/estrella.png"
 
 log("Motor configurado en ESTRELLA")
 
