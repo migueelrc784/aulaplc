@@ -1,27 +1,19 @@
 from fastapi import FastAPI, Request
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
-
 app = FastAPI()
 
-app.mount(
-    "/static",
-    StaticFiles(directory=str(BASE_DIR / "static")),
-    name="static"
+BASE_DIR = Path(__file__).resolve().parent
+
+templates = Jinja2Templates(
+    directory=str(BASE_DIR / "templates")
 )
 
-templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
-
-
 @app.get("/")
-async def home(request: Request):
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request}
-    )
+def inicio(request: Request):
 
-# FORZAR EXPORT (IMPORTANTE PARA VERCEL)
-app = app
+    return templates.TemplateResponse(
+        request,
+        "index.html"
+    )
