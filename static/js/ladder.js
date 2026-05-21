@@ -1,77 +1,40 @@
-function evaluateContact(type,address){
+/* =====================================================
+TOGGLE INPUT
+===================================================== */
 
-let val=memory[address]
+function toggleInput(address){
 
-if(type==="NO"){
-return val
-}
+plcMemory[address]=
+!plcMemory[address]
 
-if(type==="NC"){
-return !val
-}
-
-return false
-
-}
-
-function runPLC(){
-
-const rungs=document.querySelectorAll(".rung")
-
-memory["Q0.0"]=false
-memory["Q0.1"]=false
-memory["Q0.2"]=false
-memory["Q0.3"]=false
-
-rungs.forEach(rung=>{
-
-let power=true
-
-const elements=rung.children
-
-elements.forEach(el=>{
-
-if(el.classList.contains("contact")){
-
-const state=evaluateContact(
-el.dataset.type,
-el.dataset.address
+log(
+address+
+" = "+
+plcMemory[address]
 )
 
-if(state){
-
-el.classList.add("powered")
-
-}else{
-
-el.classList.remove("powered")
-
-power=false
+scanPLC()
 
 }
 
-}
+/* =====================================================
+SIMULAR PLC
+===================================================== */
 
-if(el.classList.contains("coil")){
+function runSimulation(){
 
-memory[el.dataset.address]=power
+scanPLC()
 
-if(power){
-
-el.classList.add("powered")
-
-}else{
-
-el.classList.remove("powered")
+log("PLC SCAN")
 
 }
 
-}
+/* =====================================================
+SCAN AUTOMATICO
+===================================================== */
 
-})
+setInterval(()=>{
 
-})
+scanPLC()
 
-updateOutputs()
-
-}
+},100)
