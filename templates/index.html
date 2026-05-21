@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,13 +9,12 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- CSS -->
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/motor.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ladder.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/tank.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+<!-- CSS (FASTAPI FIX) -->
+<link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='css/motor.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='css/ladder.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='css/tank.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', path='css/responsive.css') }}">
 
 </head>
 
@@ -25,40 +23,21 @@
 <header>
 
 <div class="logo">
-
-<div style="font-size:35px">
-⚡
-</div>
+<div style="font-size:35px">⚡</div>
 
 <div>
-
 <h1>AUTOMATIZACIÓN Y CONTROL</h1>
-
-<p>
-PLC • SCADA • HMI • LADDER • CADe_SIMU STYLE
-</p>
-
+<p>PLC • SCADA • HMI • LADDER • CADe_SIMU STYLE</p>
 </div>
 
 </div>
 
 <div class="topbar">
 
-<div class="status online">
-CPU RUN
-</div>
-
-<div class="status offline" id="plcStatus">
-PLC STOP
-</div>
-
-<div class="status">
-PROFINET OK
-</div>
-
-<div class="status">
-380V AC
-</div>
+<div class="status online">CPU RUN</div>
+<div class="status offline" id="plcStatus">PLC STOP</div>
+<div class="status">PROFINET OK</div>
+<div class="status">380V AC</div>
 
 </div>
 
@@ -67,37 +46,21 @@ PROFINET OK
 <div class="wrapper">
 
 <!-- SIDEBAR -->
-
 <div class="sidebar">
 
-<div class="menu-title">
-AUTOMATION
-</div>
+<div class="menu-title">AUTOMATION</div>
 
-<button onclick="showPage('dashboard')">
-🏭 Motor Industrial
-</button>
-
-<button onclick="showPage('ladderPage')">
-🪜 Ladder Editor
-</button>
-
-<button onclick="showPage('tankPage')">
-🖥 HMI Tanque
-</button>
-
-<button onclick="showPage('logsPage')">
-📋 Eventos
-</button>
+<button onclick="showPage('dashboard')">🏭 Motor Industrial</button>
+<button onclick="showPage('ladderPage')">🪜 Ladder Editor</button>
+<button onclick="showPage('tankPage')">🖥 HMI Tanque</button>
+<button onclick="showPage('logsPage')">📋 Eventos</button>
 
 </div>
 
 <!-- MAIN -->
-
 <div class="main">
 
 <!-- DASHBOARD -->
-
 <div class="page" id="dashboard">
 
 <div class="grid">
@@ -109,50 +72,31 @@ AUTOMATION
 <div class="motor-area">
 
 <div class="motor-real">
-
 <div class="motor-lines"></div>
-
 <div class="fan" id="fan"></div>
-
 <div class="shaft"></div>
-
 </div>
 
 <div class="delta">
-
 <svg viewBox="0 0 200 120">
 
-<polygon
-points="100,10 20,100 180,100"
+<polygon points="100,10 20,100 180,100"
 fill="none"
 stroke="#00ff99"
-stroke-width="5"
-/>
+stroke-width="5"/>
 
-<text x="90" y="8" fill="white">
-U
-</text>
-
-<text x="8" y="110" fill="white">
-V
-</text>
-
-<text x="180" y="110" fill="white">
-W
-</text>
+<text x="90" y="8" fill="white">U</text>
+<text x="8" y="110" fill="white">V</text>
+<text x="180" y="110" fill="white">W</text>
 
 </svg>
-
 </div>
 
 </div>
 
 <br>
 
-RPM:
-<span id="rpmText">
-0
-</span>
+RPM: <span id="rpmText">0</span>
 
 <div class="gauge">
 <div class="fill" id="rpmFill"></div>
@@ -160,10 +104,7 @@ RPM:
 
 <br>
 
-Temperatura:
-<span id="tempText">
-25
-</span>°C
+Temperatura: <span id="tempText">25</span>°C
 
 <div class="gauge">
 <div class="fill" id="tempFill"></div>
@@ -172,13 +113,9 @@ Temperatura:
 <br><br>
 
 <div class="lights">
-
 <div class="pilot" id="greenLight"></div>
-
 <div class="pilot" id="redLight"></div>
-
 <div class="pilot" id="blueLight"></div>
-
 </div>
 
 </div>
@@ -190,50 +127,24 @@ Temperatura:
 <div class="io-grid">
 
 <div class="io">
-
 I0.0 START
-
-<button class="btn green" onclick="toggleInput('start')">
-Pulsar
-</button>
-
+<button class="btn green" onclick="toggleInput('start')">Pulsar</button>
 </div>
 
 <div class="io">
-
 I0.1 STOP
-
-<button class="btn red" onclick="toggleInput('stop')">
-Pulsar
-</button>
-
+<button class="btn red" onclick="toggleInput('stop')">Pulsar</button>
 </div>
 
 <div class="io">
-
 I0.2 EMERGENCY
-
-<button class="btn yellow" onclick="toggleInput('emergency')">
-EMG
-</button>
-
+<button class="btn yellow" onclick="toggleInput('emergency')">EMG</button>
 </div>
 
-<div class="io">
-Q0.0 MOTOR
-</div>
-
-<div class="io">
-Q0.1 GREEN
-</div>
-
-<div class="io">
-Q0.2 RED
-</div>
-
-<div class="io">
-Q0.3 BLUE
-</div>
+<div class="io">Q0.0 MOTOR</div>
+<div class="io">Q0.1 GREEN</div>
+<div class="io">Q0.2 RED</div>
+<div class="io">Q0.3 BLUE</div>
 
 </div>
 
@@ -244,7 +155,6 @@ Q0.3 BLUE
 </div>
 
 <!-- LADDER -->
-
 <div class="page" id="ladderPage" style="display:none">
 
 <div class="card">
@@ -253,21 +163,10 @@ Q0.3 BLUE
 
 <div class="controls">
 
-<button class="btn green" onclick="addContact()">
-+ Contacto
-</button>
-
-<button class="btn blue" onclick="addCoil()">
-+ Bobina
-</button>
-
-<button class="btn yellow" onclick="addTimer()">
-+ Temporizador
-</button>
-
-<button class="btn red" onclick="simulatePLC()">
-SIMULAR
-</button>
+<button class="btn green" onclick="addContact()">+ Contacto</button>
+<button class="btn blue" onclick="addCoil()">+ Bobina</button>
+<button class="btn yellow" onclick="addTimer()">+ Temporizador</button>
+<button class="btn red" onclick="simulatePLC()">SIMULAR</button>
 
 </div>
 
@@ -277,27 +176,13 @@ SIMULAR
 
 <div class="rung active">
 
-<div class="contact" contenteditable="true">
-I0.0
-</div>
-
+<div class="contact" contenteditable="true">I0.0</div>
 <div class="line"></div>
-
-<div class="contact" contenteditable="true">
-/I0.1
-</div>
-
+<div class="contact" contenteditable="true">/I0.1</div>
 <div class="line"></div>
-
-<div class="contact" contenteditable="true">
-/I0.2
-</div>
-
+<div class="contact" contenteditable="true">/I0.2</div>
 <div class="line"></div>
-
-<div class="coil" contenteditable="true">
-Q0.0
-</div>
+<div class="coil" contenteditable="true">Q0.0</div>
 
 </div>
 
@@ -308,7 +193,6 @@ Q0.0
 </div>
 
 <!-- TANK -->
-
 <div class="page" id="tankPage" style="display:none">
 
 <div class="grid">
@@ -318,33 +202,21 @@ Q0.0
 <h2>TANQUE INDUSTRIAL</h2>
 
 <div class="tank-wrap">
-
 <div class="tank">
-
 <div class="water" id="water"></div>
-
 </div>
-
 </div>
 
 <br>
 
-Nivel:
-<span id="liters">
-0 cm³
-</span>
+Nivel: <span id="liters">0 cm³</span>
 
 <br><br>
 
 <div class="controls">
 
-<button class="btn green" onclick="openValve()">
-Abrir Válvula
-</button>
-
-<button class="btn red" onclick="closeValve()">
-Cerrar Válvula
-</button>
+<button class="btn green" onclick="openValve()">Abrir Válvula</button>
+<button class="btn red" onclick="closeValve()">Cerrar Válvula</button>
 
 </div>
 
@@ -359,9 +231,7 @@ KP:
 
 <br><br>
 
-<div id="kpText">
-Velocidad = 30%
-</div>
+<div id="kpText">Velocidad = 30%</div>
 
 </div>
 
@@ -370,15 +240,11 @@ Velocidad = 30%
 </div>
 
 <!-- LOGS -->
-
 <div class="page" id="logsPage" style="display:none">
 
 <div class="card">
-
 <h2>EVENTOS</h2>
-
 <div class="log" id="logBox"></div>
-
 </div>
 
 </div>
@@ -387,10 +253,8 @@ Velocidad = 30%
 
 </div>
 
-<!-- JS -->
-
-<script src="/static/js/main.js"></script>
+<!-- JS (IMPORTANTE) -->
+<script src="{{ url_for('static', path='js/main.js') }}"></script>
 
 </body>
-
 </html>
