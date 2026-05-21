@@ -8,15 +8,11 @@
 
 <title>AUTOMATION STUDIO X</title>
 
-<!-- =========================================================
-FONTS
-========================================================= -->
+<!-- FONTS -->
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- =========================================================
-CSS
-========================================================= -->
+<!-- CSS -->
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/motor.css') }}">
@@ -25,11 +21,6 @@ CSS
 <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
 
 <style>
-
-/* =========================================================
-FALLBACK CSS
-SI ALGUN CSS NO CARGA
-========================================================= */
 
 body{
 margin:0;
@@ -128,13 +119,13 @@ ETHERNET OK
 </header>
 
 <!-- =========================================================
-MAIN LAYOUT
+LAYOUT
 ========================================================= -->
 
 <div class="layout">
 
 <!-- =========================================================
-LEFT PANEL
+SIDEBAR
 ========================================================= -->
 
 <aside class="sidebar">
@@ -155,7 +146,9 @@ I0.0 START
 
 <button class="btn green"
 onclick="toggleInput('I0.0')">
+
 FORZAR
+
 </button>
 
 </div>
@@ -168,7 +161,9 @@ I0.1 STOP
 
 <button class="btn red"
 onclick="toggleInput('I0.1')">
+
 FORZAR
+
 </button>
 
 </div>
@@ -181,7 +176,9 @@ I0.2 EMERGENCY
 
 <button class="btn yellow"
 onclick="toggleInput('I0.2')">
+
 FORZAR
+
 </button>
 
 </div>
@@ -194,7 +191,9 @@ I0.3 SENSOR
 
 <button class="btn blue"
 onclick="toggleInput('I0.3')">
+
 FORZAR
+
 </button>
 
 </div>
@@ -235,7 +234,9 @@ FORZAR
 
 </div>
 
-<!-- MOTOR -->
+<!-- =========================================================
+MOTOR
+========================================================= -->
 
 <div class="panel">
 
@@ -243,7 +244,16 @@ FORZAR
 
 <div class="motor-container">
 
+<!-- MOTOR -->
+
 <div class="motor">
+
+<div class="fan" id="fan"></div>
+
+</div>
+
+<!-- IMAGEN CONEXION -->
+
 <div class="connection-image-box">
 
 <img
@@ -251,36 +261,23 @@ id="connectionImage"
 src="/static/img/star.png"
 class="connection-image"
 >
-<div class="contact"
-data-type="NO"
-data-address="I0.0">
-
-I0.0
 
 </div>
-<div class="contact"
-data-type="NC"
-data-address="I0.1">
 
-/I0.1
-
-</div>
-<div class="coil"
-data-address="Q0.0">
-
-(Q0.0)
-
-</div>
-</div>
-<div class="fan" id="fan"></div>
-
-</div>
+<!-- PILOTOS -->
 
 <div class="pilot-row">
 
 <div class="pilot" id="greenPilot"></div>
+
 <div class="pilot" id="redPilot"></div>
+
 <div class="pilot" id="bluePilot"></div>
+
+</div>
+
+<!-- BOTONES -->
+
 <div class="toolbar">
 
 <button class="btn green"
@@ -312,36 +309,47 @@ STOP
 </button>
 
 </div>
-</div>
 
-</div>
+<!-- INFO -->
 
-</div>
 <div class="motor-info">
 
 <div class="info-box">
+
 RPM:
 <span id="rpmValue">
 0 RPM
 </span>
+
 </div>
 
 <div class="info-box">
+
 MODO:
 <span id="connectionMode">
 SIN CONFIGURAR
 </span>
+
 </div>
 
 <div class="info-box">
+
 ESTADO:
 <span id="motorState">
 DETENIDO
 </span>
+
 </div>
 
 </div>
-<!-- EVENTS -->
+
+</div>
+
+</div>
+
+<!-- =========================================================
+EVENTOS
+========================================================= -->
 
 <div class="panel">
 
@@ -354,7 +362,7 @@ DETENIDO
 </aside>
 
 <!-- =========================================================
-CENTER
+MAIN
 ========================================================= -->
 
 <main class="main">
@@ -386,7 +394,9 @@ SIMULAR PLC
 
 </div>
 
-<!-- LADDER -->
+<!-- =========================================================
+LADDER
+========================================================= -->
 
 <div class="ladder-area" id="ladder">
 
@@ -396,25 +406,31 @@ SIMULAR PLC
 
 <div class="rail"></div>
 
-<div class="contact powered"
+<div class="contact"
 data-type="NO"
 data-address="I0.0">
+
 I0.0
+
 </div>
 
 <div class="line"></div>
 
-<div class="contact powered"
+<div class="contact"
 data-type="NC"
 data-address="I0.1">
+
 /I0.1
+
 </div>
 
 <div class="line"></div>
 
 <div class="coil"
 data-address="Q0.0">
+
 (Q0.0)
+
 </div>
 
 <div class="rail"></div>
@@ -430,14 +446,18 @@ data-address="Q0.0">
 <div class="contact"
 data-type="NO"
 data-address="Q0.0">
+
 Q0.0
+
 </div>
 
 <div class="line"></div>
 
 <div class="coil"
 data-address="Q0.1">
+
 (Q0.1)
+
 </div>
 
 <div class="rail"></div>
@@ -453,14 +473,18 @@ data-address="Q0.1">
 <div class="contact"
 data-type="NC"
 data-address="Q0.0">
+
 /Q0.0
+
 </div>
 
 <div class="line"></div>
 
 <div class="coil"
 data-address="Q0.2">
+
 (Q0.2)
+
 </div>
 
 <div class="rail"></div>
@@ -476,7 +500,7 @@ data-address="Q0.2">
 </div>
 
 <!-- =========================================================
-JAVASCRIPT
+JS
 ========================================================= -->
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
@@ -485,12 +509,9 @@ JAVASCRIPT
 <script src="{{ url_for('static', filename='js/ladder.js') }}"></script>
 <script src="{{ url_for('static', filename='js/logs.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ui.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plc_engine.js') }}"></script>
 
 <script>
-
-/* =========================================================
-PRELOAD
-========================================================= */
 
 window.onload=()=>{
 
@@ -505,248 +526,6 @@ log("AUTOMATION STUDIO X INICIADO")
 },1200)
 
 }
-
-/* =========================================================
-PLC MEMORY
-========================================================= */
-
-const memory={
-
-"I0.0":false,
-"I0.1":false,
-"I0.2":false,
-"I0.3":false,
-
-"Q0.0":false,
-"Q0.1":false,
-"Q0.2":false,
-"Q0.3":false
-
-}
-
-/* =========================================================
-LOG SYSTEM
-========================================================= */
-
-function log(text){
-
-const p=document.createElement("p")
-
-p.innerHTML=
-new Date().toLocaleTimeString()
-+" → "+
-text
-
-document.getElementById("logBox")
-.prepend(p)
-
-}
-
-/* =========================================================
-INPUTS
-========================================================= */
-
-function toggleInput(addr){
-
-memory[addr]=!memory[addr]
-
-log(addr+" = "+memory[addr])
-
-runPLC()
-
-}
-
-/* =========================================================
-CONTACTS
-========================================================= */
-
-function evaluateContact(type,address){
-
-let val=memory[address]
-
-if(type==="NO"){
-return val
-}
-
-if(type==="NC"){
-return !val
-}
-
-return false
-
-}
-
-/* =========================================================
-PLC ENGINE
-========================================================= */
-
-function runPLC(){
-
-const rungs=document.querySelectorAll(".rung")
-
-memory["Q0.0"]=false
-memory["Q0.1"]=false
-memory["Q0.2"]=false
-memory["Q0.3"]=false
-
-rungs.forEach(rung=>{
-
-let power=true
-
-const elements=rung.children
-
-elements.forEach(el=>{
-
-if(el.classList.contains("contact")){
-
-const state=evaluateContact(
-el.dataset.type,
-el.dataset.address
-)
-
-if(state){
-
-el.classList.add("powered")
-
-}else{
-
-el.classList.remove("powered")
-
-power=false
-
-}
-
-}
-
-if(el.classList.contains("coil")){
-
-memory[el.dataset.address]=power
-
-if(power){
-
-el.classList.add("powered")
-
-}else{
-
-el.classList.remove("powered")
-
-}
-
-}
-
-})
-
-})
-
-updateOutputs()
-
-}
-
-/* =========================================================
-OUTPUTS
-========================================================= */
-
-function updateOutputs(){
-
-document.getElementById("q00").innerHTML=memory["Q0.0"]
-document.getElementById("q01").innerHTML=memory["Q0.1"]
-document.getElementById("q02").innerHTML=memory["Q0.2"]
-document.getElementById("q03").innerHTML=memory["Q0.3"]
-
-/* MOTOR */
-
-if(memory["Q0.0"]){
-
-document.getElementById("fan")
-.style.animationPlayState="running"
-
-document.getElementById("plcState")
-.innerHTML="PLC RUN"
-
-}else{
-
-document.getElementById("fan")
-.style.animationPlayState="paused"
-
-document.getElementById("plcState")
-.innerHTML="PLC STOP"
-
-}
-
-/* PILOTS */
-
-document.getElementById("greenPilot").className=
-memory["Q0.1"]
-?
-"pilot on-green"
-:
-"pilot"
-
-document.getElementById("redPilot").className=
-memory["Q0.2"]
-?
-"pilot on-red"
-:
-"pilot"
-
-document.getElementById("bluePilot").className=
-memory["Q0.3"]
-?
-"pilot on-blue"
-:
-"pilot"
-
-}
-
-/* =========================================================
-BUTTONS
-========================================================= */
-
-function addNO(){
-
-log("Nuevo contacto NO agregado")
-
-}
-
-function addNC(){
-
-log("Nuevo contacto NC agregado")
-
-}
-
-function addCoil(){
-
-log("Nueva bobina agregada")
-
-}
-
-function addTON(){
-
-log("Temporizador TON agregado")
-
-}
-
-/* =========================================================
-SIMULATION
-========================================================= */
-
-function runSimulation(){
-
-runPLC()
-
-log("PLC Scan ejecutado")
-
-}
-
-/* =========================================================
-SCAN CYCLE
-========================================================= */
-
-setInterval(()=>{
-
-runPLC()
-
-},100)
 
 </script>
 
