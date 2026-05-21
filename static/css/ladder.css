@@ -1,433 +1,444 @@
-/* =====================================================
+/* =========================================================
 LADDER AREA
-===================================================== */
+========================================================= */
 
 .ladder-area{
+    
+    width:100%;
+    min-height:100vh;
 
-background:#08111d;
+    background:
+    linear-gradient(180deg,#0b1724,#08111c);
 
-border:1px solid #1d2c3f;
+    border:2px solid #1d3047;
 
-border-radius:14px;
+    border-radius:18px;
 
-padding:30px;
+    padding:25px;
 
-height:100%;
+    overflow:auto;
 
-overflow:auto;
+    box-shadow:
+    inset 0 0 30px rgba(0,255,153,.05),
+    0 0 25px rgba(0,0,0,.5);
 
 }
 
-/* =====================================================
+/* =========================================================
 RUNG
-===================================================== */
+========================================================= */
 
 .rung{
 
-display:flex;
+    position:relative;
 
-align-items:center;
+    display:flex;
+    align-items:center;
 
-margin-bottom:55px;
+    min-height:90px;
 
-position:relative;
+    margin-bottom:25px;
 
-min-height:70px;
+    padding:10px 0;
 
 }
 
-/* =====================================================
+/* =========================================================
+POWER FLOW
+========================================================= */
+
+.rung.powered .line,
+.rung.powered .rail{
+
+    background:#00ff99;
+
+    box-shadow:
+    0 0 10px #00ff99,
+    0 0 20px rgba(0,255,153,.6);
+
+}
+
+/* =========================================================
 RAILS
-===================================================== */
+========================================================= */
 
 .rail{
 
-width:6px;
+    width:8px;
+    height:70px;
 
-height:60px;
+    background:#30465f;
 
-background:#111;
+    border-radius:5px;
 
-border-radius:3px;
-
-margin:0 15px;
+    transition:.15s;
 
 }
 
-/* =====================================================
+/* =========================================================
 LINES
-===================================================== */
+========================================================= */
 
 .line{
 
-flex:1;
+    width:45px;
+    height:6px;
 
-height:4px;
+    background:#30465f;
 
-background:#222;
-
-transition:.1s linear;
-
-position:relative;
+    transition:.15s;
 
 }
 
-/* =====================================================
-POWER FLOW
-===================================================== */
-
-.line.powered{
-
-background:#00ff99;
-
-box-shadow:
-0 0 10px #00ff99,
-0 0 25px #00ff99;
-
-}
-
-/* =====================================================
-CONTACT
-===================================================== */
+/* =========================================================
+CONTACTS
+========================================================= */
 
 .contact{
 
-width:130px;
+    position:relative;
 
-height:50px;
+    width:90px;
+    height:52px;
 
-position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-display:flex;
+    background:#132131;
 
-justify-content:center;
+    border:2px solid #3f5b7a;
 
-align-items:center;
+    border-radius:12px;
 
-font-family:Consolas;
+    font-size:14px;
+    font-weight:700;
 
-font-weight:700;
+    color:#d7e5f7;
 
-background:#3c5678;
+    user-select:none;
 
-border:2px solid #88aee0;
+    transition:.15s;
 
-color:white;
-
-transition:.1s linear;
+    cursor:pointer;
 
 }
 
-/* =====================================================
-CONTACT SYMBOL
-===================================================== */
+/* CONTACT SYMBOL */
 
 .contact::before,
 .contact::after{
 
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-top:50%;
+    top:8px;
 
-width:24px;
+    width:3px;
+    height:32px;
 
-height:4px;
+    background:#d7e5f7;
 
-background:#222;
-
-transform:translateY(-50%);
+    transition:.15s;
 
 }
 
 .contact::before{
-
-left:-24px;
-
+    left:22px;
 }
 
 .contact::after{
+    right:22px;
+}
 
-right:-24px;
+/* NC DIAGONAL */
+
+.contact.nc-symbol span{
+
+    position:absolute;
+
+    width:40px;
+    height:3px;
+
+    background:#d7e5f7;
+
+    transform:rotate(-45deg);
 
 }
 
-/* =====================================================
-NO OPEN
-===================================================== */
+/* =========================================================
+CONTACT STATES
+========================================================= */
 
-.contact::marker{
+.contact.open{
 
-display:none;
+    background:#2a1b1b;
+    border-color:#ff4b5c;
 
-}
-
-/* =====================================================
-CONTACT BARS
-===================================================== */
-
-.contact span{
-
-position:absolute;
-
-width:3px;
-
-height:32px;
-
-background:white;
+    color:#ff9da8;
 
 }
 
-/* =====================================================
-LEFT BAR
-===================================================== */
+.contact.closed{
 
-.contact .left{
+    background:#0f2b1e;
+    border-color:#00ff99;
 
-left:40px;
+    color:#00ff99;
 
-}
-
-/* =====================================================
-RIGHT BAR
-===================================================== */
-
-.contact .right{
-
-right:40px;
+    box-shadow:
+    0 0 12px rgba(0,255,153,.5);
 
 }
 
-/* =====================================================
-OPEN CONTACT
-===================================================== */
+/* ENERGIZED */
 
-.contact.NO .right{
+.contact.energized{
 
-transform:
-rotate(20deg);
-
-transform-origin:top;
+    box-shadow:
+    0 0 10px #00ff99,
+    0 0 20px rgba(0,255,153,.7);
 
 }
 
-/* =====================================================
-CLOSED CONTACT
-===================================================== */
-
-.contact.closed .right{
-
-transform:
-rotate(0deg);
-
-}
-
-/* =====================================================
-POWERED
-===================================================== */
-
-.contact.powered{
-
-background:#00ff99;
-
-color:#001b10;
-
-box-shadow:
-0 0 15px #00ff99;
-
-}
-
-/* =====================================================
-COIL
-===================================================== */
+/* =========================================================
+COILS
+========================================================= */
 
 .coil{
 
-width:130px;
+    position:relative;
 
-height:50px;
+    width:110px;
+    height:58px;
 
-display:flex;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-justify-content:center;
+    background:#132131;
 
-align-items:center;
+    border:2px solid #5478a0;
 
-background:#355a88;
+    border-radius:14px;
 
-border:2px solid #8ab1e4;
+    font-weight:700;
+    font-size:15px;
 
-position:relative;
+    color:#d7e5f7;
 
-font-family:Consolas;
-
-font-weight:700;
-
-transition:.1s linear;
+    transition:.15s;
 
 }
 
-/* =====================================================
-COIL SYMBOL
-===================================================== */
+/* COIL PARENTESIS */
 
 .coil::before,
 .coil::after{
 
-content:"";
+    position:absolute;
 
-position:absolute;
-
-width:18px;
-
-height:36px;
-
-border:3px solid white;
-
-border-radius:50%;
-
-top:4px;
+    font-size:28px;
+    color:#c7dfff;
 
 }
 
 .coil::before{
 
-left:-10px;
-
-border-right:none;
+    content:"(";
+    left:12px;
 
 }
 
 .coil::after{
 
-right:-10px;
-
-border-left:none;
-
-}
-
-/* =====================================================
-COIL POWER
-===================================================== */
-
-.coil.powered{
-
-background:#00ff99;
-
-color:#001b10;
-
-box-shadow:
-0 0 15px #00ff99;
+    content:")";
+    right:12px;
 
 }
 
-/* =====================================================
+/* COIL ACTIVE */
+
+.coil.active{
+
+    background:#0f2b1e;
+    border-color:#00ff99;
+
+    color:#00ff99;
+
+    box-shadow:
+    0 0 15px #00ff99,
+    0 0 30px rgba(0,255,153,.5);
+
+}
+
+/* =========================================================
 TIMER
-===================================================== */
+========================================================= */
 
 .timer{
 
-width:140px;
+    position:relative;
 
-height:50px;
+    width:150px;
+    height:60px;
 
-display:flex;
+    background:#1c2037;
 
-justify-content:center;
+    border:2px solid #7186ff;
 
-align-items:center;
+    border-radius:14px;
 
-background:#6a416d;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-border:2px solid #d28bff;
+    flex-direction:column;
 
-position:relative;
+    font-family:Consolas;
 
-font-family:Consolas;
+    font-size:13px;
+    font-weight:700;
 
-font-weight:700;
+    color:#c9d5ff;
 
-transition:.1s linear;
+    transition:.15s;
 
 }
 
-/* =====================================================
-TIMER POWER
-===================================================== */
+.timer::before{
+
+    content:"TON";
+
+    position:absolute;
+
+    top:5px;
+    left:8px;
+
+    font-size:11px;
+
+    color:#8ea0ff;
+
+}
 
 .timer.powered{
 
-background:#00ff99;
+    background:#0f2b1e;
 
-color:#001b10;
+    border-color:#00ff99;
 
-box-shadow:
-0 0 15px #00ff99;
+    color:#00ff99;
 
-}
-
-/* =====================================================
-TIMER TEXT
-===================================================== */
-
-.timer small{
-
-position:absolute;
-
-bottom:-18px;
-
-font-size:11px;
-
-color:#8bbcff;
+    box-shadow:
+    0 0 15px #00ff99,
+    0 0 30px rgba(0,255,153,.5);
 
 }
 
-/* =====================================================
-DELETE
-===================================================== */
+/* =========================================================
+DELETE BUTTON
+========================================================= */
 
 .delete-element{
 
-position:absolute;
+    position:absolute;
 
-top:-10px;
+    top:-8px;
+    right:-8px;
 
-right:-10px;
+    width:18px;
+    height:18px;
 
-width:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-height:20px;
+    background:#ff3355;
 
-border-radius:50%;
+    border-radius:50%;
 
-background:#ff3355;
+    font-size:11px;
+    font-weight:700;
 
-display:flex;
+    color:white;
 
-justify-content:center;
+    cursor:pointer;
 
-align-items:center;
+    z-index:20;
 
-font-size:12px;
-
-font-weight:700;
-
-cursor:pointer;
+    transition:.15s;
 
 }
 
-/* =====================================================
-OUTPUT ACTIVE
-===================================================== */
+.delete-element:hover{
 
-.on{
+    transform:scale(1.15);
 
-color:#00ff99;
+}
 
-font-weight:700;
+/* =========================================================
+POWER ANIMATION
+========================================================= */
 
-text-shadow:
-0 0 12px #00ff99;
+.rung.powered::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:50%;
+
+    width:100%;
+    height:4px;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,255,153,.9),
+        transparent
+    );
+
+    animation:flow 1s linear infinite;
+
+    opacity:.5;
+
+}
+
+@keyframes flow{
+
+    0%{
+        transform:translateX(-100%);
+    }
+
+    100%{
+        transform:translateX(100%);
+    }
+
+}
+
+/* =========================================================
+SCROLL
+========================================================= */
+
+.ladder-area::-webkit-scrollbar{
+
+    width:10px;
+    height:10px;
+
+}
+
+.ladder-area::-webkit-scrollbar-thumb{
+
+    background:#1f3550;
+    border-radius:10px;
+
+}
+
+.ladder-area::-webkit-scrollbar-track{
+
+    background:#09131f;
 
 }
