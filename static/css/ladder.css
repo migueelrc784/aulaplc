@@ -1,16 +1,16 @@
-.ladder{
+.ladder-area{
 
-background:#08111b;
+background:#08111d;
 
-border:1px solid var(--line);
+border:1px solid #22354b;
 
-border-radius:15px;
+border-radius:18px;
 
 padding:20px;
 
-overflow:auto;
+min-height:600px;
 
-min-height:450px;
+overflow:auto;
 
 }
 
@@ -18,11 +18,29 @@ min-height:450px;
 
 display:flex;
 align-items:center;
+
 gap:10px;
 
-margin-bottom:35px;
+margin-bottom:40px;
 
-font-family:monospace;
+}
+
+.rail{
+
+width:6px;
+height:60px;
+
+background:#00ff99;
+
+}
+
+.line{
+
+height:2px;
+
+background:#00ff99;
+
+flex:1;
 
 }
 
@@ -32,32 +50,23 @@ font-family:monospace;
 
 padding:12px 14px;
 
-border:2px solid var(--green);
+border:2px solid #00ff99;
 
-min-width:130px;
+min-width:120px;
 
 text-align:center;
 
-cursor:pointer;
+background:#132033;
 
-user-select:none;
-
-}
-
-.line{
-
-flex:1;
-
-height:2px;
-
-background:var(--green);
+font-family:monospace;
 
 }
 
-.active{
+.powered{
 
-background:rgba(0,255,153,.1);
+background:rgba(0,255,153,.2);
 
-box-shadow:0 0 20px rgba(0,255,153,.4);
+box-shadow:
+0 0 20px rgba(0,255,153,.5);
 
 }
