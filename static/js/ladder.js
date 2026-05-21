@@ -1,29 +1,77 @@
-console.log("LADDER JS cargado");
+function evaluateContact(type,address){
 
-function addContact(){
+let val=memory[address]
 
-const ladder = document.getElementById("ladder");
+if(type==="NO"){
+return val
+}
 
-if(!ladder) return;
+if(type==="NC"){
+return !val
+}
 
-const rung = document.createElement("div");
+return false
 
-rung.className = "rung";
+}
 
-rung.innerHTML = `
+function runPLC(){
 
-<div class="contact">
-I0.0
-</div>
+const rungs=document.querySelectorAll(".rung")
 
-<div class="line"></div>
+memory["Q0.0"]=false
+memory["Q0.1"]=false
+memory["Q0.2"]=false
+memory["Q0.3"]=false
 
-<div class="coil">
-Q0.0
-</div>
+rungs.forEach(rung=>{
 
-`;
+let power=true
 
-ladder.appendChild(rung);
+const elements=rung.children
+
+elements.forEach(el=>{
+
+if(el.classList.contains("contact")){
+
+const state=evaluateContact(
+el.dataset.type,
+el.dataset.address
+)
+
+if(state){
+
+el.classList.add("powered")
+
+}else{
+
+el.classList.remove("powered")
+
+power=false
+
+}
+
+}
+
+if(el.classList.contains("coil")){
+
+memory[el.dataset.address]=power
+
+if(power){
+
+el.classList.add("powered")
+
+}else{
+
+el.classList.remove("powered")
+
+}
+
+}
+
+})
+
+})
+
+updateOutputs()
 
 }
