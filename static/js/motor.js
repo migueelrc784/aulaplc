@@ -1,5 +1,11 @@
+/* =====================================================
+MOTOR INDUSTRIAL PRO
+===================================================== */
+
 let motorRunning=false
+
 let motorRPM=0
+
 let motorMode="SIN CONFIGURAR"
 
 let accelerationInterval=null
@@ -12,8 +18,15 @@ function connectStar(){
 
 motorMode="ESTRELLA"
 
+/* TEXTO */
+
 document.getElementById("connectionMode")
 .innerHTML="ESTRELLA"
+
+/* CAMBIAR IMAGEN */
+
+document.getElementById("connectionImage")
+.src="/static/img/star.png"
 
 log("Motor configurado en ESTRELLA")
 
@@ -27,8 +40,15 @@ function connectDelta(){
 
 motorMode="TRIANGULO"
 
+/* TEXTO */
+
 document.getElementById("connectionMode")
 .innerHTML="TRIANGULO"
+
+/* CAMBIAR IMAGEN */
+
+document.getElementById("connectionImage")
+.src="/static/img/delta.png"
 
 log("Motor configurado en TRIANGULO")
 
@@ -42,9 +62,11 @@ function startIndustrialMotor(){
 
 if(motorMode==="SIN CONFIGURAR"){
 
-showAlarm(
+alert(
 "Debe seleccionar conexión estrella o triángulo"
 )
+
+log("ERROR: motor sin conexión")
 
 return
 
@@ -56,6 +78,10 @@ return
 
 motorRunning=true
 
+/* =====================================================
+ESTADOS
+===================================================== */
+
 document.getElementById("motorState")
 .innerHTML="MARCHA"
 
@@ -65,18 +91,32 @@ document.getElementById("plcState")
 document.getElementById("plcState")
 .className="status-box run"
 
+/* =====================================================
+PILOTOS
+===================================================== */
+
 document.getElementById("greenPilot")
 .className="pilot on-green"
 
 document.getElementById("redPilot")
 .className="pilot"
 
+/* =====================================================
+MOTOR FAN
+===================================================== */
+
 document.getElementById("fan")
 .style.animationPlayState="running"
 
+/* =====================================================
+RPM
+===================================================== */
+
 simulateAcceleration()
 
-log("Motor iniciado en "+motorMode)
+log(
+"Motor iniciado en "+motorMode
+)
 
 }
 
@@ -94,8 +134,16 @@ motorRPM=0
 
 updateRPM()
 
+/* =====================================================
+FAN
+===================================================== */
+
 document.getElementById("fan")
 .style.animationPlayState="paused"
+
+/* =====================================================
+ESTADOS
+===================================================== */
 
 document.getElementById("motorState")
 .innerHTML="DETENIDO"
@@ -105,6 +153,10 @@ document.getElementById("plcState")
 
 document.getElementById("plcState")
 .className="status-box stop"
+
+/* =====================================================
+PILOTOS
+===================================================== */
 
 document.getElementById("greenPilot")
 .className="pilot"
@@ -117,7 +169,7 @@ log("Motor detenido")
 }
 
 /* =====================================================
-ACELERACION REAL
+SIMULACION ACELERACION
 ===================================================== */
 
 function simulateAcceleration(){
@@ -134,16 +186,24 @@ return
 
 }
 
+/* =====================================================
+RPM SEGUN MODO
+===================================================== */
+
 if(motorMode==="ESTRELLA"){
 
 if(motorRPM<900){
+
 motorRPM+=20
+
 }
 
 }else{
 
 if(motorRPM<1750){
+
 motorRPM+=50
+
 }
 
 }
@@ -155,12 +215,19 @@ updateRPM()
 }
 
 /* =====================================================
-RPM
+UPDATE RPM
 ===================================================== */
 
 function updateRPM(){
 
 document.getElementById("rpmValue")
-.innerHTML=motorRPM+" RPM"
+.innerHTML=
+motorRPM+" RPM"
 
 }
+
+/* =====================================================
+INIT
+===================================================== */
+
+console.log("motor.js cargado")
