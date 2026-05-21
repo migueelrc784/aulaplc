@@ -1,195 +1,85 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
+
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>PLC WEB</title>
 
-<title>Automation Studio X PRO</title>
+    <style>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        body{
+            background:#111;
+            color:white;
+            font-family:Arial;
+            text-align:center;
+            padding-top:50px;
+        }
 
-<!-- CSS (CORRECTO PARA FASTAPI / VERCEL) -->
-<link rel="stylesheet" href="{{ url_for('static', path='css/main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', path='css/motor.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', path='css/ladder.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', path='css/tank.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', path='css/responsive.css') }}">
+        h1{
+            color:lime;
+        }
+
+        .panel{
+            background:#222;
+            width:400px;
+            margin:auto;
+            padding:30px;
+            border-radius:20px;
+        }
+
+        button{
+            padding:20px;
+            width:150px;
+            border:none;
+            border-radius:10px;
+            font-size:20px;
+            cursor:pointer;
+            margin:10px;
+        }
+
+        .start{
+            background:green;
+            color:white;
+        }
+
+        .stop{
+            background:red;
+            color:white;
+        }
+
+        .motor{
+            width:100px;
+            height:100px;
+            background:gray;
+            border-radius:50%;
+            margin:auto;
+            margin-top:30px;
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-<header>
+    <div class="panel">
 
-<div class="logo">
-<div style="font-size:35px">⚡</div>
+        <h1>PLC VIRTUAL</h1>
 
-<div>
-<h1>AUTOMATION STUDIO X PRO</h1>
-<p>PLC • SCADA • HMI • LADDER • CADe_SIMU STYLE</p>
-</div>
+        <p>Panel de Control</p>
 
-</div>
+        <button class="start">
+            START
+        </button>
 
-<div class="topbar">
-<div class="status online">CPU RUN</div>
-<div class="status offline" id="plcStatus">PLC STOP</div>
-<div class="status">PROFINET OK</div>
-<div class="status">380V AC</div>
-</div>
+        <button class="stop">
+            STOP
+        </button>
 
-</header>
+        <div class="motor"></div>
 
-<div class="wrapper">
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-<div class="menu-title">AUTOMATION</div>
-
-<button onclick="showPage('dashboard')">🏭 Motor Industrial</button>
-<button onclick="showPage('ladderPage')">🪜 Ladder Editor</button>
-<button onclick="showPage('tankPage')">🖥 HMI Tanque</button>
-<button onclick="showPage('logsPage')">📋 Eventos</button>
-
-</div>
-
-<!-- MAIN -->
-<div class="main">
-
-<!-- DASHBOARD -->
-<div class="page" id="dashboard">
-
-<!-- MOTOR MODULE -->
-<div class="card">
-<h2>MOTOR TRIFÁSICO</h2>
-
-<div class="motor-area">
-<div class="motor-real">
-<div class="motor-lines"></div>
-<div class="fan" id="fan"></div>
-<div class="shaft"></div>
-</div>
-</div>
-
-<div class="gauge">
-<div class="fill" id="rpmFill"></div>
-</div>
-
-RPM: <span id="rpmText">0</span>
-
-<br><br>
-
-Temperatura: <span id="tempText">25</span>°C
-
-<div class="gauge">
-<div class="fill" id="tempFill"></div>
-</div>
-
-<div class="lights">
-<div class="pilot" id="greenLight"></div>
-<div class="pilot" id="redLight"></div>
-<div class="pilot" id="blueLight"></div>
-</div>
-
-</div>
-
-<!-- IO PANEL -->
-<div class="card">
-<h2>ENTRADAS / SALIDAS</h2>
-
-<div class="io-grid">
-
-<div class="io">
-I0.0 START
-<button onclick="toggleInput('start')" class="btn green">ON</button>
-</div>
-
-<div class="io">
-I0.1 STOP
-<button onclick="toggleInput('stop')" class="btn red">OFF</button>
-</div>
-
-<div class="io">
-I0.2 EMG
-<button onclick="toggleInput('emergency')" class="btn yellow">EMG</button>
-</div>
-
-<div class="io">Q0.0 MOTOR</div>
-<div class="io">Q0.1 GREEN</div>
-<div class="io">Q0.2 RED</div>
-<div class="io">Q0.3 BLUE</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- LADDER -->
-<div class="page" id="ladderPage" style="display:none">
-<div class="card">
-<h2>LADDER EDITOR</h2>
-
-<div class="controls">
-<button class="btn green" onclick="addContact()">+ Contacto</button>
-<button class="btn blue" onclick="addCoil()">+ Bobina</button>
-<button class="btn yellow" onclick="addTimer()">+ Timer</button>
-<button class="btn red" onclick="simulatePLC()">SIMULAR</button>
-</div>
-
-<div class="ladder" id="ladder"></div>
-
-</div>
-</div>
-
-<!-- TANK -->
-<div class="page" id="tankPage" style="display:none">
-
-<div class="card">
-<h2>TANQUE INDUSTRIAL</h2>
-
-<div class="tank">
-<div class="water" id="water"></div>
-</div>
-
-<p>Nivel: <span id="liters">0 cm³</span></p>
-
-<div class="controls">
-<button onclick="openValve()" class="btn green">Abrir</button>
-<button onclick="closeValve()" class="btn red">Cerrar</button>
-</div>
-
-</div>
-
-<div class="card">
-<h2>CONTROL KP</h2>
-
-<input type="range" min="1" max="100" value="30" id="kp">
-
-<div id="kpText">Velocidad = 30%</div>
-</div>
-
-</div>
-
-<!-- LOGS -->
-<div class="page" id="logsPage" style="display:none">
-<div class="card">
-<h2>EVENTOS</h2>
-<div class="log" id="logBox"></div>
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- JS (SEPARADO Y LIMPIO) -->
-<script src="{{ url_for('static', path='js/ui.js') }}"></script>
-<script src="{{ url_for('static', path='js/motor.js') }}"></script>
-<script src="{{ url_for('static', path='js/ladder.js') }}"></script>
-<script src="{{ url_for('static', path='js/tank.js') }}"></script>
-<script src="{{ url_for('static', path='js/logs.js') }}"></script>
+    </div>
 
 </body>
+
 </html>
