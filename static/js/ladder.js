@@ -1,300 +1,204 @@
 /* =========================================================
-PLC TAGS
+CREATE NC DIAGONALS
 ========================================================= */
 
-window.PLC = {
+function buildNC(){
 
-inputs:{
-"I0.0":false,
-"I0.1":false,
-"I0.2":false,
-"I0.3":false,
-"I0.4":false,
-"I0.5":false
-},
+document.querySelectorAll(
+'.contact[data-type="NC"]'
+).forEach(contact=>{
 
-outputs:{
-"Q0.0":false,
-"Q0.1":false,
-"Q0.2":false,
-"Q0.3":false
-},
+if(!contact.querySelector(".diag")){
 
-running:false
+const diag=document.createElement("div")
+diag.className="diag"
+
+contact.appendChild(diag)
 
 }
+
+})
+
+}
+
+buildNC()
 
 /* =========================================================
-SIMULATION
+DELETE ELEMENT
 ========================================================= */
 
-function runSimulation(){
+document.addEventListener("click",e=>{
 
-PLC.running=!PLC.running
+if(e.target.classList.contains(
+"delete-element"
+)){
 
-const btn=document.querySelector(".run-btn")
-
-if(PLC.running){
-
-btn.innerText="DETENER PLC"
-btn.classList.add("stop")
-
-scanPLC()
-
-log("PLC EN RUN")
-
-}else{
-
-btn.innerText="SIMULAR PLC"
-btn.classList.remove("stop")
-
-log("PLC DETENIDO")
-
-}
-
-}
-
-/* =========================================================
-INPUTS
-========================================================= */
-
-function toggleInput(address){
-
-PLC.inputs[address]=!PLC.inputs[address]
-
-const card=document.getElementById(`card-${address}`)
-
-if(PLC.inputs[address]){
-
-card.classList.add("active-input")
-
-}else{
-
-card.classList.remove("active-input")
-
-}
+e.target.parentElement.remove()
 
 scanPLC()
 
 }
 
-/* =========================================================
-SCAN
-========================================================= */
-
-function scanPLC(){
-
-if(!PLC.running)return
-
-const rungs=document.querySelectorAll(".rung")
-
-PLC.outputs["Q0.0"]=false
-PLC.outputs["Q0.1"]=false
-PLC.outputs["Q0.2"]=false
-PLC.outputs["Q0.3"]=false
-
-rungs.forEach(rung=>{
-
-let power=true
-
-const elements=rung.querySelectorAll(".ladder-element")
-
-elements.forEach(el=>{
-
-if(el.classList.contains("contact")){
-
-const type=el.dataset.type
-const address=el.dataset.address
-
-let state=false
-
-if(address.startsWith("I")){
-
-state=PLC.inputs[address]
-
-}
-
-if(address.startsWith("Q")){
-
-state=PLC.outputs[address]
-
-}
-
-if(type==="NO"){
-
-power=power && state
-
-}else{
-
-power=power && !state
-
-}
-
-if(power){
-
-el.classList.add("energized")
-
-}else{
-
-el.classList.remove("energized")
-
-}
-
-}
-
-if(el.classList.contains("coil")){
-
-const address=el.dataset.address
-
-PLC.outputs[address]=power
-
-if(power){
-
-el.classList.add("energized")
-
-}else{
-
-el.classList.remove("energized")
-
-}
-
-}
-
 })
 
-if(power){
-
-rung.classList.add("rung-powered")
-
-}else{
-
-rung.classList.remove("rung-powered")
-
-}
-
-})
-
-updateOutputs()
-
-updateMotor()
-
-setTimeout(scanPLC,120)
-
-}
-
 /* =========================================================
-OUTPUTS UI
-========================================================= */
-
-function updateOutputs(){
-
-document.querySelectorAll("[data-output]").forEach(el=>{
-
-const address=el.dataset.output
-
-const state=PLC.outputs[address]
-
-el.innerText=state?"TRUE":"FALSE"
-
-if(state){
-
-el.classList.add("on")
-
-}else{
-
-el.classList.remove("on")
-
-}
-
-})
-
-}
-
-/* =========================================================
-ADD ELEMENTS
-========================================================= */
-
-function createContact(type){
-
-const div=document.createElement("div")
-
-div.className="ladder-element contact"
-
-div.dataset.type=type
-
-div.dataset.address="I0.0"
-
-div.innerHTML=`
-
-<div class="contact-symbol ${type==="NC"?"nc":""}">
-<div class="line-left"></div>
-<div class="line-right"></div>
-${type==="NC"?"<div class='diag'></div>":""}
-</div>
-
-<div class="tag" contenteditable="true">I0.0</div>
-
-`
-
-makeEditable(div)
-
-makeDraggable(div)
-
-return div
-
-}
-
-function createCoil(){
-
-const div=document.createElement("div")
-
-div.className="ladder-element coil"
-
-div.dataset.address="Q0.0"
-
-div.innerHTML=`
-
-<div class="coil-symbol"></div>
-
-<div class="tag" contenteditable="true">Q0.0</div>
-
-`
-
-makeEditable(div)
-
-makeDraggable(div)
-
-return div
-
-}
-
-/* =========================================================
-BUTTONS
+ADD CONTACT NO
 ========================================================= */
 
 function addNO(){
 
 const rung=document.querySelector(".rung")
 
-rung.appendChild(createContact("NO"))
+const c=document.createElement("div")
+
+c.className="contact"
+
+c.dataset.type="NO"
+c.dataset.address="I0.0"
+
+c.innerHTML=`
+
+I0.0
+<div class="delete-element">✕</div>
+
+`
+
+rung.insertBefore(
+document.createElement("div"),
+rung.lastElementChild
+)
+
+rung.children[rung.children.length-2]
+.className="line"
+
+rung.insertBefore(
+c,
+rung.lastElementChild
+)
+
+scanPLC()
 
 }
+
+/* =========================================================
+ADD CONTACT NC
+========================================================= */
 
 function addNC(){
 
 const rung=document.querySelector(".rung")
 
-rung.appendChild(createContact("NC"))
+const c=document.createElement("div")
+
+c.className="contact"
+
+c.dataset.type="NC"
+c.dataset.address="I0.1"
+
+c.innerHTML=`
+
+/I0.1
+<div class="diag"></div>
+<div class="delete-element">✕</div>
+
+`
+
+const line=document.createElement("div")
+line.className="line"
+
+rung.insertBefore(
+line,
+rung.lastElementChild
+)
+
+rung.insertBefore(
+c,
+rung.lastElementChild
+)
+
+scanPLC()
 
 }
+
+/* =========================================================
+ADD COIL
+========================================================= */
 
 function addCoil(){
 
 const rung=document.querySelector(".rung")
 
-rung.appendChild(createCoil())
+const c=document.createElement("div")
+
+c.className="coil"
+
+c.dataset.address="Q0.0"
+
+c.innerHTML=`
+
+(Q0.0)
+<div class="delete-element">✕</div>
+
+`
+
+const line=document.createElement("div")
+line.className="line"
+
+rung.insertBefore(
+line,
+rung.lastElementChild
+)
+
+rung.insertBefore(
+c,
+rung.lastElementChild
+)
+
+scanPLC()
 
 }
+
+/* =========================================================
+ADD TON
+========================================================= */
+
+function addTON(){
+
+const rung=document.querySelector(".rung")
+
+const t=document.createElement("div")
+
+t.className="timer"
+
+t.dataset.address="T0.0"
+
+t.innerHTML=`
+
+3000ms
+<div class="delete-element">✕</div>
+
+`
+
+const line=document.createElement("div")
+line.className="line"
+
+rung.insertBefore(
+line,
+rung.lastElementChild
+)
+
+rung.insertBefore(
+t,
+rung.lastElementChild
+)
+
+scanPLC()
+
+}
+
+/* =========================================================
+ADD RUNG
+========================================================= */
 
 function addRung(){
 
@@ -306,70 +210,39 @@ rung.className="rung"
 
 rung.innerHTML=`
 
-<div class="rail left"></div>
+<div class="rail"></div>
 
-<div class="wire"></div>
+<div class="contact"
+data-type="NO"
+data-address="I0.0">
 
-<div class="rail right"></div>
+I0.0
+
+<div class="delete-element">
+✕
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.0">
+
+(Q0.0)
+
+<div class="delete-element">
+✕
+</div>
+
+</div>
+
+<div class="rail"></div>
 
 `
 
 ladder.appendChild(rung)
 
-}
-
-/* =========================================================
-EDIT TAGS
-========================================================= */
-
-function makeEditable(el){
-
-const tag=el.querySelector(".tag")
-
-tag.addEventListener("input",()=>{
-
-const value=tag.innerText.trim().toUpperCase()
-
-el.dataset.address=value
-
-})
+scanPLC()
 
 }
-
-/* =========================================================
-DRAG
-========================================================= */
-
-function makeDraggable(el){
-
-el.draggable=true
-
-el.addEventListener("dragstart",()=>{
-
-el.classList.add("dragging")
-
-})
-
-el.addEventListener("dragend",()=>{
-
-el.classList.remove("dragging")
-
-})
-
-}
-
-document.addEventListener("dragover",e=>{
-
-e.preventDefault()
-
-const dragging=document.querySelector(".dragging")
-
-const rung=e.target.closest(".rung")
-
-if(rung && dragging){
-
-rung.appendChild(dragging)
-
-}
-
-})
