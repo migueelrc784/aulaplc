@@ -29,16 +29,21 @@ BASE
 ========================================================= */
 
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
+
 }
 
 body{
+
 background:#07111d;
 font-family:Inter,sans-serif;
 color:white;
+
 overflow:hidden;
+
 }
 
 /* =========================================================
@@ -46,29 +51,39 @@ LOADER
 ========================================================= */
 
 .loading{
+
 height:100vh;
+
 display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
+
 gap:20px;
 
 background:
 radial-gradient(circle at center,#10243b 0%,#07111d 70%);
+
 }
 
 .loading h1{
+
 font-family:Orbitron;
 font-size:42px;
+
 color:#00ff99;
+
 letter-spacing:3px;
 
 text-shadow:
 0 0 15px #00ff99;
+
 }
 
 .loading p{
+
 color:#8ca7c5;
+
 }
 
 /* =========================================================
@@ -76,9 +91,12 @@ APP
 ========================================================= */
 
 #app{
+
 height:100vh;
+
 display:flex;
 flex-direction:column;
+
 }
 
 /* =========================================================
@@ -86,6 +104,7 @@ HEADER
 ========================================================= */
 
 .top-header{
+
 height:80px;
 
 display:flex;
@@ -101,15 +120,20 @@ border-bottom:1px solid #18324d;
 
 box-shadow:
 0 5px 25px rgba(0,0,0,.45);
+
 }
 
 .logo-area{
+
 display:flex;
 align-items:center;
+
 gap:18px;
+
 }
 
 .logo-icon{
+
 width:52px;
 height:52px;
 
@@ -128,19 +152,27 @@ font-weight:700;
 
 box-shadow:
 0 0 20px #00ff99;
+
 }
 
 .title{
+
 font-family:Orbitron;
 font-size:24px;
+
 color:#ffffff;
+
 }
 
 .subtitle{
+
 font-size:12px;
 letter-spacing:2px;
+
 color:#7f9ab7;
+
 margin-top:2px;
+
 }
 
 /* =========================================================
@@ -148,12 +180,16 @@ STATUS
 ========================================================= */
 
 .top-status{
+
 display:flex;
 gap:12px;
+
 }
 
 .status-box{
+
 padding:12px 18px;
+
 border-radius:10px;
 
 background:#14283d;
@@ -162,14 +198,17 @@ border:1px solid #23415f;
 
 font-size:13px;
 font-weight:700;
+
 }
 
 .run{
+
 background:#00ff99;
 color:#00150d;
 
 box-shadow:
 0 0 15px #00ff99;
+
 }
 
 /* =========================================================
@@ -177,12 +216,14 @@ LAYOUT
 ========================================================= */
 
 .layout{
+
 flex:1;
 
 display:grid;
 grid-template-columns:420px 1fr;
 
 overflow:hidden;
+
 }
 
 /* =========================================================
@@ -190,13 +231,16 @@ SIDEBAR
 ========================================================= */
 
 .sidebar{
+
 padding:20px;
+
 overflow:auto;
 
 background:
 linear-gradient(180deg,#0a1520 0%,#09111a 100%);
 
 border-right:1px solid #1a2f45;
+
 }
 
 /* =========================================================
@@ -204,6 +248,7 @@ PANEL
 ========================================================= */
 
 .panel{
+
 background:
 linear-gradient(180deg,#0e1c2b 0%,#0b1621 100%);
 
@@ -217,13 +262,19 @@ margin-bottom:20px;
 
 box-shadow:
 0 0 20px rgba(0,0,0,.35);
+
 }
 
 .panel h2{
+
 font-size:15px;
+
 margin-bottom:18px;
+
 letter-spacing:1px;
+
 color:#d7e4f1;
+
 }
 
 /* =========================================================
@@ -231,36 +282,52 @@ INPUTS
 ========================================================= */
 
 .io-grid{
+
 display:grid;
 grid-template-columns:1fr 1fr;
+
 gap:14px;
+
 }
 
 .io-card{
+
 background:#132638;
+
 border:1px solid #27435f;
+
 border-radius:14px;
+
 padding:14px;
+
 transition:.2s;
-cursor:grab;
+
 }
 
 .io-card:hover{
+
 transform:translateY(-2px);
+
 border-color:#00ff99;
+
 }
 
 .io-name{
+
 font-size:13px;
 font-weight:700;
+
 margin-bottom:12px;
+
 }
 
 .io-forced{
+
 border:1px solid #00ff99 !important;
 
 box-shadow:
 0 0 12px rgba(0,255,153,.4);
+
 }
 
 /* =========================================================
@@ -268,86 +335,54 @@ BUTTONS
 ========================================================= */
 
 .btn{
+
 border:none;
+
 border-radius:12px;
+
 padding:12px 16px;
+
 font-weight:700;
+
 cursor:pointer;
+
 transition:.15s;
+
 color:white;
+
 }
 
 .btn:hover{
+
 transform:translateY(-2px);
+
 filter:brightness(1.1);
+
 }
 
 .green{
+
 background:#00d98b;
+
 }
 
 .red{
+
 background:#ff3355;
+
 }
 
 .blue{
+
 background:#1cbcff;
+
 }
 
 .yellow{
+
 background:#ffc400;
 color:black;
-}
 
-/* =========================================================
-SUBSCRIPTION
-========================================================= */
-
-.subscribe-box{
-margin-top:20px;
-padding:20px;
-border-radius:16px;
-
-background:
-linear-gradient(180deg,#10273b 0%,#0c1723 100%);
-
-border:1px solid #1f4c72;
-
-text-align:center;
-}
-
-.subscribe-title{
-font-size:16px;
-font-weight:700;
-margin-bottom:10px;
-}
-
-.subscribe-text{
-font-size:13px;
-color:#9eb3c9;
-margin-bottom:15px;
-line-height:1.5;
-}
-
-.subscribe-btn{
-display:block;
-width:100%;
-padding:14px;
-border-radius:12px;
-text-decoration:none;
-font-weight:700;
-
-background:#00ff99;
-color:#02120b;
-
-transition:.2s;
-}
-
-.subscribe-btn:hover{
-transform:translateY(-2px);
-
-box-shadow:
-0 0 20px rgba(0,255,153,.5);
 }
 
 /* =========================================================
@@ -355,12 +390,16 @@ OUTPUTS
 ========================================================= */
 
 .memory-list{
+
 display:flex;
 flex-direction:column;
+
 gap:10px;
+
 }
 
 .memory-item{
+
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -374,25 +413,34 @@ border-radius:12px;
 border:1px solid #223d58;
 
 font-size:13px;
+
 }
 
 .on{
+
 color:#00ff99;
 font-weight:700;
+
 }
 
 /* =========================================================
-MOTOR
+MOTOR PANEL
 ========================================================= */
 
 .motor-container{
+
 display:flex;
 flex-direction:column;
 align-items:center;
+
 gap:20px;
+
 }
 
+/* motor */
+
 .motor{
+
 width:170px;
 height:170px;
 
@@ -412,9 +460,13 @@ border:6px solid #5f7d99;
 box-shadow:
 inset 0 0 30px rgba(255,255,255,.08),
 0 0 30px rgba(0,0,0,.45);
+
 }
 
+/* center */
+
 .motor::before{
+
 content:"";
 
 position:absolute;
@@ -427,20 +479,27 @@ border-radius:50%;
 background:#9eb6ce;
 
 z-index:10;
+
 }
 
+/* fan */
+
 .fan{
+
 width:120px;
 height:120px;
 
 border-radius:50%;
 
 position:relative;
+
 transition:1s linear;
+
 }
 
 .fan::before,
 .fan::after{
+
 content:"";
 
 position:absolute;
@@ -456,31 +515,45 @@ background:#dce7f2;
 border-radius:20px;
 
 transform-origin:center -10px;
+
 }
 
 .fan::before{
+
 transform:
 translate(-50%,-50%)
 rotate(45deg);
+
 }
 
 .fan::after{
+
 transform:
 translate(-50%,-50%)
 rotate(-45deg);
+
 }
 
 .rotating{
+
 animation:spin .8s linear infinite;
+
 }
 
 @keyframes spin{
+
 from{
+
 transform:rotate(0deg);
+
 }
+
 to{
+
 transform:rotate(360deg);
+
 }
+
 }
 
 /* =========================================================
@@ -488,11 +561,14 @@ PILOTS
 ========================================================= */
 
 .pilot-row{
+
 display:flex;
 gap:20px;
+
 }
 
 .pilot{
+
 width:28px;
 height:28px;
 
@@ -501,27 +577,34 @@ border-radius:50%;
 background:#1c1c1c;
 
 border:2px solid #4c5d70;
+
 }
 
 .active-green{
+
 background:#00ff99;
 
 box-shadow:
 0 0 15px #00ff99;
+
 }
 
 .active-red{
+
 background:#ff3355;
 
 box-shadow:
 0 0 15px #ff3355;
+
 }
 
 .active-yellow{
+
 background:#ffd000;
 
 box-shadow:
 0 0 15px #ffd000;
+
 }
 
 /* =========================================================
@@ -529,15 +612,18 @@ MOTOR INFO
 ========================================================= */
 
 .motor-info{
+
 width:100%;
 
 display:grid;
 grid-template-columns:1fr 1fr;
 
 gap:12px;
+
 }
 
 .info-box{
+
 padding:14px;
 
 background:#132638;
@@ -549,6 +635,7 @@ border:1px solid #26415d;
 text-align:center;
 
 font-size:13px;
+
 }
 
 /* =========================================================
@@ -556,7 +643,9 @@ LOGS
 ========================================================= */
 
 .log-box{
+
 height:180px;
+
 overflow:auto;
 
 background:black;
@@ -570,6 +659,7 @@ font-family:Consolas;
 font-size:12px;
 
 color:#00ff99;
+
 }
 
 /* =========================================================
@@ -577,17 +667,20 @@ MAIN
 ========================================================= */
 
 .main{
+
 overflow:hidden;
 
 display:flex;
 flex-direction:column;
+
 }
 
 /* =========================================================
-TOOLBAR
+TOP TOOLBAR
 ========================================================= */
 
 .toolbar{
+
 display:flex;
 gap:14px;
 
@@ -596,190 +689,15 @@ padding:18px;
 background:#09131d;
 
 border-bottom:1px solid #1a2f45;
+
 }
 
 .toolbar .btn{
-min-width:160px;
+
+min-width:170px;
+
 font-size:13px;
-}
 
-/* =========================================================
-LADDER
-========================================================= */
-
-.ladder-area{
-flex:1;
-overflow:auto;
-padding:25px;
-}
-
-.rung{
-display:flex;
-align-items:center;
-gap:12px;
-margin-bottom:45px;
-min-height:80px;
-}
-
-.rail{
-width:5px;
-height:80px;
-background:#00ff99;
-border-radius:10px;
-}
-
-.line{
-height:3px;
-width:40px;
-background:#00ff99;
-}
-
-.contact,
-.coil,
-.timer{
-
-min-width:120px;
-height:65px;
-
-background:#132638;
-
-border:2px solid #00ff99;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-position:relative;
-
-font-weight:700;
-
-border-radius:10px;
-
-cursor:move;
-
-user-select:none;
-}
-
-/* CONTACTO NO */
-
-.contact.no::before,
-.contact.no::after{
-content:"";
-
-position:absolute;
-
-width:3px;
-height:45px;
-
-background:#ffffff;
-}
-
-.contact.no::before{
-left:30px;
-}
-
-.contact.no::after{
-right:30px;
-}
-
-/* CONTACTO NC */
-
-.contact.nc::before,
-.contact.nc::after{
-content:"";
-
-position:absolute;
-
-width:3px;
-height:45px;
-
-background:#ffffff;
-}
-
-.contact.nc::before{
-left:30px;
-}
-
-.contact.nc::after{
-right:30px;
-}
-
-.contact.nc .diag{
-position:absolute;
-
-width:58px;
-height:3px;
-
-background:#ffffff;
-
-transform:rotate(-50deg);
-}
-
-/* COIL */
-
-.coil::before,
-.coil::after{
-content:"";
-
-position:absolute;
-
-width:24px;
-height:44px;
-
-border:3px solid #ffffff;
-border-radius:50%;
-}
-
-.coil::before{
-left:22px;
-border-right:none;
-}
-
-.coil::after{
-right:22px;
-border-left:none;
-}
-
-/* LABEL */
-
-.element-label{
-position:absolute;
-bottom:4px;
-font-size:11px;
-color:#9bc0dc;
-}
-
-/* POWERED */
-
-.powered{
-background:rgba(0,255,153,.2);
-
-box-shadow:
-0 0 20px rgba(0,255,153,.6);
-}
-
-/* DELETE */
-
-.delete-element{
-position:absolute;
-top:-8px;
-right:-8px;
-
-width:18px;
-height:18px;
-
-border-radius:50%;
-
-background:#ff3355;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-font-size:11px;
-font-weight:700;
-
-cursor:pointer;
 }
 
 /* =========================================================
@@ -787,17 +705,23 @@ SCROLLBAR
 ========================================================= */
 
 ::-webkit-scrollbar{
+
 width:10px;
 height:10px;
+
 }
 
 ::-webkit-scrollbar-thumb{
+
 background:#21415d;
 border-radius:10px;
+
 }
 
 ::-webkit-scrollbar-track{
+
 background:#08111a;
+
 }
 
 </style>
@@ -854,12 +778,16 @@ PLC LADDER ENGINE
 
 <div class="status-box run"
 id="cpuState">
+
 CPU RUN
+
 </div>
 
 <div class="status-box run"
 id="plcState">
+
 PLC RUN
+
 </div>
 
 <div class="status-box">
@@ -876,9 +804,7 @@ ETHERNET OK
 
 <div class="layout">
 
-<!-- =========================================================
-SIDEBAR
-========================================================= -->
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -892,9 +818,7 @@ ENTRADAS DIGITALES
 
 <div class="io-grid">
 
-<div class="io-card"
-draggable="true"
-data-address="I0.0">
+<div class="io-card" id="card-I0.0">
 
 <div class="io-name">
 I0.0 START
@@ -902,14 +826,14 @@ I0.0 START
 
 <button class="btn green"
 onclick="toggleInput('I0.0')">
+
 FORZAR
+
 </button>
 
 </div>
 
-<div class="io-card"
-draggable="true"
-data-address="I0.1">
+<div class="io-card" id="card-I0.1">
 
 <div class="io-name">
 I0.1 STOP
@@ -917,14 +841,14 @@ I0.1 STOP
 
 <button class="btn red"
 onclick="toggleInput('I0.1')">
+
 FORZAR
+
 </button>
 
 </div>
 
-<div class="io-card"
-draggable="true"
-data-address="I0.2">
+<div class="io-card" id="card-I0.2">
 
 <div class="io-name">
 I0.2 EMERGENCY
@@ -932,14 +856,14 @@ I0.2 EMERGENCY
 
 <button class="btn yellow"
 onclick="toggleInput('I0.2')">
+
 FORZAR
+
 </button>
 
 </div>
 
-<div class="io-card"
-draggable="true"
-data-address="I0.3">
+<div class="io-card" id="card-I0.3">
 
 <div class="io-name">
 I0.3 SENSOR
@@ -947,7 +871,9 @@ I0.3 SENSOR
 
 <button class="btn blue"
 onclick="toggleInput('I0.3')">
+
 FORZAR
+
 </button>
 
 </div>
@@ -967,23 +893,43 @@ SALIDAS PLC
 <div class="memory-list">
 
 <div class="memory-item">
+
 <span>Q0.0 MOTOR</span>
-<span data-output="Q0.0">FALSE</span>
+
+<span data-output="Q0.0">
+FALSE
+</span>
+
 </div>
 
 <div class="memory-item">
+
 <span>Q0.1 VERDE</span>
-<span data-output="Q0.1">FALSE</span>
+
+<span data-output="Q0.1">
+FALSE
+</span>
+
 </div>
 
 <div class="memory-item">
+
 <span>Q0.2 ROJO</span>
-<span data-output="Q0.2">FALSE</span>
+
+<span data-output="Q0.2">
+FALSE
+</span>
+
 </div>
 
 <div class="memory-item">
+
 <span>Q0.3 TIMER</span>
-<span data-output="Q0.3">FALSE</span>
+
+<span data-output="Q0.3">
+FALSE
+</span>
+
 </div>
 
 </div>
@@ -1004,6 +950,7 @@ MOTOR TRIFÁSICO
 
 <div class="fan"
 id="fan">
+
 </div>
 
 </div>
@@ -1012,14 +959,17 @@ id="fan">
 
 <div class="pilot"
 id="greenPilot">
+
 </div>
 
 <div class="pilot"
 id="redPilot">
+
 </div>
 
 <div class="pilot"
 id="bluePilot">
+
 </div>
 
 </div>
@@ -1027,53 +977,26 @@ id="bluePilot">
 <div class="motor-info">
 
 <div class="info-box">
+
 RPM<br>
+
 <span id="rpmValue">
 0 RPM
 </span>
+
 </div>
 
 <div class="info-box">
+
 ESTADO<br>
+
 <span id="motorState">
 STOP
 </span>
-</div>
 
 </div>
 
 </div>
-
-</div>
-
-<!-- SUSCRIPCION -->
-
-<div class="panel">
-
-<h2>
-AUTOMATION STUDIO PRO
-</h2>
-
-<div class="subscribe-box">
-
-<div class="subscribe-title">
-ACCESO PREMIUM
-</div>
-
-<div class="subscribe-text">
-Desbloquea funciones avanzadas,
-más rungs, proyectos guardados
-y simulación industrial completa.
-</div>
-
-<a
-class="subscribe-btn"
-target="_blank"
-href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f">
-
-SUSCRIBIRME AHORA
-
-</a>
 
 </div>
 
@@ -1089,15 +1012,14 @@ EVENTOS PLC
 
 <div class="log-box"
 id="logBox">
+
 </div>
 
 </div>
 
 </aside>
 
-<!-- =========================================================
-MAIN
-========================================================= -->
+<!-- MAIN -->
 
 <main class="main">
 
@@ -1105,39 +1027,47 @@ MAIN
 
 <button class="btn green"
 onclick="addNO()">
+
 CONTACTO NO
+
 </button>
 
 <button class="btn yellow"
 onclick="addNC()">
+
 CONTACTO NC
+
 </button>
 
 <button class="btn blue"
 onclick="addCoil()">
+
 BOBINA
+
 </button>
 
 <button class="btn red"
 onclick="addTON()">
+
 TEMPORIZADOR
+
 </button>
 
 <button class="btn blue"
 onclick="addRung()">
+
 NUEVO RUNG
+
 </button>
 
 <button class="btn green"
 onclick="runSimulation()">
+
 SIMULAR PLC
+
 </button>
 
 </div>
-
-<!-- =========================================================
-LADDER
-========================================================= -->
 
 <div class="ladder-area"
 id="ladder">
@@ -1148,15 +1078,11 @@ id="ladder">
 
 <div class="rail"></div>
 
-<div class="contact no"
+<div class="contact"
 data-type="NO"
-data-address="I0.0"
-draggable="true"
-ondblclick="editAddress(this)">
+data-address="I0.0">
 
-<span class="element-label">
 I0.0
-</span>
 
 <div class="delete-element">
 ✕
@@ -1166,17 +1092,29 @@ I0.0
 
 <div class="line"></div>
 
-<div class="contact nc"
+<div class="contact"
 data-type="NC"
-data-address="I0.1"
-draggable="true"
-ondblclick="editAddress(this)">
+data-address="I0.1">
+
+/I0.1
 
 <div class="diag"></div>
 
-<span class="element-label">
-I0.1
-</span>
+<div class="delete-element">
+✕
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="contact"
+data-type="NC"
+data-address="I0.2">
+
+/I0.2
+
+<div class="diag"></div>
 
 <div class="delete-element">
 ✕
@@ -1187,13 +1125,9 @@ I0.1
 <div class="line"></div>
 
 <div class="coil"
-data-address="Q0.0"
-draggable="true"
-ondblclick="editAddress(this)">
+data-address="Q0.0">
 
-<span class="element-label">
-Q0.0
-</span>
+(Q0.0)
 
 <div class="delete-element">
 ✕
@@ -1211,15 +1145,11 @@ Q0.0
 
 <div class="rail"></div>
 
-<div class="contact no"
+<div class="contact"
 data-type="NO"
-data-address="Q0.0"
-draggable="true"
-ondblclick="editAddress(this)">
+data-address="Q0.0">
 
-<span class="element-label">
 Q0.0
-</span>
 
 <div class="delete-element">
 ✕
@@ -1230,13 +1160,9 @@ Q0.0
 <div class="line"></div>
 
 <div class="coil"
-data-address="Q0.1"
-draggable="true"
-ondblclick="editAddress(this)">
+data-address="Q0.1">
 
-<span class="element-label">
-Q0.1
-</span>
+(Q0.1)
 
 <div class="delete-element">
 ✕
@@ -1256,9 +1182,7 @@ Q0.1
 
 </div>
 
-<!-- =========================================================
-JS
-========================================================= -->
+<!-- JS -->
 
 <script
 src="{{ url_for('static', filename='js/logs.js') }}">
@@ -1277,106 +1201,6 @@ src="{{ url_for('static', filename='js/ladder.js') }}">
 </script>
 
 <script>
-
-/* =========================================================
-EDIT ADDRESS
-========================================================= */
-
-function editAddress(el){
-
-let current=
-el.dataset.address
-
-let value=
-prompt(
-"Nueva dirección:",
-current
-)
-
-if(!value) return
-
-el.dataset.address=value
-
-let label=
-el.querySelector(".element-label")
-
-if(label){
-label.innerText=value
-}
-
-log(
-"Dirección cambiada a "+value
-)
-
-}
-
-/* =========================================================
-DRAG ELEMENTS
-========================================================= */
-
-let dragged=null
-
-document.addEventListener(
-"dragstart",
-e=>{
-
-if(
-e.target.classList.contains("contact")
-||
-e.target.classList.contains("coil")
-){
-
-dragged=e.target
-
-}
-
-}
-)
-
-document.addEventListener(
-"dragover",
-e=>{
-
-e.preventDefault()
-
-}
-)
-
-document.addEventListener(
-"drop",
-e=>{
-
-e.preventDefault()
-
-let target=
-e.target.closest(
-".contact,.coil"
-)
-
-if(
-target
-&&
-dragged
-&&
-target!==dragged
-){
-
-const parent=
-target.parentNode
-
-parent.insertBefore(
-dragged,
-target
-)
-
-}
-
-}
-)
-
-/* =========================================================
-INIT
-========================================================= */
 
 window.onload=()=>{
 
