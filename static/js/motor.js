@@ -1,9 +1,17 @@
-let running=false
-let rpm=0
-let temp=25
+function startMotor(){
 
-toggleInput()
+document.getElementById("fan")
+.style.animationPlayState="running"
 
-setInterval(()=>{
+log("Motor energizado")
 
-},100)
+}
+
+function stopMotor(){
+
+document.getElementById("fan")
+.style.animationPlayState="paused"
+
+log("Motor detenido")
+
+}
