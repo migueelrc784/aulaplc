@@ -7,19 +7,19 @@ app = FastAPI()
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# Static files (CSS / JS)
+# STATIC (OBLIGATORIO EN VERCEL)
 app.mount(
     "/static",
     StaticFiles(directory=str(BASE_DIR / "static")),
     name="static"
 )
 
-# Templates
+# TEMPLATES (FIX IMPORTANTE: SIEMPRE STRING ABSOLUTO)
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 
 @app.get("/")
-def home(request: Request):
+async def home(request: Request):
     return templates.TemplateResponse(
         "index.html",
         {"request": request}
