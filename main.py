@@ -1,19 +1,13 @@
-from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
-from pathlib import Path
+from flask import Flask, render_template
 
-app = FastAPI()
+app = Flask(__name__)
 
-BASE_DIR = Path(__file__).resolve().parent
+@app.route("/")
+def home():
+    return render_template("index.html")
 
-templates = Jinja2Templates(
-    directory=str(BASE_DIR / "templates")
-)
+# importante para vercel
+app = app
 
-@app.get("/")
-def inicio(request: Request):
-
-    return templates.TemplateResponse(
-        request,
-        "index.html"
-    )
+if __name__ == "__main__":
+    app.run(debug=True)
