@@ -4,9 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
 AUTOMATION STUDIO X
@@ -19,17 +17,14 @@ rel="stylesheet">
 <link rel="stylesheet"
 href="{{ url_for('static', filename='css/main.css') }}">
 
-<link rel="icon"
-type="image/png"
-href="{{ url_for('static', filename='img/logo.png') }}">
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/ladder.css') }}">
 
 </head>
 
 <body>
 
-<!-- =========================================================
-LOADER
-========================================================= -->
+<!-- LOADER -->
 
 <div id="loader" class="loading">
 
@@ -43,15 +38,9 @@ Inicializando PLC Runtime Engine...
 
 </div>
 
-<!-- =========================================================
-APP
-========================================================= -->
+<!-- APP -->
 
 <div id="app" style="display:none;">
-
-<!-- =========================================================
-HEADER
-========================================================= -->
 
 <header class="top-header">
 
@@ -72,6 +61,24 @@ PLC LADDER ENGINE
 </div>
 
 </div>
+
+</div>
+
+<div class="top-buttons">
+
+<button class="nav-btn active-nav"
+onclick="showSection('simulatorSection',this)">
+
+SIMULADOR PLC
+
+</button>
+
+<button class="nav-btn"
+onclick="showSection('coursesSection',this)">
+
+CURSOS
+
+</button>
 
 </div>
 
@@ -103,15 +110,15 @@ ETHERNET OK
 
 </header>
 
-<!-- =========================================================
-LAYOUT
-========================================================= -->
+<!-- ===================================================== -->
+<!-- SIMULADOR -->
+<!-- ===================================================== -->
+
+<div id="simulatorSection">
 
 <div class="layout">
 
-<!-- =========================================================
-SIDEBAR
-========================================================= -->
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -326,191 +333,9 @@ id="logBox">
 
 </aside>
 
-<!-- =========================================================
-MAIN
-========================================================= -->
+<!-- MAIN -->
 
 <main class="main">
-
-<!-- =========================================================
-DASHBOARD
-========================================================= -->
-
-<div class="panel">
-
-<h2 style="
-font-size:28px;
-font-family:Orbitron;
-color:#00ff99;
-margin-bottom:15px;
-">
-
-AUTOMATION STUDIO X
-
-</h2>
-
-<p style="
-color:#8da8c7;
-font-size:15px;
-line-height:1.7;
-">
-
-Plataforma profesional de automatización industrial enfocada en:
-PLC Ladder, SCADA, motores trifásicos,
-control industrial y formación técnica.
-
-</p>
-
-</div>
-
-<!-- =========================================================
-CURSOS
-========================================================= -->
-
-<div class="courses-section">
-
-<h2 class="section-title">
-🎓 CURSOS INDUSTRIALES
-</h2>
-
-<div class="course-grid">
-
-<!-- CURSO 1 -->
-
-<div class="course-card">
-
-<div class="course-banner">
-⚡
-</div>
-
-<div class="course-content">
-
-<h3>
-PLC SIEMENS DESDE CERO
-</h3>
-
-<p>
-Aprende Ladder industrial,
-entradas, salidas,
-timers y automatización real.
-</p>
-
-<div class="course-footer">
-
-<div class="price">
-$24.990
-</div>
-
-<a href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f"
-target="_blank">
-
-<button class="course-btn">
-INSCRIBIRME
-</button>
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- CURSO 2 -->
-
-<div class="course-card">
-
-<div class="course-banner">
-🖥️
-</div>
-
-<div class="course-content">
-
-<h3>
-SCADA + HMI INDUSTRIAL
-</h3>
-
-<p>
-Aprende diseño HMI,
-alarmas industriales,
-variables y supervisión.
-</p>
-
-<div class="course-footer">
-
-<div class="price">
-$34.990
-</div>
-
-<button class="course-btn">
-PRÓXIMAMENTE
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- CURSO 3 -->
-
-<div class="course-card">
-
-<div class="course-banner">
-⚙️
-</div>
-
-<div class="course-content">
-
-<h3>
-MOTORES Y VARIADORES
-</h3>
-
-<p>
-Control estrella-triángulo,
-protecciones eléctricas
-y automatización.
-</p>
-
-<div class="course-footer">
-
-<div class="price">
-$29.990
-</div>
-
-<button class="course-btn">
-PRÓXIMAMENTE
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- =========================================================
-SIMULADOR PLC
-========================================================= -->
-
-<div class="panel"
-style="margin-top:30px;">
-
-<h2 style="
-font-size:28px;
-font-family:Orbitron;
-color:#00ff99;
-margin-bottom:25px;
-">
-
-🔧 SIMULADOR PLC
-
-</h2>
-
-<!-- TOOLBAR -->
 
 <div class="toolbar">
 
@@ -557,10 +382,6 @@ SIMULAR PLC
 </button>
 
 </div>
-
-<!-- =========================================================
-LADDER
-========================================================= -->
 
 <div class="ladder-area"
 id="ladder">
@@ -639,44 +460,6 @@ data-address="Q0.1">
 
 </div>
 
-<!-- RUNG 3 -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="I0.3">
-
-I0.3
-
-</div>
-
-<div class="line"></div>
-
-<div class="timer"
-data-address="T0.0">
-
-TON T0.0
-
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.3">
-
-(Q0.3)
-
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-</div>
-
 </div>
 
 </main>
@@ -685,9 +468,110 @@ data-address="Q0.3">
 
 </div>
 
-<!-- =========================================================
-JS
-========================================================= -->
+<!-- ===================================================== -->
+<!-- CURSOS -->
+<!-- ===================================================== -->
+
+<div id="coursesSection" style="display:none;">
+
+<div class="courses-page">
+
+<h1 class="courses-title">
+CURSOS AUTOMATION STUDIO X
+</h1>
+
+<p class="courses-subtitle">
+Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.
+</p>
+
+<div class="courses-grid">
+
+<div class="course-card">
+
+<h2>
+PLC SIEMENS TIA PORTAL
+</h2>
+
+<p>
+Curso completo desde cero con Ladder, simulación y proyectos reales.
+</p>
+
+<button class="btn green">
+VER CURSO
+</button>
+
+</div>
+
+<div class="course-card">
+
+<h2>
+HMI + SCADA INDUSTRIAL
+</h2>
+
+<p>
+Diseña pantallas profesionales y sistemas industriales modernos.
+</p>
+
+<button class="btn blue">
+VER CURSO
+</button>
+
+</div>
+
+<div class="course-card">
+
+<h2>
+VARIADORES DE FRECUENCIA
+</h2>
+
+<p>
+Configuración, parámetros y control de motores industriales.
+</p>
+
+<button class="btn yellow">
+VER CURSO
+</button>
+
+</div>
+
+<div class="course-card premium-card">
+
+<h2>
+MEMBRESÍA PREMIUM
+</h2>
+
+<p>
+Acceso total a todos los cursos y futuras actualizaciones.
+</p>
+
+<a
+href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f"
+target="_blank">
+
+<button class="btn premium-btn">
+SUSCRIBIRSE
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+<button class="back-btn"
+onclick="backSimulator()">
+
+⬅ VOLVER AL SIMULADOR
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- JS -->
 
 <script
 src="{{ url_for('static', filename='js/logs.js') }}">
@@ -717,13 +601,53 @@ document.getElementById("loader")
 document.getElementById("app")
 .style.display="flex"
 
-log(
-"SISTEMA PLC INICIADO"
-)
+if(typeof log==="function"){
+
+log("SISTEMA PLC INICIADO")
+
+}
+
+if(typeof scanPLC==="function"){
 
 scanPLC()
 
+}
+
 },1000)
+
+}
+
+function showSection(sectionId,btn){
+
+document.getElementById("simulatorSection")
+.style.display="none"
+
+document.getElementById("coursesSection")
+.style.display="none"
+
+document.getElementById(sectionId)
+.style.display="block"
+
+document.querySelectorAll(".nav-btn")
+.forEach(b=>b.classList.remove("active-nav"))
+
+btn.classList.add("active-nav")
+
+}
+
+function backSimulator(){
+
+document.getElementById("coursesSection")
+.style.display="none"
+
+document.getElementById("simulatorSection")
+.style.display="block"
+
+document.querySelectorAll(".nav-btn")
+.forEach(b=>b.classList.remove("active-nav"))
+
+document.querySelectorAll(".nav-btn")[0]
+.classList.add("active-nav")
 
 }
 
