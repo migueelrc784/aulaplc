@@ -218,23 +218,43 @@ SALIDAS PLC
 <div class="memory-list">
 
 <div class="memory-item">
+
 <span>Q0.0 MOTOR</span>
-<span data-output="Q0.0">FALSE</span>
+
+<span data-output="Q0.0">
+FALSE
+</span>
+
 </div>
 
 <div class="memory-item">
+
 <span>Q0.1 VERDE</span>
-<span data-output="Q0.1">FALSE</span>
+
+<span data-output="Q0.1">
+FALSE
+</span>
+
 </div>
 
 <div class="memory-item">
+
 <span>Q0.2 ROJO</span>
-<span data-output="Q0.2">FALSE</span>
+
+<span data-output="Q0.2">
+FALSE
+</span>
+
 </div>
 
 <div class="memory-item">
+
 <span>Q0.3 TIMER</span>
-<span data-output="Q0.3">FALSE</span>
+
+<span data-output="Q0.3">
+FALSE
+</span>
+
 </div>
 
 </div>
@@ -374,9 +394,7 @@ SIMULAR PLC
 
 </div>
 
-<!-- ===================================================== -->
 <!-- LADDER -->
-<!-- ===================================================== -->
 
 <div class="ladder-area"
 id="ladder">
@@ -388,71 +406,39 @@ id="ladder">
 <div class="rail"></div>
 
 <div class="contact"
-draggable="true"
 data-type="NO"
 data-address="I0.0">
 
-<div class="contact-lines"></div>
-
-<span>I0.0</span>
-
-<div class="delete-element">
-✕
-</div>
+I0.0
 
 </div>
 
 <div class="line"></div>
 
 <div class="contact"
-draggable="true"
 data-type="NC"
 data-address="I0.1">
 
-<div class="contact-lines"></div>
-
-<div class="diag"></div>
-
-<span>I0.1</span>
-
-<div class="delete-element">
-✕
-</div>
+/I0.1
 
 </div>
 
 <div class="line"></div>
 
 <div class="contact"
-draggable="true"
 data-type="NC"
 data-address="I0.2">
 
-<div class="contact-lines"></div>
-
-<div class="diag"></div>
-
-<span>I0.2</span>
-
-<div class="delete-element">
-✕
-</div>
+/I0.2
 
 </div>
 
 <div class="line"></div>
 
 <div class="coil"
-draggable="true"
 data-address="Q0.0">
 
-<div class="coil-circle"></div>
-
-<span>Q0.0</span>
-
-<div class="delete-element">
-✕
-</div>
+(Q0.0)
 
 </div>
 
@@ -467,33 +453,19 @@ data-address="Q0.0">
 <div class="rail"></div>
 
 <div class="contact"
-draggable="true"
 data-type="NO"
 data-address="Q0.0">
 
-<div class="contact-lines"></div>
-
-<span>Q0.0</span>
-
-<div class="delete-element">
-✕
-</div>
+Q0.0
 
 </div>
 
 <div class="line"></div>
 
 <div class="coil"
-draggable="true"
 data-address="Q0.1">
 
-<div class="coil-circle"></div>
-
-<span>Q0.1</span>
-
-<div class="delete-element">
-✕
-</div>
+(Q0.1)
 
 </div>
 
@@ -575,199 +547,136 @@ VER CURSO
 
 </div>
 
+<div class="course-card premium-card">
+
+<h2>
+MEMBRESÍA PREMIUM
+</h2>
+
+<p>
+Acceso total a todos los cursos y futuras actualizaciones.
+</p>
+
+<a
+href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f"
+target="_blank">
+
+<button class="btn premium-btn">
+SUSCRIBIRSE
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+<button class="back-btn"
+onclick="backSimulator()">
+
+⬅ VOLVER AL SIMULADOR
+
+</button>
+
 </div>
 
 </div>
 
 <!-- ===================================================== -->
-<!-- VFD REALISTA -->
+<!-- VARIADOR VFD -->
 <!-- ===================================================== -->
 
 <div id="vfdSection" style="display:none;">
 
-<div class="vfd-page">
+<div class="courses-page">
 
 <h1 class="courses-title">
 SIMULADOR VARIADOR VFD
 </h1>
 
 <p class="courses-subtitle">
-Control industrial de motor trifásico en tiempo real.
+Simulación básica de un Variador de Frecuencia Industrial.
 </p>
 
-<div class="vfd-real-container">
+<div class="panel">
 
-<!-- VFD EQUIPO -->
+<h2>
+VARIADOR INDUSTRIAL
+</h2>
 
-<div class="vfd-drive">
+<p style="color:#9cb5d1;margin-bottom:30px;line-height:1.6;">
 
-<div class="vfd-top-led"></div>
+Los Variadores de Frecuencia permiten controlar velocidad,
+arranque suave y RPM de motores trifásicos industriales.
 
-<div class="vfd-brand">
-AUTOMATION STUDIO X
-</div>
+</p>
 
-<div class="vfd-model">
-VFD-550
-</div>
+<div class="vfd-box">
 
-<div class="vfd-screen">
+<div class="vfd-row">
 
-<div class="screen-row">
-<span>Hz</span>
-<span id="vfdFreqDisplay">0.00</span>
-</div>
+<span>
+ESTADO
+</span>
 
-<div class="screen-row">
-<span>RPM</span>
-<span id="vfdRpmDisplay">0</span>
-</div>
-
-<div class="screen-row">
-<span>A</span>
-<span id="vfdAmpDisplay">0.0</span>
-</div>
-
-</div>
-
-<div class="vfd-buttons">
-
-<button onclick="startVFD()">
-RUN
-</button>
-
-<button onclick="stopVFD()">
-STOP
-</button>
-
-<button onclick="increaseFreq()">
-▲
-</button>
-
-<button onclick="decreaseFreq()">
-▼
-</button>
-
-</div>
-
-</div>
-
-<!-- PANEL -->
-
-<div class="vfd-panel">
-
-<div class="vfd-panel-top">
-
-<div class="vfd-panel-title">
-MONITOREO EN TIEMPO REAL
-</div>
-
-<div class="vfd-status"
-id="vfdStatus">
+<span id="vfdStatus"
+style="color:#ff4565;">
 
 DETENIDO
 
-</div>
-
-</div>
-
-<!-- GAUGES -->
-
-<div class="gauges-grid">
-
-<div class="gauge-card">
-
-<h3>
-FRECUENCIA
-</h3>
-
-<div class="gauge-circle">
-
-<span id="gaugeFreq">
-0
 </span>
 
 </div>
 
-</div>
-
-<div class="gauge-card">
-
-<h3>
-RPM MOTOR
-</h3>
-
-<div class="gauge-circle">
-
-<span id="gaugeRpm">
-0
-</span>
-
-</div>
-
-</div>
-
-<div class="gauge-card">
-
-<h3>
-CORRIENTE
-</h3>
-
-<div class="gauge-circle">
-
-<span id="gaugeAmp">
-0
-</span>
-
-</div>
-
-</div>
-
-<div class="gauge-card">
-
-<h3>
-VOLTAJE
-</h3>
-
-<div class="gauge-circle">
+<div class="vfd-row">
 
 <span>
-380
+FRECUENCIA
+</span>
+
+<span id="vfdFreq">
+0 Hz
 </span>
 
 </div>
 
+<div class="vfd-row">
+
+<span>
+RPM MOTOR
+</span>
+
+<span id="vfdRpm">
+0 RPM
+</span>
+
+</div>
+
+<button class="btn green"
+onclick="startVFD()">
+
+ARRANCAR VFD
+
+</button>
+
+<button class="btn red"
+style="margin-top:15px;"
+onclick="stopVFD()">
+
+DETENER VFD
+
+</button>
+
 </div>
 
 </div>
 
-<!-- SLIDER -->
+<button class="back-btn"
+onclick="backSimulator()">
 
-<div class="freq-control">
+⬅ VOLVER AL SIMULADOR
 
-<h3>
-REFERENCIA DE FRECUENCIA
-</h3>
-
-<input
-type="range"
-min="0"
-max="60"
-value="0"
-id="freqSlider"
-oninput="updateVFDSlider(this.value)">
-
-<div class="freq-value">
-<span id="sliderValue">
-0
-</span> Hz
-</div>
-
-</div>
-
-</div>
-
-</div>
+</button>
 
 </div>
 
@@ -809,15 +718,15 @@ log("SISTEMA PLC INICIADO")
 
 }
 
+if(typeof scanPLC==="function"){
+
 scanPLC()
+
+}
 
 },1000)
 
 }
-
-/* ===================================================== */
-/* NAVIGATION */
-/* ===================================================== */
 
 function showSection(sectionId,btn){
 
@@ -840,16 +749,28 @@ btn.classList.add("active-nav")
 
 }
 
-/* ===================================================== */
-/* VFD */
-/* ===================================================== */
+function backSimulator(){
 
-let vfdRunning=false
-let currentFreq=0
+document.getElementById("coursesSection")
+.style.display="none"
+
+document.getElementById("vfdSection")
+.style.display="none"
+
+document.getElementById("simulatorSection")
+.style.display="block"
+
+document.querySelectorAll(".nav-btn")
+.forEach(b=>b.classList.remove("active-nav"))
+
+document.querySelectorAll(".nav-btn")[0]
+.classList.add("active-nav")
+
+}
+
+/* VFD */
 
 function startVFD(){
-
-vfdRunning=true
 
 document.getElementById("vfdStatus")
 .innerHTML="RUNNING"
@@ -857,123 +778,29 @@ document.getElementById("vfdStatus")
 document.getElementById("vfdStatus")
 .style.color="#00ff99"
 
-log("VFD RUN")
+document.getElementById("vfdFreq")
+.innerHTML="60 Hz"
+
+document.getElementById("vfdRpm")
+.innerHTML="1750 RPM"
 
 }
 
 function stopVFD(){
 
-vfdRunning=false
-
-currentFreq=0
-
-document.getElementById("freqSlider").value=0
-
-updateVFDDisplays()
-
 document.getElementById("vfdStatus")
 .innerHTML="DETENIDO"
 
 document.getElementById("vfdStatus")
-.style.color="#ff3355"
+.style.color="#ff4565"
 
-log("VFD STOP")
+document.getElementById("vfdFreq")
+.innerHTML="0 Hz"
 
-}
-
-function updateVFDSlider(value){
-
-currentFreq=parseInt(value)
-
-updateVFDDisplays()
+document.getElementById("vfdRpm")
+.innerHTML="0 RPM"
 
 }
-
-function increaseFreq(){
-
-if(currentFreq<60){
-
-currentFreq+=1
-
-document.getElementById("freqSlider").value=currentFreq
-
-updateVFDDisplays()
-
-}
-
-}
-
-function decreaseFreq(){
-
-if(currentFreq>0){
-
-currentFreq-=1
-
-document.getElementById("freqSlider").value=currentFreq
-
-updateVFDDisplays()
-
-}
-
-}
-
-function updateVFDDisplays(){
-
-const rpm=Math.floor(currentFreq*29.16)
-const amps=(currentFreq/6).toFixed(1)
-
-document.getElementById("sliderValue")
-.innerHTML=currentFreq
-
-document.getElementById("vfdFreqDisplay")
-.innerHTML=currentFreq.toFixed(2)
-
-document.getElementById("vfdRpmDisplay")
-.innerHTML=rpm
-
-document.getElementById("vfdAmpDisplay")
-.innerHTML=amps
-
-document.getElementById("gaugeFreq")
-.innerHTML=currentFreq
-
-document.getElementById("gaugeRpm")
-.innerHTML=rpm
-
-document.getElementById("gaugeAmp")
-.innerHTML=amps
-
-}
-
-/* ===================================================== */
-/* AUTO UPDATE */
-/* ===================================================== */
-
-setInterval(()=>{
-
-if(vfdRunning){
-
-const fan=document.getElementById("fan")
-
-if(fan){
-
-fan.style.animationPlayState="running"
-
-}
-
-}else{
-
-const fan=document.getElementById("fan")
-
-if(fan){
-
-fan.style.animationPlayState="paused"
-
-}
-
-}
-
-},100)
 
 </script>
 
