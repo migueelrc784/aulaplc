@@ -394,8 +394,6 @@ SIMULAR PLC
 
 </div>
 
-<!-- LADDER -->
-
 <div class="ladder-area"
 id="ladder">
 
@@ -591,7 +589,7 @@ onclick="backSimulator()">
 <div class="courses-page">
 
 <h1 class="courses-title">
-SIMULADOR VARIADOR VFD
+SIMULADOR VARIADOR DE FRECUENCIA
 </h1>
 
 <p class="courses-subtitle">
@@ -601,13 +599,13 @@ Simulación básica de un Variador de Frecuencia Industrial.
 <div class="panel">
 
 <h2>
-VARIADOR INDUSTRIAL
+VARIADOR INDUSTRIAL VFD
 </h2>
 
-<p style="color:#9cb5d1;margin-bottom:30px;line-height:1.6;">
+<p style="color:#9cb5d1;margin-bottom:25px;line-height:1.6;">
 
 Los Variadores de Frecuencia permiten controlar velocidad,
-arranque suave y RPM de motores trifásicos industriales.
+arranque y torque de motores industriales trifásicos.
 
 </p>
 
@@ -615,9 +613,7 @@ arranque suave y RPM de motores trifásicos industriales.
 
 <div class="vfd-row">
 
-<span>
-ESTADO
-</span>
+<span>ESTADO</span>
 
 <span id="vfdStatus"
 style="color:#ff4565;">
@@ -630,24 +626,24 @@ DETENIDO
 
 <div class="vfd-row">
 
-<span>
-FRECUENCIA
-</span>
+<span>FRECUENCIA</span>
 
 <span id="vfdFreq">
+
 0 Hz
+
 </span>
 
 </div>
 
 <div class="vfd-row">
 
-<span>
-RPM MOTOR
-</span>
+<span>RPM MOTOR</span>
 
 <span id="vfdRpm">
+
 0 RPM
+
 </span>
 
 </div>
@@ -659,8 +655,9 @@ ARRANCAR VFD
 
 </button>
 
+<br><br>
+
 <button class="btn red"
-style="margin-top:15px;"
 onclick="stopVFD()">
 
 DETENER VFD
@@ -727,6 +724,8 @@ scanPLC()
 },1000)
 
 }
+
+/* NAV */
 
 function showSection(sectionId,btn){
 
