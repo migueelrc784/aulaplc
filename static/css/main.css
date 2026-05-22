@@ -339,14 +339,49 @@ min-width:120px;
 }
 
 /* =========================================================
-   TOOLBAR
+   TOOLBAR MODERNA PEQUEÑA
 ========================================================= */
 
 .toolbar{
-display:flex;
-gap:12px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
 margin-bottom:20px;
-flex-wrap:wrap;
+}
+
+.toolbar button,
+.toolbar .btn{
+height:70px;
+min-width:0;
+padding:8px;
+font-size:11px;
+font-weight:700;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+line-height:1.2;
+background:
+linear-gradient(180deg,#122236,#0c1a2c);
+border:1px solid #234361;
+color:white;
+box-shadow:
+0 4px 10px rgba(0,0,0,.25);
+transition:.2s;
+}
+
+.toolbar button:hover,
+.toolbar .btn:hover{
+transform:translateY(-2px) scale(1.03);
+border-color:#00ff99;
+box-shadow:
+0 0 15px rgba(0,255,153,.25);
+}
+
+.toolbar button:active,
+.toolbar .btn:active{
+transform:scale(.96);
 }
 
 /* =========================================================
@@ -422,397 +457,6 @@ border-left:4px solid #00ff99;
 }
 
 /* =========================================================
-   COURSES
-========================================================= */
-
-.courses-page{
-padding:30px;
-overflow:auto;
-height:calc(100vh - 80px);
-}
-
-.courses-title{
-font-size:38px;
-font-family:Orbitron;
-color:#00ff99;
-margin-bottom:10px;
-}
-
-.courses-subtitle{
-color:#8ca8c8;
-margin-bottom:30px;
-}
-
-.courses-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
-}
-
-.course-card{
-background:
-linear-gradient(180deg,#081827,#0a1f33);
-border:1px solid #17314f;
-border-radius:22px;
-padding:25px;
-}
-
-.course-card h2{
-margin-bottom:15px;
-color:#00ff99;
-font-family:Orbitron;
-font-size:18px;
-}
-
-.course-card p{
-color:#a8c0dd;
-line-height:1.6;
-margin-bottom:20px;
-}
-
-.premium-card{
-border-color:#b14dff;
-box-shadow:
-0 0 25px rgba(177,77,255,.25);
-}
-
-.back-btn{
-margin-top:30px;
-padding:14px 24px;
-border:none;
-border-radius:14px;
-background:#122236;
-color:white;
-cursor:pointer;
-font-weight:700;
-border:1px solid #234361;
-}
-
-/* =========================================================
-   LOADER
-========================================================= */
-
-.loading{
-position:fixed;
-inset:0;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-background:#020814;
-z-index:999;
-}
-
-.loading h1{
-font-family:Orbitron;
-font-size:42px;
-color:#00ff99;
-margin-bottom:15px;
-}
-
-.loading p{
-color:#8ca8c8;
-font-size:16px;
-}
-
-/* =========================================================
-   VFD PRO
-========================================================= */
-
-.vfd-page{
-padding:25px;
-height:calc(100vh - 80px);
-overflow:auto;
-background:
-linear-gradient(180deg,#020814,#04111f);
-}
-
-.vfd-container{
-display:flex;
-gap:20px;
-align-items:flex-start;
-}
-
-/* DRIVE */
-
-.vfd-drive{
-width:250px;
-background:
-linear-gradient(180deg,#2f3239,#15171b);
-border-radius:18px;
-padding:15px;
-border:2px solid #20242b;
-box-shadow:
-0 0 30px rgba(0,0,0,.5),
-inset 0 0 10px rgba(255,255,255,.05);
-}
-
-.drive-header{
-display:flex;
-justify-content:space-between;
-font-family:Orbitron;
-font-size:14px;
-margin-bottom:18px;
-}
-
-.drive-screen{
-background:#a7c55a;
-border:4px solid #5f732b;
-border-radius:8px;
-padding:20px 10px;
-text-align:center;
-margin-bottom:16px;
-color:#111;
-font-family:Orbitron;
-box-shadow:
-inset 0 0 10px rgba(0,0,0,.35);
-}
-
-.drive-screen .freq{
-font-size:26px;
-font-weight:700;
-}
-
-.drive-screen .rpm{
-margin-top:8px;
-font-size:16px;
-}
-
-.drive-screen .amp{
-margin-top:8px;
-font-size:14px;
-}
-
-.drive-leds{
-display:flex;
-justify-content:center;
-gap:14px;
-margin-bottom:18px;
-}
-
-.led{
-width:12px;
-height:12px;
-border-radius:50%;
-background:#333;
-}
-
-.led.green-led{
-background:#00ff99;
-box-shadow:0 0 10px #00ff99;
-}
-
-.led.red-led{
-background:#ff3355;
-box-shadow:0 0 10px #ff3355;
-}
-
-.drive-buttons{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.drive-btn{
-padding:12px;
-border:none;
-border-radius:10px;
-font-weight:700;
-cursor:pointer;
-}
-
-.drive-btn.run{
-background:#39d353;
-color:white;
-}
-
-.drive-btn.stop{
-background:#ff4565;
-color:white;
-}
-
-.drive-btn.gray{
-background:#2d3748;
-color:white;
-}
-
-/* PANEL RIGHT */
-
-.vfd-panel{
-flex:1;
-background:
-linear-gradient(180deg,#05111d,#071827);
-border:1px solid #17314f;
-border-radius:24px;
-padding:20px;
-}
-
-.vfd-tabs{
-display:flex;
-gap:12px;
-margin-bottom:20px;
-}
-
-.vfd-tab{
-padding:12px 20px;
-border-radius:12px;
-background:#122236;
-font-weight:700;
-cursor:pointer;
-}
-
-.vfd-tab.active{
-background:#00ff99;
-color:#00131f;
-}
-
-.vfd-grid{
-display:grid;
-grid-template-columns:360px 1fr;
-gap:20px;
-}
-
-.vfd-card{
-background:#091a2a;
-border:1px solid #17314f;
-border-radius:18px;
-padding:20px;
-margin-bottom:20px;
-}
-
-.vfd-card h3{
-font-family:Orbitron;
-font-size:16px;
-color:#00ff99;
-margin-bottom:18px;
-}
-
-.freq-slider{
-width:100%;
-margin-bottom:20px;
-}
-
-.big-freq{
-font-size:30px;
-font-family:Orbitron;
-color:#00ff99;
-}
-
-/* COMMANDS */
-
-.cmd-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.cmd-btn{
-padding:14px;
-border:none;
-border-radius:12px;
-font-weight:700;
-cursor:pointer;
-}
-
-.cmd-green{
-background:#39d353;
-color:white;
-}
-
-.cmd-red{
-background:#ff3355;
-color:white;
-}
-
-.cmd-dark{
-background:#1e2f46;
-color:white;
-}
-
-/* GAUGES */
-
-.gauge-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
-}
-
-.gauge-card{
-background:#091a2a;
-border:1px solid #17314f;
-border-radius:18px;
-padding:20px;
-text-align:center;
-}
-
-.gauge-card h4{
-margin-bottom:15px;
-font-family:Orbitron;
-color:#00ff99;
-}
-
-.gauge{
-width:140px;
-height:140px;
-border-radius:50%;
-margin:auto;
-position:relative;
-background:
-conic-gradient(
-#00ff99 0deg,
-#00ff99 220deg,
-#ff6b4a 220deg,
-#ff6b4a 300deg,
-#14345a 300deg
-);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.gauge::before{
-content:"";
-position:absolute;
-width:110px;
-height:110px;
-border-radius:50%;
-background:#05111d;
-}
-
-.needle{
-position:absolute;
-width:4px;
-height:50px;
-background:white;
-bottom:50%;
-left:50%;
-transform-origin:bottom center;
-border-radius:4px;
-transition:.3s;
-z-index:5;
-}
-
-.gauge-value{
-margin-top:18px;
-font-size:26px;
-font-family:Orbitron;
-}
-
-/* STATUS */
-
-.vfd-status{
-margin-top:20px;
-display:flex;
-justify-content:space-between;
-background:#091a2a;
-border:1px solid #17314f;
-border-radius:18px;
-padding:20px;
-font-size:18px;
-font-weight:700;
-}
-
-/* =========================================================
    SCROLL
 ========================================================= */
 
@@ -833,18 +477,6 @@ background:#07111d;
 /* =========================================================
    RESPONSIVE
 ========================================================= */
-
-@media(max-width:1200px){
-
-.vfd-grid{
-grid-template-columns:1fr;
-}
-
-.gauge-grid{
-grid-template-columns:1fr 1fr;
-}
-
-}
 
 @media(max-width:900px){
 
@@ -867,14 +499,6 @@ padding:20px;
 gap:20px;
 }
 
-.vfd-container{
-flex-direction:column;
-}
-
-.gauge-grid{
-grid-template-columns:1fr;
-}
-
 }
 
 @media(max-width:600px){
@@ -894,7 +518,13 @@ font-size:12px;
 }
 
 .toolbar{
-flex-direction:column;
+grid-template-columns:repeat(2,1fr);
+}
+
+.toolbar button,
+.toolbar .btn{
+height:65px;
+font-size:10px;
 }
 
 }
