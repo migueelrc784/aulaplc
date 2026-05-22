@@ -1,736 +1,808 @@
-<!-- ===================== COMENTARIOS PROFESIONALES MASTERPLC ===================== -->
+<!DOCTYPE html>
+<html lang="es">
 
-<section class="comments-section">
+<head>
 
-<div class="comments-header">
-    <h2>💬 Comunidad PLC & Automatización</h2>
-    <p>Comparte proyectos Ladder, resuelve dudas y ayuda a otros estudiantes e ingenieros.</p>
-</div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="comment-form-container">
+<title>
+AUTOMATION STUDIO X
+</title>
 
-<form class="comment-form">
+<link
+href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
-<div class="wpd-form-row">
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/main.css') }}">
 
-<div class="wpd-form-col-left">
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/ladder.css') }}">
 
-<div class="wpdiscuz-item input-box">
-    <i class="fas fa-user"></i>
+</head>
 
-    <input 
-        id="wc_name"
-        required
-        type="text"
-        name="wc_name"
-        placeholder="Nombre completo"
-        maxlength="50">
+<body>
 
-</div>
+<!-- LOADER -->
 
-<div class="wpdiscuz-item input-box">
-    <i class="fas fa-at"></i>
+<div id="loader" class="loading">
 
-    <input 
-        id="wc_email"
-        required
-        type="email"
-        name="wc_email"
-        placeholder="Correo electrónico">
+<h1>
+⚡ AUTOMATION STUDIO X
+</h1>
+
+<p>
+Inicializando PLC Runtime Engine...
+</p>
 
 </div>
 
+<!-- APP -->
+
+<div id="app" style="display:none;">
+
+<header class="top-header">
+
+<div class="logo-area">
+
+<div class="logo-icon">
+⚡
 </div>
-
-<div class="wpd-form-col-right">
-
-<div class="notify-box">
-
-<label class="notify-label">
-<input type="checkbox">
-<span>Recibir respuestas</span>
-</label>
-
-<button class="submit-btn" type="submit">
-<i class="fas fa-paper-plane"></i>
-Enviar Comentario
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<textarea 
-class="comment-textarea"
-placeholder="Escribe tu duda o comparte tu proyecto Ladder..."
-required></textarea>
-
-</form>
-
-</div>
-
-<!-- ===================== FILTROS ===================== -->
-
-<div class="comment-toolbar">
-
-<div class="comments-count">
-<span>9 Comentarios</span>
-</div>
-
-<div class="comment-filters">
-
-<button class="filter-btn active">
-Más nuevos
-</button>
-
-<button class="filter-btn">
-Más votados
-</button>
-
-<button class="filter-btn">
-Más útiles
-</button>
-
-</div>
-
-</div>
-
-<!-- ===================== COMENTARIOS ===================== -->
-
-<div class="comments-wrapper">
-
-<!-- COMENTARIO -->
-
-<div class="comment-card">
-
-<div class="comment-avatar">
-C
-</div>
-
-<div class="comment-content">
-
-<div class="comment-top">
 
 <div>
-<h4>cristian</h4>
-<span>Hace 3 meses</span>
+
+<div class="title">
+AUTOMATION STUDIO X
 </div>
 
-<div class="comment-badge">
-Estudiante
+<div class="subtitle">
+PLC LADDER ENGINE
 </div>
 
 </div>
 
-<p>
-hola necesito ejemplo de semaforo en simulacion
+</div>
+
+<!-- NAV -->
+
+<div class="top-buttons">
+
+<button class="nav-btn active-nav"
+onclick="showSection('simulatorSection',this)">
+
+SIMULADOR PLC
+
+</button>
+
+<button class="nav-btn"
+onclick="showSection('coursesSection',this)">
+
+CURSOS
+
+</button>
+
+<button class="nav-btn"
+onclick="showSection('vfdSection',this)">
+
+VARIADOR VFD
+
+</button>
+
+</div>
+
+<!-- STATUS -->
+
+<div class="top-status">
+
+<div class="status-box run"
+id="cpuState">
+
+CPU RUN
+
+</div>
+
+<div class="status-box run"
+id="plcState">
+
+PLC RUN
+
+</div>
+
+<div class="status-box">
+SCAN 120ms
+</div>
+
+<div class="status-box">
+ETHERNET OK
+</div>
+
+</div>
+
+</header>
+
+<!-- ===================================================== -->
+<!-- SIMULADOR PLC -->
+<!-- ===================================================== -->
+
+<div id="simulatorSection">
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<!-- INPUTS -->
+
+<div class="panel">
+
+<h2>
+ENTRADAS DIGITALES
+</h2>
+
+<div class="io-grid">
+
+<div class="io-card" id="card-I0.0">
+
+<div class="io-name">
+I0.0 START
+</div>
+
+<button class="btn green"
+onclick="toggleInput('I0.0')">
+
+FORZAR
+
+</button>
+
+</div>
+
+<div class="io-card" id="card-I0.1">
+
+<div class="io-name">
+I0.1 STOP
+</div>
+
+<button class="btn red"
+onclick="toggleInput('I0.1')">
+
+FORZAR
+
+</button>
+
+</div>
+
+<div class="io-card" id="card-I0.2">
+
+<div class="io-name">
+I0.2 EMERGENCY
+</div>
+
+<button class="btn yellow"
+onclick="toggleInput('I0.2')">
+
+FORZAR
+
+</button>
+
+</div>
+
+<div class="io-card" id="card-I0.3">
+
+<div class="io-name">
+I0.3 SENSOR
+</div>
+
+<button class="btn blue"
+onclick="toggleInput('I0.3')">
+
+FORZAR
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- OUTPUTS -->
+
+<div class="panel">
+
+<h2>
+SALIDAS PLC
+</h2>
+
+<div class="memory-list">
+
+<div class="memory-item">
+
+<span>Q0.0 MOTOR</span>
+
+<span data-output="Q0.0">
+FALSE
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>Q0.1 VERDE</span>
+
+<span data-output="Q0.1">
+FALSE
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>Q0.2 ROJO</span>
+
+<span data-output="Q0.2">
+FALSE
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>Q0.3 TIMER</span>
+
+<span data-output="Q0.3">
+FALSE
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MOTOR -->
+
+<div class="panel">
+
+<h2>
+MOTOR TRIFÁSICO
+</h2>
+
+<div class="motor-container">
+
+<div class="motor">
+
+<div class="fan"
+id="fan">
+
+</div>
+
+</div>
+
+<div class="pilot-row">
+
+<div class="pilot"
+id="greenPilot">
+
+</div>
+
+<div class="pilot"
+id="redPilot">
+
+</div>
+
+<div class="pilot"
+id="bluePilot">
+
+</div>
+
+</div>
+
+<div class="motor-info">
+
+<div class="info-box">
+
+RPM<br>
+
+<span id="rpmValue">
+0 RPM
+</span>
+
+</div>
+
+<div class="info-box">
+
+ESTADO<br>
+
+<span id="motorState">
+STOP
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOGS -->
+
+<div class="panel">
+
+<h2>
+EVENTOS PLC
+</h2>
+
+<div class="log-box"
+id="logBox">
+
+</div>
+
+</div>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="toolbar">
+
+<button class="btn green"
+onclick="addNO()">
+
+CONTACTO NO
+
+</button>
+
+<button class="btn yellow"
+onclick="addNC()">
+
+CONTACTO NC
+
+</button>
+
+<button class="btn blue"
+onclick="addCoil()">
+
+BOBINA
+
+</button>
+
+<button class="btn red"
+onclick="addTON()">
+
+TEMPORIZADOR
+
+</button>
+
+<button class="btn blue"
+onclick="addRung()">
+
+NUEVO RUNG
+
+</button>
+
+<button class="btn green"
+onclick="runSimulation()">
+
+SIMULAR PLC
+
+</button>
+
+</div>
+
+<!-- LADDER -->
+
+<div class="ladder-area"
+id="ladder">
+
+<!-- RUNG 1 -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="I0.0">
+
+I0.0
+
+</div>
+
+<div class="line"></div>
+
+<div class="contact"
+data-type="NC"
+data-address="I0.1">
+
+/I0.1
+
+</div>
+
+<div class="line"></div>
+
+<div class="contact"
+data-type="NC"
+data-address="I0.2">
+
+/I0.2
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.0">
+
+(Q0.0)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- RUNG 2 -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="Q0.0">
+
+Q0.0
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.1">
+
+(Q0.1)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CURSOS -->
+<!-- ===================================================== -->
+
+<div id="coursesSection" style="display:none;">
+
+<div class="courses-page">
+
+<h1 class="courses-title">
+CURSOS AUTOMATION STUDIO X
+</h1>
+
+<p class="courses-subtitle">
+Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.
 </p>
 
-<div class="comment-actions">
+<div class="courses-grid">
 
-<button>
-👍 2
-</button>
+<div class="course-card">
 
-<button>
-👎 1
-</button>
-
-<button>
-💬 Responder
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- COMENTARIO -->
-
-<div class="comment-card">
-
-<div class="comment-avatar">
-P
-</div>
-
-<div class="comment-content">
-
-<div class="comment-top">
-
-<div>
-<h4>Ptoughneigh Jiménez</h4>
-<span>Hace 5 meses</span>
-</div>
-
-<div class="comment-badge">
-Usuario
-</div>
-
-</div>
+<h2>
+PLC SIEMENS TIA PORTAL
+</h2>
 
 <p>
-Quiero enviar un ejemplo de semáforo pero no me deja hacerlo. ¿Alguien puede ayudarme?
+Curso completo desde cero con Ladder, simulación y proyectos reales.
 </p>
 
-<div class="comment-actions">
-
-<button>
-👍 1
-</button>
-
-<button>
-👎 0
-</button>
-
-<button>
-💬 Responder
+<button class="btn green">
+VER CURSO
 </button>
 
 </div>
 
-</div>
+<div class="course-card">
 
-</div>
-
-<!-- COMENTARIO -->
-
-<div class="comment-card">
-
-<div class="comment-avatar">
-J
-</div>
-
-<div class="comment-content">
-
-<div class="comment-top">
-
-<div>
-<h4>Jose Fuentes</h4>
-<span>Hace 10 meses</span>
-</div>
-
-<div class="comment-badge">
-Técnico
-</div>
-
-</div>
+<h2>
+HMI + SCADA INDUSTRIAL
+</h2>
 
 <p>
-¿Tienes un simulador para control de generador eólico?
+Diseña pantallas profesionales y sistemas industriales modernos.
 </p>
 
-<div class="comment-actions">
-
-<button>
-👍 4
-</button>
-
-<button>
-👎 0
-</button>
-
-<button>
-💬 Responder
+<button class="btn blue">
+VER CURSO
 </button>
 
 </div>
 
-</div>
+<div class="course-card">
 
-</div>
-
-<!-- COMENTARIO -->
-
-<div class="comment-card">
-
-<div class="comment-avatar">
-N
-</div>
-
-<div class="comment-content">
-
-<div class="comment-top">
-
-<div>
-<h4>Nelson</h4>
-<span>Hace 1 año</span>
-</div>
-
-<div class="comment-badge">
-Ingeniería
-</div>
-
-</div>
+<h2>
+VARIADORES DE FRECUENCIA
+</h2>
 
 <p>
-Hola buenos días. ¿Alguien tiene un ejemplo de semáforo Ladder para practicar?
+Configuración, parámetros y control de motores industriales.
 </p>
 
-<div class="comment-actions">
-
-<button>
-👍 7
-</button>
-
-<button>
-👎 0
-</button>
-
-<button>
-💬 Responder
+<button class="btn yellow">
+VER CURSO
 </button>
 
 </div>
 
-<!-- RESPUESTA -->
+<div class="course-card premium-card">
 
-<div class="reply-card">
-
-<div class="comment-avatar small">
-K
-</div>
-
-<div class="reply-content">
-
-<h5>Kein</h5>
-<span>Hace 10 meses</span>
+<h2>
+MEMBRESÍA PREMIUM
+</h2>
 
 <p>
-Lograste solucionarlo? Estoy en la misma 😅
+Acceso total a todos los cursos y futuras actualizaciones.
 </p>
 
-</div>
+<a
+href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f"
+target="_blank">
 
-</div>
-
-</div>
-
-</div>
-
-<!-- COMENTARIO -->
-
-<div class="comment-card">
-
-<div class="comment-avatar">
-F
-</div>
-
-<div class="comment-content">
-
-<div class="comment-top">
-
-<div>
-<h4>Fer_M</h4>
-<span>Hace 1 año</span>
-</div>
-
-<div class="comment-badge">
-Avanzado
-</div>
-
-</div>
-
-<p>
-Unas capturas de pantalla y listo.
-</p>
-
-<div class="comment-actions">
-
-<button>
-👍 3
+<button class="btn premium-btn">
+SUSCRIBIRSE
 </button>
 
-<button>
-👎 0
-</button>
+</a>
 
-<button>
-💬 Responder
+</div>
+
+</div>
+
+<button class="back-btn"
+onclick="backSimulator()">
+
+⬅ VOLVER AL SIMULADOR
+
 </button>
 
 </div>
 
 </div>
 
-</div>
+<!-- ===================================================== -->
+<!-- VARIADOR VFD -->
+<!-- ===================================================== -->
 
-</div>
+<div id="vfdSection" style="display:none;">
 
-</section>
+<div class="courses-page">
 
-<!-- ===================== FOOTER ===================== -->
+<h1 class="courses-title">
+SIMULADOR VARIADOR VFD
+</h1>
 
-<footer class="footer-masterplc">
-
-<div class="footer-grid">
-
-<div class="footer-box">
-
-<img 
-src="https://masterplc.com/wp-content/uploads/2019/05/cropped-marca-de-agua-masterplc-e1665118045221.png"
-class="footer-logo">
-
-<p>
-MasterPLC es una plataforma educativa enfocada en automatización industrial, PLC, HMI y SCADA.
+<p class="courses-subtitle">
+Simulación básica de un Variador de Frecuencia Industrial.
 </p>
 
-</div>
+<div class="panel">
 
-<div class="footer-box">
+<h2>
+VARIADOR INDUSTRIAL
+</h2>
 
-<h3>Enlaces</h3>
+<p style="color:#9cb5d1;margin-bottom:30px;line-height:1.6;">
 
-<ul>
-<li><a href="#">Política de Privacidad</a></li>
-<li><a href="#">Política de Cookies</a></li>
-<li><a href="#">Contacto</a></li>
-</ul>
+Los Variadores de Frecuencia permiten controlar velocidad,
+arranque suave y RPM de motores trifásicos industriales.
 
-</div>
-
-<div class="footer-box">
-
-<h3>Productos</h3>
-
-<ul>
-<li>Simulador Ladder</li>
-<li>Cursos PLC</li>
-<li>Blog Industrial</li>
-</ul>
-
-</div>
-
-</div>
-
-<div class="footer-bottom">
-
-<p>
-© 2026 MasterPLC - Todos los derechos reservados
 </p>
 
+<div class="vfd-box">
+
+<div class="vfd-row">
+
+<span>
+ESTADO
+</span>
+
+<span id="vfdStatus"
+style="color:#ff4565;">
+
+DETENIDO
+
+</span>
+
 </div>
 
-</footer>
+<div class="vfd-row">
 
-<!-- ===================== ESTILOS ===================== -->
+<span>
+FRECUENCIA
+</span>
 
-<style>
+<span id="vfdFreq">
+0 Hz
+</span>
 
-.comments-section{
-    max-width:1200px;
-    margin:auto;
-    padding:60px 20px;
-}
+</div>
 
-.comments-header{
-    text-align:center;
-    margin-bottom:40px;
-}
+<div class="vfd-row">
 
-.comments-header h2{
-    font-size:38px;
-    margin-bottom:10px;
-    color:#00d2ff;
-}
+<span>
+RPM MOTOR
+</span>
 
-.comments-header p{
-    color:#aaa;
-    font-size:18px;
-}
+<span id="vfdRpm">
+0 RPM
+</span>
 
-.comment-form-container{
-    background:#111827;
-    padding:30px;
-    border-radius:18px;
-    border:1px solid #1f2937;
-    margin-bottom:40px;
-}
+</div>
 
-.wpd-form-row{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-}
+<button class="btn green"
+onclick="startVFD()">
 
-.wpd-form-col-left{
-    flex:1;
-}
+ARRANCAR VFD
 
-.wpd-form-col-right{
-    display:flex;
-    align-items:center;
-}
+</button>
 
-.input-box{
-    position:relative;
-    margin-bottom:20px;
-}
+<button class="btn red"
+style="margin-top:15px;"
+onclick="stopVFD()">
 
-.input-box i{
-    position:absolute;
-    left:15px;
-    top:17px;
-    color:#00d2ff;
-}
+DETENER VFD
 
-.input-box input{
-    width:100%;
-    padding:16px 16px 16px 45px;
-    border:none;
-    border-radius:12px;
-    background:#1f2937;
-    color:white;
-    font-size:15px;
-}
+</button>
 
-.comment-textarea{
-    width:100%;
-    min-height:150px;
-    border:none;
-    border-radius:14px;
-    background:#1f2937;
-    color:white;
-    padding:20px;
-    font-size:15px;
-    margin-top:10px;
-    resize:vertical;
-}
+</div>
 
-.notify-box{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
+</div>
 
-.notify-label{
-    color:#ddd;
-}
+<button class="back-btn"
+onclick="backSimulator()">
 
-.submit-btn{
-    background:linear-gradient(135deg,#00d2ff,#3a7bd5);
-    border:none;
-    color:white;
-    padding:15px 28px;
-    border-radius:12px;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-    font-weight:bold;
-}
+⬅ VOLVER AL SIMULADOR
 
-.submit-btn:hover{
-    transform:translateY(-2px);
-    opacity:0.9;
-}
+</button>
 
-.comment-toolbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
-    flex-wrap:wrap;
-    gap:15px;
-}
+</div>
 
-.comments-count{
-    color:white;
-    font-size:20px;
-    font-weight:bold;
-}
+</div>
 
-.comment-filters{
-    display:flex;
-    gap:10px;
-}
+<!-- JS -->
 
-.filter-btn{
-    background:#1f2937;
-    border:none;
-    color:white;
-    padding:10px 18px;
-    border-radius:10px;
-    cursor:pointer;
-}
+<script
+src="{{ url_for('static', filename='js/logs.js') }}">
+</script>
 
-.filter-btn.active{
-    background:#00d2ff;
-    color:black;
-    font-weight:bold;
-}
+<script
+src="{{ url_for('static', filename='js/motor.js') }}">
+</script>
 
-.comments-wrapper{
-    display:flex;
-    flex-direction:column;
-    gap:25px;
-}
+<script
+src="{{ url_for('static', filename='js/plc_engine.js') }}">
+</script>
 
-.comment-card{
-    background:#111827;
-    border:1px solid #1f2937;
-    border-radius:18px;
-    padding:25px;
-    display:flex;
-    gap:20px;
-}
+<script
+src="{{ url_for('static', filename='js/ladder.js') }}">
+</script>
 
-.comment-avatar{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#00d2ff,#3a7bd5);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-weight:bold;
-    font-size:20px;
-    flex-shrink:0;
-}
+<script>
 
-.comment-avatar.small{
-    width:40px;
-    height:40px;
-    font-size:15px;
-}
+window.onload=()=>{
 
-.comment-content{
-    flex:1;
-}
+setTimeout(()=>{
 
-.comment-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:10px;
-    flex-wrap:wrap;
-}
+document.getElementById("loader")
+.style.display="none"
 
-.comment-top h4{
-    color:white;
-    margin-bottom:4px;
-}
+document.getElementById("app")
+.style.display="flex"
 
-.comment-top span{
-    color:#999;
-    font-size:14px;
-}
+if(typeof log==="function"){
 
-.comment-badge{
-    background:#00d2ff20;
-    color:#00d2ff;
-    padding:6px 12px;
-    border-radius:30px;
-    font-size:12px;
-}
-
-.comment-content p{
-    color:#ddd;
-    line-height:1.7;
-    margin-bottom:20px;
-}
-
-.comment-actions{
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-}
-
-.comment-actions button{
-    background:#1f2937;
-    border:none;
-    color:white;
-    padding:10px 16px;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-.reply-card{
-    margin-top:25px;
-    margin-left:20px;
-    background:#0f172a;
-    padding:20px;
-    border-radius:14px;
-    display:flex;
-    gap:15px;
-}
-
-.reply-content h5{
-    color:white;
-}
-
-.reply-content span{
-    color:#888;
-    font-size:13px;
-}
-
-.reply-content p{
-    margin-top:10px;
-}
-
-.footer-masterplc{
-    background:#0b1120;
-    margin-top:80px;
-    padding-top:60px;
-    border-top:1px solid #1f2937;
-}
-
-.footer-grid{
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:40px;
-    padding:0 20px 50px;
-}
-
-.footer-box h3{
-    color:white;
-    margin-bottom:20px;
-}
-
-.footer-box p,
-.footer-box li,
-.footer-box a{
-    color:#aaa;
-    line-height:1.8;
-    text-decoration:none;
-    list-style:none;
-}
-
-.footer-box ul{
-    padding:0;
-}
-
-.footer-logo{
-    width:170px;
-    margin-bottom:20px;
-}
-
-.footer-bottom{
-    border-top:1px solid #1f2937;
-    text-align:center;
-    padding:20px;
-    color:#777;
-}
-
-@media(max-width:768px){
-
-.comment-card{
-    flex-direction:column;
-}
-
-.comment-toolbar{
-    flex-direction:column;
-    align-items:flex-start;
-}
-
-.wpd-form-row{
-    flex-direction:column;
-}
+log("SISTEMA PLC INICIADO")
 
 }
 
-</style>
+if(typeof scanPLC==="function"){
+
+scanPLC()
+
+}
+
+},1000)
+
+}
+
+function showSection(sectionId,btn){
+
+document.getElementById("simulatorSection")
+.style.display="none"
+
+document.getElementById("coursesSection")
+.style.display="none"
+
+document.getElementById("vfdSection")
+.style.display="none"
+
+document.getElementById(sectionId)
+.style.display="block"
+
+document.querySelectorAll(".nav-btn")
+.forEach(b=>b.classList.remove("active-nav"))
+
+btn.classList.add("active-nav")
+
+}
+
+function backSimulator(){
+
+document.getElementById("coursesSection")
+.style.display="none"
+
+document.getElementById("vfdSection")
+.style.display="none"
+
+document.getElementById("simulatorSection")
+.style.display="block"
+
+document.querySelectorAll(".nav-btn")
+.forEach(b=>b.classList.remove("active-nav"))
+
+document.querySelectorAll(".nav-btn")[0]
+.classList.add("active-nav")
+
+}
+
+/* VFD */
+
+function startVFD(){
+
+document.getElementById("vfdStatus")
+.innerHTML="RUNNING"
+
+document.getElementById("vfdStatus")
+.style.color="#00ff99"
+
+document.getElementById("vfdFreq")
+.innerHTML="60 Hz"
+
+document.getElementById("vfdRpm")
+.innerHTML="1750 RPM"
+
+}
+
+function stopVFD(){
+
+document.getElementById("vfdStatus")
+.innerHTML="DETENIDO"
+
+document.getElementById("vfdStatus")
+.style.color="#ff4565"
+
+document.getElementById("vfdFreq")
+.innerHTML="0 Hz"
+
+document.getElementById("vfdRpm")
+.innerHTML="0 RPM"
+
+}
+
+</script>
+
+</body>
+</html>
