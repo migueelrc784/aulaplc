@@ -20,335 +20,16 @@ href="{{ url_for('static', filename='css/main.css') }}">
 <link rel="stylesheet"
 href="{{ url_for('static', filename='css/ladder.css') }}">
 
-<style>
+<!-- NUEVO CSS VFD PRO -->
 
-#app{
-display:none;
-flex-direction:column;
-height:100vh;
-}
-
-/* =========================
-VFD PRO
-========================= */
-
-.vfd-page-pro{
-padding:25px;
-background:#030b16;
-min-height:calc(100vh - 80px);
-overflow:auto;
-}
-
-.vfd-wrapper{
-display:flex;
-gap:20px;
-align-items:flex-start;
-}
-
-.vfd-drive-real{
-width:240px;
-background:linear-gradient(180deg,#2b2f36,#15181d);
-border-radius:12px;
-padding:14px;
-box-shadow:
-0 0 30px rgba(0,0,0,.6),
-inset 0 0 10px rgba(255,255,255,.05);
-border:2px solid #111;
-position:relative;
-}
-
-.drive-top{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-font-size:11px;
-font-family:Orbitron;
-}
-
-.drive-brand{
-color:#fff;
-}
-
-.drive-model{
-color:#bbb;
-}
-
-.drive-screen{
-background:#a8c95e;
-border:4px solid #39451e;
-border-radius:6px;
-padding:18px 10px;
-text-align:center;
-color:#111;
-font-family:Orbitron;
-margin-bottom:14px;
-box-shadow:inset 0 0 10px rgba(0,0,0,.4);
-}
-
-.screen-freq{
-font-size:24px;
-font-weight:700;
-}
-
-.screen-rpm{
-font-size:16px;
-margin-top:8px;
-}
-
-.screen-amp{
-font-size:15px;
-margin-top:5px;
-}
-
-.drive-leds{
-display:flex;
-justify-content:center;
-gap:12px;
-margin-bottom:16px;
-}
-
-.led{
-width:10px;
-height:10px;
-border-radius:50%;
-background:#444;
-}
-
-.led.green{
-background:#00ff99;
-box-shadow:0 0 10px #00ff99;
-}
-
-.led.red{
-background:#ff3355;
-box-shadow:0 0 10px #ff3355;
-}
-
-.drive-buttons-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-bottom:18px;
-}
-
-.drive-btn{
-border:none;
-padding:10px;
-border-radius:6px;
-cursor:pointer;
-font-weight:700;
-font-size:12px;
-}
-
-.green-btn{
-background:#39d353;
-color:white;
-}
-
-.red-btn{
-background:#ff4b5c;
-color:white;
-}
-
-.gray-btn{
-background:#2a313b;
-color:white;
-}
-
-.drive-warning{
-font-size:10px;
-line-height:1.4;
-color:#aaa;
-margin-top:10px;
-}
-
-.vfd-panel-pro{
-flex:1;
-background:linear-gradient(180deg,#07111d,#081827);
-border:1px solid #18314c;
-border-radius:14px;
-padding:20px;
-}
-
-.vfd-tabs{
-display:flex;
-gap:15px;
-margin-bottom:20px;
-}
-
-.vfd-tab{
-padding:10px 18px;
-background:#101d2e;
-border-radius:8px;
-font-size:12px;
-color:#8ca3bf;
-font-weight:700;
-}
-
-.active-tab{
-background:#00ff99;
-color:#00150d;
-}
-
-.vfd-content{
-display:flex;
-gap:20px;
-}
-
-.vfd-left{
-width:340px;
-display:flex;
-flex-direction:column;
-gap:16px;
-}
-
-.vfd-right{
-flex:1;
-}
-
-.vfd-card{
-background:#0c1725;
-border:1px solid #18314c;
-border-radius:12px;
-padding:18px;
-}
-
-.vfd-card h3{
-font-size:14px;
-margin-bottom:15px;
-color:#00ff99;
-}
-
-.freq-control{
-display:flex;
-flex-direction:column;
-gap:16px;
-}
-
-.freq-slider{
-width:100%;
-}
-
-.freq-display{
-font-size:28px;
-font-family:Orbitron;
-color:#00ff99;
-}
-
-.vfd-command-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.cmd-btn{
-border:none;
-padding:12px;
-border-radius:8px;
-font-weight:700;
-cursor:pointer;
-}
-
-.cmd-green{
-background:#2dc653;
-color:white;
-}
-
-.cmd-red{
-background:#ff3355;
-color:white;
-}
-
-.cmd-dark{
-background:#1d2735;
-color:#c8d8ea;
-}
-
-.status-list{
-display:flex;
-flex-direction:column;
-gap:12px;
-font-size:14px;
-}
-
-.status-list span{
-color:#00ff99;
-font-weight:700;
-}
-
-.gauges-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:18px;
-}
-
-.gauge-card{
-background:#0c1725;
-border:1px solid #18314c;
-border-radius:12px;
-padding:15px;
-text-align:center;
-}
-
-.gauge-card h4{
-font-size:13px;
-margin-bottom:12px;
-color:#00ff99;
-}
-
-.gauge{
-width:140px;
-height:140px;
-border-radius:50%;
-margin:auto;
-position:relative;
-border:8px solid #18314c;
-border-top-color:#00ff99;
-border-left-color:#00ff99;
-border-right-color:#ff6644;
-background:#09111b;
-}
-
-.needle{
-position:absolute;
-width:4px;
-height:55px;
-background:white;
-left:50%;
-bottom:50%;
-transform-origin:bottom center;
-transform:rotate(-90deg);
-border-radius:10px;
-}
-
-.gauge-value{
-margin-top:12px;
-font-family:Orbitron;
-font-size:18px;
-}
-
-.vfd-info-table{
-margin-top:20px;
-background:#0c1725;
-border:1px solid #18314c;
-border-radius:12px;
-padding:18px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-font-size:14px;
-}
-
-.vfd-info-table span{
-color:#00ff99;
-font-weight:700;
-}
-
-</style>
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/vfd.css') }}">
 
 </head>
 
 <body>
+
+<!-- LOADER -->
 
 <div id="loader" class="loading">
 
@@ -362,7 +43,9 @@ Inicializando PLC Runtime Engine...
 
 </div>
 
-<div id="app">
+<!-- APP -->
+
+<div id="app" style="display:none;flex-direction:column;height:100vh;">
 
 <header class="top-header">
 
@@ -385,6 +68,8 @@ PLC LADDER ENGINE
 </div>
 
 </div>
+
+<!-- NAV -->
 
 <div class="top-buttons">
 
@@ -411,19 +96,21 @@ VARIADOR VFD
 
 </div>
 
+<!-- STATUS -->
+
 <div class="top-status">
 
-<div class="status-box stop"
+<div class="status-box run"
 id="cpuState">
 
-CPU STOP
+CPU RUN
 
 </div>
 
-<div class="status-box stop"
+<div class="status-box run"
 id="plcState">
 
-PLC STOP
+PLC RUN
 
 </div>
 
@@ -439,15 +126,19 @@ ETHERNET OK
 
 </header>
 
-<!-- ========================= -->
-<!-- SIMULADOR -->
-<!-- ========================= -->
+<!-- ===================================================== -->
+<!-- SIMULADOR PLC -->
+<!-- ===================================================== -->
 
 <div id="simulatorSection">
 
 <div class="layout">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
+
+<!-- INPUTS -->
 
 <div class="panel">
 
@@ -458,40 +149,190 @@ ENTRADAS DIGITALES
 <div class="io-grid">
 
 <div class="io-card" id="card-I0.0">
-<div>I0.0 START</div>
+
+<div class="io-name">
+I0.0 START
+</div>
+
 <button class="btn green"
 onclick="toggleInput('I0.0')">
+
 FORZAR
+
 </button>
+
 </div>
 
 <div class="io-card" id="card-I0.1">
-<div>I0.1 STOP</div>
+
+<div class="io-name">
+I0.1 STOP
+</div>
+
 <button class="btn red"
 onclick="toggleInput('I0.1')">
+
 FORZAR
+
 </button>
+
 </div>
 
 <div class="io-card" id="card-I0.2">
-<div>I0.2 EMERGENCY</div>
+
+<div class="io-name">
+I0.2 EMERGENCY
+</div>
+
 <button class="btn yellow"
 onclick="toggleInput('I0.2')">
+
 FORZAR
+
 </button>
+
 </div>
 
 <div class="io-card" id="card-I0.3">
-<div>I0.3 SENSOR</div>
+
+<div class="io-name">
+I0.3 SENSOR
+</div>
+
 <button class="btn blue"
 onclick="toggleInput('I0.3')">
+
 FORZAR
+
 </button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- OUTPUTS -->
+
+<div class="panel">
+
+<h2>
+SALIDAS PLC
+</h2>
+
+<div class="memory-list">
+
+<div class="memory-item">
+
+<span>Q0.0 MOTOR</span>
+
+<span data-output="Q0.0">
+FALSE
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>Q0.1 VERDE</span>
+
+<span data-output="Q0.1">
+FALSE
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>Q0.2 ROJO</span>
+
+<span data-output="Q0.2">
+FALSE
+</span>
+
+</div>
+
+<div class="memory-item">
+
+<span>Q0.3 TIMER</span>
+
+<span data-output="Q0.3">
+FALSE
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MOTOR -->
+
+<div class="panel">
+
+<h2>
+MOTOR TRIFÁSICO
+</h2>
+
+<div class="motor-container">
+
+<div class="motor">
+
+<div class="fan"
+id="fan">
+
+</div>
+
+</div>
+
+<div class="pilot-row">
+
+<div class="pilot"
+id="greenPilot">
+
+</div>
+
+<div class="pilot"
+id="redPilot">
+
+</div>
+
+<div class="pilot"
+id="bluePilot">
+
+</div>
+
+</div>
+
+<div class="motor-info">
+
+<div class="info-box">
+
+RPM<br>
+
+<span id="rpmValue">
+0 RPM
+</span>
+
+</div>
+
+<div class="info-box">
+
+ESTADO<br>
+
+<span id="motorState">
+STOP
+</span>
+
+</div>
+
 </div>
 
 </div>
 
 </div>
+
+<!-- LOGS -->
 
 <div class="panel">
 
@@ -501,11 +342,14 @@ EVENTOS PLC
 
 <div class="log-box"
 id="logBox">
+
 </div>
 
 </div>
 
 </aside>
+
+<!-- MAIN -->
 
 <main class="main">
 
@@ -513,38 +357,54 @@ id="logBox">
 
 <button class="btn green"
 onclick="addNO()">
+
 CONTACTO NO
+
 </button>
 
 <button class="btn yellow"
 onclick="addNC()">
+
 CONTACTO NC
+
 </button>
 
 <button class="btn blue"
 onclick="addCoil()">
+
 BOBINA
+
 </button>
 
 <button class="btn red"
 onclick="addTON()">
+
 TEMPORIZADOR
+
 </button>
 
 <button class="btn blue"
 onclick="addRung()">
+
 NUEVO RUNG
+
 </button>
 
 <button class="btn green"
 onclick="runSimulation()">
+
 SIMULAR PLC
+
 </button>
 
 </div>
 
+<!-- LADDER -->
+
 <div class="ladder-area"
 id="ladder">
+
+<!-- RUNG 1 -->
 
 <div class="rung">
 
@@ -553,7 +413,9 @@ id="ladder">
 <div class="contact"
 data-type="NO"
 data-address="I0.0">
+
 I0.0
+
 </div>
 
 <div class="line"></div>
@@ -561,14 +423,55 @@ I0.0
 <div class="contact"
 data-type="NC"
 data-address="I0.1">
+
 /I0.1
+
+</div>
+
+<div class="line"></div>
+
+<div class="contact"
+data-type="NC"
+data-address="I0.2">
+
+/I0.2
+
 </div>
 
 <div class="line"></div>
 
 <div class="coil"
 data-address="Q0.0">
+
 (Q0.0)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- RUNG 2 -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="Q0.0">
+
+Q0.0
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.1">
+
+(Q0.1)
+
 </div>
 
 <div class="rail"></div>
@@ -583,29 +486,111 @@ data-address="Q0.0">
 
 </div>
 
-<!-- ========================= -->
+<!-- ===================================================== -->
 <!-- CURSOS -->
-<!-- ========================= -->
+<!-- ===================================================== -->
 
-<div id="coursesSection"
-style="display:none;padding:30px;">
+<div id="coursesSection" style="display:none;">
 
-<h1 class="title">
+<div class="courses-page">
+
+<h1 class="courses-title">
 CURSOS AUTOMATION STUDIO X
 </h1>
 
+<p class="courses-subtitle">
+Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.
+</p>
+
+<div class="courses-grid">
+
+<div class="course-card">
+
+<h2>
+PLC SIEMENS TIA PORTAL
+</h2>
+
+<p>
+Curso completo desde cero con Ladder, simulación y proyectos reales.
+</p>
+
+<button class="btn green">
+VER CURSO
+</button>
+
 </div>
 
-<!-- ========================= -->
-<!-- VFD -->
-<!-- ========================= -->
+<div class="course-card">
 
-<div id="vfdSection"
-style="display:none;">
+<h2>
+HMI + SCADA INDUSTRIAL
+</h2>
+
+<p>
+Diseña pantallas profesionales y sistemas industriales modernos.
+</p>
+
+<button class="btn blue">
+VER CURSO
+</button>
+
+</div>
+
+<div class="course-card">
+
+<h2>
+VARIADORES DE FRECUENCIA
+</h2>
+
+<p>
+Configuración, parámetros y control de motores industriales.
+</p>
+
+<button class="btn yellow">
+VER CURSO
+</button>
+
+</div>
+
+<div class="course-card premium-card">
+
+<h2>
+MEMBRESÍA PREMIUM
+</h2>
+
+<p>
+Acceso total a todos los cursos y futuras actualizaciones.
+</p>
+
+<a
+href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f"
+target="_blank">
+
+<button class="btn premium-btn">
+SUSCRIBIRSE
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- VFD PRO -->
+<!-- ===================================================== -->
+
+<div id="vfdSection" style="display:none;">
 
 <div class="vfd-page-pro">
 
 <div class="vfd-wrapper">
+
+<!-- DRIVE -->
 
 <div class="vfd-drive-real">
 
@@ -623,18 +608,15 @@ VFD-950
 
 <div class="drive-screen">
 
-<div class="screen-freq"
-id="vfdFreqBig">
+<div class="screen-freq" id="vfdFreqBig">
 60.00 Hz
 </div>
 
-<div class="screen-rpm"
-id="vfdRpmBig">
+<div class="screen-rpm" id="vfdRpmBig">
 1750 RPM
 </div>
 
-<div class="screen-amp"
-id="vfdAmp">
+<div class="screen-amp" id="vfdAmp">
 10.0 A
 </div>
 
@@ -652,27 +634,59 @@ id="vfdAmp">
 
 <button class="drive-btn green-btn"
 onclick="startVFD()">
+
 RUN
+
 </button>
 
 <button class="drive-btn gray-btn"
 onclick="vfdFreqDown()">
+
 ◀
+
 </button>
 
 <button class="drive-btn gray-btn"
 onclick="vfdFreqUp()">
+
 ▶
+
 </button>
 
 <button class="drive-btn red-btn"
 onclick="stopVFD()">
+
 STOP
+
+</button>
+
+<button class="drive-btn gray-btn">
+MODE
+</button>
+
+<button class="drive-btn gray-btn">
+SET
+</button>
+
+<button class="drive-btn gray-btn">
+▲
+</button>
+
+<button class="drive-btn gray-btn">
+▼
 </button>
 
 </div>
 
+<div class="drive-warning">
+
+⚠ READ MANUAL BEFORE OPERATION
+
 </div>
+
+</div>
+
+<!-- PANEL DERECHO -->
 
 <div class="vfd-panel-pro">
 
@@ -683,12 +697,22 @@ CONTROL
 </div>
 
 <div class="vfd-tab">
+PARÁMETROS
+</div>
+
+<div class="vfd-tab">
 MONITOREO
+</div>
+
+<div class="vfd-tab">
+ALARMAS
 </div>
 
 </div>
 
 <div class="vfd-content">
+
+<!-- IZQUIERDA -->
 
 <div class="vfd-left">
 
@@ -733,72 +757,42 @@ COMANDOS
 
 <button class="cmd-btn cmd-green"
 onclick="startVFD()">
-ARRANCAR
+
+ARRANCAR (FWD)
+
 </button>
 
 <button class="cmd-btn cmd-dark"
 onclick="reverseVFD()">
-REVERSA
+
+REVERSA (REV)
+
 </button>
 
 <button class="cmd-btn cmd-red"
 onclick="stopVFD()">
+
 DETENER
+
 </button>
 
 <button class="cmd-btn cmd-dark">
-RESET
+
+RESET ALARMA
+
 </button>
 
 </div>
 
 </div>
 
-</div>
+<div class="vfd-card">
 
-<div class="vfd-right">
+<h3>
+ESTADO
+</h3>
 
-<div class="gauges-grid">
-
-<div class="gauge-card">
-
-<h4>
-FRECUENCIA
-</h4>
-
-<div class="gauge">
-<div class="needle"
-id="needleFreq"></div>
-</div>
-
-<div class="gauge-value"
-id="freqGaugeText">
-60 Hz
-</div>
-
-</div>
-
-<div class="gauge-card">
-
-<h4>
-RPM MOTOR
-</h4>
-
-<div class="gauge">
-<div class="needle"
-id="needleRPM"></div>
-</div>
-
-<div class="gauge-value"
-id="rpmGaugeText">
-1750 RPM
-</div>
-
-</div>
-
-</div>
-
-<div class="vfd-info-table">
+<div class="status-list">
 
 <div>
 ESTADO:
@@ -815,9 +809,9 @@ FWD
 </div>
 
 <div>
-FRECUENCIA:
-<span id="tableFreq">
-60 Hz
+MODO:
+<span>
+LOCAL
 </span>
 </div>
 
@@ -827,6 +821,123 @@ FRECUENCIA:
 
 </div>
 
+<!-- DERECHA -->
+
+<div class="vfd-right">
+
+<div class="gauges-grid">
+
+<div class="gauge-card">
+
+<h4>
+FRECUENCIA
+</h4>
+
+<div class="gauge">
+
+<div class="needle"
+id="needleFreq">
+
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="freqGaugeText">
+
+60 Hz
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<h4>
+RPM MOTOR
+</h4>
+
+<div class="gauge">
+
+<div class="needle"
+id="needleRPM">
+
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="rpmGaugeText">
+
+1750 RPM
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<h4>
+CORRIENTE
+</h4>
+
+<div class="gauge">
+
+<div class="needle"
+id="needleAmp">
+
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="ampGaugeText">
+
+10 A
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<h4>
+VOLTAJE
+</h4>
+
+<div class="gauge">
+
+<div class="needle"
+id="needleVolt">
+
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="voltGaugeText">
+
+380 V
+
+</div>
+
+</div>
+
+</div>
+
+<div class="vfd-info-table">
+
+<div>Potencia Motor: <span>2.2 kW</span></div>
+<div>Tensión Nominal: <span>380V</span></div>
+<div>Corriente Nominal: <span>5.2A</span></div>
+<div>Frecuencia Salida: <span id="tableFreq">60 Hz</span></div>
+<div>Tiempo Aceleración: <span>5.0 s</span></div>
+<div>Temperatura Driver: <span>38 °C</span></div>
+
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -834,6 +945,10 @@ FRECUENCIA:
 </div>
 
 </div>
+
+</div>
+
+<!-- JS -->
 
 <script
 src="{{ url_for('static', filename='js/logs.js') }}">
@@ -851,137 +966,64 @@ src="{{ url_for('static', filename='js/plc_engine.js') }}">
 src="{{ url_for('static', filename='js/ladder.js') }}">
 </script>
 
+<!-- NUEVO JS VFD -->
+
+<script
+src="{{ url_for('static', filename='js/vfd.js') }}">
+</script>
+
 <script>
 
 window.onload=()=>{
 
 setTimeout(()=>{
 
-document.getElementById("loader").style.display="none"
+document.getElementById("loader")
+.style.display="none"
 
-document.getElementById("app").style.display="flex"
+document.getElementById("app")
+.style.display="flex"
 
 if(typeof log==="function"){
+
 log("SISTEMA PLC INICIADO")
+
 }
 
 if(typeof scanPLC==="function"){
+
 scanPLC()
+
 }
+
+if(typeof updateVFD==="function"){
 
 updateVFD(60)
 
-},1200)
+}
+
+},1000)
 
 }
 
 function showSection(sectionId,btn){
 
-document.getElementById("simulatorSection").style.display="none"
-document.getElementById("coursesSection").style.display="none"
-document.getElementById("vfdSection").style.display="none"
+document.getElementById("simulatorSection")
+.style.display="none"
 
-document.getElementById(sectionId).style.display="block"
+document.getElementById("coursesSection")
+.style.display="none"
+
+document.getElementById("vfdSection")
+.style.display="none"
+
+document.getElementById(sectionId)
+.style.display="block"
 
 document.querySelectorAll(".nav-btn")
 .forEach(b=>b.classList.remove("active-nav"))
 
 btn.classList.add("active-nav")
-
-}
-
-let vfdReverse=false
-
-function updateVFD(freq){
-
-freq=parseFloat(freq)
-
-const rpm=Math.floor(freq*29.16)
-const amp=(freq/6).toFixed(1)
-
-document.getElementById("freqDisplay").innerHTML=
-freq.toFixed(2)
-
-document.getElementById("vfdFreqBig").innerHTML=
-freq.toFixed(2)+" Hz"
-
-document.getElementById("vfdRpmBig").innerHTML=
-rpm+" RPM"
-
-document.getElementById("vfdAmp").innerHTML=
-amp+" A"
-
-document.getElementById("freqGaugeText").innerHTML=
-freq.toFixed(0)+" Hz"
-
-document.getElementById("rpmGaugeText").innerHTML=
-rpm+" RPM"
-
-document.getElementById("tableFreq").innerHTML=
-freq.toFixed(1)+" Hz"
-
-document.getElementById("needleFreq").style.transform=
-`rotate(${(freq/120)*180-90}deg)`
-
-document.getElementById("needleRPM").style.transform=
-`rotate(${(rpm/3000)*180-90}deg)`
-
-}
-
-function startVFD(){
-
-document.getElementById("vfdStatus").innerHTML=
-"RUNNING"
-
-document.getElementById("vfdStatus").style.color=
-"#00ff99"
-
-}
-
-function stopVFD(){
-
-document.getElementById("vfdStatus").innerHTML=
-"STOP"
-
-document.getElementById("vfdStatus").style.color=
-"#ff3355"
-
-updateVFD(0)
-
-}
-
-function reverseVFD(){
-
-vfdReverse=!vfdReverse
-
-document.getElementById("vfdDirection").innerHTML=
-vfdReverse ? "REV" : "FWD"
-
-}
-
-function vfdFreqUp(){
-
-const slider=document.getElementById("freqSlider")
-
-slider.value=Math.min(
-120,
-parseInt(slider.value)+5
-)
-
-updateVFD(slider.value)
-
-}
-
-function vfdFreqDown(){
-
-const slider=document.getElementById("freqSlider")
-
-slider.value=Math.max(
-0,
-parseInt(slider.value)-5
-)
-
-updateVFD(slider.value)
 
 }
 

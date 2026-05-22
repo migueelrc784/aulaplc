@@ -11,19 +11,33 @@ color:white;
 overflow:hidden;
 }
 
-/* =========================================================
-APP
-========================================================= */
+/* LOADER */
 
-#app{
-height:100vh;
+.loading{
+position:fixed;
+inset:0;
+background:#07111d;
 display:flex;
 flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+gap:20px;
 }
 
-/* =========================================================
-HEADER
-========================================================= */
+.loading h1{
+font-family:Orbitron;
+font-size:42px;
+color:#00ff99;
+text-shadow:0 0 25px #00ff99;
+}
+
+.loading p{
+color:#8ca4c4;
+font-size:18px;
+}
+
+/* HEADER */
 
 .top-header{
 height:80px;
@@ -33,7 +47,6 @@ align-items:center;
 padding:0 25px;
 border-bottom:1px solid #22354b;
 background:#08111d;
-box-shadow:0 0 25px rgba(0,0,0,.35);
 }
 
 .logo-area{
@@ -46,23 +59,20 @@ gap:15px;
 width:52px;
 height:52px;
 border-radius:14px;
+background:#00ff99;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#00ff99;
-color:#02120b;
-font-size:28px;
+font-size:24px;
+color:#07111d;
 font-weight:700;
-box-shadow:
-0 0 20px #00ff99,
-0 0 40px rgba(0,255,153,.4);
+box-shadow:0 0 25px rgba(0,255,153,.5);
 }
 
 .title{
 font-size:28px;
 font-family:Orbitron;
 color:#00ff99;
-letter-spacing:2px;
 }
 
 .subtitle{
@@ -70,21 +80,19 @@ font-size:13px;
 color:#8da8c7;
 }
 
-/* =========================================================
-NAV
-========================================================= */
+/* NAV */
 
 .top-buttons{
 display:flex;
-gap:12px;
+gap:14px;
 }
 
 .nav-btn{
-background:#132033;
+padding:14px 24px;
+background:#101927;
 border:1px solid #22354b;
+border-radius:14px;
 color:white;
-padding:12px 22px;
-border-radius:12px;
 cursor:pointer;
 font-weight:700;
 transition:.2s;
@@ -93,19 +101,15 @@ transition:.2s;
 .nav-btn:hover{
 transform:translateY(-2px);
 border-color:#00ff99;
-background:#00ff99;
-color:black;
 }
 
 .active-nav{
 background:#00ff99;
-color:black;
-box-shadow:0 0 18px rgba(0,255,153,.4);
+color:#07111d;
+box-shadow:0 0 20px rgba(0,255,153,.5);
 }
 
-/* =========================================================
-STATUS
-========================================================= */
+/* STATUS */
 
 .top-status{
 display:flex;
@@ -118,8 +122,6 @@ padding:10px 15px;
 border-radius:10px;
 border:1px solid #22354b;
 font-weight:700;
-min-width:110px;
-text-align:center;
 }
 
 .run{
@@ -130,9 +132,7 @@ color:#00ff99;
 color:#ff4565;
 }
 
-/* =========================================================
-LAYOUT
-========================================================= */
+/* LAYOUT */
 
 .layout{
 display:flex;
@@ -153,9 +153,7 @@ padding:20px;
 overflow:auto;
 }
 
-/* =========================================================
-PANELS
-========================================================= */
+/* PANEL */
 
 .panel{
 background:#101927;
@@ -163,20 +161,16 @@ border-radius:18px;
 padding:20px;
 margin-bottom:20px;
 border:1px solid #22354b;
-box-shadow:
-0 0 25px rgba(0,0,0,.25),
-inset 0 0 15px rgba(255,255,255,.02);
+box-shadow:0 0 20px rgba(0,0,0,.2);
 }
 
 .panel h2{
 margin-bottom:18px;
-font-size:18px;
+font-size:20px;
 color:#00ff99;
 }
 
-/* =========================================================
-INPUTS
-========================================================= */
+/* IO */
 
 .io-grid{
 display:grid;
@@ -194,23 +188,14 @@ transition:.2s;
 
 .io-card:hover{
 border-color:#00ff99;
-transform:translateY(-2px);
 }
 
 .io-name{
-font-weight:700;
 margin-bottom:10px;
+font-weight:600;
 }
 
-.io-forced{
-border:2px solid #00ff99;
-box-shadow:
-0 0 18px rgba(0,255,153,.5);
-}
-
-/* =========================================================
-BUTTONS
-========================================================= */
+/* BUTTONS */
 
 .btn{
 padding:12px;
@@ -230,7 +215,7 @@ filter:brightness(1.08);
 
 .green{
 background:#00ff99;
-color:black;
+color:#07111d;
 }
 
 .red{
@@ -240,7 +225,7 @@ color:white;
 
 .yellow{
 background:#ffcc00;
-color:black;
+color:#07111d;
 }
 
 .blue{
@@ -248,9 +233,7 @@ background:#00c3ff;
 color:white;
 }
 
-/* =========================================================
-OUTPUTS
-========================================================= */
+/* MEMORY */
 
 .memory-list{
 display:flex;
@@ -264,17 +247,10 @@ padding:12px;
 border-radius:10px;
 display:flex;
 justify-content:space-between;
-align-items:center;
 border:1px solid #22354b;
 }
 
-.memory-item span:last-child{
-font-weight:700;
-}
-
-/* =========================================================
-MOTOR
-========================================================= */
+/* MOTOR */
 
 .motor-container{
 display:flex;
@@ -286,13 +262,22 @@ gap:20px;
 .motor{
 width:240px;
 height:130px;
-background:#4d5867;
+background:linear-gradient(180deg,#5b6778,#414b58);
 border-radius:20px;
 position:relative;
 overflow:hidden;
-box-shadow:
-inset 0 0 20px rgba(255,255,255,.15),
-0 0 20px rgba(0,0,0,.4);
+border:2px solid #2c3644;
+}
+
+.motor::after{
+content:"";
+position:absolute;
+right:20px;
+top:30px;
+width:60px;
+height:60px;
+border-radius:50%;
+background:#222;
 }
 
 .fan{
@@ -313,10 +298,6 @@ transform:rotate(360deg);
 }
 }
 
-/* =========================================================
-PILOTS
-========================================================= */
-
 .pilot-row{
 display:flex;
 gap:20px;
@@ -327,33 +308,40 @@ width:35px;
 height:35px;
 border-radius:50%;
 background:#333;
-border:2px solid #222;
+border:2px solid #555;
 }
 
 .on-green{
 background:lime;
-box-shadow:
-0 0 20px lime,
-0 0 40px rgba(0,255,0,.4);
+box-shadow:0 0 20px lime;
 }
 
 .on-red{
 background:red;
-box-shadow:
-0 0 20px red,
-0 0 40px rgba(255,0,0,.4);
+box-shadow:0 0 20px red;
 }
 
 .on-blue{
 background:deepskyblue;
-box-shadow:
-0 0 20px deepskyblue,
-0 0 40px rgba(0,191,255,.4);
+box-shadow:0 0 20px deepskyblue;
 }
 
-/* =========================================================
-TOOLBAR
-========================================================= */
+.motor-info{
+display:flex;
+gap:15px;
+width:100%;
+}
+
+.info-box{
+flex:1;
+background:#132033;
+padding:15px;
+border-radius:12px;
+text-align:center;
+border:1px solid #22354b;
+}
+
+/* TOOLBAR */
 
 .toolbar{
 display:flex;
@@ -362,255 +350,106 @@ margin-bottom:20px;
 flex-wrap:wrap;
 }
 
-.toolbar .btn{
-width:auto;
-padding:12px 22px;
-}
-
-/* =========================================================
-LADDER
-========================================================= */
+/* LADDER */
 
 .ladder-area{
-background:
-linear-gradient(180deg,#07111d 0%,#081827 100%);
+background:#08111d;
 border:1px solid #22354b;
-border-radius:20px;
-padding:25px;
-min-height:650px;
-box-shadow:
-inset 0 0 30px rgba(255,255,255,.02),
-0 0 20px rgba(0,0,0,.3);
+border-radius:18px;
+padding:20px;
+min-height:600px;
+overflow:auto;
 }
-
-/* =========================================================
-RUNG
-========================================================= */
 
 .rung{
 display:flex;
 align-items:center;
-gap:14px;
+gap:10px;
 margin-bottom:40px;
-background:
-linear-gradient(90deg,#0a1725 0%,#0d2135 100%);
+background:#0d1725;
 padding:20px;
-border-radius:20px;
-border:1px solid #16324b;
-min-height:120px;
-overflow-x:auto;
+border-radius:18px;
+border:1px solid #1f3348;
 }
-
-/* =========================================================
-POWER RAILS
-========================================================= */
 
 .rail{
-width:8px;
+width:6px;
 height:80px;
-background:#29435d;
-border-radius:20px;
-transition:.15s;
-flex-shrink:0;
-}
-
-.rail.powered{
 background:#00ff99;
-box-shadow:
-0 0 10px #00ff99,
-0 0 25px rgba(0,255,153,.5);
+border-radius:10px;
+box-shadow:0 0 15px #00ff99;
 }
-
-/* =========================================================
-LINES
-========================================================= */
 
 .line{
-height:5px;
-min-width:90px;
-background:#29435d;
-border-radius:10px;
-position:relative;
-flex-shrink:0;
-transition:.15s;
+height:4px;
+background:#3f5f85;
+flex:1;
+border-radius:20px;
 }
-
-.line.powered{
-background:#00ff99;
-box-shadow:
-0 0 10px #00ff99;
-}
-
-/* =========================================================
-PLC SYMBOLS
-========================================================= */
 
 .contact,
 .coil,
 .timer{
-position:relative;
-width:90px;
-height:90px;
+padding:18px 20px;
+min-width:90px;
+height:70px;
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
-flex-shrink:0;
-user-select:none;
-cursor:grab;
-}
-
-/* =========================================================
-CONTACT SYMBOL
-========================================================= */
-
-.contact-symbol{
-width:78px;
-height:58px;
+text-align:center;
+background:#132033;
+border-radius:14px;
 position:relative;
+font-weight:700;
+font-family:Orbitron;
+color:#dce8ff;
+border:2px solid #00ff99;
+box-shadow:0 0 20px rgba(0,255,153,.15);
 }
 
-.contact-symbol::before,
-.contact-symbol::after{
+.contact::before,
+.contact::after{
 content:"";
 position:absolute;
-top:0;
+top:-20px;
 width:4px;
-height:54px;
-background:#a9c0d9;
+height:55px;
+background:#8ba5c7;
 border-radius:10px;
 }
 
-.contact-symbol::before{
-left:18px;
+.contact::before{
+left:20px;
 }
 
-.contact-symbol::after{
-right:18px;
+.contact::after{
+right:20px;
 }
 
-.contact-symbol.nc::after{
-transform:rotate(-50deg);
-transform-origin:center;
-height:65px;
-right:36px;
-top:-6px;
+.coil{
+border-radius:20px;
 }
 
-/* =========================================================
-COIL SYMBOL
-========================================================= */
-
-.coil-symbol{
-width:80px;
-height:58px;
-position:relative;
-}
-
-.coil-symbol::before{
+.coil::before{
 content:"";
 position:absolute;
-left:10px;
-top:4px;
-width:24px;
-height:46px;
-border:4px solid #d7e3f0;
-border-right:none;
-border-radius:40px 0 0 40px;
-}
-
-.coil-symbol::after{
-content:"";
-position:absolute;
-right:10px;
-top:4px;
-width:24px;
-height:46px;
-border:4px solid #d7e3f0;
-border-left:none;
-border-radius:0 40px 40px 0;
-}
-
-/* =========================================================
-TIMER
-========================================================= */
-
-.timer-box{
-width:90px;
-height:60px;
-background:#132033;
-border:2px solid #8ca7c5;
-border-radius:12px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-weight:700;
-}
-
-/* =========================================================
-LABELS
-========================================================= */
-
-.element-label{
-margin-top:6px;
-font-size:12px;
-font-weight:700;
-color:#dce8f5;
-}
-
-/* =========================================================
-POWERED STATES
-========================================================= */
-
-.contact.powered .contact-symbol::before,
-.contact.powered .contact-symbol::after{
-background:#00ff99;
-box-shadow:
-0 0 10px #00ff99;
-}
-
-.coil.energized .coil-symbol::before,
-.coil.energized .coil-symbol::after{
-border-color:#00ff99;
-box-shadow:
-0 0 10px #00ff99;
-}
-
-.timer.powered .timer-box{
-background:#00ff99;
-color:black;
-box-shadow:
-0 0 20px #00ff99;
-}
-
-/* =========================================================
-DELETE BUTTON
-========================================================= */
-
-.delete-element{
-position:absolute;
-top:4px;
-right:4px;
-width:20px;
-height:20px;
+inset:10px;
+border:4px solid #dce8ff;
 border-radius:50%;
-background:#ff3355;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:11px;
-font-weight:700;
-cursor:pointer;
-z-index:20;
 }
 
-/* =========================================================
-LOGS
-========================================================= */
+.powered{
+background:rgba(0,255,153,.2);
+box-shadow:0 0 25px rgba(0,255,153,.6);
+}
+
+/* LOGS */
 
 .log-box{
 height:220px;
 overflow:auto;
+display:flex;
+flex-direction:column-reverse;
 }
 
 .log-box p{
@@ -619,130 +458,159 @@ padding:10px;
 margin-bottom:10px;
 border-left:3px solid #00ff99;
 border-radius:8px;
+font-size:14px;
 }
 
-/* =========================================================
-VFD
-========================================================= */
+/* CURSOS */
 
-.vfd-page{
+.courses-page{
 padding:40px;
-height:calc(100vh - 80px);
 overflow:auto;
+height:calc(100vh - 80px);
 }
 
-.vfd-title{
-font-size:40px;
+.courses-title{
+font-size:42px;
 font-family:Orbitron;
-color:#00ff99;
-margin-bottom:10px;
-}
-
-.vfd-subtitle{
-color:#8da8c7;
-margin-bottom:30px;
-}
-
-.vfd-container{
-display:flex;
-gap:30px;
-flex-wrap:wrap;
-align-items:flex-start;
-}
-
-.vfd-drive{
-width:320px;
-background:#0f1825;
-border:1px solid #20354d;
-border-radius:24px;
-padding:20px;
-box-shadow:
-0 0 25px rgba(0,0,0,.45);
-}
-
-.vfd-screen{
-height:120px;
-background:#b6d14f;
-border-radius:12px;
-padding:18px;
-font-family:Consolas;
-font-size:20px;
-font-weight:700;
-color:#111;
-margin-bottom:20px;
-line-height:1.6;
-}
-
-.vfd-keypad{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.vfd-btn{
-height:55px;
-border:none;
-border-radius:10px;
-font-weight:700;
-cursor:pointer;
-transition:.2s;
-}
-
-.vfd-btn:hover{
-transform:translateY(-2px);
-}
-
-.vfd-info{
-flex:1;
-background:#101927;
-border:1px solid #22354b;
-border-radius:22px;
-padding:30px;
-}
-
-.vfd-info h2{
-margin-bottom:20px;
+margin-bottom:15px;
 color:#00ff99;
 }
 
-.vfd-params{
+.courses-subtitle{
+color:#8ca4c4;
+margin-bottom:35px;
+font-size:18px;
+}
+
+.courses-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:20px;
 }
 
-.param-card{
-background:#132033;
-border-radius:16px;
-padding:20px;
+.course-card{
+background:#101927;
 border:1px solid #22354b;
+border-radius:20px;
+padding:25px;
+transition:.2s;
 }
 
-.param-card h3{
-font-size:14px;
-margin-bottom:10px;
+.course-card:hover{
+transform:translateY(-4px);
+border-color:#00ff99;
+}
+
+.course-card h2{
+margin-bottom:15px;
 color:#00ff99;
 }
 
-.param-card span{
-font-size:24px;
+.course-card p{
+line-height:1.6;
+color:#b3c4d9;
+margin-bottom:20px;
+}
+
+.premium-card{
+background:linear-gradient(145deg,#102038,#0a1625);
+border:1px solid #00ff99;
+}
+
+.premium-btn{
+background:#00ff99;
+color:#07111d;
 font-weight:700;
 }
 
-/* =========================================================
-SCROLLBAR
-========================================================= */
+/* BACK BUTTON */
+
+.back-btn{
+margin-top:30px;
+padding:14px 24px;
+border:none;
+border-radius:12px;
+background:#132033;
+color:white;
+cursor:pointer;
+font-weight:700;
+border:1px solid #22354b;
+}
+
+/* SCROLL */
 
 ::-webkit-scrollbar{
 width:10px;
 height:10px;
 }
 
-::-webkit-scrollbar-thumb{
-background:#21415d;
-border-radius:10px;
+::-webkit-scrollbar-track{
+background:#08111d;
 }
 
-::-webkit-scrollbar-track{
-background:#08111a;
+::-webkit-scrollbar-thumb{
+background:#22354b;
+border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background:#00ff99;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.layout{
+flex-direction:column;
+height:auto;
+overflow:auto;
+}
+
+.sidebar{
+width:100%;
+border-right:none;
+border-bottom:1px solid #203040;
+}
+
+.main{
+width:100%;
+}
+
+.top-header{
+flex-wrap:wrap;
+height:auto;
+padding:15px;
+gap:15px;
+}
+
+.top-buttons{
+flex-wrap:wrap;
+}
+
+.top-status{
+flex-wrap:wrap;
+}
+
+}
+
+@media(max-width:700px){
+
+.title{
+font-size:22px;
+}
+
+.toolbar{
+flex-direction:column;
+}
+
+.io-grid{
+grid-template-columns:1fr;
+}
+
+.rung{
+flex-wrap:wrap;
+justify-content:center;
+}
+
 }
