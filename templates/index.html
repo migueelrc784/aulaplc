@@ -64,6 +64,8 @@ PLC LADDER ENGINE
 
 </div>
 
+<!-- NAV -->
+
 <div class="top-buttons">
 
 <button class="nav-btn active-nav"
@@ -80,7 +82,16 @@ CURSOS
 
 </button>
 
+<button class="nav-btn"
+onclick="showSection('vfdSection',this)">
+
+VARIADOR VFD
+
+</button>
+
 </div>
+
+<!-- STATUS -->
 
 <div class="top-status">
 
@@ -111,7 +122,7 @@ ETHERNET OK
 </header>
 
 <!-- ===================================================== -->
-<!-- SIMULADOR -->
+<!-- SIMULADOR PLC -->
 <!-- ===================================================== -->
 
 <div id="simulatorSection">
@@ -383,6 +394,8 @@ SIMULAR PLC
 
 </div>
 
+<!-- LADDER -->
+
 <div class="ladder-area"
 id="ladder">
 
@@ -569,6 +582,104 @@ onclick="backSimulator()">
 
 </div>
 
+<!-- ===================================================== -->
+<!-- VARIADOR VFD -->
+<!-- ===================================================== -->
+
+<div id="vfdSection" style="display:none;">
+
+<div class="courses-page">
+
+<h1 class="courses-title">
+SIMULADOR VARIADOR VFD
+</h1>
+
+<p class="courses-subtitle">
+Simulación básica de un Variador de Frecuencia Industrial.
+</p>
+
+<div class="panel">
+
+<h2>
+VARIADOR INDUSTRIAL
+</h2>
+
+<p style="color:#9cb5d1;margin-bottom:30px;line-height:1.6;">
+
+Los Variadores de Frecuencia permiten controlar velocidad,
+arranque suave y RPM de motores trifásicos industriales.
+
+</p>
+
+<div class="vfd-box">
+
+<div class="vfd-row">
+
+<span>
+ESTADO
+</span>
+
+<span id="vfdStatus"
+style="color:#ff4565;">
+
+DETENIDO
+
+</span>
+
+</div>
+
+<div class="vfd-row">
+
+<span>
+FRECUENCIA
+</span>
+
+<span id="vfdFreq">
+0 Hz
+</span>
+
+</div>
+
+<div class="vfd-row">
+
+<span>
+RPM MOTOR
+</span>
+
+<span id="vfdRpm">
+0 RPM
+</span>
+
+</div>
+
+<button class="btn green"
+onclick="startVFD()">
+
+ARRANCAR VFD
+
+</button>
+
+<button class="btn red"
+style="margin-top:15px;"
+onclick="stopVFD()">
+
+DETENER VFD
+
+</button>
+
+</div>
+
+</div>
+
+<button class="back-btn"
+onclick="backSimulator()">
+
+⬅ VOLVER AL SIMULADOR
+
+</button>
+
+</div>
+
 </div>
 
 <!-- JS -->
@@ -625,6 +736,9 @@ document.getElementById("simulatorSection")
 document.getElementById("coursesSection")
 .style.display="none"
 
+document.getElementById("vfdSection")
+.style.display="none"
+
 document.getElementById(sectionId)
 .style.display="block"
 
@@ -640,6 +754,9 @@ function backSimulator(){
 document.getElementById("coursesSection")
 .style.display="none"
 
+document.getElementById("vfdSection")
+.style.display="none"
+
 document.getElementById("simulatorSection")
 .style.display="block"
 
@@ -648,6 +765,40 @@ document.querySelectorAll(".nav-btn")
 
 document.querySelectorAll(".nav-btn")[0]
 .classList.add("active-nav")
+
+}
+
+/* VFD */
+
+function startVFD(){
+
+document.getElementById("vfdStatus")
+.innerHTML="RUNNING"
+
+document.getElementById("vfdStatus")
+.style.color="#00ff99"
+
+document.getElementById("vfdFreq")
+.innerHTML="60 Hz"
+
+document.getElementById("vfdRpm")
+.innerHTML="1750 RPM"
+
+}
+
+function stopVFD(){
+
+document.getElementById("vfdStatus")
+.innerHTML="DETENIDO"
+
+document.getElementById("vfdStatus")
+.style.color="#ff4565"
+
+document.getElementById("vfdFreq")
+.innerHTML="0 Hz"
+
+document.getElementById("vfdRpm")
+.innerHTML="0 RPM"
 
 }
 
