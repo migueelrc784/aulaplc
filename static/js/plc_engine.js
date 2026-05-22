@@ -868,3 +868,141 @@ window.addEventListener("load",()=>{
 enableDrag()
 
 })
+/* =========================================================
+VFD VARIABLES
+========================================================= */
+
+let vfdRunning = false
+
+let vfdFrequency = 0
+
+let vfdDirection = "FWD"
+
+/* =========================================================
+START VFD
+========================================================= */
+
+function startVFD(){
+
+vfdRunning = true
+
+document.getElementById("statusText")
+.innerText = "RUNNING"
+
+document.getElementById("vfdState")
+.innerText = "RUN"
+
+updateVFD()
+
+}
+
+/* =========================================================
+STOP VFD
+========================================================= */
+
+function stopVFD(){
+
+vfdRunning = false
+
+document.getElementById("statusText")
+.innerText = "STOP"
+
+document.getElementById("vfdState")
+.innerText = "STOP"
+
+document.getElementById("gaugeRPM")
+.innerText = "0"
+
+document.getElementById("vfdRpmDisplay")
+.innerText = "0 RPM"
+
+}
+
+/* =========================================================
+FORWARD
+========================================================= */
+
+function forwardVFD(){
+
+vfdDirection = "FWD"
+
+document.getElementById("directionText")
+.innerText = "FWD"
+
+}
+
+/* =========================================================
+REVERSE
+========================================================= */
+
+function reverseVFD(){
+
+vfdDirection = "REV"
+
+document.getElementById("directionText")
+.innerText = "REV"
+
+}
+
+/* =========================================================
+CHANGE FREQUENCY
+========================================================= */
+
+function changeFrequency(value){
+
+vfdFrequency = parseFloat(value)
+
+document.getElementById("freqText")
+.innerText = vfdFrequency.toFixed(2)
+
+updateVFD()
+
+}
+
+/* =========================================================
+UPDATE VFD
+========================================================= */
+
+function updateVFD(){
+
+const rpm =
+Math.floor(vfdFrequency * 29.16)
+
+const amp =
+(vfdFrequency / 6).toFixed(1)
+
+document.getElementById("gaugeFreq")
+.innerText =
+vfdFrequency.toFixed(0)
+
+document.getElementById("gaugeRPM")
+.innerText =
+rpm
+
+document.getElementById("gaugeAmp")
+.innerText =
+amp
+
+document.getElementById("vfdFreqDisplay")
+.innerText =
+vfdFrequency.toFixed(2) + " Hz"
+
+document.getElementById("vfdRpmDisplay")
+.innerText =
+rpm + " RPM"
+
+document.getElementById("vfdAmpDisplay")
+.innerText =
+amp + " A"
+
+if(vfdRunning){
+
+document.getElementById("motorState")
+.innerText = "RUN"
+
+document.getElementById("rpmValue")
+.innerText = rpm + " RPM"
+
+}
+
+}
