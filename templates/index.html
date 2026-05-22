@@ -20,8 +20,6 @@ href="{{ url_for('static', filename='css/main.css') }}">
 <link rel="stylesheet"
 href="{{ url_for('static', filename='css/ladder.css') }}">
 
-<!-- NUEVO CSS VFD PRO -->
-
 <link rel="stylesheet"
 href="{{ url_for('static', filename='css/vfd.css') }}">
 
@@ -137,8 +135,6 @@ ETHERNET OK
 <!-- SIDEBAR -->
 
 <aside class="sidebar">
-
-<!-- INPUTS -->
 
 <div class="panel">
 
@@ -404,8 +400,6 @@ SIMULAR PLC
 <div class="ladder-area"
 id="ladder">
 
-<!-- RUNG 1 -->
-
 <div class="rung">
 
 <div class="rail"></div>
@@ -450,8 +444,6 @@ data-address="Q0.0">
 <div class="rail"></div>
 
 </div>
-
-<!-- RUNG 2 -->
 
 <div class="rung">
 
@@ -552,30 +544,6 @@ VER CURSO
 
 </div>
 
-<div class="course-card premium-card">
-
-<h2>
-MEMBRESÍA PREMIUM
-</h2>
-
-<p>
-Acceso total a todos los cursos y futuras actualizaciones.
-</p>
-
-<a
-href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f"
-target="_blank">
-
-<button class="btn premium-btn">
-SUSCRIBIRSE
-</button>
-
-</a>
-
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -660,20 +628,32 @@ STOP
 
 </button>
 
-<button class="drive-btn gray-btn">
-MODE
+<button class="drive-btn gray-btn"
+onclick="setLocalMode()">
+
+LOCAL
+
 </button>
 
-<button class="drive-btn gray-btn">
-SET
+<button class="drive-btn gray-btn"
+onclick="setRemoteMode()">
+
+REMOTE
+
 </button>
 
-<button class="drive-btn gray-btn">
-▲
+<button class="drive-btn gray-btn"
+onclick="reverseVFD()">
+
+REV
+
 </button>
 
-<button class="drive-btn gray-btn">
-▼
+<button class="drive-btn gray-btn"
+onclick="resetVFDAlarm()">
+
+RESET
+
 </button>
 
 </div>
@@ -716,6 +696,8 @@ ALARMAS
 
 <div class="vfd-left">
 
+<!-- FRECUENCIA -->
+
 <div class="vfd-card">
 
 <h3>
@@ -747,6 +729,8 @@ Hz
 
 </div>
 
+<!-- COMANDOS -->
+
 <div class="vfd-card">
 
 <h3>
@@ -776,7 +760,8 @@ DETENER
 
 </button>
 
-<button class="cmd-btn cmd-dark">
+<button class="cmd-btn cmd-dark"
+onclick="resetVFDAlarm()">
 
 RESET ALARMA
 
@@ -785,6 +770,60 @@ RESET ALARMA
 </div>
 
 </div>
+
+<!-- PARAMETROS -->
+
+<div class="vfd-card">
+
+<h3>
+PARÁMETROS
+</h3>
+
+<div class="status-list">
+
+<div>
+TIEMPO ACELERACIÓN
+</div>
+
+<input
+type="range"
+min="1"
+max="15"
+value="5"
+class="freq-slider"
+oninput="setAccelTime(this.value)">
+
+<div style="margin-top:10px;">
+<span id="accelValue">
+5
+</span> s
+</div>
+
+<br>
+
+<div>
+TIEMPO DESACELERACIÓN
+</div>
+
+<input
+type="range"
+min="1"
+max="15"
+value="4"
+class="freq-slider"
+oninput="setDecelTime(this.value)">
+
+<div style="margin-top:10px;">
+<span id="decelValue">
+4
+</span> s
+</div>
+
+</div>
+
+</div>
+
+<!-- ESTADO -->
 
 <div class="vfd-card">
 
@@ -797,7 +836,7 @@ ESTADO
 <div>
 ESTADO:
 <span id="vfdStatus">
-RUNNING
+STOP
 </span>
 </div>
 
@@ -810,8 +849,15 @@ FWD
 
 <div>
 MODO:
-<span>
+<span id="vfdMode">
 LOCAL
+</span>
+</div>
+
+<div>
+ALARMA:
+<span id="alarmText">
+NINGUNA
 </span>
 </div>
 
@@ -925,14 +971,49 @@ id="voltGaugeText">
 
 </div>
 
+<!-- TABLA -->
+
 <div class="vfd-info-table">
 
-<div>Potencia Motor: <span>2.2 kW</span></div>
-<div>Tensión Nominal: <span>380V</span></div>
-<div>Corriente Nominal: <span>5.2A</span></div>
-<div>Frecuencia Salida: <span id="tableFreq">60 Hz</span></div>
-<div>Tiempo Aceleración: <span>5.0 s</span></div>
-<div>Temperatura Driver: <span>38 °C</span></div>
+<div>
+Potencia Motor:
+<span>2.2 kW</span>
+</div>
+
+<div>
+Tensión Nominal:
+<span id="tableVolt">
+380 V
+</span>
+</div>
+
+<div>
+Corriente:
+<span id="tableAmp">
+0 A
+</span>
+</div>
+
+<div>
+Frecuencia:
+<span id="tableFreq">
+60 Hz
+</span>
+</div>
+
+<div>
+Temperatura:
+<span id="tableTemp">
+32 °C
+</span>
+</div>
+
+<div>
+Modo:
+<span id="tableMode">
+LOCAL
+</span>
+</div>
 
 </div>
 
@@ -966,8 +1047,6 @@ src="{{ url_for('static', filename='js/plc_engine.js') }}">
 src="{{ url_for('static', filename='js/ladder.js') }}">
 </script>
 
-<!-- NUEVO JS VFD -->
-
 <script
 src="{{ url_for('static', filename='js/vfd.js') }}">
 </script>
@@ -993,12 +1072,6 @@ log("SISTEMA PLC INICIADO")
 if(typeof scanPLC==="function"){
 
 scanPLC()
-
-}
-
-if(typeof updateVFD==="function"){
-
-updateVFD(60)
 
 }
 
