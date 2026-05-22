@@ -6,24 +6,18 @@ LADDER AREA
 
 display:flex;
 flex-direction:column;
-gap:30px;
+gap:28px;
 
-padding:30px;
+padding:25px;
 
 overflow:auto;
 
-height:calc(100vh - 120px);
+height:calc(100vh - 140px);
 
 background:
-linear-gradient(
-180deg,
-#07101b 0%,
-#081827 100%
-);
+linear-gradient(180deg,#04101b 0%,#071827 100%);
 
 border-radius:20px;
-
-border:1px solid #12304d;
 
 }
 
@@ -38,93 +32,78 @@ position:relative;
 display:flex;
 align-items:center;
 
-min-height:110px;
+min-height:120px;
 
-padding:0 40px;
+padding:0 35px;
+
+border-radius:22px;
 
 background:
 linear-gradient(
-180deg,
-#0d1d2f 0%,
-#091624 100%
+90deg,
+rgba(8,20,34,.95),
+rgba(5,18,30,.98)
 );
 
-border:1px solid #12304d;
-
-border-radius:18px;
+border:1px solid #14314f;
 
 box-shadow:
-0 0 20px rgba(0,0,0,.45),
-inset 0 0 20px rgba(0,255,150,.03);
+0 0 30px rgba(0,0,0,.4),
+inset 0 0 30px rgba(0,255,150,.03);
 
 overflow-x:auto;
-
-transition:.15s;
-
-}
-
-.rung.active{
-
-border-color:#00ff99;
-
-box-shadow:
-0 0 18px rgba(0,255,153,.25),
-inset 0 0 20px rgba(0,255,153,.05);
 
 }
 
 /* =========================================================
-POWER RAILS
+RAILS
 ========================================================= */
 
 .rail{
 
-width:10px;
-height:80px;
+width:8px;
+height:82px;
 
 border-radius:20px;
 
-background:#2e4764;
-
-position:relative;
-
-transition:.15s;
+background:#28445e;
 
 flex-shrink:0;
 
+transition:.15s;
+
+position:relative;
+
 }
 
-.rung.active .rail{
+.rail.powered{
 
 background:#00ff99;
 
 box-shadow:
-0 0 10px #00ff99,
-0 0 20px rgba(0,255,153,.6),
-0 0 40px rgba(0,255,153,.35);
+0 0 12px #00ff99,
+0 0 30px rgba(0,255,153,.5);
 
 }
 
 /* =========================================================
-POWER FLOW LINE
+LINES
 ========================================================= */
 
 .line{
 
-width:60px;
-height:6px;
+width:120px;
+height:5px;
 
-border-radius:10px;
+border-radius:20px;
 
-background:#29435d;
+background:#365572;
+
+flex-shrink:0;
 
 position:relative;
 
 transition:.15s;
-
-flex-shrink:0;
-
-overflow:hidden;
 
 }
 
@@ -134,13 +113,9 @@ background:#00ff99;
 
 box-shadow:
 0 0 10px #00ff99,
-0 0 18px rgba(0,255,153,.6);
+0 0 20px rgba(0,255,153,.4);
 
 }
-
-/* =========================================================
-ENERGY FLOW
-========================================================= */
 
 .line.powered::after{
 
@@ -158,10 +133,10 @@ border-radius:50%;
 
 background:#00ff99;
 
-animation:flow 1s linear infinite;
-
 box-shadow:
-0 0 10px #00ff99;
+0 0 12px #00ff99;
+
+animation:flow 1s linear infinite;
 
 }
 
@@ -197,48 +172,37 @@ CONTACTS
 
 position:relative;
 
-width:90px;
+width:80px;
 height:70px;
 
 display:flex;
 justify-content:center;
 align-items:center;
 
-font-size:13px;
+font-size:16px;
 font-weight:700;
 
-color:#c8d7ea;
+color:#dce6f2;
+
+flex-shrink:0;
+
+cursor:grab;
 
 user-select:none;
 
 transition:.15s;
 
-flex-shrink:0;
-
-cursor:pointer;
-
-font-family:Consolas;
-
 }
 
-/* CONTACT DRAG */
+/* LEFT BAR */
 
-.contact.dragging{
-
-opacity:.4;
-transform:scale(.95);
-
-}
-
-/* CONTACT SYMBOL */
-
-.contact::before,
-.contact::after{
+.contact::before{
 
 content:"";
 
 position:absolute;
 
+left:22px;
 top:8px;
 
 width:4px;
@@ -246,44 +210,44 @@ height:54px;
 
 border-radius:10px;
 
-background:#8ba2bb;
-
-transition:.15s;
+background:#b7c8da;
 
 }
 
-.contact::before{
-
-left:20px;
-
-}
+/* RIGHT BAR */
 
 .contact::after{
 
-right:20px;
-
-}
-
-/* NC DIAGONAL */
-
-.contact[data-type="NC"]::marker{
-display:none;
-}
-
-.contact .diag{
+content:"";
 
 position:absolute;
 
-width:60px;
-height:4px;
+right:22px;
+top:8px;
 
-background:#dce8f5;
-
-transform:rotate(-55deg);
+width:4px;
+height:54px;
 
 border-radius:10px;
 
-pointer-events:none;
+background:#b7c8da;
+
+}
+
+/* NC */
+
+.contact[data-type="NC"] .diag{
+
+position:absolute;
+
+width:52px;
+height:4px;
+
+background:#dce6f2;
+
+transform:rotate(-58deg);
+
+border-radius:10px;
 
 }
 
@@ -305,7 +269,7 @@ background:#00ff99;
 
 box-shadow:
 0 0 10px #00ff99,
-0 0 18px rgba(0,255,153,.6);
+0 0 18px rgba(0,255,153,.5);
 
 }
 
@@ -318,17 +282,6 @@ box-shadow:
 
 }
 
-/* SELECTED */
-
-.contact.selected-element{
-
-outline:2px solid #ffd000;
-
-box-shadow:
-0 0 18px rgba(255,208,0,.5);
-
-}
-
 /* =========================================================
 COILS
 ========================================================= */
@@ -337,36 +290,27 @@ COILS
 
 position:relative;
 
-width:100px;
+width:90px;
 height:70px;
 
 display:flex;
 justify-content:center;
 align-items:center;
 
-font-size:13px;
+font-size:16px;
 font-weight:700;
 
-color:#dce8f5;
-
-transition:.15s;
+color:#dce6f2;
 
 flex-shrink:0;
 
-cursor:pointer;
+cursor:grab;
 
-font-family:Consolas;
-
-}
-
-.coil.dragging{
-
-opacity:.4;
-transform:scale(.95);
+transition:.15s;
 
 }
 
-/* LEFT ARC */
+/* LEFT COIL */
 
 .coil::before{
 
@@ -374,23 +318,21 @@ content:"";
 
 position:absolute;
 
-left:18px;
+left:16px;
 top:10px;
 
-width:26px;
+width:24px;
 height:46px;
 
-border:4px solid #cfe0f3;
+border:4px solid #dce6f2;
 
 border-right:none;
 
 border-radius:40px 0 0 40px;
 
-transition:.15s;
-
 }
 
-/* RIGHT ARC */
+/* RIGHT COIL */
 
 .coil::after{
 
@@ -398,25 +340,23 @@ content:"";
 
 position:absolute;
 
-right:18px;
+right:16px;
 top:10px;
 
-width:26px;
+width:24px;
 height:46px;
 
-border:4px solid #cfe0f3;
+border:4px solid #dce6f2;
 
 border-left:none;
 
 border-radius:0 40px 40px 0;
 
-transition:.15s;
-
 }
 
 /* ENERGIZED */
 
-.coil.powered{
+.coil.energized{
 
 color:#00ff99;
 
@@ -425,104 +365,76 @@ text-shadow:
 
 }
 
-.coil.powered::before,
-.coil.powered::after{
+.coil.energized::before,
+.coil.energized::after{
 
 border-color:#00ff99;
 
 box-shadow:
-0 0 10px #00ff99,
-0 0 18px rgba(0,255,153,.5);
-
-}
-
-/* SELECTED */
-
-.coil.selected-element{
-
-outline:2px solid #ffd000;
+0 0 12px #00ff99,
+0 0 20px rgba(0,255,153,.5);
 
 }
 
 /* =========================================================
-TON TIMER
+TIMER
 ========================================================= */
 
 .timer{
 
 position:relative;
 
-width:120px;
+width:90px;
 height:70px;
 
 display:flex;
 justify-content:center;
 align-items:center;
 
-flex-direction:column;
-
-background:#16283a;
-
-border:2px solid #3b5878;
-
-border-radius:12px;
-
-font-size:12px;
+font-size:14px;
 font-weight:700;
 
-color:#d7e3f0;
+color:#dce6f2;
 
-transition:.15s;
+background:#132338;
+
+border:3px solid #95a8be;
+
+border-radius:10px;
 
 flex-shrink:0;
 
-cursor:pointer;
+transition:.15s;
 
-font-family:Consolas;
-
-}
-
-.timer.dragging{
-
-opacity:.4;
+cursor:grab;
 
 }
-
-/* TIMER LABEL */
 
 .timer::before{
 
-content:"TON";
+content:"⏱";
 
-font-size:12px;
+position:absolute;
 
-opacity:.7;
+top:-10px;
 
-margin-bottom:4px;
+font-size:18px;
+
+background:#132338;
+
+padding:0 4px;
 
 }
-
-/* TIMER POWER */
 
 .timer.powered{
 
-background:#00ff99;
-
-color:#00160d;
-
 border-color:#00ff99;
 
+color:#00ff99;
+
 box-shadow:
-0 0 12px #00ff99,
-0 0 25px rgba(0,255,153,.5);
-
-}
-
-/* SELECTED */
-
-.timer.selected-element{
-
-outline:2px solid #ffd000;
+0 0 15px #00ff99,
+0 0 25px rgba(0,255,153,.4);
 
 }
 
@@ -534,8 +446,8 @@ DELETE BUTTON
 
 position:absolute;
 
-top:-8px;
-right:-8px;
+top:-6px;
+right:-6px;
 
 width:18px;
 height:18px;
@@ -553,64 +465,35 @@ font-weight:700;
 
 cursor:pointer;
 
-z-index:10;
+z-index:20;
 
-opacity:.85;
-
-transition:.15s;
-
-}
-
-.delete-element:hover{
-
-transform:scale(1.1);
-
-background:#ff002e;
+opacity:.9;
 
 }
 
 /* =========================================================
-DRAG TARGET
+DRAGGING
 ========================================================= */
 
-.drag-over{
+.dragging{
 
-border-color:#00c3ff !important;
+opacity:.4;
 
-box-shadow:
-0 0 15px rgba(0,195,255,.5);
+transform:scale(.95);
 
 }
 
 /* =========================================================
-RIGHT CLICK MENU
+HOVER
 ========================================================= */
 
-#ladderMenu{
+.contact:hover,
+.coil:hover,
+.timer:hover{
 
-backdrop-filter:blur(10px);
+transform:translateY(-2px);
 
-}
-
-.menu-item{
-
-padding:10px;
-
-border-radius:8px;
-
-cursor:pointer;
-
-transition:.15s;
-
-font-size:14px;
-
-}
-
-.menu-item:hover{
-
-background:#1f3a56;
-
-color:#00ff99;
+filter:brightness(1.1);
 
 }
 
@@ -627,13 +510,13 @@ width:10px;
 
 .ladder-area::-webkit-scrollbar-thumb{
 
-background:#1f3f5f;
-border-radius:10px;
+background:#204868;
+border-radius:20px;
 
 }
 
 .ladder-area::-webkit-scrollbar-track{
 
-background:#09111b;
+background:#07111d;
 
 }
