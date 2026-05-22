@@ -394,18 +394,27 @@ SIMULAR PLC
 
 </div>
 
-<!-- LADDER -->
+<!-- =====================================================
+LADDER
+===================================================== -->
 
 <div class="ladder-area"
-id="ladder">
+id="ladder"
 
-<!-- RUNG 1 -->
+ondragover="event.preventDefault()">
 
-<div class="rung">
+<!-- =====================================================
+RUNG 1
+===================================================== -->
+
+<div class="rung"
+
+ondragover="event.preventDefault()">
 
 <div class="rail"></div>
 
 <div class="contact"
+draggable="true"
 data-type="NO"
 data-address="I0.0">
 
@@ -416,6 +425,7 @@ I0.0
 <div class="line"></div>
 
 <div class="contact"
+draggable="true"
 data-type="NC"
 data-address="I0.1">
 
@@ -426,6 +436,7 @@ data-address="I0.1">
 <div class="line"></div>
 
 <div class="contact"
+draggable="true"
 data-type="NC"
 data-address="I0.2">
 
@@ -436,6 +447,7 @@ data-address="I0.2">
 <div class="line"></div>
 
 <div class="coil"
+draggable="true"
 data-address="Q0.0">
 
 (Q0.0)
@@ -446,13 +458,18 @@ data-address="Q0.0">
 
 </div>
 
-<!-- RUNG 2 -->
+<!-- =====================================================
+RUNG 2
+===================================================== -->
 
-<div class="rung">
+<div class="rung"
+
+ondragover="event.preventDefault()">
 
 <div class="rail"></div>
 
 <div class="contact"
+draggable="true"
 data-type="NO"
 data-address="Q0.0">
 
@@ -463,6 +480,7 @@ Q0.0
 <div class="line"></div>
 
 <div class="coil"
+draggable="true"
 data-address="Q0.1">
 
 (Q0.1)
@@ -547,28 +565,6 @@ VER CURSO
 
 </div>
 
-<div class="course-card premium-card">
-
-<h2>
-MEMBRESÍA PREMIUM
-</h2>
-
-<p>
-Acceso total a todos los cursos y futuras actualizaciones.
-</p>
-
-<a
-href="https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=f2304b55ae434204bfc0b65d37bde97f"
-target="_blank">
-
-<button class="btn premium-btn">
-SUSCRIBIRSE
-</button>
-
-</a>
-
-</div>
-
 </div>
 
 <button class="back-btn"
@@ -583,7 +579,7 @@ onclick="backSimulator()">
 </div>
 
 <!-- ===================================================== -->
-<!-- VARIADOR VFD -->
+<!-- VFD -->
 <!-- ===================================================== -->
 
 <div id="vfdSection" style="display:none;">
@@ -595,92 +591,65 @@ SIMULADOR VARIADOR VFD
 </h1>
 
 <p class="courses-subtitle">
-Simulación básica de un Variador de Frecuencia Industrial.
+Simulación básica de un Variador Industrial.
 </p>
 
-<div class="panel">
-
-<h2>
-VARIADOR INDUSTRIAL
-</h2>
-
-<p style="color:#9cb5d1;margin-bottom:30px;line-height:1.6;">
-
-Los Variadores de Frecuencia permiten controlar velocidad,
-arranque suave y RPM de motores trifásicos industriales.
-
-</p>
-
-<div class="vfd-box">
-
-<div class="vfd-row">
-
-<span>
-ESTADO
-</span>
-
-<span id="vfdStatus"
-style="color:#ff4565;">
-
-DETENIDO
-
-</span>
+</div>
 
 </div>
 
-<div class="vfd-row">
+<!-- =====================================================
+LADDER MENU
+===================================================== -->
 
-<span>
-FRECUENCIA
-</span>
+<div id="ladderMenu"
 
-<span id="vfdFreq">
-0 Hz
-</span>
+style="
+display:none;
+position:fixed;
+background:#132235;
+border:1px solid #2d4d73;
+padding:10px;
+border-radius:10px;
+z-index:9999;
+min-width:180px;
+box-shadow:0 0 20px rgba(0,0,0,.5);
+">
+
+<div class="menu-item"
+onclick="deleteSelectedElement()">
+
+🗑 Eliminar
 
 </div>
 
-<div class="vfd-row">
+<div class="menu-item"
+onclick="toggleSelectedType()">
 
-<span>
-RPM MOTOR
-</span>
-
-<span id="vfdRpm">
-0 RPM
-</span>
-
-</div>
-
-<button class="btn green"
-onclick="startVFD()">
-
-ARRANCAR VFD
-
-</button>
-
-<button class="btn red"
-style="margin-top:15px;"
-onclick="stopVFD()">
-
-DETENER VFD
-
-</button>
+🔄 Cambiar NO/NC
 
 </div>
 
 </div>
 
-<button class="back-btn"
-onclick="backSimulator()">
+<style>
 
-⬅ VOLVER AL SIMULADOR
+.menu-item{
 
-</button>
+padding:10px;
+cursor:pointer;
+border-radius:6px;
+transition:.2s;
 
-</div>
+}
 
-</div>
+.menu-item:hover{
+
+background:#1f3a56;
+
+}
+
+</style>
 
 <!-- JS -->
 
@@ -765,40 +734,6 @@ document.querySelectorAll(".nav-btn")
 
 document.querySelectorAll(".nav-btn")[0]
 .classList.add("active-nav")
-
-}
-
-/* VFD */
-
-function startVFD(){
-
-document.getElementById("vfdStatus")
-.innerHTML="RUNNING"
-
-document.getElementById("vfdStatus")
-.style.color="#00ff99"
-
-document.getElementById("vfdFreq")
-.innerHTML="60 Hz"
-
-document.getElementById("vfdRpm")
-.innerHTML="1750 RPM"
-
-}
-
-function stopVFD(){
-
-document.getElementById("vfdStatus")
-.innerHTML="DETENIDO"
-
-document.getElementById("vfdStatus")
-.style.color="#ff4565"
-
-document.getElementById("vfdFreq")
-.innerHTML="0 Hz"
-
-document.getElementById("vfdRpm")
-.innerHTML="0 RPM"
 
 }
 

@@ -11,7 +11,9 @@ color:white;
 overflow:hidden;
 }
 
-/* LOADER */
+/* =========================================================
+LOADER
+========================================================= */
 
 .loading{
 height:100vh;
@@ -20,7 +22,12 @@ justify-content:center;
 align-items:center;
 flex-direction:column;
 gap:20px;
-background:radial-gradient(circle at center,#10243b 0%,#07111d 70%);
+background:
+radial-gradient(
+circle at center,
+#10243b 0%,
+#07111d 70%
+);
 }
 
 .loading h1{
@@ -35,7 +42,9 @@ text-shadow:0 0 15px #00ff99;
 color:#8ca7c5;
 }
 
-/* APP */
+/* =========================================================
+APP
+========================================================= */
 
 #app{
 height:100vh;
@@ -43,7 +52,9 @@ display:flex;
 flex-direction:column;
 }
 
-/* HEADER */
+/* =========================================================
+HEADER
+========================================================= */
 
 .top-header{
 height:80px;
@@ -86,7 +97,9 @@ font-size:13px;
 color:#8da8c7;
 }
 
-/* NAV */
+/* =========================================================
+NAV
+========================================================= */
 
 .top-buttons{
 display:flex;
@@ -116,7 +129,9 @@ background:#00ff99;
 color:black;
 }
 
-/* STATUS */
+/* =========================================================
+STATUS
+========================================================= */
 
 .top-status{
 display:flex;
@@ -139,7 +154,9 @@ color:#00ff99;
 color:#ff4565;
 }
 
-/* LAYOUT */
+/* =========================================================
+LAYOUT
+========================================================= */
 
 .layout{
 display:flex;
@@ -160,7 +177,9 @@ padding:20px;
 overflow:auto;
 }
 
-/* PANEL */
+/* =========================================================
+PANEL
+========================================================= */
 
 .panel{
 background:#101927;
@@ -172,9 +191,12 @@ border:1px solid #22354b;
 
 .panel h2{
 margin-bottom:18px;
+font-size:18px;
 }
 
-/* INPUTS */
+/* =========================================================
+INPUTS
+========================================================= */
 
 .io-grid{
 display:grid;
@@ -195,7 +217,21 @@ border-color:#00ff99;
 transform:translateY(-2px);
 }
 
-/* BUTTONS */
+.io-card.active-input{
+border-color:#00ff99;
+box-shadow:
+0 0 18px rgba(0,255,153,.35);
+background:#16324b;
+}
+
+.io-name{
+font-size:14px;
+font-weight:700;
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
 
 .btn{
 padding:12px;
@@ -215,6 +251,7 @@ filter:brightness(1.1);
 
 .green{
 background:#00ff99;
+color:black;
 }
 
 .red{
@@ -224,6 +261,7 @@ color:white;
 
 .yellow{
 background:#ffcc00;
+color:black;
 }
 
 .blue{
@@ -231,7 +269,9 @@ background:#00c3ff;
 color:white;
 }
 
-/* OUTPUTS */
+/* =========================================================
+OUTPUTS
+========================================================= */
 
 .memory-list{
 display:flex;
@@ -246,9 +286,17 @@ border-radius:10px;
 display:flex;
 justify-content:space-between;
 border:1px solid #22354b;
+font-weight:700;
 }
 
-/* MOTOR */
+.output-on{
+color:#00ff99;
+text-shadow:0 0 12px #00ff99;
+}
+
+/* =========================================================
+MOTOR
+========================================================= */
 
 .motor-container{
 display:flex;
@@ -264,6 +312,8 @@ background:#4d5867;
 border-radius:20px;
 position:relative;
 overflow:hidden;
+box-shadow:
+inset 0 0 20px rgba(0,0,0,.4);
 }
 
 .fan{
@@ -279,12 +329,16 @@ animation-play-state:paused;
 }
 
 @keyframes spin{
+
 100%{
 transform:rotate(360deg);
 }
+
 }
 
-/* PILOTS */
+/* =========================================================
+PILOTS
+========================================================= */
 
 .pilot-row{
 display:flex;
@@ -296,6 +350,7 @@ width:35px;
 height:35px;
 border-radius:50%;
 background:#333;
+transition:.2s;
 }
 
 .on-green{
@@ -313,7 +368,9 @@ background:deepskyblue;
 box-shadow:0 0 20px deepskyblue;
 }
 
-/* TOOLBAR */
+/* =========================================================
+TOOLBAR
+========================================================= */
 
 .toolbar{
 display:flex;
@@ -325,9 +382,12 @@ flex-wrap:wrap;
 .toolbar .btn{
 width:auto;
 padding:12px 22px;
+margin-top:0;
 }
 
-/* LADDER */
+/* =========================================================
+LADDER AREA
+========================================================= */
 
 .ladder-area{
 background:#08111d;
@@ -335,18 +395,35 @@ border:1px solid #22354b;
 border-radius:18px;
 padding:20px;
 min-height:600px;
+overflow:auto;
 }
+
+/* =========================================================
+RUNG
+========================================================= */
 
 .rung{
 display:flex;
 align-items:center;
 gap:10px;
-margin-bottom:40px;
+margin-bottom:35px;
 background:#0d1824;
 padding:18px;
 border-radius:18px;
 border:1px solid #16324b;
+min-height:110px;
+position:relative;
 }
+
+.rung.active{
+border-color:#00ff99;
+box-shadow:
+0 0 20px rgba(0,255,153,.15);
+}
+
+/* =========================================================
+RAILS
+========================================================= */
 
 .rail{
 width:6px;
@@ -356,14 +433,27 @@ border-radius:10px;
 box-shadow:0 0 12px #00ff99;
 }
 
+/* =========================================================
+LINES
+========================================================= */
+
 .line{
 height:4px;
 background:#35506d;
 flex:1;
 border-radius:10px;
+transition:.15s;
+min-width:40px;
 }
 
-/* NUEVOS BLOQUES MÁS PEQUEÑOS */
+.line.powered{
+background:#00ff99;
+box-shadow:0 0 12px #00ff99;
+}
+
+/* =========================================================
+CONTACT / COIL / TIMER
+========================================================= */
 
 .contact,
 .coil,
@@ -380,18 +470,107 @@ font-weight:700;
 font-size:18px;
 position:relative;
 box-shadow:0 0 15px rgba(0,255,153,.15);
+cursor:pointer;
+user-select:none;
+transition:.15s;
+font-family:Consolas;
 }
+
+.contact:hover,
+.coil:hover,
+.timer:hover{
+transform:translateY(-2px);
+box-shadow:
+0 0 20px rgba(0,255,153,.25);
+}
+
+/* =========================================================
+POWERED
+========================================================= */
 
 .powered{
 background:rgba(0,255,153,.2);
-box-shadow:0 0 20px rgba(0,255,153,.5);
+box-shadow:
+0 0 20px rgba(0,255,153,.55);
+border-color:#00ff99;
+color:#00ff99;
 }
 
-/* LOGS */
+/* =========================================================
+CONTACT SYMBOLS
+========================================================= */
+
+.contact::before,
+.contact::after{
+content:"";
+position:absolute;
+width:18px;
+height:3px;
+background:#00ff99;
+top:50%;
+transform:translateY(-50%);
+}
+
+.contact::before{
+left:-18px;
+}
+
+.contact::after{
+right:-18px;
+}
+
+/* =========================================================
+COIL SYMBOL
+========================================================= */
+
+.coil::before,
+.coil::after{
+content:"";
+position:absolute;
+width:16px;
+height:30px;
+border:3px solid #00ff99;
+border-radius:50%;
+top:16px;
+}
+
+.coil::before{
+left:-12px;
+border-right:none;
+}
+
+.coil::after{
+right:-12px;
+border-left:none;
+}
+
+/* =========================================================
+SELECTED ELEMENT
+========================================================= */
+
+.selected-element{
+border-color:#ffd000 !important;
+box-shadow:
+0 0 20px rgba(255,208,0,.5) !important;
+}
+
+/* =========================================================
+DRAGGING
+========================================================= */
+
+.dragging{
+opacity:.4;
+transform:scale(.95);
+}
+
+/* =========================================================
+LOGS
+========================================================= */
 
 .log-box{
 height:220px;
 overflow:auto;
+padding-right:5px;
 }
 
 .log-box p{
@@ -400,11 +579,12 @@ padding:10px;
 margin-bottom:10px;
 border-left:3px solid #00ff99;
 border-radius:8px;
+font-size:14px;
 }
 
-/* =========================
+/* =========================================================
 CURSOS
-========================= */
+========================================================= */
 
 .courses-page{
 padding:40px;
@@ -442,7 +622,8 @@ transition:.2s;
 .course-card:hover{
 transform:translateY(-5px);
 border-color:#00ff99;
-box-shadow:0 0 20px rgba(0,255,153,.2);
+box-shadow:
+0 0 20px rgba(0,255,153,.2);
 }
 
 .course-card h2{
@@ -458,18 +639,24 @@ line-height:1.5;
 
 .premium-card{
 border:1px solid #00ff99;
-box-shadow:0 0 20px rgba(0,255,153,.2);
+box-shadow:
+0 0 20px rgba(0,255,153,.2);
 }
 
 .premium-btn{
-background:linear-gradient(90deg,#00ff99,#00c3ff);
+background:
+linear-gradient(
+90deg,
+#00ff99,
+#00c3ff
+);
 color:black;
 font-weight:900;
 }
 
-/* =========================
-VARIADOR DE FRECUENCIA
-========================= */
+/* =========================================================
+VFD
+========================================================= */
 
 .vfd-page{
 padding:40px;
@@ -519,7 +706,8 @@ color:#00ff99;
 font-size:20px;
 margin-bottom:20px;
 line-height:1.6;
-box-shadow:0 0 20px rgba(0,255,153,.2);
+box-shadow:
+0 0 20px rgba(0,255,153,.2);
 }
 
 .vfd-keypad{
@@ -582,7 +770,9 @@ font-size:22px;
 font-weight:700;
 }
 
-/* BACK BUTTON */
+/* =========================================================
+BACK BUTTON
+========================================================= */
 
 .back-btn{
 margin-top:40px;
@@ -601,13 +791,17 @@ background:#00ff99;
 color:black;
 }
 
-/* HIDDEN */
+/* =========================================================
+HIDDEN
+========================================================= */
 
 .hidden{
 display:none;
 }
 
-/* SCROLL */
+/* =========================================================
+SCROLL
+========================================================= */
 
 ::-webkit-scrollbar{
 width:10px;
@@ -621,4 +815,34 @@ border-radius:10px;
 
 ::-webkit-scrollbar-track{
 background:#08111a;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media(max-width:1200px){
+
+.layout{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+height:auto;
+border-right:none;
+border-bottom:1px solid #203040;
+}
+
+.main{
+height:auto;
+}
+
+.top-header{
+flex-wrap:wrap;
+height:auto;
+padding:20px;
+gap:15px;
+}
+
 }
