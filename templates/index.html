@@ -1,108 +1,219 @@
-# index.html (REEMPLAZAR COMPLETO)
-
-```html
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AUTOMATION STUDIO X</title>
+<title>
+AUTOMATION STUDIO X
+</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link
+href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ladder.css') }}">
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/main.css') }}">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/ladder.css') }}">
 
 </head>
+
 <body>
 
+<!-- LOADER -->
+
 <div id="loader" class="loading">
-<h1>⚡ AUTOMATION STUDIO X</h1>
-<p>Inicializando PLC Runtime Engine...</p>
+
+<h1>
+⚡ AUTOMATION STUDIO X
+</h1>
+
+<p>
+Inicializando PLC Runtime Engine...
+</p>
+
 </div>
+
+<!-- APP -->
 
 <div id="app" style="display:none;">
 
 <header class="top-header">
 
 <div class="logo-area">
-<div class="logo-icon">⚡</div>
+
+<div class="logo-icon">
+⚡
+</div>
+
 <div>
-<div class="title">AUTOMATION STUDIO X</div>
-<div class="subtitle">PLC LADDER ENGINE</div>
+
+<div class="title">
+AUTOMATION STUDIO X
 </div>
+
+<div class="subtitle">
+PLC LADDER ENGINE
 </div>
+
+</div>
+
+</div>
+
+<!-- NAV -->
 
 <div class="top-buttons">
 
 <button class="nav-btn active-nav"
 onclick="showSection('simulatorSection',this)">
+
 SIMULADOR PLC
+
 </button>
 
 <button class="nav-btn"
 onclick="showSection('coursesSection',this)">
+
 CURSOS
+
 </button>
 
 <button class="nav-btn"
 onclick="showSection('vfdSection',this)">
+
 VARIADOR VFD
+
 </button>
 
 </div>
 
+<!-- STATUS -->
+
 <div class="top-status">
-<div class="status-box run" id="cpuState">CPU RUN</div>
-<div class="status-box run" id="plcState">PLC RUN</div>
-<div class="status-box">SCAN 120ms</div>
-<div class="status-box">ETHERNET OK</div>
+
+<div class="status-box run"
+id="cpuState">
+
+CPU RUN
+
+</div>
+
+<div class="status-box run"
+id="plcState">
+
+PLC RUN
+
+</div>
+
+<div class="status-box">
+SCAN 120ms
+</div>
+
+<div class="status-box">
+ETHERNET OK
+</div>
+
 </div>
 
 </header>
 
 <!-- ===================================================== -->
-<!-- PLC -->
+<!-- SIMULADOR PLC -->
 <!-- ===================================================== -->
 
 <div id="simulatorSection">
 
 <div class="layout">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
+<!-- INPUTS -->
+
 <div class="panel">
-<h2>ENTRADAS DIGITALES</h2>
+
+<h2>
+ENTRADAS DIGITALES
+</h2>
 
 <div class="io-grid">
 
 <div class="io-card" id="card-I0.0">
-<div class="io-name">I0.0 START</div>
-<button class="btn green" onclick="toggleInput('I0.0')">FORZAR</button>
+
+<div class="io-name">
+I0.0 START
+</div>
+
+<button class="btn green"
+onclick="toggleInput('I0.0')">
+
+FORZAR
+
+</button>
+
 </div>
 
 <div class="io-card" id="card-I0.1">
-<div class="io-name">I0.1 STOP</div>
-<button class="btn red" onclick="toggleInput('I0.1')">FORZAR</button>
+
+<div class="io-name">
+I0.1 STOP
+</div>
+
+<button class="btn red"
+onclick="toggleInput('I0.1')">
+
+FORZAR
+
+</button>
+
 </div>
 
 <div class="io-card" id="card-I0.2">
-<div class="io-name">I0.2 EMERGENCY</div>
-<button class="btn yellow" onclick="toggleInput('I0.2')">FORZAR</button>
+
+<div class="io-name">
+I0.2 EMERGENCY
+</div>
+
+<button class="btn yellow"
+onclick="toggleInput('I0.2')">
+
+FORZAR
+
+</button>
+
 </div>
 
 <div class="io-card" id="card-I0.3">
-<div class="io-name">I0.3 SENSOR</div>
-<button class="btn blue" onclick="toggleInput('I0.3')">FORZAR</button>
+
+<div class="io-name">
+I0.3 SENSOR
+</div>
+
+<button class="btn blue"
+onclick="toggleInput('I0.3')">
+
+FORZAR
+
+</button>
+
 </div>
 
 </div>
+
 </div>
+
+<!-- OUTPUTS -->
 
 <div class="panel">
-<h2>SALIDAS PLC</h2>
+
+<h2>
+SALIDAS PLC
+</h2>
 
 <div class="memory-list">
 
@@ -127,79 +238,263 @@ VARIADOR VFD
 </div>
 
 </div>
+
 </div>
 
+<!-- MOTOR -->
+
 <div class="panel">
-<h2>MOTOR TRIFÁSICO</h2>
+
+<h2>
+MOTOR TRIFÁSICO
+</h2>
 
 <div class="motor-container">
 
 <div class="motor">
-<div class="fan" id="fan"></div>
+
+<div class="fan"
+id="fan">
+
+</div>
+
 </div>
 
 <div class="pilot-row">
-<div class="pilot" id="greenPilot"></div>
-<div class="pilot" id="redPilot"></div>
-<div class="pilot" id="bluePilot"></div>
+
+<div class="pilot"
+id="greenPilot">
+
+</div>
+
+<div class="pilot"
+id="redPilot">
+
+</div>
+
+<div class="pilot"
+id="bluePilot">
+
+</div>
+
 </div>
 
 <div class="motor-info">
+
 <div class="info-box">
+
 RPM<br>
-<span id="rpmValue">0 RPM</span>
+
+<span id="rpmValue">
+0 RPM
+</span>
+
 </div>
 
 <div class="info-box">
+
 ESTADO<br>
-<span id="motorState">STOP</span>
-</div>
+
+<span id="motorState">
+STOP
+</span>
+
 </div>
 
 </div>
+
 </div>
+
+</div>
+
+<!-- LOGS -->
 
 <div class="panel">
-<h2>EVENTOS PLC</h2>
-<div class="log-box" id="logBox"></div>
+
+<h2>
+EVENTOS PLC
+</h2>
+
+<div class="log-box"
+id="logBox">
+
+</div>
+
 </div>
 
 </aside>
 
+<!-- MAIN -->
+
 <main class="main">
 
 <div class="toolbar">
-<button class="btn green" onclick="addNO()">CONTACTO NO</button>
-<button class="btn yellow" onclick="addNC()">CONTACTO NC</button>
-<button class="btn blue" onclick="addCoil()">BOBINA</button>
-<button class="btn red" onclick="addTON()">TEMPORIZADOR</button>
-<button class="btn blue" onclick="addRung()">NUEVO RUNG</button>
-<button class="btn green" onclick="runSimulation()">SIMULAR PLC</button>
+
+<button class="btn green"
+onclick="addNO()">
+
+CONTACTO NO
+
+</button>
+
+<button class="btn yellow"
+onclick="addNC()">
+
+CONTACTO NC
+
+</button>
+
+<button class="btn blue"
+onclick="addCoil()">
+
+BOBINA
+
+</button>
+
+<button class="btn red"
+onclick="addTON()">
+
+TEMPORIZADOR
+
+</button>
+
+<button class="btn blue"
+onclick="addRung()">
+
+NUEVO RUNG
+
+</button>
+
+<button class="btn green"
+onclick="runSimulation()">
+
+SIMULAR PLC
+
+</button>
+
 </div>
 
-<div class="ladder-area" id="ladder">
+<!-- ===================================================== -->
+<!-- LADDER -->
+<!-- ===================================================== -->
+
+<div class="ladder-area"
+id="ladder">
+
+<!-- RUNG 1 -->
 
 <div class="rung">
 
 <div class="rail"></div>
 
-<div class="contact" data-type="NO" data-address="I0.0">
-<div class="contact-symbol no"></div>
-<div class="element-label">I0.0</div>
+<div class="contact"
+draggable="true"
+data-type="NO"
+data-address="I0.0">
+
+<div class="contact-lines"></div>
+
+<span>I0.0</span>
+
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
 
-<div class="contact" data-type="NC" data-address="I0.1">
-<div class="contact-symbol nc"></div>
-<div class="element-label">I0.1</div>
+<div class="contact"
+draggable="true"
+data-type="NC"
+data-address="I0.1">
+
+<div class="contact-lines"></div>
+
+<div class="diag"></div>
+
+<span>I0.1</span>
+
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="line"></div>
 
-<div class="coil" data-address="Q0.0">
-<div class="coil-symbol"></div>
-<div class="element-label">Q0.0</div>
+<div class="contact"
+draggable="true"
+data-type="NC"
+data-address="I0.2">
+
+<div class="contact-lines"></div>
+
+<div class="diag"></div>
+
+<span>I0.2</span>
+
+<div class="delete-element">
+✕
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+draggable="true"
+data-address="Q0.0">
+
+<div class="coil-circle"></div>
+
+<span>Q0.0</span>
+
+<div class="delete-element">
+✕
+</div>
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- RUNG 2 -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+draggable="true"
+data-type="NO"
+data-address="Q0.0">
+
+<div class="contact-lines"></div>
+
+<span>Q0.0</span>
+
+<div class="delete-element">
+✕
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+draggable="true"
+data-address="Q0.1">
+
+<div class="coil-circle"></div>
+
+<span>Q0.1</span>
+
+<div class="delete-element">
+✕
+</div>
+
 </div>
 
 <div class="rail"></div>
@@ -211,6 +506,7 @@ ESTADO<br>
 </main>
 
 </div>
+
 </div>
 
 <!-- ===================================================== -->
@@ -218,91 +514,282 @@ ESTADO<br>
 <!-- ===================================================== -->
 
 <div id="coursesSection" style="display:none;">
+
 <div class="courses-page">
-<h1 class="courses-title">CURSOS AUTOMATION STUDIO X</h1>
-<p class="courses-subtitle">Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.</p>
-</div>
-</div>
 
-<!-- ===================================================== -->
-<!-- VFD -->
-<!-- ===================================================== -->
+<h1 class="courses-title">
+CURSOS AUTOMATION STUDIO X
+</h1>
 
-<div id="vfdSection" style="display:none;">
-
-<div class="vfd-page">
-
-<h1 class="vfd-title">VARIADOR DE FRECUENCIA VFD</h1>
-<p class="vfd-subtitle">
-Simulación industrial en tiempo real de un Variador de Frecuencia.
+<p class="courses-subtitle">
+Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.
 </p>
 
-<div class="vfd-container">
+<div class="courses-grid">
 
-<div class="vfd-drive">
+<div class="course-card">
 
-<div class="vfd-screen">
-<div>FREQ: <span id="vfdFreq">0.00</span> Hz</div>
-<div>RPM: <span id="vfdRpm">0</span></div>
-<div>AMP: <span id="vfdAmp">0.0</span> A</div>
-</div>
+<h2>
+PLC SIEMENS TIA PORTAL
+</h2>
 
-<div class="vfd-keypad">
-<button class="vfd-btn green" onclick="startVFD()">RUN</button>
-<button class="vfd-btn red" onclick="stopVFD()">STOP</button>
-<button class="vfd-btn blue" onclick="increaseFreq()">▲ Hz</button>
-<button class="vfd-btn yellow" onclick="decreaseFreq()">▼ Hz</button>
-<button class="vfd-btn">MODE</button>
-<button class="vfd-btn">SET</button>
-</div>
+<p>
+Curso completo desde cero con Ladder, simulación y proyectos reales.
+</p>
+
+<button class="btn green">
+VER CURSO
+</button>
 
 </div>
 
-<div class="vfd-info">
+<div class="course-card">
 
-<h2>PANEL DE CONTROL</h2>
+<h2>
+HMI + SCADA INDUSTRIAL
+</h2>
 
-<div class="vfd-params">
+<p>
+Diseña pantallas profesionales y sistemas industriales modernos.
+</p>
 
-<div class="param-card">
-<h3>ESTADO</h3>
-<span id="vfdStatus">STOP</span>
-</div>
-
-<div class="param-card">
-<h3>FRECUENCIA</h3>
-<span><span id="vfdFreq2">0.00</span> Hz</span>
-</div>
-
-<div class="param-card">
-<h3>RPM MOTOR</h3>
-<span id="vfdRpm2">0 RPM</span>
-</div>
-
-<div class="param-card">
-<h3>CORRIENTE</h3>
-<span><span id="vfdAmp2">0.0</span> A</span>
-</div>
+<button class="btn blue">
+VER CURSO
+</button>
 
 </div>
 
-</div>
+<div class="course-card">
 
-</div>
+<h2>
+VARIADORES DE FRECUENCIA
+</h2>
 
-<button class="back-btn" onclick="backSimulator()">
-⬅ VOLVER AL SIMULADOR
+<p>
+Configuración, parámetros y control de motores industriales.
+</p>
+
+<button class="btn yellow">
+VER CURSO
 </button>
 
 </div>
 
 </div>
 
-<script src="{{ url_for('static', filename='js/logs.js') }}"></script>
-<script src="{{ url_for('static', filename='js/motor.js') }}"></script>
-<script src="{{ url_for('static', filename='js/plc_engine.js') }}"></script>
-<script src="{{ url_for('static', filename='js/ladder.js') }}"></script>
-<script src="{{ url_for('static', filename='js/ui.js') }}"></script>
+</div>
+
+<!-- ===================================================== -->
+<!-- VFD REALISTA -->
+<!-- ===================================================== -->
+
+<div id="vfdSection" style="display:none;">
+
+<div class="vfd-page">
+
+<h1 class="courses-title">
+SIMULADOR VARIADOR VFD
+</h1>
+
+<p class="courses-subtitle">
+Control industrial de motor trifásico en tiempo real.
+</p>
+
+<div class="vfd-real-container">
+
+<!-- VFD EQUIPO -->
+
+<div class="vfd-drive">
+
+<div class="vfd-top-led"></div>
+
+<div class="vfd-brand">
+AUTOMATION STUDIO X
+</div>
+
+<div class="vfd-model">
+VFD-550
+</div>
+
+<div class="vfd-screen">
+
+<div class="screen-row">
+<span>Hz</span>
+<span id="vfdFreqDisplay">0.00</span>
+</div>
+
+<div class="screen-row">
+<span>RPM</span>
+<span id="vfdRpmDisplay">0</span>
+</div>
+
+<div class="screen-row">
+<span>A</span>
+<span id="vfdAmpDisplay">0.0</span>
+</div>
+
+</div>
+
+<div class="vfd-buttons">
+
+<button onclick="startVFD()">
+RUN
+</button>
+
+<button onclick="stopVFD()">
+STOP
+</button>
+
+<button onclick="increaseFreq()">
+▲
+</button>
+
+<button onclick="decreaseFreq()">
+▼
+</button>
+
+</div>
+
+</div>
+
+<!-- PANEL -->
+
+<div class="vfd-panel">
+
+<div class="vfd-panel-top">
+
+<div class="vfd-panel-title">
+MONITOREO EN TIEMPO REAL
+</div>
+
+<div class="vfd-status"
+id="vfdStatus">
+
+DETENIDO
+
+</div>
+
+</div>
+
+<!-- GAUGES -->
+
+<div class="gauges-grid">
+
+<div class="gauge-card">
+
+<h3>
+FRECUENCIA
+</h3>
+
+<div class="gauge-circle">
+
+<span id="gaugeFreq">
+0
+</span>
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<h3>
+RPM MOTOR
+</h3>
+
+<div class="gauge-circle">
+
+<span id="gaugeRpm">
+0
+</span>
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<h3>
+CORRIENTE
+</h3>
+
+<div class="gauge-circle">
+
+<span id="gaugeAmp">
+0
+</span>
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<h3>
+VOLTAJE
+</h3>
+
+<div class="gauge-circle">
+
+<span>
+380
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- SLIDER -->
+
+<div class="freq-control">
+
+<h3>
+REFERENCIA DE FRECUENCIA
+</h3>
+
+<input
+type="range"
+min="0"
+max="60"
+value="0"
+id="freqSlider"
+oninput="updateVFDSlider(this.value)">
+
+<div class="freq-value">
+<span id="sliderValue">
+0
+</span> Hz
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- JS -->
+
+<script
+src="{{ url_for('static', filename='js/logs.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/motor.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/plc_engine.js') }}">
+</script>
+
+<script
+src="{{ url_for('static', filename='js/ladder.js') }}">
+</script>
 
 <script>
 
@@ -310,30 +797,41 @@ window.onload=()=>{
 
 setTimeout(()=>{
 
-document.getElementById("loader").style.display="none"
-document.getElementById("app").style.display="flex"
+document.getElementById("loader")
+.style.display="none"
 
-plcRunning=true
-scanPLC()
+document.getElementById("app")
+.style.display="flex"
+
+if(typeof log==="function"){
 
 log("SISTEMA PLC INICIADO")
+
+}
+
+scanPLC()
 
 },1000)
 
 }
 
+/* ===================================================== */
+/* NAVIGATION */
+/* ===================================================== */
+
 function showSection(sectionId,btn){
 
-["simulatorSection","coursesSection","vfdSection"]
-.forEach(id=>{
-const el=document.getElementById(id)
-if(el) el.style.display="none"
-})
+document.getElementById("simulatorSection")
+.style.display="none"
 
-const section=document.getElementById(sectionId)
-if(section){
-section.style.display="block"
-}
+document.getElementById("coursesSection")
+.style.display="none"
+
+document.getElementById("vfdSection")
+.style.display="none"
+
+document.getElementById(sectionId)
+.style.display="block"
 
 document.querySelectorAll(".nav-btn")
 .forEach(b=>b.classList.remove("active-nav"))
@@ -342,463 +840,142 @@ btn.classList.add("active-nav")
 
 }
 
-function backSimulator(){
-
-showSection(
-"simulatorSection",
-document.querySelectorAll(".nav-btn")[0]
-)
-
-}
-
 /* ===================================================== */
 /* VFD */
 /* ===================================================== */
 
 let vfdRunning=false
-let vfdFrequency=0
-
-function updateVFD(){
-
-const rpm=Math.floor(vfdFrequency*29.16)
-const amp=(vfdFrequency/6).toFixed(1)
-
-const status=vfdRunning?"RUN":"STOP"
-
-const color=vfdRunning?"#00ff99":"#ff3355"
-
-const statusEl=document.getElementById("vfdStatus")
-statusEl.innerHTML=status
-statusEl.style.color=color
-
-["vfdFreq","vfdFreq2"].forEach(id=>{
-const el=document.getElementById(id)
-el.innerHTML=vfdFrequency.toFixed(2)
-})
-
-["vfdAmp","vfdAmp2"].forEach(id=>{
-const el=document.getElementById(id)
-el.innerHTML=amp
-})
-
-["vfdRpm","vfdRpm2"].forEach(id=>{
-const el=document.getElementById(id)
-el.innerHTML=rpm
-})
-
-}
+let currentFreq=0
 
 function startVFD(){
+
 vfdRunning=true
-if(vfdFrequency===0){
-vfdFrequency=60
-}
-updateVFD()
+
+document.getElementById("vfdStatus")
+.innerHTML="RUNNING"
+
+document.getElementById("vfdStatus")
+.style.color="#00ff99"
+
+log("VFD RUN")
+
 }
 
 function stopVFD(){
+
 vfdRunning=false
-vfdFrequency=0
-updateVFD()
+
+currentFreq=0
+
+document.getElementById("freqSlider").value=0
+
+updateVFDDisplays()
+
+document.getElementById("vfdStatus")
+.innerHTML="DETENIDO"
+
+document.getElementById("vfdStatus")
+.style.color="#ff3355"
+
+log("VFD STOP")
+
+}
+
+function updateVFDSlider(value){
+
+currentFreq=parseInt(value)
+
+updateVFDDisplays()
+
 }
 
 function increaseFreq(){
-if(vfdFrequency<120){
-vfdFrequency+=5
+
+if(currentFreq<60){
+
+currentFreq+=1
+
+document.getElementById("freqSlider").value=currentFreq
+
+updateVFDDisplays()
+
 }
-updateVFD()
+
 }
 
 function decreaseFreq(){
-if(vfdFrequency>0){
-vfdFrequency-=5
+
+if(currentFreq>0){
+
+currentFreq-=1
+
+document.getElementById("freqSlider").value=currentFreq
+
+updateVFDDisplays()
+
 }
-updateVFD()
+
 }
+
+function updateVFDDisplays(){
+
+const rpm=Math.floor(currentFreq*29.16)
+const amps=(currentFreq/6).toFixed(1)
+
+document.getElementById("sliderValue")
+.innerHTML=currentFreq
+
+document.getElementById("vfdFreqDisplay")
+.innerHTML=currentFreq.toFixed(2)
+
+document.getElementById("vfdRpmDisplay")
+.innerHTML=rpm
+
+document.getElementById("vfdAmpDisplay")
+.innerHTML=amps
+
+document.getElementById("gaugeFreq")
+.innerHTML=currentFreq
+
+document.getElementById("gaugeRpm")
+.innerHTML=rpm
+
+document.getElementById("gaugeAmp")
+.innerHTML=amps
+
+}
+
+/* ===================================================== */
+/* AUTO UPDATE */
+/* ===================================================== */
+
+setInterval(()=>{
+
+if(vfdRunning){
+
+const fan=document.getElementById("fan")
+
+if(fan){
+
+fan.style.animationPlayState="running"
+
+}
+
+}else{
+
+const fan=document.getElementById("fan")
+
+if(fan){
+
+fan.style.animationPlayState="paused"
+
+}
+
+}
+
+},100)
 
 </script>
 
 </body>
 </html>
-```
-
----
-
-# main.css (REEMPLAZAR COMPLETO)
-
-```css
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#07111d;
-font-family:Inter,sans-serif;
-color:white;
-overflow:hidden;
-}
-
-.loading{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-gap:20px;
-background:radial-gradient(circle at center,#10243b 0%,#07111d 70%);
-}
-
-.loading h1{
-font-family:Orbitron;
-font-size:42px;
-color:#00ff99;
-}
-
-#app{
-height:100vh;
-display:flex;
-flex-direction:column;
-}
-
-.top-header{
-height:80px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 25px;
-border-bottom:1px solid #22354b;
-background:#08111d;
-}
-
-.logo-area{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-.logo-icon{
-width:52px;
-height:52px;
-border-radius:14px;
-display:flex;
-justify-content:center;
-align-items:center;
-background:#00ff99;
-color:black;
-font-size:28px;
-font-weight:700;
-}
-
-.title{
-font-size:28px;
-font-family:Orbitron;
-color:#00ff99;
-}
-
-.subtitle{
-font-size:13px;
-color:#8da8c7;
-}
-
-.top-buttons{
-display:flex;
-gap:10px;
-}
-
-.nav-btn{
-background:#132033;
-border:1px solid #22354b;
-color:white;
-padding:12px 20px;
-border-radius:12px;
-cursor:pointer;
-font-weight:700;
-}
-
-.active-nav{
-background:#00ff99;
-color:black;
-}
-
-.top-status{
-display:flex;
-gap:10px;
-}
-
-.status-box{
-background:#101927;
-padding:10px 15px;
-border-radius:10px;
-border:1px solid #22354b;
-font-weight:700;
-}
-
-.run{
-color:#00ff99;
-}
-
-.layout{
-display:flex;
-height:calc(100vh - 80px);
-}
-
-.sidebar{
-width:320px;
-background:#09111b;
-border-right:1px solid #203040;
-padding:20px;
-overflow:auto;
-}
-
-.main{
-flex:1;
-padding:20px;
-overflow:auto;
-}
-
-.panel{
-background:#101927;
-border-radius:18px;
-padding:20px;
-margin-bottom:20px;
-border:1px solid #22354b;
-}
-
-.io-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.io-card{
-background:#132033;
-padding:15px;
-border-radius:12px;
-border:1px solid #22354b;
-}
-
-.io-forced{
-border:2px solid #00ff99;
-box-shadow:0 0 20px #00ff99;
-}
-
-.btn{
-padding:12px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:700;
-width:100%;
-margin-top:10px;
-}
-
-.green{background:#00ff99;}
-.red{background:#ff4565;color:white;}
-.yellow{background:#ffd000;}
-.blue{background:#00c3ff;color:white;}
-
-.memory-list{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.memory-item{
-background:#132033;
-padding:12px;
-border-radius:10px;
-display:flex;
-justify-content:space-between;
-}
-
-.motor-container{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:20px;
-}
-
-.motor{
-width:240px;
-height:130px;
-background:#4d5867;
-border-radius:20px;
-position:relative;
-overflow:hidden;
-}
-
-.fan{
-position:absolute;
-width:70px;
-height:70px;
-border-radius:50%;
-border:5px solid #ccc;
-left:20px;
-top:30px;
-animation:spin .3s linear infinite;
-animation-play-state:paused;
-}
-
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
-
-.pilot-row{
-display:flex;
-gap:20px;
-}
-
-.pilot{
-width:35px;
-height:35px;
-border-radius:50%;
-background:#333;
-}
-
-.toolbar{
-display:flex;
-gap:10px;
-margin-bottom:20px;
-flex-wrap:wrap;
-}
-
-.toolbar .btn{
-width:auto;
-padding:12px 22px;
-}
-
-.log-box{
-height:220px;
-overflow:auto;
-}
-
-.log-box p{
-background:#132033;
-padding:10px;
-margin-bottom:10px;
-border-left:3px solid #00ff99;
-border-radius:8px;
-}
-
-.courses-page,
-.vfd-page{
-padding:40px;
-height:calc(100vh - 80px);
-overflow:auto;
-}
-
-.courses-title,
-.vfd-title{
-font-size:42px;
-font-family:Orbitron;
-color:#00ff99;
-margin-bottom:15px;
-}
-
-.courses-subtitle,
-.vfd-subtitle{
-color:#8da8c7;
-margin-bottom:30px;
-font-size:18px;
-}
-
-.vfd-container{
-display:flex;
-gap:40px;
-flex-wrap:wrap;
-}
-
-.vfd-drive{
-width:320px;
-background:#101927;
-border:1px solid #22354b;
-border-radius:20px;
-padding:20px;
-box-shadow:0 0 30px rgba(0,0,0,.4);
-}
-
-.vfd-screen{
-height:120px;
-background:#b7cf5f;
-border-radius:12px;
-padding:18px;
-font-family:Consolas;
-color:#111;
-font-size:22px;
-font-weight:700;
-line-height:1.6;
-margin-bottom:20px;
-}
-
-.vfd-keypad{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.vfd-btn{
-height:55px;
-border:none;
-border-radius:10px;
-font-weight:700;
-cursor:pointer;
-}
-
-.vfd-info{
-flex:1;
-background:#101927;
-border:1px solid #22354b;
-border-radius:20px;
-padding:25px;
-}
-
-.vfd-params{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:20px;
-margin-top:25px;
-}
-
-.param-card{
-background:#132033;
-border-radius:16px;
-padding:20px;
-border:1px solid #22354b;
-}
-
-.param-card h3{
-font-size:14px;
-margin-bottom:10px;
-color:#00ff99;
-}
-
-.param-card span{
-font-size:24px;
-font-weight:700;
-}
-
-.back-btn{
-margin-top:40px;
-padding:14px 24px;
-border:none;
-border-radius:12px;
-background:#132033;
-color:white;
-font-weight:700;
-cursor:pointer;
-}
-
-::-webkit-scrollbar{
-width:10px;
-height:10px;
-}
-
-::-webkit-scrollbar-thumb{
-background:#21415d;
-border-radius:10px;
-}
-```
