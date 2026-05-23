@@ -660,18 +660,261 @@ VER CURSO
 
 <div class="vfd-page-pro">
 
-<h1 class="courses-title">
-VARIADOR DE FRECUENCIA
-</h1>
+<div class="vfd-wrapper">
 
-<p class="courses-subtitle">
-Control industrial de motores trifásicos en tiempo real.
-</p>
+<!-- DRIVE -->
+
+<div class="vfd-drive-real">
+
+<div class="drive-top">
+
+<div class="drive-brand">
+AUTOMATION<br>STUDIO X
+</div>
+
+<div class="drive-model">
+VFD-950
+</div>
+
+</div>
+
+<div class="drive-screen">
+
+<div class="screen-freq" id="vfdFreqBig">
+0.00 Hz
+</div>
+
+<div class="screen-rpm" id="vfdRpmBig">
+0 RPM
+</div>
+
+<div class="screen-amp" id="vfdAmp">
+0.0 A
+</div>
+
+</div>
+
+<div class="drive-leds">
+
+<div class="led green"></div>
+<div class="led"></div>
+<div class="led red"></div>
+
+</div>
+
+<div class="drive-buttons-grid">
+
+<button class="drive-btn green-btn"
+onclick="startVFD()">
+RUN
+</button>
+
+<button class="drive-btn gray-btn"
+onclick="vfdFreqDown()">
+◀
+</button>
+
+<button class="drive-btn gray-btn"
+onclick="vfdFreqUp()">
+▶
+</button>
+
+<button class="drive-btn red-btn"
+onclick="stopVFD()">
+STOP
+</button>
+
+<button class="drive-btn gray-btn"
+onclick="setLocalMode()">
+LOCAL
+</button>
+
+<button class="drive-btn gray-btn"
+onclick="setRemoteMode()">
+REMOTE
+</button>
+
+<button class="drive-btn gray-btn"
+onclick="reverseVFD()">
+REV
+</button>
+
+<button class="drive-btn gray-btn"
+onclick="resetVFDAlarm()">
+RESET
+</button>
+
+</div>
+
+<div class="drive-warning">
+⚠ READ MANUAL BEFORE OPERATION
+</div>
+
+</div>
+
+<!-- PANEL DERECHO -->
+
+<div class="vfd-panel-pro">
+
+<div class="vfd-tabs">
+
+<div class="vfd-tab active-tab">
+CONTROL
+</div>
+
+<div class="vfd-tab">
+PARÁMETROS
+</div>
+
+<div class="vfd-tab">
+MONITOREO
+</div>
+
+<div class="vfd-tab">
+ALARMAS
+</div>
+
+</div>
+
+<div class="vfd-content">
+
+<!-- LEFT -->
+
+<div class="vfd-left">
+
+<!-- FRECUENCIA -->
+
+<div class="vfd-card">
+
+<h3>
+REFERENCIA DE FRECUENCIA
+</h3>
+
+<div class="freq-control">
+
+<input
+type="range"
+min="0"
+max="120"
+step="1"
+value="0"
+class="freq-slider"
+id="freqSlider"
+oninput="updateVFD(this.value)">
+
+<div class="freq-display">
+
+<span id="freqDisplay">
+0.00
+</span>
+
+Hz
 
 </div>
 
 </div>
 
+</div>
+
+<!-- COMANDOS -->
+
+<div class="vfd-card">
+
+<h3>
+COMANDOS
+</h3>
+
+<div class="vfd-command-grid">
+
+<button class="cmd-btn cmd-green"
+onclick="startVFD()">
+ARRANCAR (FWD)
+</button>
+
+<button class="cmd-btn cmd-dark"
+onclick="reverseVFD()">
+REVERSA (REV)
+</button>
+
+<button class="cmd-btn cmd-red"
+onclick="stopVFD()">
+DETENER
+</button>
+
+<button class="cmd-btn cmd-dark"
+onclick="resetVFDAlarm()">
+RESET ALARMA
+</button>
+
+</div>
+
+</div>
+
+<!-- MONITOREO -->
+
+<div class="vfd-card">
+
+<h3>
+MONITOREO EN TIEMPO REAL
+</h3>
+
+<div class="memory-list">
+
+<div class="memory-item">
+<span>ESTADO</span>
+<span id="vfdStatus">STOP</span>
+</div>
+
+<div class="memory-item">
+<span>DIRECCIÓN</span>
+<span id="vfdDirection">FWD</span>
+</div>
+
+<div class="memory-item">
+<span>FRECUENCIA</span>
+<span id="tableFreq">0.0 Hz</span>
+</div>
+
+<div class="memory-item">
+<span>TEMPERATURA</span>
+<span id="tableTemp">30 °C</span>
+</div>
+
+<div class="memory-item">
+<span>VOLTAJE</span>
+<span id="tableVolt">380 V</span>
+</div>
+
+<div class="memory-item">
+<span>CORRIENTE</span>
+<span id="tableAmp">0.0 A</span>
+</div>
+
+<div class="memory-item">
+<span>MODO</span>
+<span id="modeText">LOCAL</span>
+</div>
+
+<div class="memory-item">
+<span>ALARMA</span>
+<span id="alarmText">NINGUNA</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 <!-- ===================================================== -->
 <!-- DUDAS -->
 <!-- ===================================================== -->
