@@ -110,6 +110,13 @@ VARIADOR VFD
 
 </button>
 
+<button class="nav-btn"
+onclick="showSection('faqSection',this)">
+
+DUDAS
+
+</button>
+
 </div>
 
 <!-- STATUS -->
@@ -400,13 +407,7 @@ SIMULAR PLC
 <div class="ladder-area"
 id="ladder">
 
-<!-- LADDER -->
-
-<div class="ladder-area"
-id="ladder">
-
 <!-- RUNG 1 -->
-<!-- ARRANQUE + ENCLAVAMIENTO -->
 
 <div class="rung">
 
@@ -454,7 +455,6 @@ data-address="Q0.0">
 </div>
 
 <!-- RUNG 2 -->
-<!-- LUZ VERDE MOTOR -->
 
 <div class="rung">
 
@@ -482,7 +482,6 @@ data-address="Q0.1">
 </div>
 
 <!-- RUNG 3 -->
-<!-- LUZ ROJA STOP -->
 
 <div class="rung">
 
@@ -510,7 +509,6 @@ data-address="Q0.2">
 </div>
 
 <!-- RUNG 4 -->
-<!-- SENSOR ACTIVA AZUL -->
 
 <div class="rung">
 
@@ -538,7 +536,6 @@ data-address="Q0.3">
 </div>
 
 <!-- RUNG 5 -->
-<!-- MOTOR + SENSOR -->
 
 <div class="rung">
 
@@ -576,6 +573,7 @@ data-address="Q0.1">
 </div>
 
 </div>
+
 </main>
 
 </div>
@@ -655,260 +653,112 @@ VER CURSO
 </div>
 
 <!-- ===================================================== -->
-<!-- VFD PRO -->
+<!-- VFD -->
 <!-- ===================================================== -->
 
 <div id="vfdSection" style="display:none;">
 
 <div class="vfd-page-pro">
 
-<div class="vfd-wrapper">
+<h1 class="courses-title">
+VARIADOR DE FRECUENCIA
+</h1>
 
-<!-- DRIVE -->
-
-<div class="vfd-drive-real">
-
-<div class="drive-top">
-
-<div class="drive-brand">
-AUTOMATION<br>STUDIO X
-</div>
-
-<div class="drive-model">
-VFD-950
-</div>
-
-</div>
-
-<div class="drive-screen">
-
-<div class="screen-freq" id="vfdFreqBig">
-0.00 Hz
-</div>
-
-<div class="screen-rpm" id="vfdRpmBig">
-0 RPM
-</div>
-
-<div class="screen-amp" id="vfdAmp">
-0.0 A
-</div>
-
-</div>
-
-<div class="drive-leds">
-
-<div class="led green"></div>
-<div class="led"></div>
-<div class="led red"></div>
-
-</div>
-
-<div class="drive-buttons-grid">
-
-<button class="drive-btn green-btn"
-onclick="startVFD()">
-RUN
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="vfdFreqDown()">
-◀
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="vfdFreqUp()">
-▶
-</button>
-
-<button class="drive-btn red-btn"
-onclick="stopVFD()">
-STOP
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="setLocalMode()">
-LOCAL
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="setRemoteMode()">
-REMOTE
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="reverseVFD()">
-REV
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="resetVFDAlarm()">
-RESET
-</button>
-
-</div>
-
-<div class="drive-warning">
-⚠ READ MANUAL BEFORE OPERATION
-</div>
-
-</div>
-
-<!-- PANEL DERECHO -->
-
-<div class="vfd-panel-pro">
-
-<div class="vfd-tabs">
-
-<div class="vfd-tab active-tab">
-CONTROL
-</div>
-
-<div class="vfd-tab">
-PARÁMETROS
-</div>
-
-<div class="vfd-tab">
-MONITOREO
-</div>
-
-<div class="vfd-tab">
-ALARMAS
-</div>
-
-</div>
-
-<div class="vfd-content">
-
-<!-- LEFT -->
-
-<div class="vfd-left">
-
-<!-- FRECUENCIA -->
-
-<div class="vfd-card">
-
-<h3>
-REFERENCIA DE FRECUENCIA
-</h3>
-
-<div class="freq-control">
-
-<input
-type="range"
-min="0"
-max="120"
-step="1"
-value="0"
-class="freq-slider"
-id="freqSlider"
-oninput="updateVFD(this.value)">
-
-<div class="freq-display">
-
-<span id="freqDisplay">
-0.00
-</span>
-
-Hz
+<p class="courses-subtitle">
+Control industrial de motores trifásicos en tiempo real.
+</p>
 
 </div>
 
 </div>
 
-</div>
+<!-- ===================================================== -->
+<!-- DUDAS -->
+<!-- ===================================================== -->
 
-<!-- COMANDOS -->
+<div id="faqSection" style="display:none;">
 
-<div class="vfd-card">
+<div class="courses-page">
 
-<h3>
-COMANDOS
-</h3>
+<h1 class="courses-title">
+DUDAS FRECUENTES
+</h1>
 
-<div class="vfd-command-grid">
+<p class="courses-subtitle">
+Preguntas comunes sobre automatización industrial, PLC y variadores.
+</p>
 
-<button class="cmd-btn cmd-green"
-onclick="startVFD()">
-ARRANCAR (FWD)
-</button>
+<div class="courses-grid">
 
-<button class="cmd-btn cmd-dark"
-onclick="reverseVFD()">
-REVERSA (REV)
-</button>
+<div class="course-card">
 
-<button class="cmd-btn cmd-red"
-onclick="stopVFD()">
-DETENER
-</button>
+<h2>
+¿QUÉ ES UN PLC?
+</h2>
 
-<button class="cmd-btn cmd-dark"
-onclick="resetVFDAlarm()">
-RESET ALARMA
-</button>
+<p>
+Un PLC es un controlador lógico programable utilizado para automatizar máquinas y procesos industriales.
+</p>
 
 </div>
 
-</div>
+<div class="course-card">
 
-<!-- MONITOREO -->
+<h2>
+¿QUÉ ES UN VARIADOR VFD?
+</h2>
 
-<div class="vfd-card">
-
-<h3>
-MONITOREO EN TIEMPO REAL
-</h3>
-
-<div class="memory-list">
-
-<div class="memory-item">
-<span>ESTADO</span>
-<span id="vfdStatus">STOP</span>
-</div>
-
-<div class="memory-item">
-<span>DIRECCIÓN</span>
-<span id="vfdDirection">FWD</span>
-</div>
-
-<div class="memory-item">
-<span>FRECUENCIA</span>
-<span id="tableFreq">0.0 Hz</span>
-</div>
-
-<div class="memory-item">
-<span>TEMPERATURA</span>
-<span id="tableTemp">30 °C</span>
-</div>
-
-<div class="memory-item">
-<span>VOLTAJE</span>
-<span id="tableVolt">380 V</span>
-</div>
-
-<div class="memory-item">
-<span>CORRIENTE</span>
-<span id="tableAmp">0.0 A</span>
-</div>
-
-<div class="memory-item">
-<span>MODO</span>
-<span id="modeText">LOCAL</span>
-</div>
-
-<div class="memory-item">
-<span>ALARMA</span>
-<span id="alarmText">NINGUNA</span>
-</div>
+<p>
+Es un equipo electrónico que controla la velocidad y frecuencia de motores eléctricos trifásicos.
+</p>
 
 </div>
 
-</div>
+<div class="course-card">
+
+<h2>
+¿QUÉ ES LADDER?
+</h2>
+
+<p>
+Ladder es un lenguaje gráfico industrial usado para programar PLC mediante contactos y bobinas.
+</p>
 
 </div>
 
+<div class="course-card">
+
+<h2>
+¿QUÉ ES SCADA?
+</h2>
+
+<p>
+SCADA permite supervisar, controlar y visualizar procesos industriales en tiempo real.
+</p>
+
 </div>
+
+<div class="course-card">
+
+<h2>
+¿QUÉ HACE UN SENSOR?
+</h2>
+
+<p>
+Los sensores detectan variables físicas como temperatura, proximidad o presión y envían señales al PLC.
+</p>
+
+</div>
+
+<div class="course-card">
+
+<h2>
+¿QUÉ ES HMI?
+</h2>
+
+<p>
+Una HMI es una interfaz gráfica que permite al operador interactuar con máquinas industriales.
+</p>
 
 </div>
 
@@ -977,6 +827,9 @@ document.getElementById("coursesSection")
 .style.display="none"
 
 document.getElementById("vfdSection")
+.style.display="none"
+
+document.getElementById("faqSection")
 .style.display="none"
 
 document.getElementById(sectionId)
