@@ -36,9 +36,8 @@ function toggleInput(address){
 
 inputs[address] = !inputs[address]
 
-const card = document.getElementById(
-`card-${address}`
-)
+const card =
+document.getElementById(`card-${address}`)
 
 if(card){
 
@@ -71,10 +70,13 @@ document.querySelectorAll(".toolbar .btn")
 
 buttons.forEach(btn=>{
 
-if(btn.innerText.includes("SIMULAR") ||
-btn.innerText.includes("DETENER")){
+if(
+btn.innerText.includes("SIMULAR") ||
+btn.innerText.includes("DETENER")
+){
 
-btn.innerText = plcRunning
+btn.innerText =
+plcRunning
 ? "DETENER PLC"
 : "SIMULAR PLC"
 
@@ -99,12 +101,6 @@ plc.classList.remove("stop")
 cpu.classList.add("run")
 plc.classList.add("run")
 
-if(typeof log==="function"){
-
-log("PLC EN RUN")
-
-}
-
 }else{
 
 cpu.innerText = "CPU STOP"
@@ -115,20 +111,6 @@ plc.classList.remove("run")
 
 cpu.classList.add("stop")
 plc.classList.add("stop")
-
-if(typeof log==="function"){
-
-log("PLC DETENIDO")
-
-}
-
-document
-.querySelectorAll(".powered")
-.forEach(el=>el.classList.remove("powered"))
-
-document
-.querySelectorAll(".energized")
-.forEach(el=>el.classList.remove("energized"))
 
 }
 
@@ -185,7 +167,7 @@ markers[addr] = value
 }
 
 /* =========================================================
-CLEAR VISUAL STATES
+CLEAR VISUALS
 ========================================================= */
 
 function clearVisuals(){
@@ -237,9 +219,7 @@ const elements =
 
 elements.forEach(el=>{
 
-/* =========================================
-RAIL
-========================================= */
+/* RAIL */
 
 if(el.classList.contains("rail")){
 
@@ -251,9 +231,7 @@ el.classList.add("powered")
 
 }
 
-/* =========================================
-LINE
-========================================= */
+/* LINE */
 
 if(el.classList.contains("line")){
 
@@ -265,9 +243,7 @@ el.classList.add("powered")
 
 }
 
-/* =========================================
-CONTACT
-========================================= */
+/* CONTACT */
 
 if(el.classList.contains("contact")){
 
@@ -277,12 +253,12 @@ el.dataset.address
 const type =
 el.dataset.type
 
-let value =
+const value =
 readAddress(addr)
 
 let result = false
 
-if(type==="NO"){
+if(type === "NO"){
 
 result = value
 
@@ -296,19 +272,13 @@ if(result){
 
 el.classList.add("powered")
 
-}else{
-
-el.classList.remove("powered")
-
 }
 
 power = power && result
 
 }
 
-/* =========================================
-TIMER
-========================================= */
+/* TIMER */
 
 if(el.classList.contains("timer")){
 
@@ -320,9 +290,7 @@ el.classList.add("powered")
 
 }
 
-/* =========================================
-COIL
-========================================= */
+/* COIL */
 
 if(el.classList.contains("coil")){
 
@@ -353,6 +321,51 @@ rung.classList.remove("active-rung")
 
 })
 
+/* =========================================================
+ENCLAVAMIENTO REAL
+========================================================= */
+
+if(
+inputs["I0.0"] &&
+!inputs["I0.1"] &&
+!inputs["I0.2"]
+){
+
+outputs["Q0.0"] = true
+
+}
+
+/* STOP */
+
+if(inputs["I0.1"]){
+
+outputs["Q0.0"] = false
+
+}
+
+/* EMERGENCY */
+
+if(inputs["I0.2"]){
+
+outputs["Q0.0"] = false
+
+}
+
+/* VERDE */
+
+outputs["Q0.1"] =
+outputs["Q0.0"]
+
+/* ROJO */
+
+outputs["Q0.2"] =
+!outputs["Q0.0"]
+
+/* AZUL SENSOR */
+
+outputs["Q0.3"] =
+inputs["I0.3"]
+
 updateOutputs()
 
 updateMotor()
@@ -375,13 +388,11 @@ el.dataset.output
 if(outputs[addr]){
 
 el.innerText = "TRUE"
-
 el.style.color = "#00ff99"
 
 }else{
 
 el.innerText = "FALSE"
-
 el.style.color = "#ff4565"
 
 }
@@ -397,7 +408,7 @@ MOTOR + PILOTS
 function updateMotor(){
 
 const fan =
-document.getElementById("fan")
+document.getElementById("motorFan")
 
 const rpm =
 document.getElementById("rpmValue")
@@ -420,7 +431,11 @@ if(outputs["Q0.0"]){
 
 if(fan){
 
-fan.style.animationPlayState = "running"
+fan.style.animationPlayState =
+"running"
+
+fan.style.animationDuration =
+"0.15s"
 
 }
 
@@ -440,7 +455,8 @@ state.innerText = "RUN"
 
 if(fan){
 
-fan.style.animationPlayState = "paused"
+fan.style.animationPlayState =
+"paused"
 
 }
 
@@ -647,7 +663,7 @@ function addNO(){
 const rung =
 document.querySelector(".rung")
 
-if(!rung) return
+if(!rung)return
 
 const line =
 document.createElement("div")
@@ -692,7 +708,7 @@ function addNC(){
 const rung =
 document.querySelector(".rung")
 
-if(!rung) return
+if(!rung)return
 
 const line =
 document.createElement("div")
@@ -708,10 +724,7 @@ contact.dataset.type = "NC"
 
 contact.dataset.address = "I0.1"
 
-contact.innerHTML = `
-<div class="diag"></div>
-/I0.1
-`
+contact.innerHTML = `/I0.1`
 
 contact.appendChild(
 createDeleteButton()
@@ -740,7 +753,7 @@ function addCoil(){
 const rung =
 document.querySelector(".rung")
 
-if(!rung) return
+if(!rung)return
 
 const line =
 document.createElement("div")
@@ -783,7 +796,7 @@ function addTON(){
 const rung =
 document.querySelector(".rung")
 
-if(!rung) return
+if(!rung)return
 
 const line =
 document.createElement("div")
@@ -867,142 +880,8 @@ window.addEventListener("load",()=>{
 
 enableDrag()
 
+updateOutputs()
+
+updateMotor()
+
 })
-/* =========================================================
-VFD VARIABLES
-========================================================= */
-
-let vfdRunning = false
-
-let vfdFrequency = 0
-
-let vfdDirection = "FWD"
-
-/* =========================================================
-START VFD
-========================================================= */
-
-function startVFD(){
-
-vfdRunning = true
-
-document.getElementById("statusText")
-.innerText = "RUNNING"
-
-document.getElementById("vfdState")
-.innerText = "RUN"
-
-updateVFD()
-
-}
-
-/* =========================================================
-STOP VFD
-========================================================= */
-
-function stopVFD(){
-
-vfdRunning = false
-
-document.getElementById("statusText")
-.innerText = "STOP"
-
-document.getElementById("vfdState")
-.innerText = "STOP"
-
-document.getElementById("gaugeRPM")
-.innerText = "0"
-
-document.getElementById("vfdRpmDisplay")
-.innerText = "0 RPM"
-
-}
-
-/* =========================================================
-FORWARD
-========================================================= */
-
-function forwardVFD(){
-
-vfdDirection = "FWD"
-
-document.getElementById("directionText")
-.innerText = "FWD"
-
-}
-
-/* =========================================================
-REVERSE
-========================================================= */
-
-function reverseVFD(){
-
-vfdDirection = "REV"
-
-document.getElementById("directionText")
-.innerText = "REV"
-
-}
-
-/* =========================================================
-CHANGE FREQUENCY
-========================================================= */
-
-function changeFrequency(value){
-
-vfdFrequency = parseFloat(value)
-
-document.getElementById("freqText")
-.innerText = vfdFrequency.toFixed(2)
-
-updateVFD()
-
-}
-
-/* =========================================================
-UPDATE VFD
-========================================================= */
-
-function updateVFD(){
-
-const rpm =
-Math.floor(vfdFrequency * 29.16)
-
-const amp =
-(vfdFrequency / 6).toFixed(1)
-
-document.getElementById("gaugeFreq")
-.innerText =
-vfdFrequency.toFixed(0)
-
-document.getElementById("gaugeRPM")
-.innerText =
-rpm
-
-document.getElementById("gaugeAmp")
-.innerText =
-amp
-
-document.getElementById("vfdFreqDisplay")
-.innerText =
-vfdFrequency.toFixed(2) + " Hz"
-
-document.getElementById("vfdRpmDisplay")
-.innerText =
-rpm + " RPM"
-
-document.getElementById("vfdAmpDisplay")
-.innerText =
-amp + " A"
-
-if(vfdRunning){
-
-document.getElementById("motorState")
-.innerText = "RUN"
-
-document.getElementById("rpmValue")
-.innerText = rpm + " RPM"
-
-}
-
-}

@@ -254,7 +254,7 @@ SALIDAS PLC
 </div>
 
 <div class="memory-item">
-<span>Q0.3 TIMER</span>
+<span>Q0.3 AZUL</span>
 <span data-output="Q0.3">FALSE</span>
 </div>
 
@@ -400,6 +400,14 @@ SIMULAR PLC
 <div class="ladder-area"
 id="ladder">
 
+<!-- LADDER -->
+
+<div class="ladder-area"
+id="ladder">
+
+<!-- RUNG 1 -->
+<!-- ARRANQUE + ENCLAVAMIENTO -->
+
 <div class="rung">
 
 <div class="rail"></div>
@@ -445,8 +453,129 @@ data-address="Q0.0">
 
 </div>
 
+<!-- RUNG 2 -->
+<!-- LUZ VERDE MOTOR -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="Q0.0">
+
+Q0.0
+
 </div>
 
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.1">
+
+(Q0.1)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- RUNG 3 -->
+<!-- LUZ ROJA STOP -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NC"
+data-address="Q0.0">
+
+/Q0.0
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.2">
+
+(Q0.2)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- RUNG 4 -->
+<!-- SENSOR ACTIVA AZUL -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="I0.3">
+
+I0.3
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.3">
+
+(Q0.3)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- RUNG 5 -->
+<!-- MOTOR + SENSOR -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="Q0.0">
+
+Q0.0
+
+</div>
+
+<div class="line"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="I0.3">
+
+I0.3
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
+data-address="Q0.1">
+
+(Q0.1)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+</div>
 </main>
 
 </div>

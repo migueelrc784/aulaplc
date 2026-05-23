@@ -1,5 +1,5 @@
 /* =========================================================
-AUTOMATION STUDIO X - LOGS.JS
+AUTOMATION STUDIO X - LOGS.JS PRO
 ========================================================= */
 
 /* =========================================================
@@ -19,15 +19,26 @@ return
 
 }
 
-const p =
-document.createElement("p")
+/* =========================================================
+CREATE ELEMENT
+========================================================= */
 
-p.className = `log-${type}`
+const item =
+document.createElement("div")
+
+item.className =
+`log-item log-${type}`
+
+/* =========================================================
+TIME
+========================================================= */
 
 const time =
 new Date().toLocaleTimeString()
 
-/* ICON */
+/* =========================================================
+ICON
+========================================================= */
 
 let icon = "ℹ️"
 
@@ -37,27 +48,43 @@ icon = "✅"
 
 }
 
-if(type==="error"){
+else if(type==="error"){
 
 icon = "❌"
 
 }
 
-if(type==="warning"){
+else if(type==="warning"){
 
 icon = "⚠️"
 
 }
 
-if(type==="plc"){
+else if(type==="plc"){
 
 icon = "⚡"
 
 }
 
-/* CONTENT */
+else if(type==="motor"){
 
-p.innerHTML = `
+icon = "🌀"
+
+}
+
+else if(type==="vfd"){
+
+icon = "🔵"
+
+}
+
+/* =========================================================
+CONTENT
+========================================================= */
+
+item.innerHTML = `
+
+<div class="log-header">
 
 <span class="log-time">
 ${time}
@@ -67,20 +94,26 @@ ${time}
 ${icon}
 </span>
 
-<span class="log-text">
+</div>
+
+<div class="log-text">
 ${text}
-</span>
+</div>
 
 `
 
-/* INSERT */
+/* =========================================================
+INSERT TOP
+========================================================= */
 
-logBox.prepend(p)
+logBox.prepend(item)
 
-/* LIMIT LOGS */
+/* =========================================================
+LIMIT LOGS
+========================================================= */
 
 const logs =
-logBox.querySelectorAll("p")
+logBox.querySelectorAll(".log-item")
 
 if(logs.length > 100){
 
@@ -88,21 +121,23 @@ logs[logs.length - 1].remove()
 
 }
 
-/* AUTO SCROLL */
+/* =========================================================
+AUTO SCROLL
+========================================================= */
 
 logBox.scrollTop = 0
 
 }
 
 /* =========================================================
-SPECIAL LOGS
+INPUT LOG
 ========================================================= */
 
 function logInput(address,state){
 
 log(
 
-`${address} → ${
+`${address} CAMBIÓ A ${
 state ? "TRUE" : "FALSE"
 }`,
 
@@ -112,12 +147,16 @@ state ? "TRUE" : "FALSE"
 
 }
 
+/* =========================================================
+OUTPUT LOG
+========================================================= */
+
 function logOutput(address,state){
 
 log(
 
 `${address} → ${
-state ? "ON" : "OFF"
+state ? "ACTIVADO" : "DESACTIVADO"
 }`,
 
 "plc"
@@ -126,17 +165,29 @@ state ? "ON" : "OFF"
 
 }
 
+/* =========================================================
+PLC LOG
+========================================================= */
+
 function logPLC(text){
 
 log(text,"plc")
 
 }
 
+/* =========================================================
+WARNING LOG
+========================================================= */
+
 function logWarning(text){
 
 log(text,"warning")
 
 }
+
+/* =========================================================
+ERROR LOG
+========================================================= */
 
 function logError(text){
 
@@ -145,7 +196,27 @@ log(text,"error")
 }
 
 /* =========================================================
-AUTO START LOG
+MOTOR LOG
+========================================================= */
+
+function logMotor(text){
+
+log(text,"motor")
+
+}
+
+/* =========================================================
+VFD LOG
+========================================================= */
+
+function logVFD(text){
+
+log(text,"vfd")
+
+}
+
+/* =========================================================
+AUTO START
 ========================================================= */
 
 window.addEventListener("load",()=>{
@@ -153,7 +224,21 @@ window.addEventListener("load",()=>{
 setTimeout(()=>{
 
 logPLC(
-"SISTEMA DE LOGS INICIADO"
+"SISTEMA PLC INICIADO"
+)
+
+log(
+"ENGINE READY",
+"success"
+)
+
+log(
+"SCAN TIME 120ms",
+"info"
+)
+
+logVFD(
+"VFD-950 ONLINE"
 )
 
 },800)
