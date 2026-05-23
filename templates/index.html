@@ -10,6 +10,24 @@
 AUTOMATION STUDIO X
 </title>
 
+<!-- GOOGLE ANALYTICS -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6KP8S8FS3T"></script>
+
+<script>
+
+window.dataLayer = window.dataLayer || [];
+
+function gtag(){
+dataLayer.push(arguments);
+}
+
+gtag('js', new Date());
+
+gtag('config', 'G-6KP8S8FS3T');
+
+</script>
+
 <link
 href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
 rel="stylesheet">
@@ -725,240 +743,6 @@ onclick="resetVFDAlarm()">
 RESET ALARMA
 </button>
 
-</div>
-
-</div>
-
-<!-- PARAMETROS -->
-
-<div class="vfd-card">
-
-<h3>
-PARÁMETROS
-</h3>
-
-<div class="status-list">
-
-<div>
-TIEMPO ACELERACIÓN
-</div>
-
-<input
-type="range"
-min="1"
-max="15"
-value="5"
-class="freq-slider"
-oninput="setAccelTime(this.value)">
-
-<div style="margin-top:10px;">
-<span id="accelValue">
-5
-</span> s
-</div>
-
-<br>
-
-<div>
-TIEMPO DESACELERACIÓN
-</div>
-
-<input
-type="range"
-min="1"
-max="15"
-value="4"
-class="freq-slider"
-oninput="setDecelTime(this.value)">
-
-<div style="margin-top:10px;">
-<span id="decelValue">
-4
-</span> s
-</div>
-
-</div>
-
-</div>
-
-<!-- ESTADO -->
-
-<div class="vfd-card">
-
-<h3>
-ESTADO
-</h3>
-
-<div class="status-list">
-
-<div>
-ESTADO:
-<span id="vfdStatus">
-STOP
-</span>
-</div>
-
-<div>
-DIRECCIÓN:
-<span id="vfdDirection">
-FWD
-</span>
-</div>
-
-<div>
-MODO:
-<span id="vfdMode">
-LOCAL
-</span>
-</div>
-
-<div>
-ALARMA:
-<span id="alarmText">
-NINGUNA
-</span>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- RIGHT -->
-
-<div class="vfd-right">
-
-<div class="gauges-grid">
-
-<div class="gauge-card">
-
-<h4>
-FRECUENCIA
-</h4>
-
-<div class="gauge">
-
-<div class="needle"
-id="needleFreq">
-</div>
-
-</div>
-
-<div class="gauge-value"
-id="freqGaugeText">
-0 Hz
-</div>
-
-</div>
-
-<div class="gauge-card">
-
-<h4>
-RPM MOTOR
-</h4>
-
-<div class="gauge">
-
-<div class="needle"
-id="needleRPM">
-</div>
-
-</div>
-
-<div class="gauge-value"
-id="rpmGaugeText">
-0 RPM
-</div>
-
-</div>
-
-<div class="gauge-card">
-
-<h4>
-CORRIENTE
-</h4>
-
-<div class="gauge">
-
-<div class="needle"
-id="needleAmp">
-</div>
-
-</div>
-
-<div class="gauge-value"
-id="ampGaugeText">
-0 A
-</div>
-
-</div>
-
-<div class="gauge-card">
-
-<h4>
-VOLTAJE
-</h4>
-
-<div class="gauge">
-
-<div class="needle"
-id="needleVolt">
-</div>
-
-</div>
-
-<div class="gauge-value"
-id="voltGaugeText">
-380 V
-</div>
-
-</div>
-
-</div>
-
-<!-- TABLA -->
-
-<div class="vfd-info-table">
-
-<div>
-Potencia Motor:
-<span>2.2 kW</span>
-</div>
-
-<div>
-Tensión Nominal:
-<span id="tableVolt">
-380 V
-</span>
-</div>
-
-<div>
-Corriente:
-<span id="tableAmp">
-0 A
-</span>
-</div>
-
-<div>
-Frecuencia:
-<span id="tableFreq">
-0 Hz
-</span>
-</div>
-
-<div>
-Temperatura:
-<span id="tableTemp">
-32 °C
-</span>
-</div>
-
-<div>
-Modo:
-<span id="tableMode">
-LOCAL
-</span>
 </div>
 
 </div>
