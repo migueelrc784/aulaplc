@@ -275,7 +275,7 @@ MOTOR TRIFÁSICO
 <div class="motor">
 
 <div class="fan"
-id="fan">
+id="motorFan">
 
 </div>
 
@@ -438,31 +438,6 @@ data-address="I0.2">
 data-address="Q0.0">
 
 (Q0.0)
-
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="Q0.0">
-
-Q0.0
-
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.1">
-
-(Q0.1)
 
 </div>
 
@@ -694,6 +669,7 @@ REFERENCIA DE FRECUENCIA
 type="range"
 min="0"
 max="120"
+step="1"
 value="0"
 class="freq-slider"
 id="freqSlider"
@@ -742,6 +718,60 @@ DETENER
 onclick="resetVFDAlarm()">
 RESET ALARMA
 </button>
+
+</div>
+
+</div>
+
+<!-- MONITOREO -->
+
+<div class="vfd-card">
+
+<h3>
+MONITOREO EN TIEMPO REAL
+</h3>
+
+<div class="memory-list">
+
+<div class="memory-item">
+<span>ESTADO</span>
+<span id="vfdStatus">STOP</span>
+</div>
+
+<div class="memory-item">
+<span>DIRECCIÓN</span>
+<span id="vfdDirection">FWD</span>
+</div>
+
+<div class="memory-item">
+<span>FRECUENCIA</span>
+<span id="tableFreq">0.0 Hz</span>
+</div>
+
+<div class="memory-item">
+<span>TEMPERATURA</span>
+<span id="tableTemp">30 °C</span>
+</div>
+
+<div class="memory-item">
+<span>VOLTAJE</span>
+<span id="tableVolt">380 V</span>
+</div>
+
+<div class="memory-item">
+<span>CORRIENTE</span>
+<span id="tableAmp">0.0 A</span>
+</div>
+
+<div class="memory-item">
+<span>MODO</span>
+<span id="modeText">LOCAL</span>
+</div>
+
+<div class="memory-item">
+<span>ALARMA</span>
+<span id="alarmText">NINGUNA</span>
+</div>
 
 </div>
 
