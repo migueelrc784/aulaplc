@@ -1,10 +1,14 @@
-let vfd = {
+/* =========================================================
+   AUTOMATION STUDIO X - VFD.JS PRO
+========================================================= */
+
+const vfd = {
 
 running:false,
 reverse:false,
 
 freq:0,
-targetFreq:60,
+targetFreq:0,
 
 rpm:0,
 amps:0,
@@ -13,26 +17,39 @@ volts:380,
 accelTime:5,
 decelTime:4,
 
-temperature:32,
+temperature:30,
 
 alarm:false,
 alarmText:"NINGUNA",
 
-mode:"LOCAL"
+mode:"LOCAL",
+
+interval:null
 
 }
 
-/* =========================
+/* =========================================================
    INIT
-========================= */
+========================================================= */
 
-window.addEventListener("load",()=>{
+window.addEventListener("DOMContentLoaded",()=>{
+
+initializeVFD()
+
+})
+
+function initializeVFD(){
+
+console.log("VFD INIT")
 
 const slider=document.getElementById("freqSlider")
 
 if(slider){
 
-slider.value=60
+slider.min=0
+slider.max=120
+slider.step=1
+slider.value=0
 
 slider.addEventListener("input",(e)=>{
 
@@ -42,23 +59,25 @@ updateVFD(e.target.value)
 
 }
 
-vfd.targetFreq=60
-
-bindVFDButtons()
-
 updateVFDUI()
 
 startVFDSimulation()
 
-})
+}
 
-/* =========================
-   LOOP SIMULACION REAL
-========================= */
+/* =========================================================
+   MAIN LOOP
+========================================================= */
 
 function startVFDSimulation(){
 
-setInterval(()=>{
+if(vfd.interval){
+
+clearInterval(vfd.interval)
+
+}
+
+vfd.interval=setInterval(()=>{
 
 simulateVFD()
 
@@ -66,16 +85,28 @@ simulateVFD()
 
 }
 
+/* =========================================================
+   SIMULATION
+========================================================= */
+
 function simulateVFD(){
 
 /* =========================
-   ACELERACION
+   ACCELERATION
 ========================= */
 
 if(vfd.running && !vfd.alarm){
 
-const accelStep =
-(vfd.targetFreq / (vfd.accelTime * 10))
+let accelStep=
+
+vfd.targetFreq /
+(vfd.accelTime * 10)
+
+if(accelStep < 0.05){
+
+accelStep=0.05
+
+}
 
 if(vfd.freq < vfd.targetFreq){
 
@@ -83,7 +114,19 @@ vfd.freq += accelStep
 
 if(vfd.freq > vfd.targetFreq){
 
-vfd.freq = vfd.targetFreq
+vfd.freq=vfd.targetFreq
+
+}
+
+}
+
+if(vfd.freq > vfd.targetFreq){
+
+vfd.freq -= accelStep
+
+if(vfd.freq < vfd.targetFreq){
+
+vfd.freq=vfd.targetFreq
 
 }
 
@@ -92,52 +135,56 @@ vfd.freq = vfd.targetFreq
 }
 
 /* =========================
-   DESACELERACION
+   DECELERATION
 ========================= */
 
-else{
+if(!vfd.running){
 
-const decelStep =
-(Math.max(vfd.freq,1) /
-(vfd.decelTime * 10))
+let decelStep=
+
+120 /
+(vfd.decelTime * 10)
+
+if(decelStep < 0.08){
+
+decelStep=0.08
+
+}
 
 if(vfd.freq > 0){
 
 vfd.freq -= decelStep
 
+}
+
 if(vfd.freq < 0){
 
-vfd.freq = 0
-
-}
+vfd.freq=0
 
 }
 
 }
 
 /* =========================
-   CALCULOS MOTOR
+   CALCULATIONS
 ========================= */
 
-vfd.rpm = Math.floor(vfd.freq * 29.16)
+vfd.rpm=Math.floor(vfd.freq * 29.2)
 
-vfd.amps = (
-(vfd.freq / 5.5) +
-(vfd.running ? 1.2 : 0)
-).toFixed(1)
+vfd.amps=
+(vfd.freq * 0.16).toFixed(1)
 
-vfd.volts = Math.floor(
-120 + (vfd.freq * 4.3)
-)
+vfd.volts=
+Math.floor(120 + (vfd.freq * 4.3))
 
 /* =========================
-   TEMPERATURA
+   TEMPERATURE
 ========================= */
 
 if(vfd.running){
 
 vfd.temperature +=
-(0.015 + (vfd.freq / 10000))
+0.015 + (vfd.freq / 10000)
 
 }else{
 
@@ -145,133 +192,108 @@ vfd.temperature -= 0.03
 
 }
 
-vfd.temperature = Math.max(
-28,
-Math.min(90,vfd.temperature)
-)
+if(vfd.temperature < 28){
+
+vfd.temperature=28
+
+}
+
+if(vfd.temperature > 90){
+
+vfd.temperature=90
+
+}
 
 /* =========================
-   ALARMAS
+   ALARMS
 ========================= */
 
 checkVFDAlarms()
 
 /* =========================
-   UI
+   UPDATE UI
 ========================= */
 
 updateVFDUI()
 
 }
 
-/* =========================
-   UI GENERAL
-========================= */
+/* =========================================================
+   UI UPDATE
+========================================================= */
 
 function updateVFDUI(){
 
-/* DISPLAY PRINCIPAL */
+/* =========================
+   DISPLAY
+========================= */
 
 setText(
 "freqDisplay",
-vfd.freq.toFixed(2)
+vfd.freq.toFixed(2) + " Hz"
 )
 
 setText(
 "vfdFreqBig",
-vfd.freq.toFixed(2)+" Hz"
+vfd.freq.toFixed(2) + " Hz"
 )
 
 setText(
 "vfdRpmBig",
-vfd.rpm+" RPM"
+vfd.rpm + " RPM"
 )
 
 setText(
 "vfdAmp",
-vfd.amps+" A"
+vfd.amps + " A"
 )
 
-/* GAUGES */
+/* =========================
+   GAUGES
+========================= */
 
 setText(
 "freqGaugeText",
-vfd.freq.toFixed(0)+" Hz"
+vfd.freq.toFixed(0) + " Hz"
 )
 
 setText(
 "rpmGaugeText",
-vfd.rpm+" RPM"
+vfd.rpm + " RPM"
 )
 
 setText(
 "ampGaugeText",
-vfd.amps+" A"
+vfd.amps + " A"
 )
 
 setText(
 "voltGaugeText",
-vfd.volts+" V"
+vfd.volts + " V"
 )
 
-/* ESTADO */
-
-const status =
-document.getElementById("vfdStatus")
-
-if(status){
-
-if(vfd.alarm){
-
-status.innerHTML = "ALARM"
-
-status.style.color = "#ff3355"
-
-}
-else if(vfd.running){
-
-status.innerHTML = "RUNNING"
-
-status.style.color = "#00ff99"
-
-}
-else{
-
-status.innerHTML = "STOP"
-
-status.style.color = "#ffcc00"
-
-}
-
-}
-
-/* DIRECCION */
-
-setText(
-"vfdDirection",
-vfd.reverse ? "REV" : "FWD"
-)
-
-/* PARAMETROS */
+/* =========================
+   TABLE
+========================= */
 
 setText(
 "tableFreq",
-vfd.freq.toFixed(1)+" Hz"
+vfd.freq.toFixed(1) + " Hz"
 )
 
 setText(
 "tableTemp",
-vfd.temperature.toFixed(0)+" °C"
+vfd.temperature.toFixed(1) + " °C"
 )
 
 setText(
 "tableVolt",
-vfd.volts+" V"
+vfd.volts + " V"
 )
 
 setText(
 "tableAmp",
-vfd.amps+" A"
+vfd.amps + " A"
 )
 
 setText(
@@ -280,11 +302,46 @@ vfd.alarmText
 )
 
 setText(
+"vfdDirection",
+vfd.reverse ? "REV" : "FWD"
+)
+
+setText(
 "modeText",
 vfd.mode
 )
 
-/* AGUJAS */
+/* =========================
+   STATUS
+========================= */
+
+const status=
+document.getElementById("vfdStatus")
+
+if(status){
+
+if(vfd.alarm){
+
+status.innerHTML="ALARM"
+status.style.color="#ff3355"
+
+}else if(vfd.running){
+
+status.innerHTML="RUNNING"
+status.style.color="#00ff99"
+
+}else{
+
+status.innerHTML="STOP"
+status.style.color="#ffffff"
+
+}
+
+}
+
+/* =========================
+   NEEDLES
+========================= */
 
 rotateNeedle(
 "needleFreq",
@@ -298,7 +355,7 @@ rotateNeedle(
 
 rotateNeedle(
 "needleAmp",
-(vfd.amps / 25) * 180 - 90
+(vfd.amps / 20) * 180 - 90
 )
 
 rotateNeedle(
@@ -306,147 +363,115 @@ rotateNeedle(
 (vfd.volts / 500) * 180 - 90
 )
 
-/* MOTOR */
-
-animateMotor()
-
-/* LEDS */
-
-updateLEDs()
-
-}
-
 /* =========================
    MOTOR ANIMATION
 ========================= */
 
-function animateMotor(){
-
-const fan =
+const fan=
 document.getElementById("motorFan")
 
-if(!fan)return
+if(fan){
 
-if(vfd.running && !vfd.alarm){
+if(vfd.running){
 
-fan.style.animationPlayState =
-"running"
+fan.style.animationPlayState="running"
 
-const speed =
+fan.style.animationDuration=
 Math.max(
 0.08,
-1 - (vfd.freq / 120)
-)
+0.5 - (vfd.freq / 300)
+) + "s"
 
-fan.style.animationDuration =
-speed+"s"
+}else{
 
-}
-else{
-
-fan.style.animationPlayState =
-"paused"
+fan.style.animationPlayState="paused"
 
 }
 
 }
 
-/* =========================
-   LEDS
-========================= */
-
-function updateLEDs(){
-
-const runLed =
-document.getElementById("runLed")
-
-const alarmLed =
-document.getElementById("alarmLed")
-
-const reverseLed =
-document.getElementById("reverseLed")
-
-if(runLed){
-
-runLed.classList.toggle(
-"green-led",
-vfd.running && !vfd.alarm
-)
-
 }
 
-if(alarmLed){
-
-alarmLed.classList.toggle(
-"red-led",
-vfd.alarm
-)
-
-}
-
-if(reverseLed){
-
-reverseLed.classList.toggle(
-"green-led",
-vfd.reverse
-)
-
-}
-
-}
-
-/* =========================
-   COMANDOS
-========================= */
+/* =========================================================
+   COMMANDS
+========================================================= */
 
 function startVFD(){
 
-if(vfd.alarm)return
+if(vfd.alarm){
 
-vfd.running = true
+return
+
+}
+
+vfd.running=true
+
+console.log("VFD START")
 
 }
 
 function stopVFD(){
 
-vfd.running = false
+vfd.running=false
+
+console.log("VFD STOP")
 
 }
 
 function reverseVFD(){
 
-vfd.reverse = !vfd.reverse
+vfd.reverse=!vfd.reverse
+
+console.log("REVERSE:",vfd.reverse)
 
 }
 
 function resetVFDAlarm(){
 
-vfd.alarm = false
+vfd.alarm=false
 
-vfd.alarmText = "NINGUNA"
+vfd.alarmText="NINGUNA"
+
+console.log("RESET ALARM")
 
 }
 
-/* =========================
-   FRECUENCIA
-========================= */
+/* =========================================================
+   FREQUENCY
+========================================================= */
 
 function updateVFD(freq){
 
-vfd.targetFreq = parseFloat(freq)
+vfd.targetFreq=parseFloat(freq)
+
+if(isNaN(vfd.targetFreq)){
+
+vfd.targetFreq=0
 
 }
 
+setText(
+"freqDisplay",
+vfd.targetFreq.toFixed(2)+" Hz"
+)
+
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
 function vfdFreqUp(){
 
-const slider =
+const slider=
 document.getElementById("freqSlider")
 
 if(!slider)return
 
-slider.value = Math.min(
+slider.value=
+Math.min(
 120,
-parseInt(slider.value) + 5
+parseInt(slider.value)+5
 )
 
 updateVFD(slider.value)
@@ -455,166 +480,84 @@ updateVFD(slider.value)
 
 function vfdFreqDown(){
 
-const slider =
+const slider=
 document.getElementById("freqSlider")
 
 if(!slider)return
 
-slider.value = Math.max(
+slider.value=
+Math.max(
 0,
-parseInt(slider.value) - 5
+parseInt(slider.value)-5
 )
 
 updateVFD(slider.value)
 
 }
 
-/* =========================
-   PARAMETROS
-========================= */
+/* =========================================================
+   PARAMETERS
+========================================================= */
 
 function setAccelTime(value){
 
-vfd.accelTime =
-Math.max(1,parseFloat(value))
+vfd.accelTime=parseFloat(value)
 
 }
 
 function setDecelTime(value){
 
-vfd.decelTime =
-Math.max(1,parseFloat(value))
+vfd.decelTime=parseFloat(value)
 
 }
 
 function setLocalMode(){
 
-vfd.mode = "LOCAL"
-
-updateVFDUI()
+vfd.mode="LOCAL"
 
 }
 
 function setRemoteMode(){
 
-vfd.mode = "REMOTE"
-
-updateVFDUI()
+vfd.mode="REMOTE"
 
 }
 
-/* =========================
-   ALARMAS
-========================= */
+/* =========================================================
+   ALARMS
+========================================================= */
 
 function checkVFDAlarms(){
 
 if(vfd.temperature >= 80){
 
-vfd.alarm = true
-
-vfd.running = false
-
-vfd.alarmText = "OVER TEMP"
+vfd.alarm=true
+vfd.running=false
+vfd.alarmText="OVER TEMP"
 
 }
 
-else if(parseFloat(vfd.amps) >= 18){
+if(parseFloat(vfd.amps) >= 18){
 
-vfd.alarm = true
-
-vfd.running = false
-
-vfd.alarmText = "OVER CURRENT"
-
-}
-
-else if(vfd.volts >= 480){
-
-vfd.alarm = true
-
-vfd.running = false
-
-vfd.alarmText = "OVER VOLT"
+vfd.alarm=true
+vfd.running=false
+vfd.alarmText="OVER CURRENT"
 
 }
 
 }
 
-/* =========================
-   BOTONES HTML
-========================= */
-
-function bindVFDButtons(){
-
-const runBtn =
-document.getElementById("runBtn")
-
-const stopBtn =
-document.getElementById("stopBtn")
-
-const revBtn =
-document.getElementById("revBtn")
-
-const resetBtn =
-document.getElementById("resetBtn")
-
-const plusBtn =
-document.getElementById("freqPlus")
-
-const minusBtn =
-document.getElementById("freqMinus")
-
-if(runBtn){
-
-runBtn.onclick = startVFD
-
-}
-
-if(stopBtn){
-
-stopBtn.onclick = stopVFD
-
-}
-
-if(revBtn){
-
-revBtn.onclick = reverseVFD
-
-}
-
-if(resetBtn){
-
-resetBtn.onclick = resetVFDAlarm
-
-}
-
-if(plusBtn){
-
-plusBtn.onclick = vfdFreqUp
-
-}
-
-if(minusBtn){
-
-minusBtn.onclick = vfdFreqDown
-
-}
-
-}
-
-/* =========================
+/* =========================================================
    HELPERS
-========================= */
+========================================================= */
 
 function setText(id,value){
 
-const el =
-document.getElementById(id)
+const el=document.getElementById(id)
 
 if(el){
 
-el.innerHTML = value
+el.innerHTML=value
 
 }
 
@@ -622,12 +565,11 @@ el.innerHTML = value
 
 function rotateNeedle(id,deg){
 
-const el =
-document.getElementById(id)
+const el=document.getElementById(id)
 
 if(el){
 
-el.style.transform =
+el.style.transform=
 `rotate(${deg}deg)`
 
 }
