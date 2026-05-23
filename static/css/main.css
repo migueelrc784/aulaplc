@@ -195,14 +195,19 @@ margin-bottom:12px;
 ========================================================= */
 
 .btn{
-padding:13px;
+padding:10px 14px;
 border:none;
-border-radius:12px;
+border-radius:10px;
 cursor:pointer;
 font-weight:700;
-width:100%;
 transition:.25s;
-font-size:14px;
+font-size:13px;
+width:auto;
+min-width:120px;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+white-space:nowrap;
 }
 
 .btn:hover{
@@ -348,7 +353,19 @@ gap:12px;
 margin-bottom:20px;
 flex-wrap:wrap;
 }
+.toolbar .btn{
+flex:none;
+width:auto;
+min-width:130px;
+height:42px;
+padding:10px 16px;
+border-radius:10px;
+font-size:13px;
+}
 
+.toolbar{
+align-items:center;
+}
 /* =========================================================
    LADDER
 ========================================================= */
@@ -894,7 +911,8 @@ font-size:12px;
 }
 
 .toolbar{
-flex-direction:column;
+flex-direction:row;
+flex-wrap:wrap;
 }
 
 }
