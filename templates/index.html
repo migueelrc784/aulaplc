@@ -404,10 +404,13 @@ SIMULAR PLC
 
 <!-- LADDER -->
 
+<!-- LADDER -->
+
 <div class="ladder-area"
 id="ladder">
 
 <!-- RUNG 1 -->
+<!-- ARRANQUE + ENCLAVAMIENTO -->
 
 <div class="rung">
 
@@ -444,6 +447,34 @@ data-address="I0.2">
 <div class="line"></div>
 
 <div class="coil"
+data-address="M0.0">
+
+(M0.0)
+
+</div>
+
+<div class="rail"></div>
+
+</div>
+
+<!-- RUNG 2 -->
+<!-- MOTOR -->
+
+<div class="rung">
+
+<div class="rail"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="M0.0">
+
+M0.0
+
+</div>
+
+<div class="line"></div>
+
+<div class="coil"
 data-address="Q0.0">
 
 (Q0.0)
@@ -454,7 +485,8 @@ data-address="Q0.0">
 
 </div>
 
-<!-- RUNG 2 -->
+<!-- RUNG 3 -->
+<!-- PILOTO VERDE -->
 
 <div class="rung">
 
@@ -462,9 +494,9 @@ data-address="Q0.0">
 
 <div class="contact"
 data-type="NO"
-data-address="Q0.0">
+data-address="M0.0">
 
-Q0.0
+M0.0
 
 </div>
 
@@ -481,7 +513,8 @@ data-address="Q0.1">
 
 </div>
 
-<!-- RUNG 3 -->
+<!-- RUNG 4 -->
+<!-- PILOTO ROJO -->
 
 <div class="rung">
 
@@ -489,9 +522,9 @@ data-address="Q0.1">
 
 <div class="contact"
 data-type="NC"
-data-address="Q0.0">
+data-address="M0.0">
 
-/Q0.0
+/M0.0
 
 </div>
 
@@ -508,7 +541,8 @@ data-address="Q0.2">
 
 </div>
 
-<!-- RUNG 4 -->
+<!-- RUNG 5 -->
+<!-- SENSOR -->
 
 <div class="rung">
 
@@ -519,6 +553,16 @@ data-type="NO"
 data-address="I0.3">
 
 I0.3
+
+</div>
+
+<div class="line"></div>
+
+<div class="contact"
+data-type="NO"
+data-address="M0.0">
+
+M0.0
 
 </div>
 
@@ -532,49 +576,6 @@ data-address="Q0.3">
 </div>
 
 <div class="rail"></div>
-
-</div>
-
-<!-- RUNG 5 -->
-
-<div class="rung">
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="Q0.0">
-
-Q0.0
-
-</div>
-
-<div class="line"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="I0.3">
-
-I0.3
-
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.1">
-
-(Q0.1)
-
-</div>
-
-<div class="rail"></div>
-
-</div>
-
-</div>
-
-</main>
 
 </div>
 
