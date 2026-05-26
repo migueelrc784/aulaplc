@@ -780,7 +780,7 @@ VER CURSO
 </div>
 
 <!-- ===================================================== -->
-<!-- VFD -->
+<!-- VFD PROFESIONAL SIEMENS G120 STYLE -->
 <!-- ===================================================== -->
 
 <div id="vfdSection" style="display:none;">
@@ -796,11 +796,11 @@ VER CURSO
 <div class="drive-top">
 
 <div class="drive-brand">
-AUTOMATION<br>STUDIO X
+SIEMENS<br>G120
 </div>
 
 <div class="drive-model">
-VFD-950
+SINAMICS G120
 </div>
 
 </div>
@@ -824,8 +824,8 @@ VFD-950
 <div class="drive-leds">
 
 <div class="led green"></div>
+<div class="led green"></div>
 <div class="led"></div>
-<div class="led red"></div>
 
 </div>
 
@@ -874,7 +874,7 @@ RESET
 </div>
 
 <div class="drive-warning">
-⚠ READ MANUAL BEFORE OPERATION
+⚠ SINAMICS G120 INDUSTRIAL DRIVE SYSTEM
 </div>
 
 </div>
@@ -882,6 +882,8 @@ RESET
 <!-- PANEL DERECHO -->
 
 <div class="vfd-panel-pro">
+
+<!-- TABS -->
 
 <div class="vfd-tabs">
 
@@ -905,11 +907,11 @@ ALARMAS
 
 <div class="vfd-content">
 
-<!-- LEFT -->
-
 <div class="vfd-left">
 
-<!-- FRECUENCIA -->
+<!-- ================================================= -->
+<!-- REFERENCIA -->
+<!-- ================================================= -->
 
 <div class="vfd-card">
 
@@ -922,8 +924,8 @@ REFERENCIA DE FRECUENCIA
 <input
 type="range"
 min="0"
-max="120"
-step="1"
+max="60"
+step="0.1"
 value="0"
 class="freq-slider"
 id="freqSlider"
@@ -943,24 +945,26 @@ Hz
 
 </div>
 
+<!-- ================================================= -->
 <!-- COMANDOS -->
+<!-- ================================================= -->
 
 <div class="vfd-card">
 
 <h3>
-COMANDOS
+COMANDOS PRINCIPALES
 </h3>
 
 <div class="vfd-command-grid">
 
 <button class="cmd-btn cmd-green"
 onclick="startVFD()">
-ARRANCAR (FWD)
+ARRANCAR
 </button>
 
 <button class="cmd-btn cmd-dark"
 onclick="reverseVFD()">
-REVERSA (REV)
+REVERSA
 </button>
 
 <button class="cmd-btn cmd-red"
@@ -970,14 +974,201 @@ DETENER
 
 <button class="cmd-btn cmd-dark"
 onclick="resetVFDAlarm()">
-RESET ALARMA
+RESET
 </button>
 
 </div>
 
 </div>
 
+<!-- ================================================= -->
+<!-- PARAMETROS G120 -->
+<!-- ================================================= -->
+
+<div class="vfd-card">
+
+<h3>
+PARÁMETROS PRINCIPALES G120
+</h3>
+
+<div class="memory-list">
+
+<!-- P0304 -->
+
+<div class="memory-item">
+
+<span>P0304 VOLTAJE MOTOR</span>
+
+<input
+type="number"
+value="380"
+class="vfd-input">
+
+</div>
+
+<!-- P0305 -->
+
+<div class="memory-item">
+
+<span>P0305 CORRIENTE MOTOR</span>
+
+<input
+type="number"
+value="5.2"
+step="0.1"
+class="vfd-input">
+
+</div>
+
+<!-- P0307 -->
+
+<div class="memory-item">
+
+<span>P0307 POTENCIA MOTOR (kW)</span>
+
+<input
+type="number"
+value="2.2"
+step="0.1"
+class="vfd-input">
+
+</div>
+
+<!-- P0310 -->
+
+<div class="memory-item">
+
+<span>P0310 FRECUENCIA MOTOR</span>
+
+<input
+type="number"
+value="50"
+class="vfd-input">
+
+</div>
+
+<!-- P1080 -->
+
+<div class="memory-item">
+
+<span>P1080 FRECUENCIA MÍNIMA</span>
+
+<input
+type="number"
+value="0"
+class="vfd-input">
+
+</div>
+
+<!-- P1082 -->
+
+<div class="memory-item">
+
+<span>P1082 FRECUENCIA MÁXIMA</span>
+
+<input
+type="number"
+value="60"
+class="vfd-input">
+
+</div>
+
+<!-- P1120 -->
+
+<div class="memory-item">
+
+<span>P1120 RAMPA ACELERACIÓN</span>
+
+<input
+type="number"
+value="5"
+step="0.1"
+class="vfd-input">
+
+</div>
+
+<!-- P1121 -->
+
+<div class="memory-item">
+
+<span>P1121 RAMPA DECELERACIÓN</span>
+
+<input
+type="number"
+value="5"
+step="0.1"
+class="vfd-input">
+
+</div>
+
+<!-- P0700 -->
+
+<div class="memory-item">
+
+<span>P0700 FUENTE DE COMANDO</span>
+
+<select class="vfd-input">
+
+<option>1 BORNES</option>
+<option>2 PROFIBUS</option>
+<option>6 PROFINET</option>
+<option selected>LOCAL BOP</option>
+
+</select>
+
+</div>
+
+<!-- P1000 -->
+
+<div class="memory-item">
+
+<span>P1000 REFERENCIA VELOCIDAD</span>
+
+<select class="vfd-input">
+
+<option selected>BOP PANEL</option>
+<option>AI1 0-10V</option>
+<option>MODBUS</option>
+<option>PROFINET</option>
+
+</select>
+
+</div>
+
+<!-- P1210 -->
+
+<div class="memory-item">
+
+<span>P1210 BOOST MANUAL</span>
+
+<input
+type="number"
+value="3"
+step="0.1"
+class="vfd-input">
+
+</div>
+
+<!-- P2175 -->
+
+<div class="memory-item">
+
+<span>P2175 LÍMITE CORRIENTE</span>
+
+<input
+type="number"
+value="150"
+class="vfd-input">
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================================================= -->
 <!-- MONITOREO -->
+<!-- ================================================= -->
 
 <div class="vfd-card">
 
@@ -1003,13 +1194,18 @@ MONITOREO EN TIEMPO REAL
 </div>
 
 <div class="memory-item">
-<span>TEMPERATURA</span>
-<span id="tableTemp">30 °C</span>
+<span>RPM MOTOR</span>
+<span id="tableRPM">0 RPM</span>
 </div>
 
 <div class="memory-item">
-<span>VOLTAJE</span>
-<span id="tableVolt">380 V</span>
+<span>TEMPERATURA</span>
+<span id="tableTemp">31 °C</span>
+</div>
+
+<div class="memory-item">
+<span>VOLTAJE DC BUS</span>
+<span id="tableVolt">540 VDC</span>
 </div>
 
 <div class="memory-item">
@@ -1018,8 +1214,18 @@ MONITOREO EN TIEMPO REAL
 </div>
 
 <div class="memory-item">
+<span>POTENCIA</span>
+<span id="tablePower">0.0 kW</span>
+</div>
+
+<div class="memory-item">
 <span>MODO</span>
 <span id="modeText">LOCAL</span>
+</div>
+
+<div class="memory-item">
+<span>COMUNICACIÓN</span>
+<span>PROFINET OK</span>
 </div>
 
 <div class="memory-item">
@@ -1031,6 +1237,46 @@ MONITOREO EN TIEMPO REAL
 
 </div>
 
+<!-- ================================================= -->
+<!-- ALARMAS -->
+<!-- ================================================= -->
+
+<div class="vfd-card">
+
+<h3>
+ALARMAS Y FALLAS
+</h3>
+
+<div class="memory-list">
+
+<div class="memory-item">
+<span>F0001</span>
+<span>SOBRECORRIENTE</span>
+</div>
+
+<div class="memory-item">
+<span>F0002</span>
+<span>SOBRETENSIÓN</span>
+</div>
+
+<div class="memory-item">
+<span>F0003</span>
+<span>BAJA TENSIÓN</span>
+</div>
+
+<div class="memory-item">
+<span>F0005</span>
+<span>SOBRECARGA MOTOR</span>
+</div>
+
+<div class="memory-item">
+<span>F0011</span>
+<span>SOBRETEMPERATURA</span>
+</div>
+
+<div class="memory-item">
+<span>A0501</span>
+<span>WARNING TEMPERATURA</span>
 </div>
 
 </div>
@@ -1042,6 +1288,13 @@ MONITOREO EN TIEMPO REAL
 </div>
 
 </div>
+
+</div>
+
+</div>
+
+</div>
+
 <!-- ===================================================== -->
 <!-- DUDAS -->
 <!-- ===================================================== -->
