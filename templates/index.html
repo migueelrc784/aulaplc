@@ -1167,7 +1167,7 @@ VOLVER A CURSOS
 <!-- ===================================================== -->
 <!-- VFD PROFESIONAL SIEMENS G120 STYLE -->
 <!-- ===================================================== -->
- 
+
 <div id="vfdSection" style="display:none;">
 
 <div class="vfd-page-pro">
@@ -2011,6 +2011,9 @@ document.getElementById("simulatorSection")
 document.getElementById("coursesSection")
 .style.display="none"
 
+document.getElementById("tiaPortalSection")
+.style.display="none"
+
 document.getElementById("vfdSection")
 .style.display="none"
 
@@ -2023,7 +2026,11 @@ document.getElementById(sectionId)
 document.querySelectorAll(".nav-btn")
 .forEach(b=>b.classList.remove("active-nav"))
 
+if(btn){
+
 btn.classList.add("active-nav")
+
+}
 
 }
 
