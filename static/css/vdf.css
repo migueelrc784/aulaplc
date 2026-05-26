@@ -589,3 +589,59 @@ font-size:24px;
 }
 
 }
+/* =======================================
+FREQ INPUT NUEVO
+======================================= */
+
+.freq-control{
+display:flex;
+flex-direction:column;
+}
+
+.vfd-input{
+background:#09111b;
+border:1px solid #18314c;
+color:#00ff99;
+padding:8px;
+border-radius:6px;
+font-family:Orbitron;
+width:120px;
+}
+
+.drive-warning{
+margin-top:15px;
+font-size:11px;
+color:#ffcc66;
+text-align:center;
+line-height:1.5;
+}
+
+.memory-list{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.memory-item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 0;
+border-bottom:1px solid #13263c;
+font-size:13px;
+color:#d7e6f5;
+}
+
+.freq-slider{
+width:100%;
+}
+
+#vfdStatus{
+font-weight:700;
+font-family:Orbitron;
+}
+
+#freqInput:focus{
+border-color:#00ff99;
+box-shadow:0 0 15px rgba(0,255,153,.3);
+}

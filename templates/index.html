@@ -921,15 +921,97 @@ REFERENCIA DE FRECUENCIA
 
 <div class="freq-control">
 
+<!-- INPUT MANUAL -->
+
+<div style="
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:15px;
+">
+
 <input
-type="range"
-min="0"
-max="60"
-step="0.1"
+type="number"
+id="freqInput"
 value="0"
-class="freq-slider"
-id="freqSlider"
-oninput="updateVFD(this.value)">
+min="0"
+max="120"
+step="0.1"
+
+style="
+width:160px;
+background:#09111b;
+border:2px solid #18314c;
+color:#00ff99;
+padding:14px;
+border-radius:10px;
+font-size:26px;
+font-family:Orbitron;
+outline:none;
+">
+
+<div style="
+font-size:24px;
+font-family:Orbitron;
+color:#00ff99;
+">
+Hz
+</div>
+
+</div>
+
+<!-- BOTONES -->
+
+<div style="
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:10px;
+margin-bottom:20px;
+">
+
+<button
+class="cmd-btn cmd-dark"
+onclick="vfdFreqDown()">
+
+-1 Hz
+
+</button>
+
+<button
+class="cmd-btn cmd-dark"
+onclick="vfdFreqUp()">
+
++1 Hz
+
+</button>
+
+<button
+class="cmd-btn cmd-dark"
+onclick="setMaxFreq()">
+
+MAX 120Hz
+
+</button>
+
+</div>
+
+<!-- BOTON APLICAR -->
+
+<button
+class="cmd-btn cmd-green"
+style="
+width:100%;
+margin-bottom:20px;
+"
+onclick="updateVFD(
+document.getElementById('freqInput').value
+)">
+
+APLICAR FRECUENCIA
+
+</button>
+
+<!-- DISPLAY -->
 
 <div class="freq-display">
 
@@ -982,7 +1064,7 @@ RESET
 </div>
 
 <!-- ================================================= -->
-<!-- PARAMETROS G120 -->
+<!-- PARAMETROS -->
 <!-- ================================================= -->
 
 <div class="vfd-card">
@@ -993,118 +1075,47 @@ PARÁMETROS PRINCIPALES G120
 
 <div class="memory-list">
 
-<!-- P0304 -->
-
 <div class="memory-item">
-
 <span>P0304 VOLTAJE MOTOR</span>
-
-<input
-type="number"
-value="380"
-class="vfd-input">
-
+<input type="number" value="380" class="vfd-input">
 </div>
 
-<!-- P0305 -->
-
 <div class="memory-item">
-
 <span>P0305 CORRIENTE MOTOR</span>
-
-<input
-type="number"
-value="5.2"
-step="0.1"
-class="vfd-input">
-
+<input type="number" value="5.2" step="0.1" class="vfd-input">
 </div>
 
-<!-- P0307 -->
-
 <div class="memory-item">
-
 <span>P0307 POTENCIA MOTOR (kW)</span>
-
-<input
-type="number"
-value="2.2"
-step="0.1"
-class="vfd-input">
-
+<input type="number" value="2.2" step="0.1" class="vfd-input">
 </div>
 
-<!-- P0310 -->
-
 <div class="memory-item">
-
 <span>P0310 FRECUENCIA MOTOR</span>
-
-<input
-type="number"
-value="50"
-class="vfd-input">
-
+<input type="number" value="50" class="vfd-input">
 </div>
 
-<!-- P1080 -->
-
 <div class="memory-item">
-
 <span>P1080 FRECUENCIA MÍNIMA</span>
-
-<input
-type="number"
-value="0"
-class="vfd-input">
-
+<input type="number" value="0" class="vfd-input">
 </div>
 
-<!-- P1082 -->
-
 <div class="memory-item">
-
 <span>P1082 FRECUENCIA MÁXIMA</span>
-
-<input
-type="number"
-value="60"
-class="vfd-input">
-
+<input type="number" value="120" class="vfd-input">
 </div>
 
-<!-- P1120 -->
-
 <div class="memory-item">
-
 <span>P1120 RAMPA ACELERACIÓN</span>
-
-<input
-type="number"
-value="5"
-step="0.1"
-class="vfd-input">
-
+<input type="number" value="5" step="0.1" class="vfd-input">
 </div>
 
-<!-- P1121 -->
-
 <div class="memory-item">
-
 <span>P1121 RAMPA DECELERACIÓN</span>
-
-<input
-type="number"
-value="5"
-step="0.1"
-class="vfd-input">
-
+<input type="number" value="5" step="0.1" class="vfd-input">
 </div>
 
-<!-- P0700 -->
-
 <div class="memory-item">
-
 <span>P0700 FUENTE DE COMANDO</span>
 
 <select class="vfd-input">
@@ -1118,10 +1129,7 @@ class="vfd-input">
 
 </div>
 
-<!-- P1000 -->
-
 <div class="memory-item">
-
 <span>P1000 REFERENCIA VELOCIDAD</span>
 
 <select class="vfd-input">
@@ -1135,30 +1143,168 @@ class="vfd-input">
 
 </div>
 
-<!-- P1210 -->
-
-<div class="memory-item">
-
-<span>P1210 BOOST MANUAL</span>
-
-<input
-type="number"
-value="3"
-step="0.1"
-class="vfd-input">
+</div>
 
 </div>
 
-<!-- P2175 -->
+<!-- ================================================= -->
+<!-- MONITOREO -->
+<!-- ================================================= -->
+
+<div class="vfd-card">
+
+<h3>
+MONITOREO EN TIEMPO REAL
+</h3>
+
+<div class="memory-list">
 
 <div class="memory-item">
+<span>ESTADO</span>
+<span id="vfdStatus">STOP</span>
+</div>
 
-<span>P2175 LÍMITE CORRIENTE</span>
+<div class="memory-item">
+<span>DIRECCIÓN</span>
+<span id="vfdDirection">FWD</span>
+</div>
 
-<input
-type="number"
-value="150"
-class="vfd-input">
+<div class="memory-item">
+<span>FRECUENCIA</span>
+<span id="tableFreq">0.0 Hz</span>
+</div>
+
+<div class="memory-item">
+<span>RPM MOTOR</span>
+<span id="tableRPM">0 RPM</span>
+</div>
+
+<div class="memory-item">
+<span>TEMPERATURA</span>
+<span id="tableTemp">31 °C</span>
+</div>
+
+<div class="memory-item">
+<span>VOLTAJE DC BUS</span>
+<span id="tableVolt">540 VDC</span>
+</div>
+
+<div class="memory-item">
+<span>CORRIENTE</span>
+<span id="tableAmp">0.0 A</span>
+</div>
+
+<div class="memory-item">
+<span>POTENCIA</span>
+<span id="tablePower">0.0 kW</span>
+</div>
+
+<div class="memory-item">
+<span>MODO</span>
+<span id="modeText">LOCAL</span>
+</div>
+
+<div class="memory-item">
+<span>COMUNICACIÓN</span>
+<span>PROFINET OK</span>
+</div>
+
+<div class="memory-item">
+<span>ALARMA</span>
+<span id="alarmText">NINGUNA</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- ================================================= -->
+<!-- GAUGES -->
+<!-- ================================================= -->
+
+<div class="gauges-grid">
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<div class="needle"
+id="needleFreq">
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="freqGaugeText">
+
+0 Hz
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<div class="needle"
+id="needleRPM">
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="rpmGaugeText">
+
+0 RPM
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<div class="needle"
+id="needleAmp">
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="ampGaugeText">
+
+0 A
+
+</div>
+
+</div>
+
+<div class="gauge-card">
+
+<div class="gauge">
+
+<div class="needle"
+id="needleVolt">
+</div>
+
+</div>
+
+<div class="gauge-value"
+id="voltGaugeText">
+
+0 V
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
