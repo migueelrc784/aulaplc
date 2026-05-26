@@ -645,3 +645,32 @@ font-family:Orbitron;
 border-color:#00ff99;
 box-shadow:0 0 15px rgba(0,255,153,.3);
 }
+/* =========================================
+SCROLL FIX VFD
+========================================= */
+
+#vfdSection{
+height:100vh;
+overflow-y:auto;
+overflow-x:hidden;
+padding-bottom:120px;
+}
+
+.vfd-page-pro{
+min-height:180vh;
+overflow:visible;
+}
+
+.vfd-wrapper{
+align-items:flex-start;
+min-height:1600px;
+}
+
+.vfd-panel-pro{
+overflow:visible;
+height:auto;
+}
+
+body{
+overflow:auto;
+}
