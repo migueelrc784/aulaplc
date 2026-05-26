@@ -22,7 +22,14 @@ window.outputs = {
 
 }
 
-window.markers = {}
+window.markers = {
+
+"M0.0": false,
+"M0.1": false,
+"M0.2": false,
+"M0.3": false
+
+}
 
 window.plcRunning = false
 
@@ -180,6 +187,10 @@ document
 .querySelectorAll(".energized")
 .forEach(el=>el.classList.remove("energized"))
 
+document
+.querySelectorAll(".active-rung")
+.forEach(el=>el.classList.remove("active-rung"))
+
 }
 
 /* =========================================================
@@ -204,6 +215,14 @@ return
 Object.keys(outputs).forEach(q=>{
 
 outputs[q] = false
+
+})
+
+/* RESET MARKERS */
+
+Object.keys(markers).forEach(m=>{
+
+markers[m] = false
 
 })
 
@@ -313,58 +332,9 @@ if(power){
 
 rung.classList.add("active-rung")
 
-}else{
-
-rung.classList.remove("active-rung")
-
 }
 
 })
-
-/* =========================================================
-ENCLAVAMIENTO REAL
-========================================================= */
-
-if(
-inputs["I0.0"] &&
-!inputs["I0.1"] &&
-!inputs["I0.2"]
-){
-
-outputs["Q0.0"] = true
-
-}
-
-/* STOP */
-
-if(inputs["I0.1"]){
-
-outputs["Q0.0"] = false
-
-}
-
-/* EMERGENCY */
-
-if(inputs["I0.2"]){
-
-outputs["Q0.0"] = false
-
-}
-
-/* VERDE */
-
-outputs["Q0.1"] =
-outputs["Q0.0"]
-
-/* ROJO */
-
-outputs["Q0.2"] =
-!outputs["Q0.0"]
-
-/* AZUL SENSOR */
-
-outputs["Q0.3"] =
-inputs["I0.3"]
 
 updateOutputs()
 
