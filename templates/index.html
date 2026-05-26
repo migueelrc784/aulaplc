@@ -725,6 +725,10 @@ Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.
 
 <div class="courses-grid">
 
+<!-- ===================================================== -->
+<!-- CURSO 1 -->
+<!-- ===================================================== -->
+
 <div class="course-card">
 
 <h2>
@@ -732,14 +736,94 @@ PLC SIEMENS TIA PORTAL
 </h2>
 
 <p>
-Curso completo desde cero con Ladder, simulación y proyectos reales.
+Curso completo desde cero con Ladder, simulación y proyectos industriales reales.
 </p>
 
-<button class="btn green">
-VER CURSO
-</button>
+<div style="
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+">
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#00ff99;
+">
+PLC
+</span>
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#00d4ff;
+">
+TIA PORTAL
+</span>
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#ffd500;
+">
+LADDER
+</span>
 
 </div>
+
+<div style="
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+">
+
+<button
+class="btn green"
+onclick="showSection('tiaPortalSection',this)">
+
+ENTRAR AL CURSO
+
+</button>
+
+<a
+href="{{ url_for('static', filename='pdfs/guia_tia_portal.pdf') }}"
+target="_blank">
+
+<button class="btn blue" style="width:100%;">
+
+DESCARGAR PDF
+
+</button>
+
+</a>
+
+<a
+href="https://www.youtube.com/"
+target="_blank">
+
+<button class="btn yellow" style="width:100%;">
+
+VER VIDEOS
+
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CURSO 2 -->
+<!-- ===================================================== -->
 
 <div class="course-card">
 
@@ -748,14 +832,74 @@ HMI + SCADA INDUSTRIAL
 </h2>
 
 <p>
-Diseña pantallas profesionales y sistemas industriales modernos.
+Diseña pantallas profesionales y sistemas SCADA modernos para procesos industriales.
 </p>
 
+<div style="
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+">
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#00ff99;
+">
+WINCC
+</span>
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#00d4ff;
+">
+SCADA
+</span>
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#ffd500;
+">
+HMI
+</span>
+
+</div>
+
+<div style="
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+">
+
 <button class="btn blue">
+
 VER CURSO
+
+</button>
+
+<button class="btn green">
+
+DESCARGAR MATERIAL
+
 </button>
 
 </div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CURSO 3 -->
+<!-- ===================================================== -->
 
 <div class="course-card">
 
@@ -764,14 +908,267 @@ VARIADORES DE FRECUENCIA
 </h2>
 
 <p>
-Configuración, parámetros y control de motores industriales.
+Configuración avanzada de variadores Siemens G120 y control de motores industriales.
 </p>
 
+<div style="
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+">
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#00ff99;
+">
+SINAMICS
+</span>
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#00d4ff;
+">
+G120
+</span>
+
+<span style="
+background:#0f1f2f;
+padding:6px 12px;
+border-radius:8px;
+font-size:13px;
+color:#ffd500;
+">
+MOTORES
+</span>
+
+</div>
+
+<div style="
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+">
+
 <button class="btn yellow">
+
 VER CURSO
+
+</button>
+
+<button class="btn blue">
+
+MANUALES PDF
+
 </button>
 
 </div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- CURSO TIA PORTAL -->
+<!-- ===================================================== -->
+
+<div id="tiaPortalSection" style="display:none;">
+
+<div class="courses-page">
+
+<h1 class="courses-title">
+CURSO PLC SIEMENS TIA PORTAL
+</h1>
+
+<p class="courses-subtitle">
+Aprende automatización industrial paso a paso con videos, PDFs y simulaciones reales.
+</p>
+
+<!-- ===================================================== -->
+<!-- MODULO 1 -->
+<!-- ===================================================== -->
+
+<div class="course-card">
+
+<h2>
+MÓDULO 1 - INTRODUCCIÓN A PLC
+</h2>
+
+<p>
+Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.
+</p>
+
+<iframe
+width="100%"
+height="420"
+src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+title="Curso PLC"
+frameborder="0"
+allowfullscreen
+style="
+margin-top:20px;
+border-radius:12px;
+">
+</iframe>
+
+<div style="
+margin-top:20px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+">
+
+<a
+href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
+target="_blank">
+
+<button class="btn blue">
+
+DESCARGAR PDF
+
+</button>
+
+</a>
+
+<button class="btn green">
+
+COMPLETADO
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- MODULO 2 -->
+<!-- ===================================================== -->
+
+<div class="course-card">
+
+<h2>
+MÓDULO 2 - PROGRAMACIÓN LADDER
+</h2>
+
+<p>
+Contactos NO, NC, bobinas, temporizadores TON y enclavamientos industriales.
+</p>
+
+<iframe
+width="100%"
+height="420"
+src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+title="Curso Ladder"
+frameborder="0"
+allowfullscreen
+style="
+margin-top:20px;
+border-radius:12px;
+">
+</iframe>
+
+<div style="
+margin-top:20px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+">
+
+<a
+href="{{ url_for('static', filename='pdfs/ladder.pdf') }}"
+target="_blank">
+
+<button class="btn yellow">
+
+VER GUÍA LADDER
+
+</button>
+
+</a>
+
+<button class="btn green">
+
+INICIAR PRÁCTICA
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- MODULO 3 -->
+<!-- ===================================================== -->
+
+<div class="course-card">
+
+<h2>
+MÓDULO 3 - ENTRADAS Y SALIDAS
+</h2>
+
+<p>
+Configuración de sensores, salidas digitales y simulación industrial.
+</p>
+
+<img
+src="{{ url_for('static', filename='img/plc.jpg') }}"
+style="
+width:100%;
+margin-top:20px;
+border-radius:14px;
+">
+
+<div style="
+margin-top:20px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+">
+
+<button class="btn blue">
+
+SIMULAR PLC
+
+</button>
+
+<button class="btn green">
+
+DESCARGAR PROYECTO
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- VOLVER -->
+<!-- ===================================================== -->
+
+<div style="
+margin-top:40px;
+display:flex;
+justify-content:center;
+">
+
+<button
+class="btn red"
+onclick="showSection('coursesSection',this)">
+
+VOLVER A CURSOS
+
+</button>
 
 </div>
 
