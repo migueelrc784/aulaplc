@@ -1022,6 +1022,20 @@ border-radius:12px;
 ">
 </iframe>
 
+<!-- VISTA PREVIA DEL PDF -->
+
+<iframe
+src="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
+width="100%"
+height="700"
+style="
+margin-top:20px;
+border:none;
+border-radius:12px;
+background:white;
+">
+</iframe>
+
 <div style="
 margin-top:20px;
 display:flex;
@@ -1034,6 +1048,16 @@ href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
 target="_blank">
 
 <button class="btn blue">
+ABRIR PDF
+</button>
+
+</a>
+
+<a
+href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
+download>
+
+<button class="btn yellow">
 DESCARGAR PDF
 </button>
 
