@@ -1071,6 +1071,7 @@ COMPLETADO
 
 </div>
 
+```html
 <!-- ===================================================== -->
 <!-- MODULO 2 -->
 <!-- ===================================================== -->
@@ -1120,7 +1121,7 @@ style="text-decoration:none;">
 
 </a>
 
-<button class="btn green">
+<button class="btn green" onclick="mostrarQuiz()">
 ⚡ INICIAR PRÁCTICA
 </button>
 
@@ -1146,7 +1147,220 @@ color:#d1d5db;
 
 </div>
 
+<!-- ===================================================== -->
+<!-- QUIZ LADDER -->
+<!-- ===================================================== -->
+
+<div id="quiz-box" style="
+display:none;
+margin-top:30px;
+background:#0f172a;
+padding:25px;
+border-radius:15px;
+border:2px solid #22c55e;
+">
+
+<h2 style="margin-bottom:20px;">
+🧠 TEST DE PROGRAMACIÓN LADDER
+</h2>
+
+<h3 id="pregunta"></h3>
+
+<div id="opciones" style="
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-top:20px;
+"></div>
+
+<p id="resultado" style="
+margin-top:20px;
+font-weight:bold;
+font-size:18px;
+"></p>
+
+<button class="btn yellow"
+onclick="siguientePregunta()"
+style="margin-top:20px;">
+➡ SIGUIENTE PREGUNTA
+</button>
+
 </div>
+
+</div>
+
+<script>
+
+const preguntas = [
+
+{
+pregunta:"¿Qué hace un contacto normalmente abierto (NO)?",
+opciones:[
+"Permite el paso lógico cuando se activa",
+"Bloquea siempre la corriente",
+"Apaga automáticamente el PLC"
+],
+correcta:0
+},
+
+{
+pregunta:"¿Qué representa una bobina en Ladder?",
+opciones:[
+"Una resistencia eléctrica",
+"Una salida o memoria del PLC",
+"Un transformador"
+],
+correcta:1
+},
+
+{
+pregunta:"¿Para qué sirve un temporizador TON?",
+opciones:[
+"Activar una salida con retardo",
+"Apagar el PLC",
+"Generar pulsos infinitos"
+],
+correcta:0
+},
+
+{
+pregunta:"¿Qué hace un contacto normalmente cerrado (NC)?",
+opciones:[
+"Permite paso lógico cuando está desactivado",
+"Siempre está energizado",
+"Genera una alarma"
+],
+correcta:0
+},
+
+{
+pregunta:"¿Qué realiza un temporizador TOF?",
+opciones:[
+"Retarda el encendido",
+"Mantiene la salida activa tras apagar la entrada",
+"Reinicia el PLC"
+],
+correcta:1
+},
+
+{
+pregunta:"¿Qué hace un temporizador TP?",
+opciones:[
+"Genera un pulso temporizado",
+"Apaga motores",
+"Controla temperatura"
+],
+correcta:0
+},
+
+{
+pregunta:"¿Qué es un enclavamiento industrial?",
+opciones:[
+"Un sistema que mantiene activada una salida",
+"Un tipo de sensor",
+"Un variador de frecuencia"
+],
+correcta:0
+},
+
+{
+pregunta:"¿Qué lenguaje usan comúnmente los PLC industriales?",
+opciones:[
+"Python",
+"Ladder",
+"HTML"
+],
+correcta:1
+}
+
+];
+
+let preguntaActual = 0;
+
+function mostrarQuiz(){
+
+document.getElementById("quiz-box").style.display = "block";
+
+cargarPregunta();
+
+}
+
+function cargarPregunta(){
+
+const pregunta = preguntas[preguntaActual];
+
+document.getElementById("pregunta").innerHTML =
+(preguntaActual + 1) + ". " + pregunta.pregunta;
+
+const opcionesDiv = document.getElementById("opciones");
+
+opcionesDiv.innerHTML = "";
+
+document.getElementById("resultado").innerHTML = "";
+
+pregunta.opciones.forEach((opcion,index)=>{
+
+const boton = document.createElement("button");
+
+boton.className = "btn green";
+
+boton.style.textAlign = "left";
+
+boton.innerHTML = opcion;
+
+boton.onclick = function(){
+
+if(index === pregunta.correcta){
+
+document.getElementById("resultado").innerHTML =
+"✅ RESPUESTA CORRECTA";
+
+document.getElementById("resultado").style.color = "#22c55e";
+
+}else{
+
+document.getElementById("resultado").innerHTML =
+"❌ RESPUESTA INCORRECTA";
+
+document.getElementById("resultado").style.color = "#ef4444";
+
+}
+
+};
+
+opcionesDiv.appendChild(boton);
+
+});
+
+}
+
+function siguientePregunta(){
+
+preguntaActual++;
+
+if(preguntaActual < preguntas.length){
+
+cargarPregunta();
+
+}else{
+
+document.getElementById("quiz-box").innerHTML = `
+<h2 style="color:#22c55e;">
+✅ TEST FINALIZADO
+</h2>
+
+<p style="margin-top:20px;font-size:18px;">
+Has completado las 8 preguntas de programación Ladder industrial.
+</p>
+`;
+
+}
+
+}
+
+</script>
+```
+
 
 <!-- ===================================================== -->
 <!-- MODULO 3 -->
