@@ -1412,6 +1412,11 @@ flex-wrap:wrap;
 justify-content:center;
 ">
 
+<!-- BOTON SIMULAR PLC -->
+<a href="/"
+style="
+text-decoration:none;
+">
 <button class="btn blue" style="
 padding:14px 24px;
 font-size:15px;
@@ -1421,7 +1426,15 @@ cursor:pointer;
 ">
 🖥️ SIMULAR PLC
 </button>
+</a>
 
+<!-- BOTON DESCARGAR PROYECTO -->
+<a 
+href="{{ url_for('static', filename='proyectos/modulo3_tia_portal.zip') }}"
+download="modulo3_tia_portal.zip"
+style="
+text-decoration:none;
+">
 <button class="btn green" style="
 padding:14px 24px;
 font-size:15px;
@@ -1431,7 +1444,9 @@ cursor:pointer;
 ">
 ⬇️ DESCARGAR PROYECTO
 </button>
+</a>
 
+<!-- BOTON PDF -->
 <a 
 href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}"
 target="_blank"
@@ -1449,6 +1464,37 @@ transition:0.3s;
 ">
 📘 ABRIR PDF DEL MÓDULO 3
 </a>
+
+</div>
+
+<!-- INFORMACION EXTRA -->
+<div style="
+margin-top:20px;
+background:#0b1220;
+padding:16px;
+border-radius:14px;
+border:1px solid #1e293b;
+">
+
+<p style="
+color:#9ca3af;
+font-size:14px;
+line-height:1.7;
+margin:0;
+">
+
+✅ El proyecto descargable incluye:
+
+<br><br>
+
+• Programación Ladder completa  
+• Proyecto de TIA Portal  
+• Configuración de entradas y salidas  
+• Simulación industrial básica  
+• Ejemplos de sensores digitales  
+• Archivos compatibles con PLCSIM  
+
+</p>
 
 </div>
 
