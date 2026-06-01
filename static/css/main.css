@@ -374,7 +374,7 @@ min-height:650px;
 display:flex;
 align-items:center;
 gap:10px;
-margin-bottom:45px;
+margin: bottom 25px;
 }
 
 .rail{
