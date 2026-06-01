@@ -363,31 +363,52 @@ align-items:center;
 ========================================================= */
 
 .ladder-area{
+position:relative;
 background:#1f2937;
 border:1px solid #374151;
 border-radius:16px;
-padding:25px;
+padding:25px 50px;
 min-height:650px;
 }
+
+/* RIELES GLOBALES DEL LADDER */
+
+.ladder-left-rail{
+position:absolute;
+left:20px;
+top:20px;
+bottom:20px;
+width:4px;
+background:#64748b;
+border-radius:4px;
+}
+
+.ladder-right-rail{
+position:absolute;
+right:20px;
+top:20px;
+bottom:20px;
+width:4px;
+background:#64748b;
+border-radius:4px;
+}
+
+/* REDES */
 
 .rung{
 display:flex;
 align-items:center;
 gap:10px;
-margin: bottom 25px;
+margin-bottom:25px;
 }
 
 .rail{
-width:6px;
-height:70px;
-background:#94a3b8;
-border-radius:10px;
-box-shadow:none;
+display:none;
 }
 
 .line{
 height:3px;
-background:#94a3b8;
+background:#64748b;
 flex:1;
 box-shadow:none;
 }
@@ -400,12 +421,14 @@ border:2px solid #64748b;
 min-width:120px;
 text-align:center;
 background:#273449;
-border-radius:10px;
+border-radius:8px;
 font-weight:700;
+color:#f1f5f9;
 }
 
 .powered{
 background:#334155;
+border-color:#60a5fa;
 box-shadow:none;
 }
 
