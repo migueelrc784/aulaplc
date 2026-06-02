@@ -5,7 +5,7 @@ LADDER AREA
 .ladder-area{
 display:flex;
 flex-direction:column;
-gap:28px;
+gap:20px;
 padding:25px;
 overflow:auto;
 height:calc(100vh - 140px);
@@ -21,8 +21,8 @@ RUNG
 position:relative;
 display:flex;
 align-items:center;
-min-height:100px;
-padding:0 20px;
+min-height:110px;
+padding:0 24px;
 border-radius:14px;
 background:rgba(8,20,34,.95);
 border:1px solid #14314f;
@@ -54,11 +54,10 @@ LINES
 
 .line{
 flex:1;
-min-width:30px;
-height:3px;
+min-width:40px;
+height:4px;
 border-radius:0;
 background:#1e3a52;
-flex-shrink:0;
 transition:.15s;
 }
 
@@ -68,7 +67,7 @@ box-shadow:0 0 6px rgba(34,197,94,.5);
 }
 
 /* =========================================================
-BRANCH (paralelo / enclavamiento)
+BRANCH
 ========================================================= */
 
 .branch{
@@ -78,34 +77,27 @@ justify-content:center;
 gap:0;
 flex-shrink:0;
 position:relative;
+padding:0 4px;
 }
 
-.branch-path{
-display:flex;
-align-items:center;
-padding:4px 0;
-}
-
-/* Rail vertical izquierdo del branch */
 .branch::before{
 content:"";
 position:absolute;
-left:0;
-top:16px;
-bottom:16px;
-width:3px;
+left:4px;
+top:22px;
+bottom:22px;
+width:4px;
 background:#1e3a52;
 border-radius:2px;
 }
 
-/* Rail vertical derecho del branch */
 .branch::after{
 content:"";
 position:absolute;
-right:0;
-top:16px;
-bottom:16px;
-width:3px;
+right:4px;
+top:22px;
+bottom:22px;
+width:4px;
 background:#1e3a52;
 border-radius:2px;
 }
@@ -116,8 +108,14 @@ background:#22c55e;
 box-shadow:0 0 6px rgba(34,197,94,.5);
 }
 
+.branch-path{
+display:flex;
+align-items:center;
+padding:2px 0;
+}
+
 /* =========================================================
-CONTACTS — estilo TIA Portal
+CONTACTS — TIA Portal style
 ========================================================= */
 
 .contact{
@@ -125,95 +123,102 @@ position:relative;
 display:inline-flex;
 align-items:center;
 justify-content:center;
-width:64px;
-height:64px;
+width:72px;
+height:72px;
 background:transparent;
 flex-shrink:0;
 cursor:grab;
 user-select:none;
 transition:.15s;
-font-size:12px;
-font-weight:700;
-color:#64748b;
+margin-top:20px;
 }
 
-/* Barra izquierda */
+/* Barra izquierda NO */
 .contact::before{
 content:"";
 position:absolute;
-left:10px;
-top:12px;
-width:3px;
-height:40px;
-border-radius:0;
-background:#64748b;
+left:12px;
+top:50%;
+transform:translateY(-50%);
+width:4px;
+height:46px;
+border-radius:1px;
+background:#4a6a85;
 transition:.15s;
 }
 
-/* Barra derecha */
+/* Barra derecha NO */
 .contact::after{
 content:"";
 position:absolute;
-right:10px;
-top:12px;
-width:3px;
-height:40px;
-border-radius:0;
-background:#64748b;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+width:4px;
+height:46px;
+border-radius:1px;
+background:#4a6a85;
 transition:.15s;
 }
 
-/* Etiqueta arriba */
-.contact span,
-.contact-label{
+/* Etiqueta encima */
+.contact > span:not(.diag){
 position:absolute;
-top:-18px;
+top:-22px;
 left:50%;
 transform:translateX(-50%);
-font-size:11px;
+font-size:12px;
 font-weight:700;
-color:#64748b;
+color:#7a9ab5;
 white-space:nowrap;
 font-family:'Segoe UI',sans-serif;
+letter-spacing:.5px;
 }
 
-/* NC — línea diagonal */
-.contact[data-type="NC"] .diag{
+/* Línea horizontal interna (puente entre barras) */
+.contact-wire{
+position:absolute;
+left:16px;
+right:16px;
+top:50%;
+transform:translateY(-50%);
+height:4px;
+background:#1e3a52;
+}
+
+/* NC diagonal */
+.contact > span.diag{
 position:absolute;
 left:50%;
 top:50%;
 transform:translate(-50%,-50%) rotate(15deg);
-width:3px;
-height:44px;
-border-radius:1px;
-background:#64748b;
+width:4px;
+height:50px;
+border-radius:2px;
+background:#4a6a85;
 transition:.15s;
+pointer-events:none;
 }
 
 /* POWERED */
-.contact.powered{
-color:#22c55e;
-}
-
 .contact.powered::before,
 .contact.powered::after{
 background:#22c55e;
-box-shadow:0 0 8px rgba(34,197,94,.6);
+box-shadow:0 0 10px rgba(34,197,94,.7);
 }
 
-.contact.powered span,
-.contact.powered .contact-label{
+.contact.powered > span:not(.diag){
 color:#22c55e;
-text-shadow:0 0 8px rgba(34,197,94,.5);
+text-shadow:0 0 8px rgba(34,197,94,.6);
 }
 
-.contact.powered .diag{
+.contact.powered > span.diag{
 background:#22c55e;
-box-shadow:0 0 8px rgba(34,197,94,.6);
+box-shadow:0 0 10px rgba(34,197,94,.7);
 }
 
 /* =========================================================
-COILS — estilo TIA Portal
+COILS — TIA Portal style
 ========================================================= */
 
 .coil{
@@ -221,15 +226,13 @@ position:relative;
 display:inline-flex;
 align-items:center;
 justify-content:center;
-width:64px;
-height:64px;
+width:80px;
+height:72px;
 background:transparent;
 flex-shrink:0;
 cursor:grab;
 transition:.15s;
-font-size:11px;
-font-weight:700;
-color:#64748b;
+margin-top:20px;
 }
 
 /* Barra izquierda */
@@ -237,11 +240,12 @@ color:#64748b;
 content:"";
 position:absolute;
 left:10px;
-top:12px;
-width:3px;
-height:40px;
-border-radius:0;
-background:#64748b;
+top:50%;
+transform:translateY(-50%);
+width:4px;
+height:46px;
+border-radius:1px;
+background:#4a6a85;
 transition:.15s;
 }
 
@@ -250,74 +254,72 @@ transition:.15s;
 content:"";
 position:absolute;
 right:10px;
-top:12px;
-width:3px;
-height:40px;
-border-radius:0;
-background:#64748b;
+top:50%;
+transform:translateY(-50%);
+width:4px;
+height:46px;
+border-radius:1px;
+background:#4a6a85;
 transition:.15s;
 }
 
-/* Círculo central */
-.coil .coil-circle{
+/* Círculo */
+.coil > span.coil-circle{
 position:absolute;
 left:50%;
 top:50%;
 transform:translate(-50%,-50%);
-width:34px;
-height:34px;
+width:40px;
+height:40px;
 border-radius:50%;
-border:3px solid #64748b;
+border:4px solid #4a6a85;
 background:transparent;
-transition:.15s;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:10px;
+font-size:9px;
 font-weight:700;
-color:#64748b;
+color:#7a9ab5;
+transition:.15s;
+text-align:center;
+line-height:1.1;
 }
 
-/* Etiqueta arriba */
-.coil span,
-.coil-label{
+/* Etiqueta encima */
+.coil > span:not(.coil-circle){
 position:absolute;
-top:-18px;
+top:-22px;
 left:50%;
 transform:translateX(-50%);
-font-size:11px;
+font-size:12px;
 font-weight:700;
-color:#64748b;
+color:#7a9ab5;
 white-space:nowrap;
 font-family:'Segoe UI',sans-serif;
+letter-spacing:.5px;
 }
 
 /* ENERGIZED */
-.coil.energized{
-color:#22c55e;
-}
-
 .coil.energized::before,
 .coil.energized::after{
 background:#22c55e;
-box-shadow:0 0 8px rgba(34,197,94,.6);
+box-shadow:0 0 10px rgba(34,197,94,.7);
 }
 
-.coil.energized .coil-circle{
+.coil.energized > span.coil-circle{
 border-color:#22c55e;
 color:#22c55e;
-box-shadow:0 0 10px rgba(34,197,94,.5);
+box-shadow:0 0 14px rgba(34,197,94,.6);
 background:rgba(34,197,94,.06);
 }
 
-.coil.energized span,
-.coil.energized .coil-label{
+.coil.energized > span:not(.coil-circle){
 color:#22c55e;
-text-shadow:0 0 8px rgba(34,197,94,.5);
+text-shadow:0 0 8px rgba(34,197,94,.6);
 }
 
 /* =========================================================
-TIMER — estilo TIA Portal
+TIMER
 ========================================================= */
 
 .timer{
@@ -327,28 +329,29 @@ height:64px;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:12px;
+font-size:11px;
 font-weight:700;
-color:#64748b;
+color:#7a9ab5;
 background:#0d1f33;
-border:2px solid #64748b;
+border:3px solid #4a6a85;
 border-radius:6px;
 flex-shrink:0;
 transition:.15s;
 cursor:grab;
+margin-top:20px;
 }
 
 .timer::before{
 content:"TON";
 position:absolute;
-top:-10px;
+top:-12px;
 left:50%;
 transform:translateX(-50%);
 font-size:9px;
 font-weight:700;
 background:#071827;
 padding:0 5px;
-color:#64748b;
+color:#7a9ab5;
 letter-spacing:1px;
 }
 
@@ -363,7 +366,7 @@ color:#22c55e;
 }
 
 /* =========================================================
-DELETE BUTTON
+DELETE
 ========================================================= */
 
 .delete-element{
@@ -385,18 +388,14 @@ color:white;
 }
 
 /* =========================================================
-HOVER
+HOVER / DRAG
 ========================================================= */
 
 .contact:hover,
 .coil:hover,
 .timer:hover{
-filter:brightness(1.15);
+filter:brightness(1.2);
 }
-
-/* =========================================================
-DRAGGING
-========================================================= */
 
 .dragging{
 opacity:.4;
