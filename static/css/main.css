@@ -1,4 +1,4 @@
-/* =========================================================
+ /* =========================================================
    AUTOMATION STUDIO X - MAIN.CSS PRO
 ========================================================= */
 
@@ -413,17 +413,116 @@ flex:1;
 box-shadow:none;
 }
 
-.contact,
-.coil,
-.timer{
-padding:14px 18px;
-border:2px solid #64748b;
-min-width:120px;
+.contact{
+position:relative;
+padding:8px 14px;
+min-width:80px;
 text-align:center;
-background:#273449;
-border-radius:8px;
+background:transparent;
+border:none;
+border-left:3px solid #64748b;
+border-right:3px solid #64748b;
+border-radius:0;
 font-weight:700;
-color:#f1f5f9;
+color:#94a3b8;
+font-size:13px;
+}
+
+.contact.powered{
+border-left-color:#22c55e;
+border-right-color:#22c55e;
+color:#22c55e;
+background:transparent;
+box-shadow:none;
+}
+
+.contact[data-type="NC"]::after{
+content:'';
+position:absolute;
+width:2px;
+height:130%;
+background:#64748b;
+transform:rotate(12deg);
+top:-15%;
+left:calc(50% - 1px);
+border-radius:2px;
+}
+
+.contact[data-type="NC"].powered::after{
+background:#22c55e;
+}
+
+.coil{
+position:relative;
+padding:8px 10px;
+min-width:80px;
+text-align:center;
+background:transparent;
+border:none;
+border-left:3px solid #64748b;
+border-right:3px solid #64748b;
+border-radius:0;
+font-weight:700;
+color:#94a3b8;
+font-size:13px;
+}
+
+.coil::before{
+content:'(';
+font-size:28px;
+color:#64748b;
+line-height:1;
+}
+
+.coil::after{
+content:')';
+font-size:28px;
+color:#64748b;
+line-height:1;
+}
+
+.coil.powered{
+border-left-color:#22c55e;
+border-right-color:#22c55e;
+color:#22c55e;
+}
+
+.coil.powered::before,
+.coil.powered::after{
+color:#22c55e;
+}
+
+.timer{
+padding:8px 14px;
+min-width:100px;
+text-align:center;
+background:#1e293b;
+border:2px solid #64748b;
+border-radius:6px;
+font-weight:700;
+color:#94a3b8;
+font-size:12px;
+}
+
+.timer.powered{
+border-color:#22c55e;
+color:#22c55e;
+}
+
+.line{
+height:3px;
+background:#64748b;
+flex:1;
+}
+
+.line.powered{
+background:#22c55e;
+}
+
+.powered{
+background:transparent;
+border-color:#22c55e;
+box-shadow:none;
 }
 
 .powered{
