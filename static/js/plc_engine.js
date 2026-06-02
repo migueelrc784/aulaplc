@@ -110,14 +110,30 @@ plc.classList.add("run")
 
 }else{
 
-cpu.innerText = "CPU STOP"
-plc.innerText = "PLC STOP"
+    cpu.innerText = "CPU STOP"
+    plc.innerText = "PLC STOP"
 
-cpu.classList.remove("run")
-plc.classList.remove("run")
+    cpu.classList.remove("run")
+    plc.classList.remove("run")
 
-cpu.classList.add("stop")
-plc.classList.add("stop")
+    cpu.classList.add("stop")
+    plc.classList.add("stop")
+
+    /* APAGAR TODAS LAS SALIDAS */
+
+    Object.keys(outputs).forEach(q=>{
+
+        outputs[q] = false
+
+    })
+
+    /* APAGAR TODAS LAS MEMORIAS */
+
+    Object.keys(markers).forEach(m=>{
+
+        markers[m] = false
+
+    })
 
 }
 
@@ -203,10 +219,26 @@ clearVisuals()
 
 if(!plcRunning){
 
-updateOutputs()
-updateMotor()
+    /* APAGAR TODAS LAS SALIDAS */
 
-return
+    Object.keys(outputs).forEach(q=>{
+
+        outputs[q] = false
+
+    })
+
+    /* APAGAR TODAS LAS MEMORIAS */
+
+    Object.keys(markers).forEach(m=>{
+
+        markers[m] = false
+
+    })
+
+    updateOutputs()
+    updateMotor()
+
+    return
 
 }
 
