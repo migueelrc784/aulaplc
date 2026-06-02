@@ -415,17 +415,32 @@ box-shadow:none;
 
 .contact{
 position:relative;
-padding:8px 14px;
-min-width:80px;
-text-align:center;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:70px;
+height:48px;
+padding:0 10px;
 background:transparent;
 border:none;
 border-left:3px solid #64748b;
 border-right:3px solid #64748b;
 border-radius:0;
 font-weight:700;
+font-size:12px;
 color:#94a3b8;
-font-size:13px;
+}
+
+.contact[data-type="NC"]::after{
+content:'';
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%) rotate(15deg);
+width:2px;
+height:70%;
+background:#64748b;
+border-radius:1px;
 }
 
 .contact.powered{
@@ -436,49 +451,36 @@ background:transparent;
 box-shadow:none;
 }
 
-.contact[data-type="NC"]::after{
-content:'';
-position:absolute;
-width:2px;
-height:130%;
-background:#64748b;
-transform:rotate(12deg);
-top:-15%;
-left:calc(50% - 1px);
-border-radius:2px;
-}
-
 .contact[data-type="NC"].powered::after{
 background:#22c55e;
 }
 
 .coil{
 position:relative;
-padding:8px 10px;
-min-width:80px;
-text-align:center;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:64px;
+height:48px;
+padding:0 10px;
 background:transparent;
 border:none;
 border-left:3px solid #64748b;
 border-right:3px solid #64748b;
 border-radius:0;
 font-weight:700;
+font-size:12px;
 color:#94a3b8;
-font-size:13px;
 }
 
 .coil::before{
-content:'(';
-font-size:28px;
-color:#64748b;
-line-height:1;
-}
-
-.coil::after{
-content:')';
-font-size:28px;
-color:#64748b;
-line-height:1;
+content:'';
+position:absolute;
+width:36px;
+height:36px;
+border-radius:50%;
+border:3px solid #64748b;
+background:transparent;
 }
 
 .coil.powered{
@@ -487,9 +489,8 @@ border-right-color:#22c55e;
 color:#22c55e;
 }
 
-.coil.powered::before,
-.coil.powered::after{
-color:#22c55e;
+.coil.powered::before{
+border-color:#22c55e;
 }
 
 .timer{
@@ -511,24 +512,13 @@ color:#22c55e;
 
 .line{
 height:3px;
-background:#64748b;
+background:#334155;
 flex:1;
+border-radius:0;
 }
 
 .line.powered{
 background:#22c55e;
-}
-
-.powered{
-background:transparent;
-border-color:#22c55e;
-box-shadow:none;
-}
-
-.powered{
-background:#334155;
-border-color:#60a5fa;
-box-shadow:none;
 }
 
 /* =========================================================
