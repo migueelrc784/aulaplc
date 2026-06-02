@@ -408,8 +408,7 @@ SIMULAR PLC
 
 <!-- LADDER -->
 
-<div class="ladder-area"
-id="ladder">
+<div class="ladder-area" id="ladder">
 
 <div class="ladder-area">
 
@@ -417,17 +416,33 @@ id="ladder">
     <div class="ladder-right-rail"></div>
 
     <!-- ================================================= -->
-    <!-- RUNG 1 -->
-    <!-- START + STOP + EMERGENCY -->
-    <!-- GENERA MEMORIA M0.0 -->
+    <!-- RUNG 1                                            -->
+    <!-- START / STOP / EMERGENCIA                         -->
+    <!-- Enclavamiento (SEAL) con M0.0 en paralelo a I0.0 -->
+    <!-- ( I0.0 || M0.0 ) && /I0.1 && /I0.2 --> M0.0     -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="I0.0">
-        I0.0
+        <!-- Rama paralela: pulsador START o contacto SEAL -->
+        <div class="branch">
+
+            <div class="branch-path">
+                <div class="contact"
+                data-type="NO"
+                data-address="I0.0">
+                I0.0
+                </div>
+            </div>
+
+            <div class="branch-path">
+                <div class="contact"
+                data-type="NO"
+                data-address="M0.0">
+                M0.0
+                </div>
+            </div>
+
         </div>
 
         <div class="line"></div>
@@ -456,9 +471,9 @@ id="ladder">
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 2 -->
-    <!-- ENCLAVAMIENTO -->
-    <!-- M0.0 ACTIVA M0.1 -->
+    <!-- RUNG 2                                            -->
+    <!-- HABILITACION MOTOR CON SENSOR                     -->
+    <!-- M0.0 && I0.3 --> M0.1                            -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -487,9 +502,9 @@ id="ladder">
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 3 -->
-    <!-- MOTOR PRINCIPAL -->
-    <!-- M0.1 ACTIVA Q0.0 -->
+    <!-- RUNG 3                                            -->
+    <!-- MOTOR PRINCIPAL                                   -->
+    <!-- M0.1 --> Q0.0                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -510,9 +525,9 @@ id="ladder">
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 4 -->
-    <!-- PILOTO VERDE -->
-    <!-- MOTOR RUN -->
+    <!-- RUNG 4                                            -->
+    <!-- PILOTO VERDE - MOTOR EN MARCHA                    -->
+    <!-- M0.1 --> Q0.1                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -533,9 +548,9 @@ id="ladder">
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 5 -->
-    <!-- FALLA / EMERGENCY -->
-    <!-- M0.2 -->
+    <!-- RUNG 5                                            -->
+    <!-- DETECCION DE EMERGENCIA / FALLA                   -->
+    <!-- I0.2 --> M0.2                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -556,9 +571,9 @@ id="ladder">
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 6 -->
-    <!-- PILOTO ROJO -->
-    <!-- M0.2 -->
+    <!-- RUNG 6                                            -->
+    <!-- PILOTO ROJO - FALLA ACTIVA                        -->
+    <!-- M0.2 --> Q0.2                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -579,9 +594,9 @@ id="ladder">
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 7 -->
-    <!-- SENSOR EXTRA -->
-    <!-- M0.3 -->
+    <!-- RUNG 7                                            -->
+    <!-- SENSOR CON CONDICION DE MARCHA                    -->
+    <!-- I0.3 && M0.0 --> M0.3                            -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -610,9 +625,9 @@ id="ladder">
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 8 -->
-    <!-- PILOTO AZUL -->
-    <!-- M0.3 -->
+    <!-- RUNG 8                                            -->
+    <!-- PILOTO AZUL - SENSOR ACTIVO CON MARCHA            -->
+    <!-- M0.3 --> Q0.3                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -628,6 +643,103 @@ id="ladder">
         <div class="coil"
         data-address="Q0.3">
         (Q0.3)
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 9                                            -->
+    <!-- BLOQUEO POR FALLA                                 -->
+    <!-- NC de M0.2 bloquea Q0.0 si hay emergencia activa  -->
+    <!-- M0.1 && /M0.2 --> Q0.0 (reescritura segura)      -->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact"
+        data-type="NO"
+        data-address="M0.1">
+        M0.1
+        </div>
+
+        <div class="line"></div>
+
+        <div class="contact"
+        data-type="NC"
+        data-address="M0.2">
+        /M0.2
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil"
+        data-address="Q0.0">
+        (Q0.0)
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 10                                           -->
+    <!-- RESET DE FALLA MANUAL                             -->
+    <!-- I0.0 (flanco) limpia M0.2 si no hay emergencia   -->
+    <!-- I0.0 && /I0.2 --> M0.2 (coil RESET)              -->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact"
+        data-type="NO"
+        data-address="I0.0">
+        I0.0
+        </div>
+
+        <div class="line"></div>
+
+        <div class="contact"
+        data-type="NC"
+        data-address="I0.2">
+        /I0.2
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil"
+        data-type="RESET"
+        data-address="M0.2">
+        (R M0.2)
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 11                                           -->
+    <!-- MARCHA SOLO SI NO HAY FALLA                       -->
+    <!-- Contacto NC de M0.2 en serie con M0.1 --> Q0.1   -->
+    <!-- Apaga piloto verde si hay emergencia              -->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact"
+        data-type="NO"
+        data-address="M0.1">
+        M0.1
+        </div>
+
+        <div class="line"></div>
+
+        <div class="contact"
+        data-type="NC"
+        data-address="M0.2">
+        /M0.2
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil"
+        data-address="Q0.1">
+        (Q0.1)
         </div>
 
     </div>
