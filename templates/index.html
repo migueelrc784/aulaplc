@@ -404,10 +404,6 @@ SIMULAR PLC
 
 <!-- LADDER -->
 
-<!-- LADDER -->
-
-<!-- LADDER -->
-
 <div class="ladder-area" id="ladder">
 
 <div class="ladder-area">
@@ -418,28 +414,22 @@ SIMULAR PLC
     <!-- ================================================= -->
     <!-- RUNG 1                                            -->
     <!-- START / STOP / EMERGENCIA                         -->
-    <!-- Enclavamiento (SEAL) con M0.0 en paralelo a I0.0 -->
     <!-- ( I0.0 || M0.0 ) && /I0.1 && /I0.2 --> M0.0     -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <!-- Rama paralela: pulsador START o contacto SEAL -->
         <div class="branch">
 
             <div class="branch-path">
-                <div class="contact"
-                data-type="NO"
-                data-address="I0.0">
-                I0.0
+                <div class="contact" data-type="NO" data-address="I0.0">
+                    <span>I0.0</span>
                 </div>
             </div>
 
             <div class="branch-path">
-                <div class="contact"
-                data-type="NO"
-                data-address="M0.0">
-                M0.0
+                <div class="contact" data-type="NO" data-address="M0.0">
+                    <span>M0.0</span>
                 </div>
             </div>
 
@@ -447,299 +437,245 @@ SIMULAR PLC
 
         <div class="line"></div>
 
-        <div class="contact"
-        data-type="NC"
-        data-address="I0.1">
-        /I0.1
+        <div class="contact" data-type="NC" data-address="I0.1">
+            <span class="diag"></span>
+            <span>I0.1</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="contact"
-        data-type="NC"
-        data-address="I0.2">
-        /I0.2
+        <div class="contact" data-type="NC" data-address="I0.2">
+            <span class="diag"></span>
+            <span>I0.2</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="M0.0">
-        (M0.0)
+        <div class="coil" data-address="M0.0">
+            <span class="coil-circle">M0.0</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 2                                            -->
-    <!-- HABILITACION MOTOR CON SENSOR                     -->
     <!-- M0.0 && I0.3 --> M0.1                            -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.0">
-        M0.0
+        <div class="contact" data-type="NO" data-address="M0.0">
+            <span>M0.0</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="contact"
-        data-type="NO"
-        data-address="I0.3">
-        I0.3
+        <div class="contact" data-type="NO" data-address="I0.3">
+            <span>I0.3</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="M0.1">
-        (M0.1)
+        <div class="coil" data-address="M0.1">
+            <span class="coil-circle">M0.1</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 3                                            -->
-    <!-- MOTOR PRINCIPAL                                   -->
     <!-- M0.1 --> Q0.0                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.1">
-        M0.1
+        <div class="contact" data-type="NO" data-address="M0.1">
+            <span>M0.1</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="Q0.0">
-        (Q0.0)
+        <div class="coil" data-address="Q0.0">
+            <span class="coil-circle">Q0.0</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 4                                            -->
-    <!-- PILOTO VERDE - MOTOR EN MARCHA                    -->
     <!-- M0.1 --> Q0.1                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.1">
-        M0.1
+        <div class="contact" data-type="NO" data-address="M0.1">
+            <span>M0.1</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="Q0.1">
-        (Q0.1)
+        <div class="coil" data-address="Q0.1">
+            <span class="coil-circle">Q0.1</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 5                                            -->
-    <!-- DETECCION DE EMERGENCIA / FALLA                   -->
     <!-- I0.2 --> M0.2                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="I0.2">
-        I0.2
+        <div class="contact" data-type="NO" data-address="I0.2">
+            <span>I0.2</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="M0.2">
-        (M0.2)
+        <div class="coil" data-address="M0.2">
+            <span class="coil-circle">M0.2</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 6                                            -->
-    <!-- PILOTO ROJO - FALLA ACTIVA                        -->
     <!-- M0.2 --> Q0.2                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.2">
-        M0.2
+        <div class="contact" data-type="NO" data-address="M0.2">
+            <span>M0.2</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="Q0.2">
-        (Q0.2)
+        <div class="coil" data-address="Q0.2">
+            <span class="coil-circle">Q0.2</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 7                                            -->
-    <!-- SENSOR CON CONDICION DE MARCHA                    -->
     <!-- I0.3 && M0.0 --> M0.3                            -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="I0.3">
-        I0.3
+        <div class="contact" data-type="NO" data-address="I0.3">
+            <span>I0.3</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.0">
-        M0.0
+        <div class="contact" data-type="NO" data-address="M0.0">
+            <span>M0.0</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="M0.3">
-        (M0.3)
+        <div class="coil" data-address="M0.3">
+            <span class="coil-circle">M0.3</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 8                                            -->
-    <!-- PILOTO AZUL - SENSOR ACTIVO CON MARCHA            -->
     <!-- M0.3 --> Q0.3                                    -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.3">
-        M0.3
+        <div class="contact" data-type="NO" data-address="M0.3">
+            <span>M0.3</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="Q0.3">
-        (Q0.3)
+        <div class="coil" data-address="Q0.3">
+            <span class="coil-circle">Q0.3</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 9                                            -->
-    <!-- BLOQUEO POR FALLA                                 -->
-    <!-- NC de M0.2 bloquea Q0.0 si hay emergencia activa  -->
-    <!-- M0.1 && /M0.2 --> Q0.0 (reescritura segura)      -->
+    <!-- M0.1 && /M0.2 --> Q0.0                           -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.1">
-        M0.1
+        <div class="contact" data-type="NO" data-address="M0.1">
+            <span>M0.1</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="contact"
-        data-type="NC"
-        data-address="M0.2">
-        /M0.2
+        <div class="contact" data-type="NC" data-address="M0.2">
+            <span class="diag"></span>
+            <span>M0.2</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="Q0.0">
-        (Q0.0)
+        <div class="coil" data-address="Q0.0">
+            <span class="coil-circle">Q0.0</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 10                                           -->
-    <!-- RESET DE FALLA MANUAL                             -->
-    <!-- I0.0 (flanco) limpia M0.2 si no hay emergencia   -->
-    <!-- I0.0 && /I0.2 --> M0.2 (coil RESET)              -->
+    <!-- I0.0 && /I0.2 --> (R M0.2)                       -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="I0.0">
-        I0.0
+        <div class="contact" data-type="NO" data-address="I0.0">
+            <span>I0.0</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="contact"
-        data-type="NC"
-        data-address="I0.2">
-        /I0.2
+        <div class="contact" data-type="NC" data-address="I0.2">
+            <span class="diag"></span>
+            <span>I0.2</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-type="RESET"
-        data-address="M0.2">
-        (R M0.2)
+        <div class="coil" data-type="RESET" data-address="M0.2">
+            <span class="coil-circle">R M0.2</span>
         </div>
 
     </div>
 
     <!-- ================================================= -->
     <!-- RUNG 11                                           -->
-    <!-- MARCHA SOLO SI NO HAY FALLA                       -->
-    <!-- Contacto NC de M0.2 en serie con M0.1 --> Q0.1   -->
-    <!-- Apaga piloto verde si hay emergencia              -->
+    <!-- M0.1 && /M0.2 --> Q0.1                           -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="contact"
-        data-type="NO"
-        data-address="M0.1">
-        M0.1
+        <div class="contact" data-type="NO" data-address="M0.1">
+            <span>M0.1</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="contact"
-        data-type="NC"
-        data-address="M0.2">
-        /M0.2
+        <div class="contact" data-type="NC" data-address="M0.2">
+            <span class="diag"></span>
+            <span>M0.2</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil"
-        data-address="Q0.1">
-        (Q0.1)
+        <div class="coil" data-address="Q0.1">
+            <span class="coil-circle">Q0.1</span>
         </div>
 
     </div>

@@ -3,22 +3,14 @@ LADDER AREA
 ========================================================= */
 
 .ladder-area{
-
 display:flex;
 flex-direction:column;
 gap:28px;
-
 padding:25px;
-
 overflow:auto;
-
 height:calc(100vh - 140px);
-
-background:
-linear-gradient(180deg,#04101b 0%,#071827 100%);
-
+background:linear-gradient(180deg,#04101b 0%,#071827 100%);
 border-radius:20px;
-
 }
 
 /* =========================================================
@@ -26,33 +18,16 @@ RUNG
 ========================================================= */
 
 .rung{
-
 position:relative;
-
 display:flex;
 align-items:center;
-
-min-height:120px;
-
-padding:0 35px;
-
-border-radius:22px;
-
-background:
-linear-gradient(
-90deg,
-rgba(8,20,34,.95),
-rgba(5,18,30,.98)
-);
-
+min-height:100px;
+padding:0 20px;
+border-radius:14px;
+background:rgba(8,20,34,.95);
 border:1px solid #14314f;
-
-box-shadow:
-0 0 30px rgba(0,0,0,.4),
-inset 0 0 30px rgba(0,255,150,.03);
-
 overflow-x:auto;
-
+gap:0;
 }
 
 /* =========================================================
@@ -60,30 +35,17 @@ RAILS
 ========================================================= */
 
 .rail{
-
-width:8px;
-height:82px;
-
-border-radius:20px;
-
+width:6px;
+height:64px;
+border-radius:3px;
 background:#28445e;
-
 flex-shrink:0;
-
 transition:.15s;
-
-position:relative;
-
 }
 
 .rail.powered{
-
-background:#00ff99;
-
-box-shadow:
-0 0 12px #00ff99,
-0 0 30px rgba(0,255,153,.5);
-
+background:#22c55e;
+box-shadow:0 0 8px rgba(34,197,94,.6);
 }
 
 /* =========================================================
@@ -91,351 +53,313 @@ LINES
 ========================================================= */
 
 .line{
-
-width:120px;
-height:5px;
-
-border-radius:20px;
-
-background:#365572;
-
+flex:1;
+min-width:30px;
+height:3px;
+border-radius:0;
+background:#1e3a52;
 flex-shrink:0;
-
-position:relative;
-
 transition:.15s;
-
 }
 
 .line.powered{
-
-background:#00ff99;
-
-box-shadow:
-0 0 10px #00ff99,
-0 0 20px rgba(0,255,153,.4);
-
-}
-
-.line.powered::after{
-
-content:"";
-
-position:absolute;
-
-top:-4px;
-left:-10px;
-
-width:14px;
-height:14px;
-
-border-radius:50%;
-
-background:#00ff99;
-
-box-shadow:
-0 0 12px #00ff99;
-
-animation:flow 1s linear infinite;
-
-}
-
-@keyframes flow{
-
-0%{
-
-left:-10px;
-opacity:0;
-
-}
-
-20%{
-
-opacity:1;
-
-}
-
-100%{
-
-left:100%;
-opacity:0;
-
-}
-
+background:#22c55e;
+box-shadow:0 0 6px rgba(34,197,94,.5);
 }
 
 /* =========================================================
-CONTACTS
+BRANCH (paralelo / enclavamiento)
+========================================================= */
+
+.branch{
+display:flex;
+flex-direction:column;
+justify-content:center;
+gap:0;
+flex-shrink:0;
+position:relative;
+}
+
+.branch-path{
+display:flex;
+align-items:center;
+padding:4px 0;
+}
+
+/* Rail vertical izquierdo del branch */
+.branch::before{
+content:"";
+position:absolute;
+left:0;
+top:16px;
+bottom:16px;
+width:3px;
+background:#1e3a52;
+border-radius:2px;
+}
+
+/* Rail vertical derecho del branch */
+.branch::after{
+content:"";
+position:absolute;
+right:0;
+top:16px;
+bottom:16px;
+width:3px;
+background:#1e3a52;
+border-radius:2px;
+}
+
+.branch.powered::before,
+.branch.powered::after{
+background:#22c55e;
+box-shadow:0 0 6px rgba(34,197,94,.5);
+}
+
+/* =========================================================
+CONTACTS — estilo TIA Portal
 ========================================================= */
 
 .contact{
-
 position:relative;
-
-width:80px;
-height:70px;
-
-display:flex;
-justify-content:center;
+display:inline-flex;
 align-items:center;
-
-font-size:16px;
-font-weight:700;
-
-color:#dce6f2;
-
+justify-content:center;
+width:64px;
+height:64px;
+background:transparent;
 flex-shrink:0;
-
 cursor:grab;
-
 user-select:none;
-
 transition:.15s;
-
+font-size:12px;
+font-weight:700;
+color:#64748b;
 }
 
-/* LEFT BAR */
-
+/* Barra izquierda */
 .contact::before{
-
 content:"";
-
 position:absolute;
-
-left:22px;
-top:8px;
-
-width:4px;
-height:54px;
-
-border-radius:10px;
-
-background:#b7c8da;
-
+left:10px;
+top:12px;
+width:3px;
+height:40px;
+border-radius:0;
+background:#64748b;
+transition:.15s;
 }
 
-/* RIGHT BAR */
-
+/* Barra derecha */
 .contact::after{
-
 content:"";
-
 position:absolute;
-
-right:22px;
-top:8px;
-
-width:4px;
-height:54px;
-
-border-radius:10px;
-
-background:#b7c8da;
-
+right:10px;
+top:12px;
+width:3px;
+height:40px;
+border-radius:0;
+background:#64748b;
+transition:.15s;
 }
 
-/* NC */
-
-.contact[data-type="NC"] .diag{
-
+/* Etiqueta arriba */
+.contact span,
+.contact-label{
 position:absolute;
+top:-18px;
+left:50%;
+transform:translateX(-50%);
+font-size:11px;
+font-weight:700;
+color:#64748b;
+white-space:nowrap;
+font-family:'Segoe UI',sans-serif;
+}
 
-width:52px;
-height:4px;
-
-background:#dce6f2;
-
-transform:rotate(-58deg);
-
-border-radius:10px;
-
+/* NC — línea diagonal */
+.contact[data-type="NC"] .diag{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%) rotate(15deg);
+width:3px;
+height:44px;
+border-radius:1px;
+background:#64748b;
+transition:.15s;
 }
 
 /* POWERED */
-
 .contact.powered{
-
-color:#00ff99;
-
-text-shadow:
-0 0 10px #00ff99;
-
+color:#22c55e;
 }
 
 .contact.powered::before,
 .contact.powered::after{
+background:#22c55e;
+box-shadow:0 0 8px rgba(34,197,94,.6);
+}
 
-background:#00ff99;
-
-box-shadow:
-0 0 10px #00ff99,
-0 0 18px rgba(0,255,153,.5);
-
+.contact.powered span,
+.contact.powered .contact-label{
+color:#22c55e;
+text-shadow:0 0 8px rgba(34,197,94,.5);
 }
 
 .contact.powered .diag{
-
-background:#00ff99;
-
-box-shadow:
-0 0 10px #00ff99;
-
+background:#22c55e;
+box-shadow:0 0 8px rgba(34,197,94,.6);
 }
 
 /* =========================================================
-COILS
+COILS — estilo TIA Portal
 ========================================================= */
 
 .coil{
-
 position:relative;
-
-width:90px;
-height:70px;
-
-display:flex;
-justify-content:center;
+display:inline-flex;
 align-items:center;
-
-font-size:16px;
-font-weight:700;
-
-color:#dce6f2;
-
+justify-content:center;
+width:64px;
+height:64px;
+background:transparent;
 flex-shrink:0;
-
 cursor:grab;
-
 transition:.15s;
-
+font-size:11px;
+font-weight:700;
+color:#64748b;
 }
 
-/* LEFT COIL */
-
+/* Barra izquierda */
 .coil::before{
-
 content:"";
-
 position:absolute;
-
-left:16px;
-top:10px;
-
-width:24px;
-height:46px;
-
-border:4px solid #dce6f2;
-
-border-right:none;
-
-border-radius:40px 0 0 40px;
-
+left:10px;
+top:12px;
+width:3px;
+height:40px;
+border-radius:0;
+background:#64748b;
+transition:.15s;
 }
 
-/* RIGHT COIL */
-
+/* Barra derecha */
 .coil::after{
-
 content:"";
-
 position:absolute;
+right:10px;
+top:12px;
+width:3px;
+height:40px;
+border-radius:0;
+background:#64748b;
+transition:.15s;
+}
 
-right:16px;
-top:10px;
+/* Círculo central */
+.coil .coil-circle{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:34px;
+height:34px;
+border-radius:50%;
+border:3px solid #64748b;
+background:transparent;
+transition:.15s;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:10px;
+font-weight:700;
+color:#64748b;
+}
 
-width:24px;
-height:46px;
-
-border:4px solid #dce6f2;
-
-border-left:none;
-
-border-radius:0 40px 40px 0;
-
+/* Etiqueta arriba */
+.coil span,
+.coil-label{
+position:absolute;
+top:-18px;
+left:50%;
+transform:translateX(-50%);
+font-size:11px;
+font-weight:700;
+color:#64748b;
+white-space:nowrap;
+font-family:'Segoe UI',sans-serif;
 }
 
 /* ENERGIZED */
-
 .coil.energized{
-
-color:#00ff99;
-
-text-shadow:
-0 0 10px #00ff99;
-
+color:#22c55e;
 }
 
 .coil.energized::before,
 .coil.energized::after{
+background:#22c55e;
+box-shadow:0 0 8px rgba(34,197,94,.6);
+}
 
-border-color:#00ff99;
+.coil.energized .coil-circle{
+border-color:#22c55e;
+color:#22c55e;
+box-shadow:0 0 10px rgba(34,197,94,.5);
+background:rgba(34,197,94,.06);
+}
 
-box-shadow:
-0 0 12px #00ff99,
-0 0 20px rgba(0,255,153,.5);
-
+.coil.energized span,
+.coil.energized .coil-label{
+color:#22c55e;
+text-shadow:0 0 8px rgba(34,197,94,.5);
 }
 
 /* =========================================================
-TIMER
+TIMER — estilo TIA Portal
 ========================================================= */
 
 .timer{
-
 position:relative;
-
-width:90px;
-height:70px;
-
+width:80px;
+height:64px;
 display:flex;
 justify-content:center;
 align-items:center;
-
-font-size:14px;
+font-size:12px;
 font-weight:700;
-
-color:#dce6f2;
-
-background:#132338;
-
-border:3px solid #95a8be;
-
-border-radius:10px;
-
+color:#64748b;
+background:#0d1f33;
+border:2px solid #64748b;
+border-radius:6px;
 flex-shrink:0;
-
 transition:.15s;
-
 cursor:grab;
-
 }
 
 .timer::before{
-
-content:"⏱";
-
+content:"TON";
 position:absolute;
-
 top:-10px;
-
-font-size:18px;
-
-background:#132338;
-
-padding:0 4px;
-
+left:50%;
+transform:translateX(-50%);
+font-size:9px;
+font-weight:700;
+background:#071827;
+padding:0 5px;
+color:#64748b;
+letter-spacing:1px;
 }
 
 .timer.powered{
+border-color:#22c55e;
+color:#22c55e;
+box-shadow:0 0 10px rgba(34,197,94,.4);
+}
 
-border-color:#00ff99;
-
-color:#00ff99;
-
-box-shadow:
-0 0 15px #00ff99,
-0 0 25px rgba(0,255,153,.4);
-
+.timer.powered::before{
+color:#22c55e;
 }
 
 /* =========================================================
@@ -443,44 +367,21 @@ DELETE BUTTON
 ========================================================= */
 
 .delete-element{
-
 position:absolute;
-
 top:-6px;
 right:-6px;
-
 width:18px;
 height:18px;
-
 border-radius:50%;
-
-background:#ff3355;
-
+background:#ef4444;
 display:flex;
 justify-content:center;
 align-items:center;
-
 font-size:10px;
 font-weight:700;
-
 cursor:pointer;
-
 z-index:20;
-
-opacity:.9;
-
-}
-
-/* =========================================================
-DRAGGING
-========================================================= */
-
-.dragging{
-
-opacity:.4;
-
-transform:scale(.95);
-
+color:white;
 }
 
 /* =========================================================
@@ -490,11 +391,16 @@ HOVER
 .contact:hover,
 .coil:hover,
 .timer:hover{
+filter:brightness(1.15);
+}
 
-transform:translateY(-2px);
+/* =========================================================
+DRAGGING
+========================================================= */
 
-filter:brightness(1.1);
-
+.dragging{
+opacity:.4;
+transform:scale(.95);
 }
 
 /* =========================================================
@@ -502,21 +408,15 @@ SCROLL
 ========================================================= */
 
 .ladder-area::-webkit-scrollbar{
-
-height:10px;
-width:10px;
-
+height:8px;
+width:8px;
 }
 
 .ladder-area::-webkit-scrollbar-thumb{
-
 background:#204868;
-border-radius:20px;
-
+border-radius:10px;
 }
 
 .ladder-area::-webkit-scrollbar-track{
-
 background:#07111d;
-
 }
