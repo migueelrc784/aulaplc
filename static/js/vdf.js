@@ -1,638 +1,372 @@
 /* =========================================================
-   AUTOMATION STUDIO X - VFD.JS REALISTIC SIMULATOR
+   AUTOMATION STUDIO X - VFD.JS FIXED
 ========================================================= */
 
 const vfd = {
-
-    /* ESTADOS */
-
     running: false,
     reverse: false,
     mode: "LOCAL",
-
-    /* VELOCIDAD */
-
     freq: 0,
     targetFreq: 0,
     maxFreq: 60,
-
-    /* MOTOR */
-
+    minFreq: 0,
     rpm: 0,
     amps: 0,
     volts: 380,
     powerKW: 0,
     torque: 0,
-
-    /* PARÁMETROS */
-
     accelTime: 5,
     decelTime: 4,
-
     motorRatedCurrent: 12,
     motorRatedRPM: 1750,
-
     carrierFreq: 4,
-    minFreq: 0,
-
-    /* TEMPERATURA */
-
     temperature: 28,
-
-    /* ALARMAS */
-
     alarm: false,
     alarmText: "NINGUNA",
-
-    /* LOOP */
-
     interval: null
-
 }
 
 /* =========================================================
-   INIT
+   INIT — espera que el DOM esté listo
 ========================================================= */
 
-window.addEventListener("DOMContentLoaded", () => {
-
+document.addEventListener("DOMContentLoaded", () => {
     initializeVFD()
-
 })
 
 function initializeVFD() {
 
-    console.log("VFD REAL SIMULATOR OK")
-
-    const slider =
-        document.getElementById("freqSlider")
-
+    /* SLIDER */
+    const slider = document.getElementById("freqSlider")
     if (slider) {
-
         slider.min = 0
         slider.max = 120
         slider.step = 1
         slider.value = 0
-
         slider.addEventListener("input", (e) => {
-
             updateVFD(e.target.value)
-
         })
-
     }
 
-    loadParameters()
+    /* INPUT NUMÉRICO */
+    const freqInput = document.getElementById("freqInput")
+    if (freqInput) {
+        freqInput.addEventListener("change", (e) => {
+            updateVFD(e.target.value)
+        })
+    }
 
     updateVFDUI()
+    startVFDLoop()
+    updateNeedles()
 
-    startVFDSimulation()
-
+    console.log("VFD INITIALIZED")
 }
 
 /* =========================================================
-   MAIN LOOP
+   LOOP PRINCIPAL
 ========================================================= */
 
-function startVFDSimulation() {
-
-    if (vfd.interval) {
-
-        clearInterval(vfd.interval)
-
-    }
-
-    vfd.interval = setInterval(() => {
-
-        simulateVFD()
-
-    }, 100)
-
+function startVFDLoop() {
+    if (vfd.interval) clearInterval(vfd.interval)
+    vfd.interval = setInterval(simulateVFD, 100)
 }
 
 /* =========================================================
-   SIMULATION ENGINE
+   MOTOR DE SIMULACIÓN
 ========================================================= */
 
 function simulateVFD() {
 
-    /* =========================================
-       ACELERACIÓN
-    ========================================= */
-
     if (vfd.running && !vfd.alarm) {
 
-        let accelStep =
-            Math.max(
-                0.03,
-                vfd.maxFreq /
-                (vfd.accelTime * 10)
-            )
+        /* ACELERACIÓN */
+        const accelStep = Math.max(0.05, vfd.maxFreq / (vfd.accelTime * 10))
 
         if (vfd.freq < vfd.targetFreq) {
-
-            vfd.freq += accelStep
-
-            if (vfd.freq > vfd.targetFreq) {
-
-                vfd.freq = vfd.targetFreq
-
-            }
-
+            vfd.freq = Math.min(vfd.freq + accelStep, vfd.targetFreq)
+        } else if (vfd.freq > vfd.targetFreq) {
+            vfd.freq = Math.max(vfd.freq - accelStep, vfd.targetFreq)
         }
 
-        if (vfd.freq > vfd.targetFreq) {
+    } else {
 
-            vfd.freq -= accelStep
-
-            if (vfd.freq < vfd.targetFreq) {
-
-                vfd.freq = vfd.targetFreq
-
-            }
-
-        }
-
-    }
-
-    /* =========================================
-       DECELERACIÓN
-    ========================================= */
-
-    if (!vfd.running) {
-
-        let decelStep =
-            Math.max(
-                0.05,
-                vfd.maxFreq /
-                (vfd.decelTime * 10)
-            )
+        /* DECELERACIÓN */
+        const decelStep = Math.max(0.05, vfd.maxFreq / (vfd.decelTime * 10))
 
         if (vfd.freq > 0) {
-
-            vfd.freq -= decelStep
-
+            vfd.freq = Math.max(vfd.freq - decelStep, 0)
         }
-
-        if (vfd.freq < 0) {
-
-            vfd.freq = 0
-
-        }
-
     }
 
-    /* =========================================
-       CÁLCULOS REALES
-    ========================================= */
+    /* CÁLCULOS */
+    const ratio = vfd.freq / 60
 
-    /* RPM */
+    vfd.rpm   = Math.floor(ratio * vfd.motorRatedRPM)
+    vfd.volts = Math.floor(220 + (vfd.freq * 2.6))
+    vfd.amps  = vfd.running ? (ratio * vfd.motorRatedCurrent) + 0.8 : 0
+    vfd.powerKW = (vfd.volts * vfd.amps * 1.73 * 0.82) / 1000
+    vfd.torque  = vfd.rpm > 0 ? (vfd.powerKW * 9550) / vfd.rpm : 0
 
-    vfd.rpm =
-        Math.floor(
-            (vfd.freq / 60) *
-            vfd.motorRatedRPM
-        )
-
-    /* VOLTAJE */
-
-    vfd.volts =
-        Math.floor(
-            220 + (vfd.freq * 2.6)
-        )
-
-    /* CORRIENTE */
-
+    /* TEMPERATURA */
     if (vfd.running) {
-
-        vfd.amps =
-            (
-                (vfd.freq / 60) *
-                vfd.motorRatedCurrent
-            ) + 0.8
-
+        vfd.temperature += 0.02 + (vfd.freq / 5000)
     } else {
-
-        vfd.amps = 0
-
+        vfd.temperature = Math.max(28, vfd.temperature - 0.04)
     }
-
-    /* POTENCIA */
-
-    vfd.powerKW =
-        (
-            (vfd.volts *
-            vfd.amps *
-            1.73 *
-            0.82) / 1000
-        )
-
-    /* TORQUE */
-
-    if (vfd.freq > 0) {
-
-        vfd.torque =
-            (
-                (vfd.powerKW * 9550) /
-                Math.max(vfd.rpm,1)
-            )
-
-    } else {
-
-        vfd.torque = 0
-
-    }
-
-    /* =========================================
-       TEMPERATURA
-    ========================================= */
-
-    if (vfd.running) {
-
-        vfd.temperature +=
-            0.02 +
-            (vfd.freq / 5000)
-
-    } else {
-
-        vfd.temperature -= 0.04
-
-    }
-
-    if (vfd.temperature < 28) {
-
-        vfd.temperature = 28
-
-    }
-
-    /* =========================================
-       ALARMAS
-    ========================================= */
 
     checkVFDAlarms()
-
-    /* =========================================
-       UI
-    ========================================= */
-
     updateVFDUI()
-
+    updateNeedles()
+    updateMotorAnimation()
 }
 
 /* =========================================================
-   UPDATE UI
+   ACTUALIZAR UI
 ========================================================= */
 
 function updateVFDUI() {
 
-    /* DISPLAY */
+    /* PANTALLA DEL DRIVE */
+    setText("vfdFreqBig", vfd.freq.toFixed(2) + " Hz")
+    setText("vfdRpmBig",  vfd.rpm + " RPM")
+    setText("vfdAmp",     vfd.amps.toFixed(1) + " A")
 
-    setText(
-        "freqDisplay",
-        vfd.freq.toFixed(2) + " Hz"
-    )
+    /* DISPLAY PANEL */
+    setText("freqDisplay", vfd.freq.toFixed(2))
 
-    setText(
-        "vfdFreqBig",
-        vfd.freq.toFixed(2) + " Hz"
-    )
-
-    setText(
-        "vfdRpmBig",
-        vfd.rpm + " RPM"
-    )
-
-    setText(
-        "vfdAmp",
-        vfd.amps.toFixed(1) + " A"
-    )
-
-    /* TABLA */
-
-    setText(
-        "tableFreq",
-        vfd.freq.toFixed(1) + " Hz"
-    )
-
-    setText(
-        "tableTemp",
-        vfd.temperature.toFixed(1) + " °C"
-    )
-
-    setText(
-        "tableVolt",
-        vfd.volts + " V"
-    )
-
-    setText(
-        "tableAmp",
-        vfd.amps.toFixed(1) + " A"
-    )
-
-    setText(
-        "vfdDirection",
-        vfd.reverse ? "REV" : "FWD"
-    )
-
-    setText(
-        "modeText",
-        vfd.mode
-    )
-
-    setText(
-        "alarmText",
-        vfd.alarmText
-    )
-
-    /* NUEVOS DATOS */
-
-    setText(
-        "tablePower",
-        vfd.powerKW.toFixed(2) + " kW"
-    )
-
-    setText(
-        "tableTorque",
-        vfd.torque.toFixed(1) + " Nm"
-    )
+    /* TABLA MONITOREO */
+    setText("tableFreq",  vfd.freq.toFixed(1) + " Hz")
+    setText("tableRPM",   vfd.rpm + " RPM")
+    setText("tableTemp",  vfd.temperature.toFixed(1) + " °C")
+    setText("tableVolt",  vfd.volts + " V")
+    setText("tableAmp",   vfd.amps.toFixed(1) + " A")
+    setText("tablePower", vfd.powerKW.toFixed(2) + " kW")
+    setText("tableVolt",  vfd.volts + " VDC")
+    setText("vfdDirection", vfd.reverse ? "REV ◀" : "FWD ▶")
+    setText("modeText",   vfd.mode)
+    setText("alarmText",  vfd.alarmText)
 
     /* STATUS */
-
-    const status =
-        document.getElementById("vfdStatus")
-
+    const status = document.getElementById("vfdStatus")
     if (status) {
-
         if (vfd.alarm) {
-
-            status.innerHTML = "FAULT"
+            status.textContent = "FAULT"
             status.style.color = "#ff3355"
-
-        }
-
-        else if (vfd.running) {
-
-            status.innerHTML = "RUNNING"
+        } else if (vfd.running) {
+            status.textContent = "RUNNING"
             status.style.color = "#00ff99"
-
-        }
-
-        else {
-
-            status.innerHTML = "STOP"
+        } else {
+            status.textContent = "STOP"
             status.style.color = "#ffffff"
-
         }
-
     }
 
-    /* SINCRONIZA SLIDER */
-
-    const slider =
-        document.getElementById("freqSlider")
-
-    if (slider) {
-
-        if (
-            document.activeElement !== slider
-        ) {
-
-            slider.value =
-                vfd.targetFreq
-
-        }
-
+    /* LEDS DEL DRIVE */
+    const leds = document.querySelectorAll(".vfd-drive-real .led")
+    if (leds.length >= 2) {
+        leds[0].className = "led " + (vfd.running && !vfd.alarm ? "green" : "")
+        leds[1].className = "led " + (vfd.alarm ? "red" : "")
     }
 
+    /* SYNC SLIDER */
+    const slider = document.getElementById("freqSlider")
+    if (slider && document.activeElement !== slider) {
+        slider.value = vfd.targetFreq
+    }
+
+    /* SYNC INPUT */
+    const freqInput = document.getElementById("freqInput")
+    if (freqInput && document.activeElement !== freqInput) {
+        freqInput.value = vfd.targetFreq.toFixed(1)
+    }
+
+    /* COLOR PANTALLA DRIVE */
+    const screen = document.querySelector(".drive-screen")
+    if (screen) {
+        if (vfd.alarm) {
+            screen.style.background = "linear-gradient(180deg,#ff6655,#cc3322)"
+            screen.style.color = "#fff"
+        } else if (vfd.running) {
+            screen.style.background = "linear-gradient(180deg,#b8d16a,#a1bf56)"
+            screen.style.color = "#111"
+        } else {
+            screen.style.background = "linear-gradient(180deg,#9aad58,#7a9040)"
+            screen.style.color = "#111"
+        }
+    }
 }
 
 /* =========================================================
-   COMMANDS
+   AGUJAS DE GAUGES
+========================================================= */
+
+function updateNeedles() {
+
+    /* FRECUENCIA — max 120 Hz → 180° */
+    rotateNeedle("needleFreq", vfd.freq, 0, 120)
+    setText("freqGaugeText", vfd.freq.toFixed(1) + " Hz")
+
+    /* RPM — max motorRatedRPM */
+    rotateNeedle("needleRPM", vfd.rpm, 0, vfd.motorRatedRPM)
+    setText("rpmGaugeText", vfd.rpm + " RPM")
+
+    /* AMPERAJE */
+    rotateNeedle("needleAmp", vfd.amps, 0, vfd.motorRatedCurrent * 1.5)
+    setText("ampGaugeText", vfd.amps.toFixed(1) + " A")
+
+    /* VOLTAJE */
+    rotateNeedle("needleVolt", vfd.volts, 0, 600)
+    setText("voltGaugeText", vfd.volts + " V")
+}
+
+function rotateNeedle(id, value, min, max) {
+    const needle = document.getElementById(id)
+    if (!needle) return
+    const pct = Math.min(1, Math.max(0, (value - min) / (max - min)))
+    const deg = -90 + (pct * 180)
+    needle.style.transform = `rotate(${deg}deg)`
+}
+
+/* =========================================================
+   ANIMACIÓN DEL MOTOR (sidebar)
+========================================================= */
+
+function updateMotorAnimation() {
+    const fan = document.getElementById("motorFan")
+    if (!fan) return
+
+    if (vfd.running && vfd.freq > 0) {
+        const speed = Math.max(0.1, 2 - (vfd.freq / 60))
+        fan.style.animationDuration = speed + "s"
+        fan.style.animationPlayState = "running"
+    } else {
+        fan.style.animationPlayState = "paused"
+    }
+
+    /* RPM display */
+    const rpmEl = document.getElementById("rpmValue")
+    if (rpmEl) rpmEl.textContent = vfd.rpm + " RPM"
+
+    const stateEl = document.getElementById("motorState")
+    if (stateEl) {
+        stateEl.textContent = vfd.running ? "RUN" : "STOP"
+        stateEl.style.color = vfd.running ? "#22c55e" : "#ef4444"
+    }
+}
+
+/* =========================================================
+   COMANDOS
 ========================================================= */
 
 function startVFD() {
-
     if (vfd.alarm) {
-
-        console.log("ALARM ACTIVE")
+        console.warn("ALARM ACTIVE — reset first")
         return
-
     }
-
     vfd.running = true
-
-    console.log("VFD RUN")
-
+    console.log("VFD START")
 }
 
 function stopVFD() {
-
     vfd.running = false
-
     console.log("VFD STOP")
-
 }
 
 function reverseVFD() {
-
     vfd.reverse = !vfd.reverse
-
     console.log("REVERSE:", vfd.reverse)
-
 }
 
 function resetVFDAlarm() {
-
     vfd.alarm = false
-
     vfd.alarmText = "NINGUNA"
-
-    console.log("RESET OK")
-
-}
-
-/* =========================================================
-   FREQUENCY
-========================================================= */
-
-function updateVFD(freq) {
-
-    vfd.targetFreq =
-        parseFloat(freq)
-
-    if (isNaN(vfd.targetFreq)) {
-
-        vfd.targetFreq = 0
-
-    }
-
-    /* LIMITES */
-
-    if (vfd.targetFreq > vfd.maxFreq) {
-
-        vfd.targetFreq =
-            vfd.maxFreq
-
-    }
-
-    if (vfd.targetFreq < vfd.minFreq) {
-
-        vfd.targetFreq =
-            vfd.minFreq
-
-    }
-
-    setText(
-        "freqDisplay",
-        vfd.targetFreq.toFixed(2) + " Hz"
-    )
-
-}
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-function vfdFreqUp() {
-
-    const slider =
-        document.getElementById("freqSlider")
-
-    if (!slider) return
-
-    slider.value =
-        Math.min(
-            vfd.maxFreq,
-            parseInt(slider.value) + 5
-        )
-
-    updateVFD(slider.value)
-
-}
-
-function vfdFreqDown() {
-
-    const slider =
-        document.getElementById("freqSlider")
-
-    if (!slider) return
-
-    slider.value =
-        Math.max(
-            0,
-            parseInt(slider.value) - 5
-        )
-
-    updateVFD(slider.value)
-
-}
-
-/* =========================================================
-   PARAMETERS
-========================================================= */
-
-function applyVFDParameters() {
-
-    vfd.accelTime =
-        parseFloat(
-            getInputValue("paramAccel", 5)
-        )
-
-    vfd.decelTime =
-        parseFloat(
-            getInputValue("paramDecel", 4)
-        )
-
-    vfd.maxFreq =
-        parseFloat(
-            getInputValue("paramMaxFreq", 60)
-        )
-
-    vfd.minFreq =
-        parseFloat(
-            getInputValue("paramMinFreq", 0)
-        )
-
-    vfd.motorRatedCurrent =
-        parseFloat(
-            getInputValue("paramCurrent", 12)
-        )
-
-    vfd.motorRatedRPM =
-        parseFloat(
-            getInputValue("paramRPM", 1750)
-        )
-
-    vfd.carrierFreq =
-        parseFloat(
-            getInputValue("paramCarrier", 4)
-        )
-
-    console.log("PARAMETERS UPDATED")
-
-}
-
-function loadParameters() {
-
-    applyVFDParameters()
-
+    console.log("ALARM RESET")
 }
 
 function setLocalMode() {
-
     vfd.mode = "LOCAL"
-
 }
 
 function setRemoteMode() {
-
     vfd.mode = "REMOTE"
+}
 
+function setMaxFreq() {
+    updateVFD(vfd.maxFreq)
 }
 
 /* =========================================================
-   ALARMS
+   FRECUENCIA
+========================================================= */
+
+function updateVFD(freq) {
+    let f = parseFloat(freq)
+    if (isNaN(f)) f = 0
+    f = Math.min(vfd.maxFreq, Math.max(vfd.minFreq, f))
+    vfd.targetFreq = f
+    setText("freqDisplay", f.toFixed(2))
+}
+
+function vfdFreqUp() {
+    updateVFD(Math.min(vfd.maxFreq, vfd.targetFreq + 5))
+    syncSlider()
+}
+
+function vfdFreqDown() {
+    updateVFD(Math.max(vfd.minFreq, vfd.targetFreq - 5))
+    syncSlider()
+}
+
+function syncSlider() {
+    const slider = document.getElementById("freqSlider")
+    if (slider) slider.value = vfd.targetFreq
+    const input = document.getElementById("freqInput")
+    if (input) input.value = vfd.targetFreq.toFixed(1)
+}
+
+/* =========================================================
+   PARÁMETROS
+========================================================= */
+
+function applyVFDParameters() {
+    vfd.accelTime          = getVal("paramAccel",   5)
+    vfd.decelTime          = getVal("paramDecel",   4)
+    vfd.maxFreq            = getVal("paramMaxFreq", 60)
+    vfd.minFreq            = getVal("paramMinFreq", 0)
+    vfd.motorRatedCurrent  = getVal("paramCurrent", 12)
+    vfd.motorRatedRPM      = getVal("paramRPM",     1750)
+    vfd.carrierFreq        = getVal("paramCarrier", 4)
+    console.log("PARAMETERS APPLIED", vfd)
+}
+
+function loadParameters() {
+    applyVFDParameters()
+}
+
+/* =========================================================
+   ALARMAS
 ========================================================= */
 
 function checkVFDAlarms() {
-
-    /* SOBRE TEMPERATURA */
-
     if (vfd.temperature >= 85) {
-
-        vfd.alarm = true
-        vfd.running = false
-
-        vfd.alarmText =
-            "OVER TEMP"
-
+        triggerAlarm("OVER TEMP")
     }
-
-    /* SOBRE CORRIENTE */
-
-    if (vfd.amps >=
-        vfd.motorRatedCurrent * 1.5) {
-
-        vfd.alarm = true
-        vfd.running = false
-
-        vfd.alarmText =
-            "OVER CURRENT"
-
+    if (vfd.amps >= vfd.motorRatedCurrent * 1.5) {
+        triggerAlarm("OVER CURRENT")
     }
-
-    /* SOBRE VOLTAJE */
-
     if (vfd.volts >= 500) {
+        triggerAlarm("OVER VOLT")
+    }
+}
 
+function triggerAlarm(msg) {
+    if (!vfd.alarm) {
         vfd.alarm = true
         vfd.running = false
-
-        vfd.alarmText =
-            "OVER VOLT"
-
+        vfd.alarmText = msg
+        console.warn("ALARM:", msg)
     }
-
 }
 
 /* =========================================================
@@ -640,25 +374,13 @@ function checkVFDAlarms() {
 ========================================================= */
 
 function setText(id, value) {
-
-    const el =
-        document.getElementById(id)
-
-    if (el) {
-
-        el.innerHTML = value
-
-    }
-
+    const el = document.getElementById(id)
+    if (el) el.textContent = value
 }
 
-function getInputValue(id, fallback) {
-
-    const el =
-        document.getElementById(id)
-
+function getVal(id, fallback) {
+    const el = document.getElementById(id)
     if (!el) return fallback
-
-    return el.value
-
+    const v = parseFloat(el.value)
+    return isNaN(v) ? fallback : v
 }
