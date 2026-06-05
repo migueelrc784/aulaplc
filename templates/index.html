@@ -2337,9 +2337,11 @@ function simulateVFD(){
         if(vfd.freq > 0) vfd.freq = Math.max(vfd.freq-step, 0)
     }
 
-    const ratio = vfd.freq / 60
-    vfd.rpm     = Math.floor(ratio * vfd.motorRatedRPM)
-    vfd.volts   = vfd.running ? Math.floor(220 + vfd.freq*2.6) : 0
+    const ratio    = vfd.freq / 60
+    const ratioNom = vfd.freq / (vfd.nominalFreq || 50)
+
+    vfd.rpm     = Math.floor(ratioNom * vfd.motorRatedRPM)
+    vfd.volts   = vfd.running ? Math.floor((vfd.freq / (vfd.nominalFreq || 50)) * (vfd.motorVoltage || 380)) : 0
     vfd.amps    = vfd.running ? (ratio * vfd.motorRatedCurrent) + 0.8 : 0
     vfd.powerKW = (vfd.volts * vfd.amps * 1.73 * 0.82) / 1000
 
@@ -2452,6 +2454,9 @@ function applyVFDParameters(){
     vfd.minFreq           = getVal("paramMinFreq", 0)
     vfd.motorRatedCurrent = getVal("paramCurrent", 12)
     vfd.motorRatedRPM     = getVal("paramRPM",     1750)
+    vfd.motorVoltage      = getVal("paramVolt",     380)
+    vfd.motorPowerKW      = getVal("paramPower",    2.2)
+    vfd.nominalFreq       = getVal("paramNomFreq",  50)
     alert("Parámetros guardados ✓")
 }
 
