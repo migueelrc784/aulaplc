@@ -6,7 +6,8 @@
 padding:25px;
 background:#030b16;
 min-height:calc(100vh - 80px);
-overflow:auto;
+overflow-y:auto;
+overflow-x:hidden;
 font-family:Inter;
 }
 
@@ -18,6 +19,7 @@ font-family:Inter;
 display:flex;
 gap:22px;
 align-items:flex-start;
+width:100%;
 }
 
 /* =========================================================
@@ -26,19 +28,14 @@ align-items:flex-start;
 
 .vfd-drive-real{
 width:260px;
-background:
-linear-gradient(
-180deg,
-#2d323a,
-#1a1d22
-);
+min-width:260px;
+background:linear-gradient(180deg,#2d323a,#1a1d22);
 border-radius:14px;
 padding:16px;
 border:2px solid #0d1117;
-
-box-shadow:
-0 0 35px rgba(0,0,0,.7),
-inset 0 0 12px rgba(255,255,255,.04);
+box-shadow:0 0 35px rgba(0,0,0,.7),inset 0 0 12px rgba(255,255,255,.04);
+position:sticky;
+top:20px;
 }
 
 .drive-top{
@@ -67,30 +64,15 @@ font-weight:600;
 ========================================================= */
 
 .drive-screen{
-
-background:
-linear-gradient(
-180deg,
-#b8d16a,
-#a1bf56
-);
-
+background:linear-gradient(180deg,#b8d16a,#a1bf56);
 border:4px solid #465126;
-
 border-radius:8px;
-
 padding:18px 10px;
-
 text-align:center;
-
 font-family:Orbitron;
-
 color:#111;
-
 margin-bottom:18px;
-
-box-shadow:
-inset 0 0 12px rgba(0,0,0,.25);
+box-shadow:inset 0 0 12px rgba(0,0,0,.25);
 }
 
 .screen-freq{
@@ -173,36 +155,30 @@ color:white;
 
 .gray-btn{
 background:#2a313b;
-color:white;
+color:#ccc;
 }
 
 .drive-warning{
 margin-top:10px;
-font-size:11px;
+font-size:10px;
 text-align:center;
 color:#ffcc66;
 font-weight:600;
+line-height:1.5;
 }
 
 /* =========================================================
-   PANEL
+   PANEL DERECHO
 ========================================================= */
 
 .vfd-panel-pro{
 flex:1;
-
-background:
-linear-gradient(
-180deg,
-#07111d,
-#081827
-);
-
+min-width:0;
+background:linear-gradient(180deg,#07111d,#081827);
 border:1px solid #18314c;
-
 border-radius:16px;
-
 padding:20px;
+overflow:visible;
 }
 
 /* =========================================================
@@ -211,13 +187,13 @@ padding:20px;
 
 .vfd-tabs{
 display:flex;
-gap:14px;
+gap:10px;
 margin-bottom:22px;
 flex-wrap:wrap;
 }
 
 .vfd-tab{
-padding:11px 20px;
+padding:10px 18px;
 background:#101d2e;
 border-radius:9px;
 font-size:12px;
@@ -225,15 +201,18 @@ color:#8ca3bf;
 font-weight:700;
 cursor:pointer;
 transition:.2s;
+border:1px solid #18314c;
 }
 
 .vfd-tab:hover{
 background:#16273d;
+color:#fff;
 }
 
 .active-tab{
 background:#00ff99;
 color:#00150d;
+border-color:#00ff99;
 }
 
 /* =========================================================
@@ -247,14 +226,8 @@ align-items:flex-start;
 }
 
 .vfd-left{
-width:390px;
-display:flex;
-flex-direction:column;
-gap:18px;
-}
-
-.vfd-right{
 flex:1;
+min-width:0;
 display:flex;
 flex-direction:column;
 gap:18px;
@@ -265,33 +238,22 @@ gap:18px;
 ========================================================= */
 
 .vfd-card{
-
-background:
-linear-gradient(
-180deg,
-#0b1725,
-#0a1320
-);
-
+background:linear-gradient(180deg,#0b1725,#0a1320);
 border:1px solid #18314c;
-
 border-radius:14px;
-
 padding:18px;
-
-box-shadow:
-0 0 10px rgba(0,0,0,.15);
 }
 
 .vfd-card h3{
-font-size:14px;
+font-size:13px;
 margin-bottom:16px;
 color:#00ff99;
 font-family:Orbitron;
+letter-spacing:1px;
 }
 
 /* =========================================================
-   FREQUENCY
+   FREQUENCY CONTROL
 ========================================================= */
 
 .freq-control{
@@ -303,6 +265,7 @@ gap:14px;
 .freq-slider{
 width:100%;
 cursor:pointer;
+accent-color:#00ff99;
 }
 
 .freq-display{
@@ -334,97 +297,67 @@ transition:.2s;
 
 .cmd-btn:hover{
 transform:translateY(-2px);
+filter:brightness(1.1);
 }
 
-.cmd-green{
-background:#2dc653;
-color:white;
-}
-
-.cmd-red{
-background:#ff3355;
-color:white;
-}
-
-.cmd-dark{
-background:#1d2735;
-color:#c8d8ea;
-}
+.cmd-green{background:#2dc653;color:white;}
+.cmd-red{background:#ff3355;color:white;}
+.cmd-dark{background:#1d2735;color:#c8d8ea;}
 
 /* =========================================================
-   PARAMETERS
+   PARAMETROS
 ========================================================= */
 
-.param-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-}
-
-.param-item{
-display:flex;
-flex-direction:column;
-gap:6px;
-}
-
-.param-item label{
-font-size:12px;
-color:#8ca3bf;
-font-weight:600;
-}
-
-.param-item input{
-
+.vfd-input{
 background:#09111b;
-
-border:1px solid #1e3650;
-
-color:white;
-
-padding:10px;
-
-border-radius:8px;
-
-font-size:13px;
-
+border:1px solid #18314c;
+color:#00ff99;
+padding:8px 10px;
+border-radius:6px;
+font-family:Orbitron;
+font-size:12px;
+width:100%;
 outline:none;
+transition:.2s;
 }
 
-.param-item input:focus{
+.vfd-input:focus{
 border-color:#00ff99;
+box-shadow:0 0 8px rgba(0,255,153,.3);
 }
 
 /* =========================================================
-   TABLE
+   MEMORY LIST
 ========================================================= */
 
 .memory-list{
 display:flex;
 flex-direction:column;
-gap:12px;
+gap:0;
 }
 
 .memory-item{
-
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
+padding:11px 14px;
+border-bottom:1px solid #0f2035;
+font-size:13px;
+color:#d7e6f5;
+transition:.15s;
+}
 
-background:#111f31;
+.memory-item:last-child{
+border-bottom:none;
+}
 
-padding:14px;
-
-border-radius:10px;
-
-border:1px solid #18314c;
-
-font-size:14px;
+.memory-item:hover{
+background:rgba(0,255,153,.04);
 }
 
 .memory-item span:last-child{
 font-family:Orbitron;
+font-size:12px;
 color:#ffffff;
 }
 
@@ -439,90 +372,64 @@ gap:18px;
 }
 
 .gauge-card{
-
 background:#0c1725;
-
 border:1px solid #18314c;
-
 border-radius:14px;
-
 padding:18px;
-
 text-align:center;
 }
 
 .gauge-title{
-font-size:13px;
+font-size:12px;
 margin-bottom:14px;
 color:#8ca3bf;
 font-weight:700;
+letter-spacing:1px;
 }
 
 .gauge{
-
-width:145px;
-height:145px;
-
+width:130px;
+height:130px;
 border-radius:50%;
-
 margin:auto;
-
 position:relative;
-
+background:#09111b;
 border:8px solid #18314c;
-
 border-top-color:#00ff99;
 border-left-color:#00ff99;
 border-right-color:#ff6644;
-
-background:#09111b;
-
-box-shadow:
-inset 0 0 15px rgba(0,0,0,.4);
+box-shadow:inset 0 0 15px rgba(0,0,0,.4);
 }
 
 .needle{
-
 position:absolute;
-
-width:4px;
-height:58px;
-
+width:3px;
+height:52px;
 background:white;
-
 left:50%;
 bottom:50%;
-
 transform-origin:bottom center;
-
 transform:rotate(-90deg);
-
 border-radius:10px;
+transition:.4s;
 }
 
 .gauge::after{
-
 content:"";
-
 position:absolute;
-
-width:14px;
-height:14px;
-
+width:12px;
+height:12px;
 background:white;
-
 border-radius:50%;
-
 left:50%;
 top:50%;
-
 transform:translate(-50%,-50%);
 }
 
 .gauge-value{
-margin-top:14px;
+margin-top:12px;
 font-family:Orbitron;
-font-size:18px;
+font-size:16px;
 color:#ffffff;
 }
 
@@ -530,16 +437,25 @@ color:#ffffff;
    STATUS COLORS
 ========================================================= */
 
-.status-run{
-color:#00ff99;
+.status-run{color:#00ff99;}
+.status-stop{color:#ffffff;}
+.status-alarm{color:#ff3355;}
+
+#vfdStatus{font-weight:700;font-family:Orbitron;}
+#freqInput:focus{border-color:#00ff99;box-shadow:0 0 15px rgba(0,255,153,.3);}
+
+/* =========================================================
+   SCROLL FIX — reemplaza todo lo anterior
+========================================================= */
+
+#vfdSection{
+height:calc(100vh - 80px);
+overflow-y:auto;
+overflow-x:hidden;
 }
 
-.status-stop{
-color:#ffffff;
-}
-
-.status-alarm{
-color:#ff3355;
+body{
+overflow:hidden;
 }
 
 /* =========================================================
@@ -547,130 +463,18 @@ color:#ff3355;
 ========================================================= */
 
 @media(max-width:1200px){
-
-.vfd-wrapper{
-flex-direction:column;
-}
-
-.vfd-drive-real{
-width:100%;
-}
-
-.vfd-content{
-flex-direction:column;
-}
-
-.vfd-left{
-width:100%;
-}
-
-.gauges-grid{
-grid-template-columns:1fr;
-}
-
-.param-grid{
-grid-template-columns:1fr;
-}
-
+.vfd-wrapper{flex-direction:column;}
+.vfd-drive-real{width:100%;min-width:unset;position:static;}
+.vfd-content{flex-direction:column;}
+.vfd-left{width:100%;}
+.gauges-grid{grid-template-columns:1fr 1fr;}
 }
 
 @media(max-width:700px){
-
-.vfd-command-grid{
-grid-template-columns:1fr;
-}
-
-.memory-item{
-font-size:12px;
-}
-
-.freq-display{
-font-size:24px;
-}
-
-}
-/* =======================================
-FREQ INPUT NUEVO
-======================================= */
-
-.freq-control{
-display:flex;
-flex-direction:column;
-}
-
-.vfd-input{
-background:#09111b;
-border:1px solid #18314c;
-color:#00ff99;
-padding:8px;
-border-radius:6px;
-font-family:Orbitron;
-width:120px;
-}
-
-.drive-warning{
-margin-top:15px;
-font-size:11px;
-color:#ffcc66;
-text-align:center;
-line-height:1.5;
-}
-
-.memory-list{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.memory-item{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:8px 0;
-border-bottom:1px solid #13263c;
-font-size:13px;
-color:#d7e6f5;
-}
-
-.freq-slider{
-width:100%;
-}
-
-#vfdStatus{
-font-weight:700;
-font-family:Orbitron;
-}
-
-#freqInput:focus{
-border-color:#00ff99;
-box-shadow:0 0 15px rgba(0,255,153,.3);
-}
-/* =========================================
-SCROLL FIX VFD
-========================================= */
-
-#vfdSection{
-height:100vh;
-overflow-y:auto;
-overflow-x:hidden;
-padding-bottom:120px;
-}
-
-.vfd-page-pro{
-min-height:180vh;
-overflow:visible;
-}
-
-.vfd-wrapper{
-align-items:flex-start;
-min-height:1600px;
-}
-
-.vfd-panel-pro{
-overflow:visible;
-height:auto;
-}
-
-body{
-overflow:auto;
+.vfd-command-grid{grid-template-columns:1fr;}
+.gauges-grid{grid-template-columns:1fr;}
+.memory-item{font-size:12px;}
+.freq-display{font-size:24px;}
+.vfd-tabs{gap:8px;}
+.vfd-tab{padding:8px 12px;font-size:11px;}
 }
