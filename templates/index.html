@@ -2063,88 +2063,36 @@ VOLVER A CURSOS
 <div class="vfd-drive-real">
 
 <div class="drive-top">
-
-<div class="drive-brand">
-SIEMENS<br>G120
-</div>
-
-<div class="drive-model">
-SINAMICS G120
-</div>
-
+<div class="drive-brand">SIEMENS<br>G120</div>
+<div class="drive-model">SINAMICS G120</div>
 </div>
 
 <div class="drive-screen">
-
-<div class="screen-freq" id="vfdFreqBig">
-0.00 Hz
-</div>
-
-<div class="screen-rpm" id="vfdRpmBig">
-0 RPM
-</div>
-
-<div class="screen-amp" id="vfdAmp">
-0.0 A
-</div>
-
+<div class="screen-freq" id="vfdFreqBig">0.00 Hz</div>
+<div class="screen-rpm" id="vfdRpmBig">0 RPM</div>
+<div class="screen-amp" id="vfdAmp">0.0 A</div>
 </div>
 
 <div class="drive-leds">
-
-<div class="led green"></div>
-<div class="led green"></div>
-<div class="led"></div>
-
+<div class="led" id="ledRun"></div>
+<div class="led" id="ledFault"></div>
+<div class="led" id="ledReady"></div>
 </div>
 
 <div class="drive-buttons-grid">
 
-<button class="drive-btn green-btn"
-onclick="startVFD()">
-RUN
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="vfdFreqDown()">
-◀
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="vfdFreqUp()">
-▶
-</button>
-
-<button class="drive-btn red-btn"
-onclick="stopVFD()">
-STOP
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="setLocalMode()">
-LOCAL
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="setRemoteMode()">
-REMOTE
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="reverseVFD()">
-REV
-</button>
-
-<button class="drive-btn gray-btn"
-onclick="resetVFDAlarm()">
-RESET
-</button>
+<button class="drive-btn green-btn" onclick="startVFD()">RUN</button>
+<button class="drive-btn gray-btn"  onclick="stepFreqDown()">◀</button>
+<button class="drive-btn gray-btn"  onclick="stepFreqUp()">▶</button>
+<button class="drive-btn red-btn"   onclick="stopVFD()">STOP</button>
+<button class="drive-btn gray-btn"  onclick="setLocalMode()">LOCAL</button>
+<button class="drive-btn gray-btn"  onclick="setRemoteMode()">REMOTE</button>
+<button class="drive-btn gray-btn"  onclick="reverseVFD()">REV</button>
+<button class="drive-btn gray-btn"  onclick="resetVFDAlarm()">RESET</button>
 
 </div>
 
-<div class="drive-warning">
-⚠ SINAMICS G120 INDUSTRIAL DRIVE SYSTEM
-</div>
+<div class="drive-warning">⚠ SINAMICS G120 INDUSTRIAL DRIVE SYSTEM</div>
 
 </div>
 
@@ -2152,206 +2100,79 @@ RESET
 
 <div class="vfd-panel-pro">
 
-<!-- TABS -->
-
 <div class="vfd-tabs">
-
-<div class="vfd-tab active-tab">
-CONTROL
-</div>
-
-<div class="vfd-tab">
-PARÁMETROS
-</div>
-
-<div class="vfd-tab">
-MONITOREO
-</div>
-
-<div class="vfd-tab">
-ALARMAS
-</div>
-
+<div class="vfd-tab active-tab">CONTROL</div>
+<div class="vfd-tab">PARÁMETROS</div>
+<div class="vfd-tab">MONITOREO</div>
+<div class="vfd-tab">ALARMAS</div>
 </div>
 
 <div class="vfd-content">
-
 <div class="vfd-left">
 
-<!-- ================================================= -->
-<!-- REFERENCIA -->
-<!-- ================================================= -->
-
+<!-- REFERENCIA DE FRECUENCIA -->
 <div class="vfd-card">
-
-<h3>
-REFERENCIA DE FRECUENCIA
-</h3>
+<h3>REFERENCIA DE FRECUENCIA</h3>
 
 <div class="freq-control">
 
-<!-- INPUT MANUAL -->
-
-<div style="
-display:flex;
-align-items:center;
-gap:10px;
-margin-bottom:15px;
-">
-
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:15px;">
 <input
-type="number"
-id="freqInput"
-value="0"
-min="0"
-max="120"
-step="0.1"
-
-style="
-width:160px;
-background:#09111b;
-border:2px solid #18314c;
-color:#00ff99;
-padding:14px;
-border-radius:10px;
-font-size:26px;
-font-family:Orbitron;
-outline:none;
-">
-
-<div style="
-font-size:24px;
-font-family:Orbitron;
-color:#00ff99;
-">
-Hz
+    type="number"
+    id="freqInput"
+    value="0"
+    min="0"
+    max="120"
+    step="1"
+    style="width:160px;background:#09111b;border:2px solid #18314c;color:#00ff99;padding:14px;border-radius:10px;font-size:26px;font-family:Orbitron;outline:none;">
+<div style="font-size:24px;font-family:Orbitron;color:#00ff99;">Hz</div>
 </div>
 
-</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;">
 
-<!-- BOTONES -->
-
-<div style="
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:10px;
-margin-bottom:20px;
-">
-
-<button
-class="cmd-btn cmd-dark"
-onclick="vfdFreqDown()">
-
--1 Hz
-
-</button>
-
-<button
-class="cmd-btn cmd-dark"
-onclick="vfdFreqUp()">
-
-+1 Hz
-
-</button>
-
-<button
-class="cmd-btn cmd-dark"
-onclick="setMaxFreq()">
-
-MAX 120Hz
-
-</button>
+<button class="cmd-btn cmd-dark" onclick="stepFreqDown()">-1 Hz</button>
+<button class="cmd-btn cmd-dark" onclick="stepFreqUp()">+1 Hz</button>
+<button class="cmd-btn cmd-dark" onclick="applyMaxFreq()">MAX 120Hz</button>
 
 </div>
-
-<!-- BOTON APLICAR -->
-
-<button
-class="cmd-btn cmd-green"
-style="
-width:100%;
-margin-bottom:20px;
-"
-onclick="updateVFD(
-document.getElementById('freqInput').value
-)">
-
-APLICAR FRECUENCIA
-
-</button>
-
-<!-- DISPLAY -->
-
-<div class="freq-display">
-
-<span id="freqDisplay">
-0.00
-</span>
-
-Hz
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ================================================= -->
-<!-- COMANDOS -->
-<!-- ================================================= -->
-
-<div class="vfd-card">
-
-<h3>
-COMANDOS PRINCIPALES
-</h3>
-
-<div class="vfd-command-grid">
 
 <button class="cmd-btn cmd-green"
-onclick="startVFD()">
-ARRANCAR
+style="width:100%;margin-bottom:20px;"
+onclick="applyFreqInput()">
+APLICAR FRECUENCIA
 </button>
 
-<button class="cmd-btn cmd-dark"
-onclick="reverseVFD()">
-REVERSA
-</button>
-
-<button class="cmd-btn cmd-red"
-onclick="stopVFD()">
-DETENER
-</button>
-
-<button class="cmd-btn cmd-dark"
-onclick="resetVFDAlarm()">
-RESET
-</button>
-
+<div class="freq-display">
+<span id="freqDisplay">0.00</span> Hz
 </div>
 
 </div>
+</div>
 
-<!-- ================================================= -->
-<!-- PARAMETROS -->
-<!-- ================================================= -->
-
+<!-- COMANDOS -->
 <div class="vfd-card">
+<h3>COMANDOS PRINCIPALES</h3>
+<div class="vfd-command-grid">
+<button class="cmd-btn cmd-green" onclick="startVFD()">ARRANCAR</button>
+<button class="cmd-btn cmd-dark"  onclick="reverseVFD()">REVERSA</button>
+<button class="cmd-btn cmd-red"   onclick="stopVFD()">DETENER</button>
+<button class="cmd-btn cmd-dark"  onclick="resetVFDAlarm()">RESET</button>
+</div>
+</div>
 
-<h3>
-PARÁMETROS PRINCIPALES G120
-</h3>
-
+<!-- PARÁMETROS -->
+<div class="vfd-card">
+<h3>PARÁMETROS PRINCIPALES G120</h3>
 <div class="memory-list">
 
 <div class="memory-item">
 <span>P0304 VOLTAJE MOTOR</span>
-<input type="number" value="380" class="vfd-input">
+<input type="number" id="paramVolt" value="380" class="vfd-input">
 </div>
 
 <div class="memory-item">
-<span>P0305 CORRIENTE MOTOR</span>
-<input type="number" value="5.2" step="0.1" class="vfd-input">
+<span>P0305 CORRIENTE MOTOR (A)</span>
+<input type="number" id="paramCurrent" value="12" step="0.1" class="vfd-input">
 </div>
 
 <div class="memory-item">
@@ -2360,228 +2181,306 @@ PARÁMETROS PRINCIPALES G120
 </div>
 
 <div class="memory-item">
-<span>P0310 FRECUENCIA MOTOR</span>
+<span>P0310 FRECUENCIA NOMINAL</span>
 <input type="number" value="50" class="vfd-input">
 </div>
 
 <div class="memory-item">
 <span>P1080 FRECUENCIA MÍNIMA</span>
-<input type="number" value="0" class="vfd-input">
+<input type="number" id="paramMinFreq" value="0" class="vfd-input">
 </div>
 
 <div class="memory-item">
 <span>P1082 FRECUENCIA MÁXIMA</span>
-<input type="number" value="120" class="vfd-input">
+<input type="number" id="paramMaxFreq" value="60" class="vfd-input">
 </div>
 
 <div class="memory-item">
-<span>P1120 RAMPA ACELERACIÓN</span>
-<input type="number" value="5" step="0.1" class="vfd-input">
+<span>P1120 RAMPA ACELERACIÓN (s)</span>
+<input type="number" id="paramAccel" value="5" step="0.1" class="vfd-input">
 </div>
 
 <div class="memory-item">
-<span>P1121 RAMPA DECELERACIÓN</span>
-<input type="number" value="5" step="0.1" class="vfd-input">
+<span>P1121 RAMPA DECELERACIÓN (s)</span>
+<input type="number" id="paramDecel" value="4" step="0.1" class="vfd-input">
+</div>
+
+<div class="memory-item">
+<span>P1300 RPM NOMINALES MOTOR</span>
+<input type="number" id="paramRPM" value="1750" class="vfd-input">
 </div>
 
 <div class="memory-item">
 <span>P0700 FUENTE DE COMANDO</span>
-
 <select class="vfd-input">
-
 <option>1 BORNES</option>
 <option>2 PROFIBUS</option>
 <option>6 PROFINET</option>
 <option selected>LOCAL BOP</option>
-
 </select>
-
 </div>
 
 <div class="memory-item">
 <span>P1000 REFERENCIA VELOCIDAD</span>
-
 <select class="vfd-input">
-
 <option selected>BOP PANEL</option>
 <option>AI1 0-10V</option>
 <option>MODBUS</option>
 <option>PROFINET</option>
-
 </select>
+</div>
 
+<div style="margin-top:14px;">
+<button class="cmd-btn cmd-green" style="width:100%;" onclick="applyVFDParameters()">
+GUARDAR PARÁMETROS
+</button>
 </div>
 
 </div>
-
 </div>
 
-<!-- ================================================= -->
 <!-- MONITOREO -->
-<!-- ================================================= -->
-
 <div class="vfd-card">
-
-<h3>
-MONITOREO EN TIEMPO REAL
-</h3>
-
+<h3>MONITOREO EN TIEMPO REAL</h3>
 <div class="memory-list">
 
-<div class="memory-item">
-<span>ESTADO</span>
-<span id="vfdStatus">STOP</span>
-</div>
-
-<div class="memory-item">
-<span>DIRECCIÓN</span>
-<span id="vfdDirection">FWD</span>
-</div>
-
-<div class="memory-item">
-<span>FRECUENCIA</span>
-<span id="tableFreq">0.0 Hz</span>
-</div>
-
-<div class="memory-item">
-<span>RPM MOTOR</span>
-<span id="tableRPM">0 RPM</span>
-</div>
-
-<div class="memory-item">
-<span>TEMPERATURA</span>
-<span id="tableTemp">31 °C</span>
-</div>
-
-<div class="memory-item">
-<span>VOLTAJE DC BUS</span>
-<span id="tableVolt">540 VDC</span>
-</div>
-
-<div class="memory-item">
-<span>CORRIENTE</span>
-<span id="tableAmp">0.0 A</span>
-</div>
-
-<div class="memory-item">
-<span>POTENCIA</span>
-<span id="tablePower">0.0 kW</span>
-</div>
-
-<div class="memory-item">
-<span>MODO</span>
-<span id="modeText">LOCAL</span>
-</div>
-
-<div class="memory-item">
-<span>COMUNICACIÓN</span>
-<span>PROFINET OK</span>
-</div>
-
-<div class="memory-item">
-<span>ALARMA</span>
-<span id="alarmText">NINGUNA</span>
-</div>
+<div class="memory-item"><span>ESTADO</span><span id="vfdStatus">STOP</span></div>
+<div class="memory-item"><span>DIRECCIÓN</span><span id="vfdDirection">FWD ▶</span></div>
+<div class="memory-item"><span>FRECUENCIA</span><span id="tableFreq">0.0 Hz</span></div>
+<div class="memory-item"><span>RPM MOTOR</span><span id="tableRPM">0 RPM</span></div>
+<div class="memory-item"><span>TEMPERATURA</span><span id="tableTemp">28 °C</span></div>
+<div class="memory-item"><span>VOLTAJE DC BUS</span><span id="tableVolt">0 VDC</span></div>
+<div class="memory-item"><span>CORRIENTE</span><span id="tableAmp">0.0 A</span></div>
+<div class="memory-item"><span>POTENCIA</span><span id="tablePower">0.0 kW</span></div>
+<div class="memory-item"><span>MODO</span><span id="modeText">LOCAL</span></div>
+<div class="memory-item"><span>COMUNICACIÓN</span><span style="color:#00ff99;">PROFINET OK</span></div>
+<div class="memory-item"><span>ALARMA</span><span id="alarmText">NINGUNA</span></div>
 
 </div>
-
 </div>
 
-<!-- ================================================= -->
 <!-- GAUGES -->
-<!-- ================================================= -->
-
 <div class="gauges-grid">
 
 <div class="gauge-card">
-
+<div class="gauge-title">FRECUENCIA</div>
 <div class="gauge">
-
-<div class="needle"
-id="needleFreq">
+<div class="needle" id="needleFreq"></div>
 </div>
-
-</div>
-
-<div class="gauge-value"
-id="freqGaugeText">
-
-0 Hz
-
-</div>
-
+<div class="gauge-value" id="freqGaugeText">0 Hz</div>
 </div>
 
 <div class="gauge-card">
-
+<div class="gauge-title">RPM</div>
 <div class="gauge">
-
-<div class="needle"
-id="needleRPM">
+<div class="needle" id="needleRPM"></div>
 </div>
-
-</div>
-
-<div class="gauge-value"
-id="rpmGaugeText">
-
-0 RPM
-
-</div>
-
+<div class="gauge-value" id="rpmGaugeText">0 RPM</div>
 </div>
 
 <div class="gauge-card">
-
+<div class="gauge-title">CORRIENTE</div>
 <div class="gauge">
-
-<div class="needle"
-id="needleAmp">
+<div class="needle" id="needleAmp"></div>
 </div>
-
-</div>
-
-<div class="gauge-value"
-id="ampGaugeText">
-
-0 A
-
-</div>
-
+<div class="gauge-value" id="ampGaugeText">0 A</div>
 </div>
 
 <div class="gauge-card">
-
+<div class="gauge-title">VOLTAJE</div>
 <div class="gauge">
-
-<div class="needle"
-id="needleVolt">
+<div class="needle" id="needleVolt"></div>
+</div>
+<div class="gauge-value" id="voltGaugeText">0 V</div>
 </div>
 
 </div>
 
-<div class="gauge-value"
-id="voltGaugeText">
-
-0 V
-
+</div>
 </div>
 
 </div>
+</div>
 
-</div> <!-- gauges-grid -->
+</div>
+</div>
 
-</div> <!-- vfd-left -->
+<!-- ===================================================== -->
+<!-- VFD ENGINE — inline para garantizar ejecución        -->
+<!-- ===================================================== -->
+<script>
 
-</div> <!-- vfd-content -->
+const vfd = {
+    running:false, reverse:false, mode:"LOCAL",
+    freq:0, targetFreq:0, maxFreq:60, minFreq:0,
+    rpm:0, amps:0, volts:0, powerKW:0,
+    accelTime:5, decelTime:4,
+    motorRatedCurrent:12, motorRatedRPM:1750,
+    temperature:28, alarm:false, alarmText:"NINGUNA",
+    interval:null
+}
 
-</div> <!-- vfd-panel-pro -->
+/* LOOP */
+function startVFDLoop(){
+    if(vfd.interval) clearInterval(vfd.interval)
+    vfd.interval = setInterval(simulateVFD, 100)
+}
 
-</div> <!-- vfd-wrapper -->
+function simulateVFD(){
 
-</div> <!-- vfd-page-pro -->
+    if(vfd.running && !vfd.alarm){
+        const step = Math.max(0.05, vfd.maxFreq/(vfd.accelTime*10))
+        if(vfd.freq < vfd.targetFreq) vfd.freq = Math.min(vfd.freq+step, vfd.targetFreq)
+        else if(vfd.freq > vfd.targetFreq) vfd.freq = Math.max(vfd.freq-step, vfd.targetFreq)
+    } else {
+        const step = Math.max(0.05, vfd.maxFreq/(vfd.decelTime*10))
+        if(vfd.freq > 0) vfd.freq = Math.max(vfd.freq-step, 0)
+    }
 
-</div> <!-- vfdSection -->
+    const ratio = vfd.freq / 60
+    vfd.rpm     = Math.floor(ratio * vfd.motorRatedRPM)
+    vfd.volts   = vfd.running ? Math.floor(220 + vfd.freq*2.6) : 0
+    vfd.amps    = vfd.running ? (ratio * vfd.motorRatedCurrent) + 0.8 : 0
+    vfd.powerKW = (vfd.volts * vfd.amps * 1.73 * 0.82) / 1000
+
+    if(vfd.running) vfd.temperature = Math.min(90, vfd.temperature + 0.02)
+    else            vfd.temperature = Math.max(28, vfd.temperature - 0.04)
+
+    /* ALARMAS */
+    if(vfd.temperature >= 85 && !vfd.alarm) triggerAlarm("OVER TEMP")
+    if(vfd.amps >= vfd.motorRatedCurrent*1.5 && !vfd.alarm) triggerAlarm("OVER CURRENT")
+
+    renderVFD()
+}
+
+function renderVFD(){
+
+    set("vfdFreqBig",  vfd.freq.toFixed(2)+" Hz")
+    set("vfdRpmBig",   vfd.rpm+" RPM")
+    set("vfdAmp",      vfd.amps.toFixed(1)+" A")
+    set("freqDisplay", vfd.freq.toFixed(2))
+    set("tableFreq",   vfd.freq.toFixed(1)+" Hz")
+    set("tableRPM",    vfd.rpm+" RPM")
+    set("tableTemp",   vfd.temperature.toFixed(1)+" °C")
+    set("tableVolt",   vfd.volts+" VDC")
+    set("tableAmp",    vfd.amps.toFixed(1)+" A")
+    set("tablePower",  vfd.powerKW.toFixed(2)+" kW")
+    set("vfdDirection",vfd.reverse ? "REV ◀" : "FWD ▶")
+    set("modeText",    vfd.mode)
+    set("alarmText",   vfd.alarmText)
+
+    const st = document.getElementById("vfdStatus")
+    if(st){
+        if(vfd.alarm){         st.textContent="FAULT";   st.style.color="#ff3355"}
+        else if(vfd.running){  st.textContent="RUNNING"; st.style.color="#00ff99"}
+        else{                  st.textContent="STOP";    st.style.color="#ffffff"}
+    }
+
+    /* LEDS */
+    ledSet("ledRun",   vfd.running && !vfd.alarm, "green")
+    ledSet("ledFault", vfd.alarm,                 "red")
+    ledSet("ledReady", !vfd.alarm,                "green")
+
+    /* PANTALLA */
+    const scr = document.querySelector(".drive-screen")
+    if(scr){
+        if(vfd.alarm) scr.style.background="linear-gradient(180deg,#ff5544,#cc2211)"
+        else if(vfd.running) scr.style.background="linear-gradient(180deg,#b8d16a,#a1bf56)"
+        else scr.style.background="linear-gradient(180deg,#9aad58,#7a9040)"
+        scr.style.color = vfd.alarm ? "#fff" : "#111"
+    }
+
+    /* AGUJAS */
+    needle("needleFreq", vfd.freq,        0, vfd.maxFreq)
+    needle("needleRPM",  vfd.rpm,         0, vfd.motorRatedRPM)
+    needle("needleAmp",  vfd.amps,        0, vfd.motorRatedCurrent*1.5)
+    needle("needleVolt", vfd.volts,       0, 600)
+
+    set("freqGaugeText", vfd.freq.toFixed(1)+" Hz")
+    set("rpmGaugeText",  vfd.rpm+" RPM")
+    set("ampGaugeText",  vfd.amps.toFixed(1)+" A")
+    set("voltGaugeText", vfd.volts+" V")
+
+    /* MOTOR SIDEBAR */
+    const fan = document.getElementById("motorFan")
+    if(fan){
+        fan.style.animationPlayState = (vfd.running && vfd.freq>0) ? "running" : "paused"
+        if(vfd.running && vfd.freq>0)
+            fan.style.animationDuration = Math.max(0.2, 2-(vfd.freq/60))+"s"
+    }
+    set("rpmValue",   vfd.rpm+" RPM")
+    const ms = document.getElementById("motorState")
+    if(ms){ ms.textContent=vfd.running?"RUN":"STOP"; ms.style.color=vfd.running?"#22c55e":"#ef4444" }
+}
+
+/* COMANDOS */
+function startVFD(){
+    if(vfd.alarm){ alert("Reset la alarma primero"); return }
+    vfd.running = true
+}
+function stopVFD(){ vfd.running = false }
+function reverseVFD(){ vfd.reverse = !vfd.reverse }
+function resetVFDAlarm(){ vfd.alarm=false; vfd.alarmText="NINGUNA" }
+function setLocalMode(){ vfd.mode="LOCAL" }
+function setRemoteMode(){ vfd.mode="REMOTE" }
+
+/* FRECUENCIA */
+function applyFreqInput(){
+    const v = parseFloat(document.getElementById("freqInput").value)
+    if(!isNaN(v)) setTargetFreq(v)
+}
+function applyMaxFreq(){ setTargetFreq(vfd.maxFreq); syncInput() }
+function stepFreqUp(){   setTargetFreq(vfd.targetFreq + 1); syncInput() }
+function stepFreqDown(){ setTargetFreq(vfd.targetFreq - 1); syncInput() }
+
+function setTargetFreq(f){
+    f = Math.min(vfd.maxFreq, Math.max(vfd.minFreq, f))
+    vfd.targetFreq = f
+    syncInput()
+}
+function syncInput(){
+    const inp = document.getElementById("freqInput")
+    if(inp) inp.value = vfd.targetFreq.toFixed(1)
+    set("freqDisplay", vfd.targetFreq.toFixed(2))
+}
+
+/* PARÁMETROS */
+function applyVFDParameters(){
+    vfd.accelTime         = getVal("paramAccel",   5)
+    vfd.decelTime         = getVal("paramDecel",   4)
+    vfd.maxFreq           = getVal("paramMaxFreq", 60)
+    vfd.minFreq           = getVal("paramMinFreq", 0)
+    vfd.motorRatedCurrent = getVal("paramCurrent", 12)
+    vfd.motorRatedRPM     = getVal("paramRPM",     1750)
+    alert("Parámetros guardados ✓")
+}
+
+/* ALARMAS */
+function triggerAlarm(msg){
+    vfd.alarm=true; vfd.running=false; vfd.alarmText=msg
+}
+
+/* HELPERS */
+function set(id,val){ const e=document.getElementById(id); if(e) e.textContent=val }
+function getVal(id,fb){ const e=document.getElementById(id); if(!e) return fb; const v=parseFloat(e.value); return isNaN(v)?fb:v }
+function ledSet(id,on,color){
+    const e=document.getElementById(id)
+    if(!e) return
+    e.className = "led " + (on ? color : "")
+}
+function needle(id,val,min,max){
+    const e=document.getElementById(id)
+    if(!e) return
+    const pct = Math.min(1, Math.max(0,(val-min)/(max-min||1)))
+    e.style.transform = "rotate("+ (-90 + pct*180) +"deg)"
+}
+
+/* INIT */
+startVFDLoop()
+
+</script>
+
+</div>
 
 <!-- ===================================================== -->
 <!-- DUDAS -->
