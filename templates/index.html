@@ -2099,16 +2099,20 @@ VOLVER A CURSOS
 <div class="vfd-panel-pro">
 
 <div class="vfd-tabs">
-<div class="vfd-tab active-tab">CONTROL</div>
-<div class="vfd-tab">PARÁMETROS</div>
-<div class="vfd-tab">MONITOREO</div>
-<div class="vfd-tab">ALARMAS</div>
+<div class="vfd-tab active-tab" onclick="showVFDTab('control',this)">CONTROL</div>
+<div class="vfd-tab" onclick="showVFDTab('parametros',this)">PARÁMETROS</div>
+<div class="vfd-tab" onclick="showVFDTab('monitoreo',this)">MONITOREO</div>
+<div class="vfd-tab" onclick="showVFDTab('alarmas',this)">ALARMAS</div>
 </div>
 
 <div class="vfd-content">
 <div class="vfd-left">
 
-<!-- REFERENCIA DE FRECUENCIA -->
+<!-- ================================================= -->
+<!-- TAB CONTROL -->
+<!-- ================================================= -->
+<div id="tab-control">
+
 <div class="vfd-card">
 <h3>REFERENCIA DE FRECUENCIA</h3>
 <div class="freq-control">
@@ -2136,7 +2140,6 @@ APLICAR FRECUENCIA
 </div>
 </div> <!-- vfd-card frecuencia -->
 
-<!-- COMANDOS -->
 <div class="vfd-card">
 <h3>COMANDOS PRINCIPALES</h3>
 <div class="vfd-command-grid">
@@ -2147,7 +2150,13 @@ APLICAR FRECUENCIA
 </div>
 </div> <!-- vfd-card comandos -->
 
-<!-- PARÁMETROS -->
+</div> <!-- tab-control -->
+
+<!-- ================================================= -->
+<!-- TAB PARÁMETROS -->
+<!-- ================================================= -->
+<div id="tab-parametros" style="display:none;">
+
 <div class="vfd-card">
 <h3>PARÁMETROS PRINCIPALES G120</h3>
 <div class="memory-list">
@@ -2226,7 +2235,13 @@ GUARDAR PARÁMETROS
 </div>
 </div> <!-- vfd-card parametros -->
 
-<!-- MONITOREO -->
+</div> <!-- tab-parametros -->
+
+<!-- ================================================= -->
+<!-- TAB MONITOREO -->
+<!-- ================================================= -->
+<div id="tab-monitoreo" style="display:none;">
+
 <div class="vfd-card">
 <h3>MONITOREO EN TIEMPO REAL</h3>
 <div class="memory-list">
@@ -2244,7 +2259,35 @@ GUARDAR PARÁMETROS
 </div>
 </div> <!-- vfd-card monitoreo -->
 
-<!-- GAUGES -->
+</div> <!-- tab-monitoreo -->
+
+<!-- ================================================= -->
+<!-- TAB ALARMAS -->
+<!-- ================================================= -->
+<div id="tab-alarmas" style="display:none;">
+
+<div class="vfd-card">
+<h3>HISTORIAL DE ALARMAS</h3>
+<div class="memory-list">
+<div class="memory-item"><span>ÚLTIMA ALARMA</span><span id="lastAlarm">NINGUNA</span></div>
+<div class="memory-item"><span>ESTADO</span><span id="alarmStatus">OK</span></div>
+<div class="memory-item"><span>TEMPERATURA ACTUAL</span><span id="alarmTemp">28 °C</span></div>
+<div class="memory-item"><span>CORRIENTE ACTUAL</span><span id="alarmAmp">0.0 A</span></div>
+<div class="memory-item"><span>LÍMITE CORRIENTE</span><span id="alarmLimit">18.0 A</span></div>
+<div class="memory-item"><span>LÍMITE TEMPERATURA</span><span>85 °C</span></div>
+<div class="memory-item"><span>FRECUENCIA NOMINAL</span><span id="alarmNomFreq">50 Hz</span></div>
+<div class="memory-item"><span>ADVERTENCIA</span><span id="alarmWarn" style="color:#ffcc00;">NINGUNA</span></div>
+</div>
+<div style="margin-top:14px;">
+<button class="cmd-btn cmd-red" style="width:100%;" onclick="resetVFDAlarm()">
+RESET ALARMAS
+</button>
+</div>
+</div> <!-- vfd-card alarmas -->
+
+</div> <!-- tab-alarmas -->
+
+<!-- GAUGES siempre visibles -->
 <div class="gauges-grid">
 
 <div class="gauge-card">
@@ -2289,6 +2332,7 @@ const vfd = {
     accelTime:5, decelTime:4,
     motorRatedCurrent:12, motorRatedRPM:1750,
     temperature:28, alarm:false, alarmText:"NINGUNA",
+    nominalFreq:50, motorVoltage:380,
     interval:null
 }
 
@@ -2337,8 +2381,8 @@ function renderVFD(){
     set("tablePower",  vfd.powerKW.toFixed(2)+" kW")
     set("vfdDirection",vfd.reverse ? "REV ◀" : "FWD ▶")
     set("modeText",    vfd.mode)
-    set("alarmText",   vfd.alarmText)
 
+    /* STATUS */
     const st = document.getElementById("vfdStatus")
     if(st){
         if(vfd.alarm){        st.textContent="FAULT";   st.style.color="#ff3355"}
@@ -2346,10 +2390,12 @@ function renderVFD(){
         else{                 st.textContent="STOP";    st.style.color="#ffffff"}
     }
 
+    /* LEDS */
     ledSet("ledRun",   vfd.running && !vfd.alarm, "green")
     ledSet("ledFault", vfd.alarm,                 "red")
     ledSet("ledReady", !vfd.alarm,                "green")
 
+    /* PANTALLA DRIVE */
     const scr = document.querySelector(".drive-screen")
     if(scr){
         if(vfd.alarm)        scr.style.background="linear-gradient(180deg,#ff5544,#cc2211)"
@@ -2358,16 +2404,17 @@ function renderVFD(){
         scr.style.color = vfd.alarm ? "#fff" : "#111"
     }
 
+    /* AGUJAS */
     needle("needleFreq", vfd.freq,  0, vfd.maxFreq)
     needle("needleRPM",  vfd.rpm,   0, vfd.motorRatedRPM)
     needle("needleAmp",  vfd.amps,  0, vfd.motorRatedCurrent*1.5)
     needle("needleVolt", vfd.volts, 0, 600)
-
     set("freqGaugeText", vfd.freq.toFixed(1)+" Hz")
     set("rpmGaugeText",  vfd.rpm+" RPM")
     set("ampGaugeText",  vfd.amps.toFixed(1)+" A")
     set("voltGaugeText", vfd.volts+" V")
 
+    /* MOTOR SIDEBAR */
     const fan = document.getElementById("motorFan")
     if(fan){
         fan.style.animationPlayState = (vfd.running && vfd.freq>0) ? "running" : "paused"
@@ -2378,10 +2425,13 @@ function renderVFD(){
     const ms = document.getElementById("motorState")
     if(ms){ ms.textContent=vfd.running?"RUN":"STOP"; ms.style.color=vfd.running?"#22c55e":"#ef4444" }
 
-    // ── ADVERTENCIA SOBRE FRECUENCIA NOMINAL ──
+    /* ALARMA TEXT */
     const alarmEl = document.getElementById("alarmText")
-    if(alarmEl && !vfd.alarm){
-        if(vfd.freq > (vfd.nominalFreq || 50)){
+    if(alarmEl){
+        if(vfd.alarm){
+            alarmEl.textContent = vfd.alarmText
+            alarmEl.style.color = "#ff3355"
+        } else if(vfd.freq > (vfd.nominalFreq || 50)){
             alarmEl.textContent = "⚠ SOBRE FREQ NOMINAL"
             alarmEl.style.color = "#ffcc00"
         } else {
@@ -2390,8 +2440,42 @@ function renderVFD(){
         }
     }
 
-} // cierre de renderVFD
+    /* ACTUALIZAR TAB ALARMAS en tiempo real */
+    set("alarmTemp",  vfd.temperature.toFixed(1)+" °C")
+    set("alarmAmp",   vfd.amps.toFixed(1)+" A")
+    set("alarmLimit", (vfd.motorRatedCurrent*1.5).toFixed(1)+" A")
+    set("alarmNomFreq", (vfd.nominalFreq||50)+" Hz")
+    const warnEl = document.getElementById("alarmWarn")
+    if(warnEl){
+        if(vfd.freq > (vfd.nominalFreq||50)){
+            warnEl.textContent = "⚠ SOBRE FREQ NOMINAL"
+            warnEl.style.color = "#ffcc00"
+        } else {
+            warnEl.textContent = "NINGUNA"
+            warnEl.style.color = "#ffffff"
+        }
+    }
+    const alarmStatusEl = document.getElementById("alarmStatus")
+    if(alarmStatusEl){
+        alarmStatusEl.textContent = vfd.alarm ? "FAULT ⛔" : "OK ✓"
+        alarmStatusEl.style.color = vfd.alarm ? "#ff3355" : "#00ff99"
+    }
+    set("lastAlarm", vfd.alarmText)
 
+} /* cierre renderVFD */
+
+/* TABS */
+function showVFDTab(tab, btn){
+    document.getElementById("tab-control").style.display    = "none"
+    document.getElementById("tab-parametros").style.display = "none"
+    document.getElementById("tab-monitoreo").style.display  = "none"
+    document.getElementById("tab-alarmas").style.display    = "none"
+    document.getElementById("tab-"+tab).style.display = "block"
+    document.querySelectorAll(".vfd-tab").forEach(t => t.classList.remove("active-tab"))
+    btn.classList.add("active-tab")
+}
+
+/* COMANDOS */
 function startVFD(){ if(vfd.alarm){ alert("Reset la alarma primero"); return } vfd.running=true }
 function stopVFD(){ vfd.running=false }
 function reverseVFD(){ vfd.reverse=!vfd.reverse }
@@ -2399,6 +2483,7 @@ function resetVFDAlarm(){ vfd.alarm=false; vfd.alarmText="NINGUNA" }
 function setLocalMode(){ vfd.mode="LOCAL" }
 function setRemoteMode(){ vfd.mode="REMOTE" }
 
+/* FRECUENCIA */
 function applyFreqInput(){
     const v = parseFloat(document.getElementById("freqInput").value)
     if(!isNaN(v)) setTargetFreq(v)
@@ -2414,6 +2499,7 @@ function setTargetFreq(f){
     set("freqDisplay", f.toFixed(2))
 }
 
+/* PARÁMETROS */
 function applyVFDParameters(){
     vfd.accelTime         = getVal("paramAccel",   5)
     vfd.decelTime         = getVal("paramDecel",   4)
@@ -2427,7 +2513,10 @@ function applyVFDParameters(){
     alert("Parámetros guardados ✓")
 }
 
+/* ALARMAS */
 function triggerAlarm(msg){ vfd.alarm=true; vfd.running=false; vfd.alarmText=msg }
+
+/* HELPERS */
 function set(id,val){ const e=document.getElementById(id); if(e) e.textContent=val }
 function getVal(id,fb){ const e=document.getElementById(id); if(!e) return fb; const v=parseFloat(e.value); return isNaN(v)?fb:v }
 function ledSet(id,on,color){ const e=document.getElementById(id); if(!e) return; e.className="led "+(on?color:"") }
