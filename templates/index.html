@@ -2377,7 +2377,20 @@ function renderVFD(){
     set("rpmValue", vfd.rpm+" RPM")
     const ms = document.getElementById("motorState")
     if(ms){ ms.textContent=vfd.running?"RUN":"STOP"; ms.style.color=vfd.running?"#22c55e":"#ef4444" }
-}
+
+    // ── ADVERTENCIA SOBRE FRECUENCIA NOMINAL ──
+    const alarmEl = document.getElementById("alarmText")
+    if(alarmEl && !vfd.alarm){
+        if(vfd.freq > (vfd.nominalFreq || 50)){
+            alarmEl.textContent = "⚠ SOBRE FREQ NOMINAL"
+            alarmEl.style.color = "#ffcc00"
+        } else {
+            alarmEl.textContent = "NINGUNA"
+            alarmEl.style.color = "#ffffff"
+        }
+    }
+
+} // cierre de renderVFD
 
 function startVFD(){ if(vfd.alarm){ alert("Reset la alarma primero"); return } vfd.running=true }
 function stopVFD(){ vfd.running=false }
