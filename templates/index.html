@@ -3062,6 +3062,22 @@ SENSORES
 style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
 CABLES
 </button>
+<button onclick="filterStore('fuente',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+FUENTE
+</button>
+<button onclick="filterStore('luces',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+LUCES
+</button>
+<button onclick="filterStore('interruptor',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+INTERRUPTOR
+</button>
+<button onclick="filterStore('variador',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+VARIADOR
+</button>
 </div>
 
 <div class="courses-grid" id="storeGrid">
@@ -3211,7 +3227,7 @@ VER PRODUCTO ↗
 </div>
 
 <!-- PRODUCTO 13 -->
-<div class="course-card store-card" data-cat="interrruptor" data-price="6090">
+<div class="course-card store-card" data-cat="interruptor" data-price="6090">
 <div class="store-badge">Interruptor</div>
 <img src="{{ url_for('static', filename='img/interruptorautomatico.png') }}" class="course-image">
 <h2>Interruptor automático 2 polos</h2>
