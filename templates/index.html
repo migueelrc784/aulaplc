@@ -1573,9 +1573,7 @@ padding-left:20px;
 </div>
 
 <!-- ===================================================== -->
-
 <!-- MODULO 4 -->
-
 <!-- ===================================================== -->
 
 <div class="course-card">
@@ -1593,15 +1591,24 @@ Aprende a utilizar temporizadores industriales TON, TOF y TP en sistemas PLC Sie
 <iframe
 width="100%"
 height="420"
-src="TU_VIDEO_MODULO_4"
-title="Modulo 4"
+src="https://www.youtube.com/embed/VIDEO_ID_AQUI"
+title="Módulo 4 - Temporizadores TON TOF TP"
 frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen
 style="
 margin-top:20px;
 border-radius:12px;
 ">
 </iframe>
+
+<p style="
+margin-top:10px;
+font-size:14px;
+color:#888;
+">
+📹 Cuando subas tu video, reemplaza <strong>VIDEO_ID_AQUI</strong> por el ID del video de YouTube.
+</p>
 
 <div style="
 margin-top:20px;
@@ -1618,11 +1625,14 @@ flex-wrap:wrap;
 
 <a
 href="{{ url_for('static', filename='proyectos/modulo4_tia_portal.zip') }}"
-download> <button class="btn green">
-⬇️ DESCARGAR PROYECTO </button> </a>
+download>
+<button class="btn green">
+⬇️ DESCARGAR PROYECTO
+</button>
+</a>
 
 <a
-href="{{ url_for('static', filename='pdfs/modulo4_temporizadores.pdf') }}"
+href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}"
 target="_blank"
 style="
 display:inline-block;
@@ -1633,9 +1643,133 @@ text-decoration:none;
 border-radius:12px;
 font-weight:bold;
 ">
-📘 ABRIR PDF </a>
+📘 ABRIR PDF
+</a>
 
 </div>
+
+<!-- ===================================================== -->
+<!-- QUIZ MODULO 4 -->
+<!-- ===================================================== -->
+
+<div style="
+margin-top:35px;
+background:#111827;
+padding:25px;
+border-radius:15px;
+">
+
+<h3 style="margin-bottom:20px;">
+📝 Quiz - Temporizadores TON, TOF y TP
+</h3>
+
+<!-- Pregunta 1 -->
+
+<div id="q1">
+<p><strong>1. ¿Qué hace un temporizador TON?</strong></p>
+
+<button class="btn blue" onclick="checkQ1(false)">
+Activa una salida inmediatamente
+</button>
+
+<button class="btn blue" onclick="checkQ1(true)">
+Genera un retardo al encendido
+</button>
+
+<button class="btn blue" onclick="checkQ1(false)">
+Genera pulsos continuos
+</button>
+
+<p id="r1" style="margin-top:10px;font-weight:bold;"></p>
+</div>
+
+<hr style="margin:25px 0;">
+
+<!-- Pregunta 2 -->
+
+<div id="q2">
+<p><strong>2. ¿Qué hace un temporizador TOF?</strong></p>
+
+<button class="btn blue" onclick="checkQ2(false)">
+Retarda el encendido
+</button>
+
+<button class="btn blue" onclick="checkQ2(false)">
+Genera un pulso fijo
+</button>
+
+<button class="btn blue" onclick="checkQ2(true)">
+Retarda el apagado
+</button>
+
+<p id="r2" style="margin-top:10px;font-weight:bold;"></p>
+</div>
+
+<hr style="margin:25px 0;">
+
+<!-- Pregunta 3 -->
+
+<div id="q3">
+<p><strong>3. ¿Qué hace un temporizador TP?</strong></p>
+
+<button class="btn blue" onclick="checkQ3(true)">
+Genera un pulso de duración fija
+</button>
+
+<button class="btn blue" onclick="checkQ3(false)">
+Retarda el apagado
+</button>
+
+<button class="btn blue" onclick="checkQ3(false)">
+Mantiene una salida permanente
+</button>
+
+<p id="r3" style="margin-top:10px;font-weight:bold;"></p>
+</div>
+
+</div>
+
+<!-- SCRIPT QUIZ -->
+
+<script>
+
+function checkQ1(correct){
+const r = document.getElementById("r1");
+
+if(correct){
+r.innerHTML = "✅ Correcto. TON significa retardo a la conexión.";
+r.style.color = "#00ff88";
+}else{
+r.innerHTML = "❌ Incorrecto. TON genera un retardo al encendido.";
+r.style.color = "#ff4d4d";
+}
+}
+
+function checkQ2(correct){
+const r = document.getElementById("r2");
+
+if(correct){
+r.innerHTML = "✅ Correcto. TOF significa retardo a la desconexión.";
+r.style.color = "#00ff88";
+}else{
+r.innerHTML = "❌ Incorrecto. TOF retrasa el apagado de la salida.";
+r.style.color = "#ff4d4d";
+}
+}
+
+function checkQ3(correct){
+const r = document.getElementById("r3");
+
+if(correct){
+r.innerHTML = "✅ Correcto. TP genera un pulso temporizado.";
+r.style.color = "#00ff88";
+}else{
+r.innerHTML = "❌ Incorrecto. TP genera un pulso de duración fija.";
+r.style.color = "#ff4d4d";
+}
+}
+
+</script>
 
 </div>
 
