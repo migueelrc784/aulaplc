@@ -3033,194 +3033,343 @@ TIENDA AULAPLC
 Productos recomendados para automatización industrial, PLC Siemens, sensores, HMI y variadores.
 </p>
 
-<div class="courses-grid">
+<!-- BARRA DE FILTRO -->
+<div style="
+display:flex;
+gap:10px;
+margin-bottom:25px;
+flex-wrap:wrap;
+align-items:center;
+">
+<span style="color:#94a3b8;font-size:13px;font-weight:600;">FILTRAR:</span>
+<button onclick="filterStore('all',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #3b82f6;background:#3b82f6;color:white;cursor:pointer;font-weight:700;font-size:12px;">
+TODOS
+</button>
+<button onclick="filterStore('plc',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+PLC
+</button>
+<button onclick="filterStore('hmi',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+HMI
+</button>
+<button onclick="filterStore('sensor',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+SENSORES
+</button>
+<button onclick="filterStore('cable',this)"
+style="padding:7px 16px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
+CABLES
+</button>
+</div>
 
+<div class="courses-grid" id="storeGrid">
+
+<!-- ============================================ -->
 <!-- PRODUCTO 1 -->
-<div class="course-card">
+<!-- precio: cambia el número en data-price       -->
+<!-- categoria: cambia data-cat                   -->
+<!-- ============================================ -->
+<div class="course-card store-card" data-cat="plc" data-price="289990">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/plclogo.png') }}" class="course-image">
 <h2>Plc Controlador Siemens Logo V8.4 Para 12/24v</h2>
 <p>LOGO! 12/24RCE, módulo lógico, display FA/E/S: 12/24 V DC/relé, 8 DI (4 AI)/4 DO, mem. 400 bloques.</p>
-<a href="https://meli.la/1H8s22Y" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 289.990 CLP</div>
+<a href="https://meli.la/1H8s22Y" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 2 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="cable" data-price="24990">
+<div class="store-badge">CABLE</div>
 <img src="{{ url_for('static', filename='img/s7200.png') }}" class="course-image">
 <h2>Cable Programacion Plc Usb Mpi Para Siemens S7-200/300/400</h2>
-<p>compatible con protocolos MPI y PPI en controladores Siemens S7 serie.</p>
-<a href="https://meli.la/1hp31eS" target="_blank" class="premium-btn">
-VER PRODUCTO
+<p>Compatible con protocolos MPI y PPI en controladores Siemens S7 serie.</p>
+<div class="store-price">$ 24.990 CLP</div>
+<a href="https://meli.la/1hp31eS" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 3 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="hmi" data-price="1890000">
+<div class="store-badge">HMI</div>
 <img src="{{ url_for('static', filename='img/hmi1200.png') }}" class="course-image">
 <h2>Hmi Ktp1200</h2>
 <p>Táctil 12 Profinet 6av2123-2mb03-0ax0.</p>
-<a href="https://meli.la/1KFJ37a" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 1.890.000 CLP</div>
+<a href="https://meli.la/1KFJ37a" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 4 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="sensor" data-price="12990">
+<div class="store-badge">SENSOR</div>
 <img src="{{ url_for('static', filename='img/sensorinductivo.png') }}" class="course-image">
 <h2>Sensor De Proximidad Inductivo</h2>
-<p>Sn04-n (npn-no), distancia: 4mm de deteccion.</p>
-<a href="https://meli.la/1huMYUD" target="_blank" class="premium-btn">
-VER PRODUCTO
+<p>Sn04-n (npn-no), distancia: 4mm de detección.</p>
+<div class="store-price">$ 12.990 CLP</div>
+<a href="https://meli.la/1huMYUD" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 5 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto5.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 5</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_5" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_5" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 6 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto6.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 6</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_6" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_6" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 7 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto7.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 7</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_7" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_7" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 8 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto8.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 8</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_8" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_8" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 9 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto9.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 9</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_9" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_9" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 10 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto10.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 10</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_10" target="_blank" class="premium-btn">
-VER PRODUCTO
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_10" target="_blank" class="store-btn">
+VER PRODUCTO ↗
 </a>
 </div>
 
 <!-- PRODUCTO 11 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto11.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 11</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_11" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_11" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 12 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto12.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 12</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_12" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_12" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 13 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto13.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 13</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_13" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_13" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 14 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto14.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 14</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_14" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_14" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 15 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto15.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 15</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_15" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_15" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 16 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto16.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 16</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_16" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_16" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 17 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto17.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 17</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_17" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_17" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 18 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto18.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 18</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_18" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_18" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 19 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto19.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 19</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_19" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_19" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
 <!-- PRODUCTO 20 -->
-<div class="course-card">
+<div class="course-card store-card" data-cat="plc" data-price="0">
+<div class="store-badge">PLC</div>
 <img src="{{ url_for('static', filename='img/producto20.jpg') }}" class="course-image">
 <h2>NOMBRE PRODUCTO 20</h2>
 <p>Descripción breve del producto.</p>
-<a href="AQUI_LINK_AFILIADO_20" target="_blank" class="premium-btn">VER PRODUCTO</a>
+<div class="store-price">$ 0 CLP</div>
+<a href="AQUI_LINK_AFILIADO_20" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
 </div>
 
-</div>
+</div> <!-- courses-grid -->
 
-</div>
+</div> <!-- courses-page -->
 
-</div>
+</div> <!-- storeSection -->
+
+<!-- ESTILOS TIENDA -->
+<style>
+.store-card{
+position:relative;
+display:flex;
+flex-direction:column;
+}
+.store-card .course-image{
+width:100%;
+height:180px;
+object-fit:contain;
+background:#1a2332;
+border-radius:10px;
+margin-bottom:14px;
+padding:10px;
+}
+.store-badge{
+position:absolute;
+top:12px;
+right:12px;
+background:#2563eb;
+color:white;
+font-size:10px;
+font-weight:700;
+padding:4px 10px;
+border-radius:6px;
+letter-spacing:1px;
+}
+.store-price{
+font-size:20px;
+font-weight:700;
+color:#22c55e;
+margin:10px 0 14px;
+font-family:'Segoe UI',sans-serif;
+}
+.store-btn{
+display:block;
+text-align:center;
+padding:12px;
+background:#2563eb;
+color:white;
+border-radius:10px;
+text-decoration:none;
+font-weight:700;
+font-size:13px;
+margin-top:auto;
+transition:.2s;
+}
+.store-btn:hover{
+background:#1d4ed8;
+transform:translateY(-2px);
+}
+</style>
+
+<!-- JS FILTRO -->
+<script>
+function filterStore(cat, btn){
+    document.querySelectorAll('.store-card').forEach(card => {
+        if(cat === 'all' || card.dataset.cat === cat){
+            card.style.display = 'flex'
+        } else {
+            card.style.display = 'none'
+        }
+    })
+    document.querySelectorAll('[onclick^="filterStore"]').forEach(b => {
+        b.style.background = 'transparent'
+        b.style.color = '#94a3b8'
+        b.style.borderColor = '#374151'
+    })
+    btn.style.background = '#3b82f6'
+    btn.style.color = 'white'
+    btn.style.borderColor = '#3b82f6'
+}
+</script>
 
 </body>
-
 </html>
