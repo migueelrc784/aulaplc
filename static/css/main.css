@@ -1534,12 +1534,3 @@ body {
 .course-card{
     position:relative;
 }
-
-.product-price{
-    position:absolute;
-    bottom:15px;
-    right:15px;
-    font-size:16px;
-    font-weight:700;
-    color:#00ff88;
-}
