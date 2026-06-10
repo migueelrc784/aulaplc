@@ -413,7 +413,6 @@ SIMULAR PLC
 </div>
 
 <!-- LADDER -->
-
 <div class="ladder-area" id="ladder">
 
 <div class="ladder-area">
@@ -422,22 +421,23 @@ SIMULAR PLC
     <div class="ladder-right-rail"></div>
 
     <!-- ================================================= -->
-    <!-- RUNG 1                                            -->
-    <!-- START / STOP / EMERGENCIA                         -->
-    <!-- ( I0.0 || M0.0 ) && /I0.1 && /I0.2 --> M0.0     -->
+    <!-- RUNG 1  —  SEAL START/STOP/EMERGENCY              -->
+    <!-- ( I0.0 || M0.0 ) && /I0.1 && /I0.2  →  M0.0     -->
     <!-- ================================================= -->
 
     <div class="rung">
 
         <div class="branch">
-
             <div class="branch-path">
                 <div class="contact" data-type="NO" data-address="I0.0">
                     <span>I0.0</span>
                 </div>
             </div>
-
-            
+            <div class="branch-path">
+                <div class="contact" data-type="NO" data-address="M0.0">
+                    <span>M0.0</span>
+                </div>
+            </div>
         </div>
 
         <div class="line"></div>
@@ -463,8 +463,8 @@ SIMULAR PLC
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 2                                            -->
-    <!-- M0.0 && I0.3 --> M0.1                            -->
+    <!-- RUNG 2  —  HABILITACIÓN MOTOR CON SENSOR          -->
+    <!-- M0.0 && I0.3  →  M0.1                            -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -488,128 +488,8 @@ SIMULAR PLC
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 3                                            -->
-    <!-- M0.1 --> Q0.0                                    -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="M0.1">
-            <span>M0.1</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="Q0.0">
-            <span class="coil-circle">Q0.0</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 4                                            -->
-    <!-- M0.1 --> Q0.1                                    -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="M0.1">
-            <span>M0.1</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="Q0.1">
-            <span class="coil-circle">Q0.1</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 5                                            -->
-    <!-- I0.2 --> M0.2                                    -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="I0.2">
-            <span>I0.2</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="M0.2">
-            <span class="coil-circle">M0.2</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 6                                            -->
-    <!-- M0.2 --> Q0.2                                    -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="M0.2">
-            <span>M0.2</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="Q0.2">
-            <span class="coil-circle">Q0.2</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 7                                            -->
-    <!-- I0.3 && M0.0 --> M0.3                            -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="I0.3">
-            <span>I0.3</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="contact" data-type="NO" data-address="M0.0">
-            <span>M0.0</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="M0.3">
-            <span class="coil-circle">M0.3</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 8                                            -->
-    <!-- M0.3 --> Q0.3                                    -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="M0.3">
-            <span>M0.3</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="Q0.3">
-            <span class="coil-circle">Q0.3</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 9                                            -->
-    <!-- M0.1 && /M0.2 --> Q0.0                           -->
+    <!-- RUNG 3  —  SALIDAS MOTOR + LUZ VERDE              -->
+    <!-- M0.1 && /M0.2  →  Q0.0 · Q0.1                   -->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -631,11 +511,42 @@ SIMULAR PLC
             <span class="coil-circle">Q0.0</span>
         </div>
 
+        <div class="line"></div>
+
+        <div class="coil" data-address="Q0.1">
+            <span class="coil-circle">Q0.1</span>
+        </div>
+
     </div>
 
     <!-- ================================================= -->
-    <!-- RUNG 10                                           -->
-    <!-- I0.0 && /I0.2 --> (R M0.2)                       -->
+    <!-- RUNG 4  —  EMERGENCIA: SET ALARMA + LUZ ROJA     -->
+    <!-- I0.2  →  SET M0.2 · Q0.2                        -->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact" data-type="NO" data-address="I0.2">
+            <span>I0.2</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil" data-type="SET" data-address="M0.2">
+            <span class="coil-circle">S M0.2</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil" data-address="Q0.2">
+            <span class="coil-circle">Q0.2</span>
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 5  —  RESET ALARMA + LUZ AZUL SENSOR        -->
+    <!-- I0.0 && /I0.2  →  RESET M0.2 · (I0.3&&M0.0→Q0.3)-->
     <!-- ================================================= -->
 
     <div class="rung">
@@ -657,30 +568,22 @@ SIMULAR PLC
             <span class="coil-circle">R M0.2</span>
         </div>
 
-    </div>
+        <div class="line"></div>
 
-    <!-- ================================================= -->
-    <!-- RUNG 11                                           -->
-    <!-- M0.1 && /M0.2 --> Q0.1                           -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="M0.1">
-            <span>M0.1</span>
+        <div class="contact" data-type="NO" data-address="I0.3">
+            <span>I0.3</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="contact" data-type="NC" data-address="M0.2">
-            <span class="diag"></span>
-            <span>M0.2</span>
+        <div class="contact" data-type="NO" data-address="M0.0">
+            <span>M0.0</span>
         </div>
 
         <div class="line"></div>
 
-        <div class="coil" data-address="Q0.1">
-            <span class="coil-circle">Q0.1</span>
+        <div class="coil" data-address="Q0.3">
+            <span class="coil-circle">Q0.3</span>
         </div>
 
     </div>
