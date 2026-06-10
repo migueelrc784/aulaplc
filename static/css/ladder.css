@@ -1,421 +1,418 @@
 /* =========================================================
-LADDER AREA
-========================================================= */
+   LADDER AREA
+   ========================================================= */
 
-.ladder-area{
-display:flex;
-flex-direction:column;
-gap:20px;
-padding:25px;
-overflow:auto;
-height:calc(100vh - 140px);
-background:linear-gradient(180deg,#04101b 0%,#071827 100%);
-border-radius:20px;
+.ladder-area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 25px;
+  overflow: auto;
+  height: calc(100vh - 140px);
+  background: linear-gradient(180deg, #04101b 0%, #071827 100%);
+  border-radius: 20px;
 }
 
 /* =========================================================
-RUNG
-========================================================= */
+   RUNG
+   ========================================================= */
 
-.rung{
-position:relative;
-display:flex;
-align-items:center;
-min-height:110px;
-padding:0 24px;
-border-radius:14px;
-background:rgba(8,20,34,.95);
-border:1px solid #14314f;
-overflow-x:auto;
-gap:0;
+.rung {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100px;
+  padding: 28px 24px 12px 24px;
+  border-radius: 14px;
+  background: rgba(8, 20, 34, .95);
+  border: 1px solid #14314f;
+  overflow-x: auto;
+  gap: 0;
 }
 
 /* =========================================================
-RAILS
-========================================================= */
+   RAILS
+   ========================================================= */
 
-.rail{
-width:6px;
-height:64px;
-border-radius:3px;
-background:#28445e;
-flex-shrink:0;
-transition:.15s;
+.rail {
+  width: 6px;
+  height: 64px;
+  border-radius: 3px;
+  background: #28445e;
+  flex-shrink: 0;
+  transition: .15s;
 }
 
-.rail.powered{
-background:#22c55e;
-box-shadow:0 0 8px rgba(34,197,94,.6);
-}
-
-/* =========================================================
-LINES
-========================================================= */
-
-.line{
-flex:1;
-min-width:40px;
-height:4px;
-border-radius:0;
-background:#1e3a52;
-transition:.15s;
-}
-
-.line.powered{
-background:#22c55e;
-box-shadow:0 0 6px rgba(34,197,94,.5);
+.rail.powered {
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, .6);
 }
 
 /* =========================================================
-BRANCH
-========================================================= */
+   LINES
+   ========================================================= */
 
-.branch{
-display:flex;
-flex-direction:column;
-justify-content:center;
-gap:0;
-flex-shrink:0;
-position:relative;
-padding:0 4px;
+.line {
+  flex: 1;
+  min-width: 40px;
+  height: 4px;
+  border-radius: 0;
+  background: #1e3a52;
+  transition: background .15s, box-shadow .15s;
+  align-self: center;
+  margin-top: 0;
 }
 
-.branch::before{
-content:"";
-position:absolute;
-left:4px;
-top:22px;
-bottom:22px;
-width:4px;
-background:#1e3a52;
-border-radius:2px;
+.line.powered {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, .5);
 }
 
-.branch::after{
-content:"";
-position:absolute;
-right:4px;
-top:22px;
-bottom:22px;
-width:4px;
-background:#1e3a52;
-border-radius:2px;
+/* =========================================================
+   BRANCH
+   ========================================================= */
+
+.branch {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  flex-shrink: 0;
+  position: relative;
+  padding: 0 4px;
+}
+
+.branch::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 22px;
+  bottom: 22px;
+  width: 4px;
+  background: #1e3a52;
+  border-radius: 2px;
+}
+
+.branch::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 22px;
+  bottom: 22px;
+  width: 4px;
+  background: #1e3a52;
+  border-radius: 2px;
 }
 
 .branch.powered::before,
-.branch.powered::after{
-background:#22c55e;
-box-shadow:0 0 6px rgba(34,197,94,.5);
+.branch.powered::after {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, .5);
 }
 
-.branch-path{
-display:flex;
-align-items:center;
-padding:2px 0;
-}
-
-/* =========================================================
-CONTACTS — TIA Portal style
-========================================================= */
-
-.contact{
-position:relative;
-display:inline-flex;
-align-items:center;
-justify-content:center;
-width:72px;
-height:72px;
-background:transparent;
-flex-shrink:0;
-cursor:grab;
-user-select:none;
-transition:.15s;
-margin-top:20px;
-}
-
-/* Barra izquierda NO */
-.contact::before{
-content:"";
-position:absolute;
-left:12px;
-top:50%;
-transform:translateY(-50%);
-width:4px;
-height:46px;
-border-radius:1px;
-background:#4a6a85;
-transition:.15s;
-}
-
-/* Barra derecha NO */
-.contact::after{
-content:"";
-position:absolute;
-right:12px;
-top:50%;
-transform:translateY(-50%);
-width:4px;
-height:46px;
-border-radius:1px;
-background:#4a6a85;
-transition:.15s;
-}
-
-/* Etiqueta encima */
-.contact > span:not(.diag){
-position:absolute;
-top:-22px;
-left:50%;
-transform:translateX(-50%);
-font-size:12px;
-font-weight:700;
-color:#7a9ab5;
-white-space:nowrap;
-font-family:'Segoe UI',sans-serif;
-letter-spacing:.5px;
-}
-
-/* Línea horizontal interna (puente entre barras) */
-.contact-wire{
-position:absolute;
-left:16px;
-right:16px;
-top:50%;
-transform:translateY(-50%);
-height:4px;
-background:#1e3a52;
-}
-
-/* NC diagonal */
-.contact > span.diag{
-position:absolute;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%) rotate(15deg);
-width:4px;
-height:50px;
-border-radius:2px;
-background:#4a6a85;
-transition:.15s;
-pointer-events:none;
-}
-
-/* POWERED */
-.contact.powered::before,
-.contact.powered::after{
-background:#22c55e;
-box-shadow:0 0 10px rgba(34,197,94,.7);
-}
-
-.contact.powered > span:not(.diag){
-color:#22c55e;
-text-shadow:0 0 8px rgba(34,197,94,.6);
-}
-
-.contact.powered > span.diag{
-background:#22c55e;
-box-shadow:0 0 10px rgba(34,197,94,.7);
+.branch-path {
+  display: flex;
+  align-items: center;
+  padding: 2px 0;
 }
 
 /* =========================================================
-COILS — TIA Portal style
-========================================================= */
+   CONTACTS — TIA Portal style
+   ========================================================= */
 
-.coil{
-position:relative;
-display:inline-flex;
-align-items:center;
-justify-content:center;
-width:80px;
-height:72px;
-background:transparent;
-flex-shrink:0;
-cursor:grab;
-transition:.15s;
-margin-top:20px;
+.contact {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 56px;          /* altura fija, no cambia al activarse */
+  background: transparent;
+  flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+  transition: filter .15s;
+  margin-top: 0;         /* eliminado: era el que desalineaba */
+  align-self: center;
 }
 
 /* Barra izquierda */
-.coil::before{
-content:"";
-position:absolute;
-left:10px;
-top:50%;
-transform:translateY(-50%);
-width:4px;
-height:46px;
-border-radius:1px;
-background:#4a6a85;
-transition:.15s;
+.contact::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);   /* fijo, nunca cambia */
+  width: 4px;
+  height: 40px;
+  border-radius: 1px;
+  background: #4a6a85;
+  transition: background .15s, box-shadow .15s;
 }
 
 /* Barra derecha */
-.coil::after{
-content:"";
-position:absolute;
-right:10px;
-top:50%;
-transform:translateY(-50%);
-width:4px;
-height:46px;
-border-radius:1px;
-background:#4a6a85;
-transition:.15s;
+.contact::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);   /* fijo, nunca cambia */
+  width: 4px;
+  height: 40px;
+  border-radius: 1px;
+  background: #4a6a85;
+  transition: background .15s, box-shadow .15s;
+}
+
+/* Etiqueta encima — posición relativa al rung, no al contact */
+.contact > span:not(.diag) {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 700;
+  color: #7a9ab5;
+  white-space: nowrap;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: .5px;
+  pointer-events: none;
+}
+
+/* NC diagonal — tamaño fijo, solo cambia color */
+.contact > span.diag {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(15deg);
+  width: 3px;
+  height: 44px;
+  border-radius: 2px;
+  background: #4a6a85;
+  transition: background .15s, box-shadow .15s;
+  pointer-events: none;
+}
+
+/* POWERED — solo color, sin mover nada */
+.contact.powered::before,
+.contact.powered::after {
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, .7);
+}
+
+.contact.powered > span:not(.diag) {
+  color: #22c55e;
+  text-shadow: 0 0 8px rgba(34, 197, 94, .6);
+}
+
+.contact.powered > span.diag {
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, .7);
+}
+
+/* =========================================================
+   COILS — TIA Portal style
+   ========================================================= */
+
+.coil {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 56px;          /* igual que .contact */
+  background: transparent;
+  flex-shrink: 0;
+  cursor: grab;
+  transition: filter .15s;
+  margin-top: 0;         /* eliminado */
+  align-self: center;
+}
+
+/* Barra izquierda */
+.coil::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 40px;
+  border-radius: 1px;
+  background: #4a6a85;
+  transition: background .15s, box-shadow .15s;
+}
+
+/* Barra derecha */
+.coil::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 40px;
+  border-radius: 1px;
+  background: #4a6a85;
+  transition: background .15s, box-shadow .15s;
 }
 
 /* Círculo */
-.coil > span.coil-circle{
-position:absolute;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-width:40px;
-height:40px;
-border-radius:50%;
-border:4px solid #4a6a85;
-background:transparent;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:9px;
-font-weight:700;
-color:#7a9ab5;
-transition:.15s;
-text-align:center;
-line-height:1.1;
+.coil > span.coil-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 3px solid #4a6a85;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  color: #7a9ab5;
+  transition: border-color .15s, color .15s, box-shadow .15s, background .15s;
+  text-align: center;
+  line-height: 1.1;
+  pointer-events: none;
 }
 
 /* Etiqueta encima */
-.coil > span:not(.coil-circle){
-position:absolute;
-top:-22px;
-left:50%;
-transform:translateX(-50%);
-font-size:12px;
-font-weight:700;
-color:#7a9ab5;
-white-space:nowrap;
-font-family:'Segoe UI',sans-serif;
-letter-spacing:.5px;
+.coil > span:not(.coil-circle) {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 700;
+  color: #7a9ab5;
+  white-space: nowrap;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: .5px;
+  pointer-events: none;
 }
 
 /* ENERGIZED */
 .coil.energized::before,
-.coil.energized::after{
-background:#22c55e;
-box-shadow:0 0 10px rgba(34,197,94,.7);
+.coil.energized::after {
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, .7);
 }
 
-.coil.energized > span.coil-circle{
-border-color:#22c55e;
-color:#22c55e;
-box-shadow:0 0 14px rgba(34,197,94,.6);
-background:rgba(34,197,94,.06);
+.coil.energized > span.coil-circle {
+  border-color: #22c55e;
+  color: #22c55e;
+  box-shadow: 0 0 14px rgba(34, 197, 94, .6);
+  background: rgba(34, 197, 94, .06);
 }
 
-.coil.energized > span:not(.coil-circle){
-color:#22c55e;
-text-shadow:0 0 8px rgba(34,197,94,.6);
-}
-
-/* =========================================================
-TIMER
-========================================================= */
-
-.timer{
-position:relative;
-width:80px;
-height:64px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:11px;
-font-weight:700;
-color:#7a9ab5;
-background:#0d1f33;
-border:3px solid #4a6a85;
-border-radius:6px;
-flex-shrink:0;
-transition:.15s;
-cursor:grab;
-margin-top:20px;
-}
-
-.timer::before{
-content:"TON";
-position:absolute;
-top:-12px;
-left:50%;
-transform:translateX(-50%);
-font-size:9px;
-font-weight:700;
-background:#071827;
-padding:0 5px;
-color:#7a9ab5;
-letter-spacing:1px;
-}
-
-.timer.powered{
-border-color:#22c55e;
-color:#22c55e;
-box-shadow:0 0 10px rgba(34,197,94,.4);
-}
-
-.timer.powered::before{
-color:#22c55e;
+.coil.energized > span:not(.coil-circle) {
+  color: #22c55e;
+  text-shadow: 0 0 8px rgba(34, 197, 94, .6);
 }
 
 /* =========================================================
-DELETE
-========================================================= */
+   TIMER
+   ========================================================= */
 
-.delete-element{
-position:absolute;
-top:-6px;
-right:-6px;
-width:18px;
-height:18px;
-border-radius:50%;
-background:#ef4444;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:10px;
-font-weight:700;
-cursor:pointer;
-z-index:20;
-color:white;
+.timer {
+  position: relative;
+  width: 80px;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7a9ab5;
+  background: #0d1f33;
+  border: 3px solid #4a6a85;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: border-color .15s, color .15s, box-shadow .15s;
+  cursor: grab;
+  align-self: center;
+  margin-top: 0;
+}
+
+.timer::before {
+  content: "TON";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 700;
+  background: #071827;
+  padding: 0 5px;
+  color: #7a9ab5;
+  letter-spacing: 1px;
+}
+
+.timer.powered {
+  border-color: #22c55e;
+  color: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, .4);
+}
+
+.timer.powered::before {
+  color: #22c55e;
 }
 
 /* =========================================================
-HOVER / DRAG
-========================================================= */
+   DELETE
+   ========================================================= */
+
+.delete-element {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ef4444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 20;
+  color: white;
+}
+
+/* =========================================================
+   HOVER / DRAG
+   ========================================================= */
 
 .contact:hover,
 .coil:hover,
-.timer:hover{
-filter:brightness(1.2);
+.timer:hover {
+  filter: brightness(1.25);
 }
 
-.dragging{
-opacity:.4;
-transform:scale(.95);
+.dragging {
+  opacity: .4;
+  transform: scale(.95);
 }
 
 /* =========================================================
-SCROLL
-========================================================= */
+   SCROLL
+   ========================================================= */
 
-.ladder-area::-webkit-scrollbar{
-height:8px;
-width:8px;
+.ladder-area::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
 }
 
-.ladder-area::-webkit-scrollbar-thumb{
-background:#204868;
-border-radius:10px;
+.ladder-area::-webkit-scrollbar-thumb {
+  background: #204868;
+  border-radius: 10px;
 }
 
-.ladder-area::-webkit-scrollbar-track{
-background:#07111d;
+.ladder-area::-webkit-scrollbar-track {
+  background: #07111d;
 }

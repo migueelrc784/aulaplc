@@ -1,248 +1,148 @@
 /* =========================================================
-CREATE NC DIAGONALS
+   CREATE NC DIAGONALS
 ========================================================= */
 
-function buildNC(){
-
-document.querySelectorAll(
-'.contact[data-type="NC"]'
-).forEach(contact=>{
-
-if(!contact.querySelector(".diag")){
-
-const diag=document.createElement("div")
-diag.className="diag"
-
-contact.appendChild(diag)
-
-}
-
-})
-
+function buildNC() {
+  document.querySelectorAll('.contact[data-type="NC"]').forEach(contact => {
+    if (!contact.querySelector('.diag')) {
+      const diag = document.createElement('span')
+      diag.className = 'diag'
+      contact.appendChild(diag)
+    }
+  })
 }
 
 buildNC()
 
 /* =========================================================
-DELETE ELEMENT
+   DELETE ELEMENT
 ========================================================= */
 
-document.addEventListener("click",e=>{
-
-if(e.target.classList.contains(
-"delete-element"
-)){
-
-e.target.parentElement.remove()
-
-scanPLC()
-
-}
-
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('delete-element')) {
+    e.target.parentElement.remove()
+    scanPLC()
+  }
 })
 
 /* =========================================================
-ADD CONTACT NO
+   HELPERS
 ========================================================= */
 
-function addNO(){
+// Devuelve el último rung del ladder
+function getLastRung() {
+  const rungs = document.querySelectorAll('#ladder .rung')
+  return rungs[rungs.length - 1]
+}
 
-const rung=document.querySelector(".rung")
-
-const c=document.createElement("div")
-
-c.className="contact"
-
-c.dataset.type="NO"
-c.dataset.address="I0.0"
-
-c.innerHTML=`
-
-I0.0
-<div class="delete-element">✕</div>
-
-`
-
-rung.insertBefore(
-document.createElement("div"),
-rung.lastElementChild
-)
-
-rung.children[rung.children.length-2]
-.className="line"
-
-rung.insertBefore(
-c,
-rung.lastElementChild
-)
-
-scanPLC()
-
+// Inserta line + elemento antes de la última bobina del rung
+function insertBeforeLastCoil(rung, element) {
+  const line = document.createElement('div')
+  line.className = 'line'
+  const lastCoil = rung.querySelector('.coil:last-of-type')
+  if (lastCoil) {
+    rung.insertBefore(line, lastCoil)
+    rung.insertBefore(element, lastCoil)
+  } else {
+    rung.appendChild(line)
+    rung.appendChild(element)
+  }
 }
 
 /* =========================================================
-ADD CONTACT NC
+   ADD CONTACT NO
 ========================================================= */
 
-function addNC(){
-
-const rung=document.querySelector(".rung")
-
-const c=document.createElement("div")
-
-c.className="contact"
-
-c.dataset.type="NC"
-c.dataset.address="I0.1"
-
-c.innerHTML=`
-
-/I0.1
-<div class="diag"></div>
-<div class="delete-element">✕</div>
-
-`
-
-const line=document.createElement("div")
-line.className="line"
-
-rung.insertBefore(
-line,
-rung.lastElementChild
-)
-
-rung.insertBefore(
-c,
-rung.lastElementChild
-)
-
-scanPLC()
-
+function addNO() {
+  const rung = getLastRung()
+  const c = document.createElement('div')
+  c.className = 'contact'
+  c.dataset.type = 'NO'
+  c.dataset.address = 'I0.0'
+  c.innerHTML = `
+    <span>I0.0</span>
+    <div class="delete-element">✕</div>
+  `
+  insertBeforeLastCoil(rung, c)
+  scanPLC()
 }
 
 /* =========================================================
-ADD COIL
+   ADD CONTACT NC
 ========================================================= */
 
-function addCoil(){
-
-const rung=document.querySelector(".rung")
-
-const c=document.createElement("div")
-
-c.className="coil"
-
-c.dataset.address="Q0.0"
-
-c.innerHTML=`
-
-(Q0.0)
-<div class="delete-element">✕</div>
-
-`
-
-const line=document.createElement("div")
-line.className="line"
-
-rung.insertBefore(
-line,
-rung.lastElementChild
-)
-
-rung.insertBefore(
-c,
-rung.lastElementChild
-)
-
-scanPLC()
-
+function addNC() {
+  const rung = getLastRung()
+  const c = document.createElement('div')
+  c.className = 'contact'
+  c.dataset.type = 'NC'
+  c.dataset.address = 'I0.1'
+  c.innerHTML = `
+    <span class="diag"></span>
+    <span>I0.1</span>
+    <div class="delete-element">✕</div>
+  `
+  insertBeforeLastCoil(rung, c)
+  scanPLC()
 }
 
 /* =========================================================
-ADD TON
+   ADD COIL
 ========================================================= */
 
-function addTON(){
-
-const rung=document.querySelector(".rung")
-
-const t=document.createElement("div")
-
-t.className="timer"
-
-t.dataset.address="T0.0"
-
-t.innerHTML=`
-
-3000ms
-<div class="delete-element">✕</div>
-
-`
-
-const line=document.createElement("div")
-line.className="line"
-
-rung.insertBefore(
-line,
-rung.lastElementChild
-)
-
-rung.insertBefore(
-t,
-rung.lastElementChild
-)
-
-scanPLC()
-
+function addCoil() {
+  const rung = getLastRung()
+  const c = document.createElement('div')
+  c.className = 'coil'
+  c.dataset.address = 'Q0.0'
+  c.innerHTML = `
+    <span class="coil-circle">Q0.0</span>
+    <div class="delete-element">✕</div>
+  `
+  const line = document.createElement('div')
+  line.className = 'line'
+  rung.appendChild(line)
+  rung.appendChild(c)
+  scanPLC()
 }
 
 /* =========================================================
-ADD RUNG
+   ADD TON
 ========================================================= */
 
-function addRung(){
+function addTON() {
+  const rung = getLastRung()
+  const t = document.createElement('div')
+  t.className = 'timer'
+  t.dataset.address = 'T0.0'
+  t.dataset.preset = '3000'
+  t.innerHTML = `
+    3000ms
+    <div class="delete-element">✕</div>
+  `
+  insertBeforeLastCoil(rung, t)
+  scanPLC()
+}
 
-const ladder=document.getElementById("ladder")
+/* =========================================================
+   ADD RUNG
+========================================================= */
 
-const rung=document.createElement("div")
-
-rung.className="rung"
-
-rung.innerHTML=`
-
-<div class="rail"></div>
-
-<div class="contact"
-data-type="NO"
-data-address="I0.0">
-
-I0.0
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="line"></div>
-
-<div class="coil"
-data-address="Q0.0">
-
-(Q0.0)
-
-<div class="delete-element">
-✕
-</div>
-
-</div>
-
-<div class="rail"></div>
-
-`
-
-ladder.appendChild(rung)
-
-scanPLC()
-
+function addRung() {
+  const ladder = document.getElementById('ladder')
+  const rung = document.createElement('div')
+  rung.className = 'rung'
+  rung.innerHTML = `
+    <div class="contact" data-type="NO" data-address="I0.0">
+      <span>I0.0</span>
+      <div class="delete-element">✕</div>
+    </div>
+    <div class="line"></div>
+    <div class="coil" data-address="Q0.0">
+      <span class="coil-circle">Q0.0</span>
+      <div class="delete-element">✕</div>
+    </div>
+  `
+  ladder.appendChild(rung)
+  scanPLC()
 }
