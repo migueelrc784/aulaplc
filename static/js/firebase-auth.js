@@ -450,7 +450,7 @@ function showPostPaymentInstructions() {
         </ol>
         <p style="font-size:13px; color:#64748b;">
           ¿Problemas? Escríbenos a 
-          <a href="mailto:angelchandia0098@gmail.com" style="color:#00d4ff;">angelchandia0098@gmail.com</a>
+          <a href="mailto:aulaplcsoporte@gmail.com" style="color:#00d4ff;">aulaplcsoporte@gmail.com</a>
         </p>
       </div>
     </div>
