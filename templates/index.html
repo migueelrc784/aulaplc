@@ -926,1156 +926,493 @@ VER VIDEO DE INSTALACIÓN
 </div>
 
 <!-- ===================================================== -->
-<!-- MODULO 1 -->
+<!-- MÓDULO 1 -->
 <!-- ===================================================== -->
 
 <div class="course-card">
 
-<h2>
-MÓDULO 1 - INTRODUCCIÓN A PLC
-</h2>
+  <h2>MÓDULO 1 - INTRODUCCIÓN A PLC</h2>
 
-<p>
-Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.
-</p>
+  <p>Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.</p>
 
-<iframe
-width="100%"
-height="420"
-src="https://www.youtube.com/embed/LGsKXPOd9lo"
-title="Curso PLC"
-frameborder="0"
-allowfullscreen
-style="
-margin-top:20px;
-border-radius:12px;
-">
-</iframe>
+  <iframe
+    width="100%" height="420"
+    src="https://www.youtube.com/embed/LGsKXPOd9lo"
+    title="Curso PLC" frameborder="0" allowfullscreen
+    style="margin-top:20px; border-radius:12px;">
+  </iframe>
 
-<!-- VISTA PREVIA DEL PDF -->
+  <iframe
+    src="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
+    width="100%" height="700"
+    style="margin-top:20px; border:none; border-radius:12px; background:white;">
+  </iframe>
 
-<iframe
-src="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
-width="100%"
-height="700"
-style="
-margin-top:20px;
-border:none;
-border-radius:12px;
-background:white;
-">
-</iframe>
+  <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
 
-<div style="
-margin-top:20px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-">
+    <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" target="_blank">
+      <button class="btn blue">ABRIR PDF</button>
+    </a>
 
-<a
-href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
-target="_blank">
+    <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" download>
+      <button class="btn yellow">DESCARGAR PDF</button>
+    </a>
 
-<button class="btn blue">
-ABRIR PDF
-</button>
+    <button
+      class="btn green"
+      id="completado-modulo1"
+      onclick="saveModuleProgress('modulo1', true)">
+      COMPLETADO
+    </button>
 
-</a>
-
-<a
-href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}"
-download>
-
-<button class="btn yellow">
-DESCARGAR PDF
-</button>
-
-</a>
-
-<button class="btn green">
-COMPLETADO
-</button>
-
-</div>
+  </div>
 
 </div>
 
 <!-- ===================================================== -->
-<!-- MODULO 2 -->
+<!-- MÓDULO 2 -->
 <!-- ===================================================== -->
 
 <div class="course-card">
 
-<h2>
-MÓDULO 2 - PROGRAMACIÓN LADDER
-</h2>
+  <h2>MÓDULO 2 - PROGRAMACIÓN LADDER</h2>
 
-<p>
-Aprende programación Ladder industrial desde cero:
-contactos NO/NC, bobinas, temporizadores TON, TOF, TP
-y enclavamientos utilizados en automatización industrial real.
-</p>
+  <p>
+    Aprende programación Ladder industrial desde cero:
+    contactos NO/NC, bobinas, temporizadores TON, TOF, TP
+    y enclavamientos utilizados en automatización industrial real.
+  </p>
 
-<iframe
-width="100%"
-height="420"
-src="https://www.youtube.com/embed/ZdQO5_X9pzA"
-title="Curso Ladder"
-frameborder="0"
-allowfullscreen
-style="
-margin-top:20px;
-border-radius:12px;
-box-shadow:0 0 25px rgba(0,0,0,0.4);
-">
-</iframe>
+  <iframe
+    width="100%" height="420"
+    src="https://www.youtube.com/embed/ZdQO5_X9pzA"
+    title="Curso Ladder" frameborder="0" allowfullscreen
+    style="margin-top:20px; border-radius:12px; box-shadow:0 0 25px rgba(0,0,0,0.4);">
+  </iframe>
 
-<div style="
-margin-top:25px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-align-items:center;
-">
+  <div style="margin-top:25px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
 
-<a
-href="{{ url_for('static', filename='pdfs/GUIA_LADDER.pdf') }}"
-target="_blank"
-style="text-decoration:none;">
+    <a href="{{ url_for('static', filename='pdfs/GUIA_LADDER.pdf') }}" target="_blank" style="text-decoration:none;">
+      <button class="btn yellow">📘 VER GUÍA LADDER PDF</button>
+    </a>
 
-<button class="btn yellow">
-📘 VER GUÍA LADDER PDF
-</button>
+    <button class="btn green" onclick="mostrarQuiz()">⚡ INICIAR PRÁCTICA</button>
 
-</a>
+    <button
+      class="btn blue"
+      id="completado-modulo2"
+      onclick="saveModuleProgress('modulo2', true)">
+      COMPLETADO
+    </button>
 
-<button class="btn green" onclick="mostrarQuiz()">
-⚡ INICIAR PRÁCTICA
-</button>
+  </div>
 
-</div>
+  <div style="margin-top:18px; padding:15px; background:#111827; border-left:4px solid #facc15; border-radius:10px; font-size:14px; line-height:1.6; color:#d1d5db;">
+    <b>Incluye:</b><br>
+    ✔ Contactos normalmente abiertos y cerrados<br>
+    ✔ Bobinas y lógica industrial<br>
+    ✔ Temporizadores TON, TOF y TP<br>
+    ✔ Enclavamientos industriales reales<br>
+    ✔ Ejemplos utilizados en PLC Siemens y Allen Bradley
+  </div>
 
-<div style="
-margin-top:18px;
-padding:15px;
-background:#111827;
-border-left:4px solid #facc15;
-border-radius:10px;
-font-size:14px;
-line-height:1.6;
-color:#d1d5db;
-">
+  <!-- QUIZ LADDER -->
+  <div id="quiz-box" style="display:none; margin-top:30px; background:#0f172a; padding:25px; border-radius:15px; border:2px solid #22c55e;">
 
-<b>Incluye:</b><br>
-✔ Contactos normalmente abiertos y cerrados<br>
-✔ Bobinas y lógica industrial<br>
-✔ Temporizadores TON, TOF y TP<br>
-✔ Enclavamientos industriales reales<br>
-✔ Ejemplos utilizados en PLC Siemens y Allen Bradley
+    <h2 style="margin-bottom:20px;">🧠 TEST DE PROGRAMACIÓN LADDER</h2>
+    <h3 id="pregunta"></h3>
+    <div id="opciones" style="display:flex; flex-direction:column; gap:12px; margin-top:20px;"></div>
+    <p id="resultado" style="margin-top:20px; font-weight:bold; font-size:18px;"></p>
+    <button class="btn yellow" onclick="siguientePregunta()" style="margin-top:20px;">➡ SIGUIENTE PREGUNTA</button>
 
-</div>
-
-<!-- ===================================================== -->
-<!-- QUIZ LADDER -->
-<!-- ===================================================== -->
-
-<div id="quiz-box" style="
-display:none;
-margin-top:30px;
-background:#0f172a;
-padding:25px;
-border-radius:15px;
-border:2px solid #22c55e;
-">
-
-<h2 style="margin-bottom:20px;">
-🧠 TEST DE PROGRAMACIÓN LADDER
-</h2>
-
-<h3 id="pregunta"></h3>
-
-<div id="opciones" style="
-display:flex;
-flex-direction:column;
-gap:12px;
-margin-top:20px;
-"></div>
-
-<p id="resultado" style="
-margin-top:20px;
-font-weight:bold;
-font-size:18px;
-"></p>
-
-<button class="btn yellow"
-onclick="siguientePregunta()"
-style="margin-top:20px;">
-➡ SIGUIENTE PREGUNTA
-</button>
-
-</div>
+  </div>
 
 </div>
 
 <script>
-
 const preguntas = [
-
-{
-pregunta:"¿Qué hace un contacto normalmente abierto (NO)?",
-opciones:[
-"Permite el paso lógico cuando se activa",
-"Bloquea siempre la corriente",
-"Apaga automáticamente el PLC"
-],
-correcta:0
-},
-
-{
-pregunta:"¿Qué representa una bobina en Ladder?",
-opciones:[
-"Una resistencia eléctrica",
-"Una salida o memoria del PLC",
-"Un transformador"
-],
-correcta:1
-},
-
-{
-pregunta:"¿Para qué sirve un temporizador TON?",
-opciones:[
-"Activar una salida con retardo",
-"Apagar el PLC",
-"Generar pulsos infinitos"
-],
-correcta:0
-},
-
-{
-pregunta:"¿Qué hace un contacto normalmente cerrado (NC)?",
-opciones:[
-"Permite paso lógico cuando está desactivado",
-"Siempre está energizado",
-"Genera una alarma"
-],
-correcta:0
-},
-
-{
-pregunta:"¿Qué realiza un temporizador TOF?",
-opciones:[
-"Retarda el encendido",
-"Mantiene la salida activa tras apagar la entrada",
-"Reinicia el PLC"
-],
-correcta:1
-},
-
-{
-pregunta:"¿Qué hace un temporizador TP?",
-opciones:[
-"Genera un pulso temporizado",
-"Apaga motores",
-"Controla temperatura"
-],
-correcta:0
-},
-
-{
-pregunta:"¿Qué es un enclavamiento industrial?",
-opciones:[
-"Un sistema que mantiene activada una salida",
-"Un tipo de sensor",
-"Un variador de frecuencia"
-],
-correcta:0
-},
-
-{
-pregunta:"¿Qué lenguaje usan comúnmente los PLC industriales?",
-opciones:[
-"Python",
-"Ladder",
-"HTML"
-],
-correcta:1
-}
-
+  { pregunta:"¿Qué hace un contacto normalmente abierto (NO)?", opciones:["Permite el paso lógico cuando se activa","Bloquea siempre la corriente","Apaga automáticamente el PLC"], correcta:0 },
+  { pregunta:"¿Qué representa una bobina en Ladder?", opciones:["Una resistencia eléctrica","Una salida o memoria del PLC","Un transformador"], correcta:1 },
+  { pregunta:"¿Para qué sirve un temporizador TON?", opciones:["Activar una salida con retardo","Apagar el PLC","Generar pulsos infinitos"], correcta:0 },
+  { pregunta:"¿Qué hace un contacto normalmente cerrado (NC)?", opciones:["Permite paso lógico cuando está desactivado","Siempre está energizado","Genera una alarma"], correcta:0 },
+  { pregunta:"¿Qué realiza un temporizador TOF?", opciones:["Retarda el encendido","Mantiene la salida activa tras apagar la entrada","Reinicia el PLC"], correcta:1 },
+  { pregunta:"¿Qué hace un temporizador TP?", opciones:["Genera un pulso temporizado","Apaga motores","Controla temperatura"], correcta:0 },
+  { pregunta:"¿Qué es un enclavamiento industrial?", opciones:["Un sistema que mantiene activada una salida","Un tipo de sensor","Un variador de frecuencia"], correcta:0 },
+  { pregunta:"¿Qué lenguaje usan comúnmente los PLC industriales?", opciones:["Python","Ladder","HTML"], correcta:1 }
 ];
-
 let preguntaActual = 0;
-
-function mostrarQuiz(){
-
-document.getElementById("quiz-box").style.display = "block";
-
-cargarPregunta();
-
-}
-
+function mostrarQuiz(){ document.getElementById("quiz-box").style.display="block"; cargarPregunta(); }
 function cargarPregunta(){
-
-const pregunta = preguntas[preguntaActual];
-
-document.getElementById("pregunta").innerHTML =
-(preguntaActual + 1) + ". " + pregunta.pregunta;
-
-const opcionesDiv = document.getElementById("opciones");
-
-opcionesDiv.innerHTML = "";
-
-document.getElementById("resultado").innerHTML = "";
-
-pregunta.opciones.forEach((opcion,index)=>{
-
-const boton = document.createElement("button");
-
-boton.className = "btn green";
-
-boton.style.textAlign = "left";
-
-boton.innerHTML = opcion;
-
-boton.onclick = function(){
-
-if(index === pregunta.correcta){
-
-document.getElementById("resultado").innerHTML =
-"✅ RESPUESTA CORRECTA";
-
-document.getElementById("resultado").style.color = "#22c55e";
-
-}else{
-
-document.getElementById("resultado").innerHTML =
-"❌ RESPUESTA INCORRECTA";
-
-document.getElementById("resultado").style.color = "#ef4444";
-
+  const p = preguntas[preguntaActual];
+  document.getElementById("pregunta").innerHTML = (preguntaActual+1)+". "+p.pregunta;
+  const div = document.getElementById("opciones");
+  div.innerHTML = "";
+  document.getElementById("resultado").innerHTML = "";
+  p.opciones.forEach((op,i)=>{
+    const b = document.createElement("button");
+    b.className = "btn green"; b.style.textAlign="left"; b.innerHTML=op;
+    b.onclick = ()=>{
+      const r = document.getElementById("resultado");
+      if(i===p.correcta){ r.innerHTML="✅ RESPUESTA CORRECTA"; r.style.color="#22c55e"; }
+      else { r.innerHTML="❌ RESPUESTA INCORRECTA"; r.style.color="#ef4444"; }
+    };
+    div.appendChild(b);
+  });
 }
-
-};
-
-opcionesDiv.appendChild(boton);
-
-});
-
-}
-
 function siguientePregunta(){
-
-preguntaActual++;
-
-if(preguntaActual < preguntas.length){
-
-cargarPregunta();
-
-}else{
-
-document.getElementById("quiz-box").innerHTML = `
-<h2 style="color:#22c55e;">
-✅ TEST FINALIZADO
-</h2>
-
-<p style="margin-top:20px;font-size:18px;">
-Has completado las 8 preguntas de programación Ladder industrial.
-</p>
-`;
-
+  preguntaActual++;
+  if(preguntaActual < preguntas.length){ cargarPregunta(); }
+  else { document.getElementById("quiz-box").innerHTML=`<h2 style="color:#22c55e;">✅ TEST FINALIZADO</h2><p style="margin-top:20px;font-size:18px;">Has completado las 8 preguntas de programación Ladder industrial.</p>`; }
 }
-
-}
-
 </script>
 
-
 <!-- ===================================================== -->
-<!-- MODULO 3 -->
+<!-- MÓDULO 3 -->
 <!-- ===================================================== -->
 
-<div class="course-card" style="
-background:#111827;
-border:1px solid #1f2937;
-border-radius:20px;
-padding:25px;
-box-shadow:0 0 20px rgba(0,0,0,0.35);
-margin-top:30px;
-">
+<div class="course-card" style="background:#111827; border:1px solid #1f2937; border-radius:20px; padding:25px; box-shadow:0 0 20px rgba(0,0,0,0.35); margin-top:30px;">
 
-<h2 style="
-font-size:28px;
-color:#00e5ff;
-margin-bottom:15px;
-font-weight:bold;
-">
-⚡ MÓDULO 3 - ENTRADAS Y SALIDAS
-</h2>
+  <h2 style="font-size:28px; color:#00e5ff; margin-bottom:15px; font-weight:bold;">⚡ MÓDULO 3 - ENTRADAS Y SALIDAS</h2>
 
-<p style="
-font-size:16px;
-line-height:1.7;
-color:#d1d5db;
-margin-bottom:20px;
-">
-Aprende la configuración de sensores industriales, entradas digitales,
-salidas digitales y simulación de PLC en entornos industriales reales
-utilizando TIA Portal y PLCSIM.
-</p>
+  <p style="font-size:16px; line-height:1.7; color:#d1d5db; margin-bottom:20px;">
+    Aprende la configuración de sensores industriales, entradas digitales,
+    salidas digitales y simulación de PLC en entornos industriales reales
+    utilizando TIA Portal y PLCSIM.
+  </p>
 
-<img
-src="{{ url_for('static', filename='img/plc.jpg') }}"
-style="
-width:100%;
-margin-top:10px;
-border-radius:16px;
-border:2px solid #1f2937;
-box-shadow:0 0 15px rgba(0,0,0,0.4);
-"
->
+  <img src="{{ url_for('static', filename='img/plc.jpg') }}"
+    style="width:100%; margin-top:10px; border-radius:16px; border:2px solid #1f2937; box-shadow:0 0 15px rgba(0,0,0,0.4);">
 
-<div style="
-margin-top:25px;
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-justify-content:center;
-">
+  <div style="margin-top:25px; display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
 
-<!-- BOTON SIMULAR PLC -->
-<a href="/"
-style="
-text-decoration:none;
-">
-<button class="btn blue" style="
-padding:14px 24px;
-font-size:15px;
-border-radius:12px;
-font-weight:bold;
-cursor:pointer;
-">
-🖥️ SIMULAR PLC
-</button>
-</a>
+    <a href="/" style="text-decoration:none;">
+      <button class="btn blue" style="padding:14px 24px; font-size:15px; border-radius:12px; font-weight:bold;">🖥️ SIMULAR PLC</button>
+    </a>
 
-<!-- BOTON DESCARGAR PROYECTO -->
-<a 
-href="{{ url_for('static', filename='proyectos/modulo3_tia_portal.zip') }}"
-download="modulo3_tia_portal.zip"
-style="
-text-decoration:none;
-">
-<button class="btn green" style="
-padding:14px 24px;
-font-size:15px;
-border-radius:12px;
-font-weight:bold;
-cursor:pointer;
-">
-⬇️ DESCARGAR PROYECTO
-</button>
-</a>
+    <a href="{{ url_for('static', filename='proyectos/modulo3_tia_portal.zip') }}" download="modulo3_tia_portal.zip" style="text-decoration:none;">
+      <button class="btn green" style="padding:14px 24px; font-size:15px; border-radius:12px; font-weight:bold;">⬇️ DESCARGAR PROYECTO</button>
+    </a>
 
-<!-- BOTON PDF -->
-<a 
-href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}"
-target="_blank"
-style="
-display:inline-block;
-padding:14px 24px;
-background:#00b894;
-color:white;
-text-decoration:none;
-border-radius:12px;
-font-weight:bold;
-font-size:15px;
-box-shadow:0 0 12px rgba(0,0,0,0.3);
-transition:0.3s;
-">
-📘 ABRIR PDF DEL MÓDULO 3
-</a>
+    <a href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}" target="_blank"
+      style="display:inline-block; padding:14px 24px; background:#00b894; color:white; text-decoration:none; border-radius:12px; font-weight:bold; font-size:15px;">
+      📘 ABRIR PDF DEL MÓDULO 3
+    </a>
 
-</div>
+    <button
+      class="btn blue"
+      id="completado-modulo3"
+      onclick="saveModuleProgress('modulo3', true)"
+      style="padding:14px 24px; font-size:15px; border-radius:12px; font-weight:bold;">
+      COMPLETADO
+    </button>
 
-<!-- INFORMACION EXTRA -->
-<div style="
-margin-top:20px;
-background:#0b1220;
-padding:16px;
-border-radius:14px;
-border:1px solid #1e293b;
-">
+  </div>
 
-<p style="
-color:#9ca3af;
-font-size:14px;
-line-height:1.7;
-margin:0;
-">
+  <div style="margin-top:20px; background:#0b1220; padding:16px; border-radius:14px; border:1px solid #1e293b;">
+    <p style="color:#9ca3af; font-size:14px; line-height:1.7; margin:0;">
+      ✅ El proyecto descargable incluye:<br><br>
+      • Programación Ladder completa<br>
+      • Proyecto de TIA Portal<br>
+      • Configuración de entradas y salidas<br>
+      • Simulación industrial básica<br>
+      • Ejemplos de sensores digitales<br>
+      • Archivos compatibles con PLCSIM
+    </p>
+  </div>
 
-✅ El proyecto descargable incluye:
-
-<br><br>
-
-• Programación Ladder completa  
-• Proyecto de TIA Portal  
-• Configuración de entradas y salidas  
-• Simulación industrial básica  
-• Ejemplos de sensores digitales  
-• Archivos compatibles con PLCSIM  
-
-</p>
-
-</div>
-
-<div style="
-margin-top:25px;
-padding:18px;
-background:#0f172a;
-border-radius:14px;
-border-left:4px solid #00e5ff;
-">
-
-<h3 style="
-color:#00e5ff;
-margin-bottom:10px;
-">
-📚 Contenido del módulo
-</h3>
-
-<ul style="
-color:#d1d5db;
-line-height:1.8;
-padding-left:20px;
-">
-
-<li>Configuración de sensores industriales</li>
-<li>Entradas digitales Siemens</li>
-<li>Salidas digitales y actuadores</li>
-<li>Direccionamiento I/O</li>
-<li>Programación Ladder básica</li>
-<li>Simulación industrial con PLCSIM</li>
-<li>Pruebas virtuales de PLC</li>
-<li>Buenas prácticas industriales</li>
-
-</ul>
-
-</div>
+  <div style="margin-top:25px; padding:18px; background:#0f172a; border-radius:14px; border-left:4px solid #00e5ff;">
+    <h3 style="color:#00e5ff; margin-bottom:10px;">📚 Contenido del módulo</h3>
+    <ul style="color:#d1d5db; line-height:1.8; padding-left:20px;">
+      <li>Configuración de sensores industriales</li>
+      <li>Entradas digitales Siemens</li>
+      <li>Salidas digitales y actuadores</li>
+      <li>Direccionamiento I/O</li>
+      <li>Programación Ladder básica</li>
+      <li>Simulación industrial con PLCSIM</li>
+      <li>Pruebas virtuales de PLC</li>
+      <li>Buenas prácticas industriales</li>
+    </ul>
+  </div>
 
 </div>
 
 <!-- ===================================================== -->
-<!-- MODULO 4 -->
+<!-- MÓDULO 4 -->
 <!-- ===================================================== -->
 
 <div class="course-card">
 
-<h2>
-⏱️ MÓDULO 4 - TEMPORIZADORES TON, TOF Y TP
-</h2>
+  <h2>⏱️ MÓDULO 4 - TEMPORIZADORES TON, TOF Y TP</h2>
 
-<p>
-Aprende a utilizar temporizadores industriales TON, TOF y TP en sistemas PLC Siemens y procesos automatizados reales.
-</p>
+  <p>Aprende a utilizar temporizadores industriales TON, TOF y TP en sistemas PLC Siemens y procesos automatizados reales.</p>
 
-<!-- VIDEO -->
+  <iframe
+    width="100%" height="420"
+    src="https://www.youtube.com/embed/VIDEO_ID_AQUI"
+    title="Módulo 4 - Temporizadores" frameborder="0" allowfullscreen
+    style="margin-top:20px; border-radius:12px;">
+  </iframe>
 
-<iframe
-width="100%"
-height="420"
-src="https://www.youtube.com/embed/VIDEO_ID_AQUI"
-title="Módulo 4 - Temporizadores TON TOF TP"
-frameborder="0"
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen
-style="
-margin-top:20px;
-border-radius:12px;
-">
-</iframe>
+  <p style="margin-top:10px; font-size:14px; color:#888;">
+    📹 Reemplaza <strong>VIDEO_ID_AQUI</strong> por el ID de tu video de YouTube.
+  </p>
 
-<p style="
-margin-top:10px;
-font-size:14px;
-color:#888;
-">
-📹 Cuando subas tu video, reemplaza <strong>VIDEO_ID_AQUI</strong> por el ID del video de YouTube.
-</p>
+  <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
 
-<div style="
-margin-top:20px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-">
+    <a href="/" style="text-decoration:none;">
+      <button class="btn blue">🖥️ SIMULAR PLC</button>
+    </a>
 
-<a href="/" style="text-decoration:none;">
-<button class="btn blue">
-🖥️ SIMULAR PLC
-</button>
-</a>
+    <a href="{{ url_for('static', filename='proyectos/modulo4_tia_portal.zip') }}" download>
+      <button class="btn green">⬇️ DESCARGAR PROYECTO</button>
+    </a>
 
-<a
-href="{{ url_for('static', filename='proyectos/modulo4_tia_portal.zip') }}"
-download>
-<button class="btn green">
-⬇️ DESCARGAR PROYECTO
-</button>
-</a>
+    <a href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}" target="_blank"
+      style="display:inline-block; padding:14px 24px; background:#00b894; color:white; text-decoration:none; border-radius:12px; font-weight:bold;">
+      📘 ABRIR PDF
+    </a>
 
-<a
-href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}"
-target="_blank"
-style="
-display:inline-block;
-padding:14px 24px;
-background:#00b894;
-color:white;
-text-decoration:none;
-border-radius:12px;
-font-weight:bold;
-">
-📘 ABRIR PDF
-</a>
+    <button
+      class="btn blue"
+      id="completado-modulo4"
+      onclick="saveModuleProgress('modulo4', true)">
+      COMPLETADO
+    </button>
 
-</div>
+  </div>
 
-<!-- ===================================================== -->
-<!-- QUIZ MODULO 4 -->
-<!-- ===================================================== -->
+  <!-- QUIZ MÓDULO 4 -->
+  <div style="margin-top:35px; background:#111827; padding:25px; border-radius:15px;">
 
-<div style="
-margin-top:35px;
-background:#111827;
-padding:25px;
-border-radius:15px;
-">
+    <h3 style="margin-bottom:20px;">📝 Quiz - Temporizadores TON, TOF y TP</h3>
 
-<h3 style="margin-bottom:20px;">
-📝 Quiz - Temporizadores TON, TOF y TP
-</h3>
+    <div id="q1">
+      <p><strong>1. ¿Qué hace un temporizador TON?</strong></p>
+      <button class="btn blue" onclick="checkQ1(false)">Activa una salida inmediatamente</button>
+      <button class="btn blue" onclick="checkQ1(true)">Genera un retardo al encendido</button>
+      <button class="btn blue" onclick="checkQ1(false)">Genera pulsos continuos</button>
+      <p id="r1" style="margin-top:10px; font-weight:bold;"></p>
+    </div>
 
-<!-- Pregunta 1 -->
+    <hr style="margin:25px 0;">
 
-<div id="q1">
-<p><strong>1. ¿Qué hace un temporizador TON?</strong></p>
+    <div id="q2">
+      <p><strong>2. ¿Qué hace un temporizador TOF?</strong></p>
+      <button class="btn blue" onclick="checkQ2(false)">Retarda el encendido</button>
+      <button class="btn blue" onclick="checkQ2(false)">Genera un pulso fijo</button>
+      <button class="btn blue" onclick="checkQ2(true)">Retarda el apagado</button>
+      <p id="r2" style="margin-top:10px; font-weight:bold;"></p>
+    </div>
 
-<button class="btn blue" onclick="checkQ1(false)">
-Activa una salida inmediatamente
-</button>
+    <hr style="margin:25px 0;">
 
-<button class="btn blue" onclick="checkQ1(true)">
-Genera un retardo al encendido
-</button>
+    <div id="q3">
+      <p><strong>3. ¿Qué hace un temporizador TP?</strong></p>
+      <button class="btn blue" onclick="checkQ3(true)">Genera un pulso de duración fija</button>
+      <button class="btn blue" onclick="checkQ3(false)">Retarda el apagado</button>
+      <button class="btn blue" onclick="checkQ3(false)">Mantiene una salida permanente</button>
+      <p id="r3" style="margin-top:10px; font-weight:bold;"></p>
+    </div>
 
-<button class="btn blue" onclick="checkQ1(false)">
-Genera pulsos continuos
-</button>
+  </div>
 
-<p id="r1" style="margin-top:10px;font-weight:bold;"></p>
-</div>
-
-<hr style="margin:25px 0;">
-
-<!-- Pregunta 2 -->
-
-<div id="q2">
-<p><strong>2. ¿Qué hace un temporizador TOF?</strong></p>
-
-<button class="btn blue" onclick="checkQ2(false)">
-Retarda el encendido
-</button>
-
-<button class="btn blue" onclick="checkQ2(false)">
-Genera un pulso fijo
-</button>
-
-<button class="btn blue" onclick="checkQ2(true)">
-Retarda el apagado
-</button>
-
-<p id="r2" style="margin-top:10px;font-weight:bold;"></p>
-</div>
-
-<hr style="margin:25px 0;">
-
-<!-- Pregunta 3 -->
-
-<div id="q3">
-<p><strong>3. ¿Qué hace un temporizador TP?</strong></p>
-
-<button class="btn blue" onclick="checkQ3(true)">
-Genera un pulso de duración fija
-</button>
-
-<button class="btn blue" onclick="checkQ3(false)">
-Retarda el apagado
-</button>
-
-<button class="btn blue" onclick="checkQ3(false)">
-Mantiene una salida permanente
-</button>
-
-<p id="r3" style="margin-top:10px;font-weight:bold;"></p>
-</div>
-
-</div>
-
-<!-- SCRIPT QUIZ -->
-
-<script>
-
-function checkQ1(correct){
-const r = document.getElementById("r1");
-
-if(correct){
-r.innerHTML = "✅ Correcto. TON significa retardo a la conexión.";
-r.style.color = "#00ff88";
-}else{
-r.innerHTML = "❌ Incorrecto. TON genera un retardo al encendido.";
-r.style.color = "#ff4d4d";
-}
-}
-
-function checkQ2(correct){
-const r = document.getElementById("r2");
-
-if(correct){
-r.innerHTML = "✅ Correcto. TOF significa retardo a la desconexión.";
-r.style.color = "#00ff88";
-}else{
-r.innerHTML = "❌ Incorrecto. TOF retrasa el apagado de la salida.";
-r.style.color = "#ff4d4d";
-}
-}
-
-function checkQ3(correct){
-const r = document.getElementById("r3");
-
-if(correct){
-r.innerHTML = "✅ Correcto. TP genera un pulso temporizado.";
-r.style.color = "#00ff88";
-}else{
-r.innerHTML = "❌ Incorrecto. TP genera un pulso de duración fija.";
-r.style.color = "#ff4d4d";
-}
-}
-
-</script>
+  <script>
+  function checkQ1(c){ const r=document.getElementById("r1"); r.innerHTML=c?"✅ Correcto. TON significa retardo a la conexión.":"❌ Incorrecto. TON genera un retardo al encendido."; r.style.color=c?"#00ff88":"#ff4d4d"; }
+  function checkQ2(c){ const r=document.getElementById("r2"); r.innerHTML=c?"✅ Correcto. TOF significa retardo a la desconexión.":"❌ Incorrecto. TOF retrasa el apagado de la salida."; r.style.color=c?"#00ff88":"#ff4d4d"; }
+  function checkQ3(c){ const r=document.getElementById("r3"); r.innerHTML=c?"✅ Correcto. TP genera un pulso temporizado.":"❌ Incorrecto. TP genera un pulso de duración fija."; r.style.color=c?"#00ff88":"#ff4d4d"; }
+  </script>
 
 </div>
 
 <!-- ===================================================== -->
-
-<!-- MODULO 5 -->
-
+<!-- MÓDULO 5 -->
 <!-- ===================================================== -->
 
 <div class="course-card">
 
-<h2>
-🔢 MÓDULO 5 - CONTADORES CTU Y CTD
-</h2>
+  <h2>🔢 MÓDULO 5 - CONTADORES CTU Y CTD</h2>
 
-<p>
-Programación de contadores industriales CTU y CTD utilizados en producción, conteo de piezas y automatización industrial.
-</p>
+  <p>Programación de contadores industriales CTU y CTD utilizados en producción, conteo de piezas y automatización industrial.</p>
 
-<!-- VIDEO -->
+  <iframe
+    width="100%" height="420"
+    src="TU_VIDEO_MODULO_5"
+    title="Modulo 5" frameborder="0" allowfullscreen
+    style="margin-top:20px; border-radius:12px;">
+  </iframe>
 
-<iframe
-width="100%"
-height="420"
-src="TU_VIDEO_MODULO_5"
-title="Modulo 5"
-frameborder="0"
-allowfullscreen
-style="
-margin-top:20px;
-border-radius:12px;
-">
-</iframe>
+  <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
 
-<div style="
-margin-top:20px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-">
+    <a href="/" style="text-decoration:none;">
+      <button class="btn blue">🖥️ SIMULAR PLC</button>
+    </a>
 
-<a href="/" style="text-decoration:none;">
-<button class="btn blue">
-🖥️ SIMULAR PLC
-</button>
-</a>
+    <a href="{{ url_for('static', filename='proyectos/modulo5_tia_portal.zip') }}" download>
+      <button class="btn green">⬇️ DESCARGAR PROYECTO</button>
+    </a>
 
-<a
-href="{{ url_for('static', filename='proyectos/modulo5_tia_portal.zip') }}"
-download> <button class="btn green">
-⬇️ DESCARGAR PROYECTO </button> </a>
+    <a href="{{ url_for('static', filename='pdfs/modulo5_contadores.pdf') }}" target="_blank"
+      style="display:inline-block; padding:14px 24px; background:#00b894; color:white; text-decoration:none; border-radius:12px; font-weight:bold;">
+      📘 ABRIR PDF
+    </a>
 
-<a
-href="{{ url_for('static', filename='pdfs/modulo5_contadores.pdf') }}"
-target="_blank"
-style="
-display:inline-block;
-padding:14px 24px;
-background:#00b894;
-color:white;
-text-decoration:none;
-border-radius:12px;
-font-weight:bold;
-">
-📘 ABRIR PDF </a>
+    <button
+      class="btn blue"
+      id="completado-modulo5"
+      onclick="saveModuleProgress('modulo5', true)">
+      COMPLETADO
+    </button>
 
-</div>
+  </div>
 
 </div>
 
 <!-- ===================================================== -->
-
-<!-- ACTIVACIÓN PREMIUM -->
-
+<!-- BANNER PREMIUM (se oculta automático si es premium) -->
 <!-- ===================================================== -->
 
-<div class="course-card" style="
-border:2px solid #00ff99;
-background:#0f1722;
-">
+<div id="premium-gate" class="course-card" style="border:2px solid #00ff99; background:#0f1722;">
 
-<h2>
-🔓 ACTIVAR CURSO PREMIUM
-</h2>
+  <h2>⚡ DESBLOQUEA EL CURSO COMPLETO</h2>
 
-<p>
-Has completado los primeros 5 módulos gratuitos del curso. Para continuar con los módulos avanzados (Módulo 6 en adelante) debes activar la versión Premium.
-</p>
+  <p style="color:#d1d5db; line-height:1.7; margin-top:10px;">
+    Accede a los módulos avanzados (6 al 10) con una sola compra.
+    Tu acceso se activa automáticamente después del pago.
+  </p>
 
-<div style="
-margin-top:20px;
-padding:18px;
-background:#111827;
-border-radius:12px;
-border:1px solid #1f2937;
-">
+  <!-- QUÉ INCLUYE -->
+  <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
 
-<p style="
-color:#ffffff;
-font-size:15px;
-line-height:1.7;
-">
+    <div style="background:#0b1220; padding:14px; border-radius:12px; border:1px solid #1e293b;">
+      <div style="color:#00ff99; font-weight:700; margin-bottom:6px;">🔒 MÓDULO 6</div>
+      <div style="color:#94a3b8; font-size:13px;">Funciones avanzadas FC y FB</div>
+    </div>
 
-✅ Incluye acceso a todos los módulos avanzados.
+    <div style="background:#0b1220; padding:14px; border-radius:12px; border:1px solid #1e293b;">
+      <div style="color:#00ff99; font-weight:700; margin-bottom:6px;">🔒 MÓDULO 7</div>
+      <div style="color:#94a3b8; font-size:13px;">HMI Siemens profesional</div>
+    </div>
 
-<br><br>
+    <div style="background:#0b1220; padding:14px; border-radius:12px; border:1px solid #1e293b;">
+      <div style="color:#00ff99; font-weight:700; margin-bottom:6px;">🔒 MÓDULO 8</div>
+      <div style="color:#94a3b8; font-size:13px;">SCADA Industrial</div>
+    </div>
 
-📩 Envía tu comprobante de pago a:
+    <div style="background:#0b1220; padding:14px; border-radius:12px; border:1px solid #1e293b;">
+      <div style="color:#00ff99; font-weight:700; margin-bottom:6px;">🔒 MÓDULO 9</div>
+      <div style="color:#94a3b8; font-size:13px;">Variadores SINAMICS G120</div>
+    </div>
 
-<br><br>
+    <div style="background:#0b1220; padding:14px; border-radius:12px; border:1px solid #1e293b; grid-column:1/-1;">
+      <div style="color:#00ff99; font-weight:700; margin-bottom:6px;">🔒 MÓDULO 10</div>
+      <div style="color:#94a3b8; font-size:13px;">Redes industriales PROFINET, Modbus TCP, Ethernet/IP</div>
+    </div>
 
-<span style="
-color:#00ff99;
-font-weight:bold;
-font-size:18px;
-">
+  </div>
 
-[angelchandia0098@gmail.com](mailto:angelchandia0098@gmail.com)
+  <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
 
-</span>
+    <button onclick="openPaymentFlow()" style="
+      padding:16px 32px;
+      background:linear-gradient(135deg,#00ff99,#00d4ff);
+      color:#000; border:none; border-radius:12px;
+      font-family:Orbitron; font-size:14px; font-weight:900;
+      cursor:pointer; letter-spacing:1px;
+      box-shadow:0 0 20px rgba(0,255,153,0.3);
+    ">
+      💳 ACTIVAR PREMIUM — MERCADOPAGO
+    </button>
 
-<br><br>
+    <span style="color:#94a3b8; font-size:13px;">
+      Acceso inmediato tras confirmar el pago
+    </span>
 
-Una vez verificado el pago recibirás tu contraseña de acceso Premium.
+  </div>
 
-</p>
-
-</div>
-
-<div style="
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-margin-top:25px;
-">
-
-<a
-href="https://mpago.li/1ZTgeFf"
-target="_blank">
-
-<button class="btn yellow">
-PAGAR CURSO PREMIUM
-</button>
-
-</a>
-
-<input
-type="password"
-id="premiumCode"
-placeholder="INGRESA TU CONTRASEÑA"
-style="
-padding:14px;
-border-radius:10px;
-border:none;
-background:#09111b;
-color:white;
-min-width:250px;
-">
-
-<button
-class="btn green"
-onclick="unlockPremium()">
-
-DESBLOQUEAR
-
-</button>
-
-</div>
-
-<p id="unlockStatus" style="
-margin-top:15px;
-color:#00ff99;
-font-weight:bold;
-">
-</p>
+  <p style="margin-top:14px; font-size:12px; color:#475569;">
+    ¿Ya pagaste? Cierra sesión y vuelve a entrar. Si el acceso no se activa en 5 minutos escríbenos a
+    <a href="mailto:angelchandia0098@gmail.com" style="color:#00d4ff;">angelchandia0098@gmail.com</a>
+  </p>
 
 </div>
 
 <!-- ===================================================== -->
-
-<!-- MODULO 6 -->
-
+<!-- MÓDULO 6 - PREMIUM -->
 <!-- ===================================================== -->
 
-<div
-class="course-card premium-module"
-style="
-opacity:0.5;
-pointer-events:none;
-border:2px solid #ffb400;
-">
+<div class="course-card premium-module" data-requiere-premium="true"
+  style="position:relative; opacity:0.5; pointer-events:none; border:2px solid #ffb400;">
 
-<h2>
-🔒 MÓDULO 6 - FUNCIONES AVANZADAS
-</h2>
-
-<p>
-Contenido disponible únicamente para alumnos Premium.
-</p>
-
-<button class="btn yellow">
-🔒 BLOQUEADO
-</button>
+  <h2>🔒 MÓDULO 6 - FUNCIONES AVANZADAS</h2>
+  <p>FC, FB, bloques de datos y programación estructurada en TIA Portal.</p>
+  <button class="btn yellow">🔒 BLOQUEADO</button>
 
 </div>
 
 <!-- ===================================================== -->
-<!-- MODULO 7 -->
+<!-- MÓDULO 7 - PREMIUM -->
 <!-- ===================================================== -->
 
-<div
-class="course-card premium-module"
-style="
-opacity:0.5;
-pointer-events:none;
-border:2px solid #ffb400;
-">
+<div class="course-card premium-module" data-requiere-premium="true"
+  style="position:relative; opacity:0.5; pointer-events:none; border:2px solid #ffb400;">
 
-<h2>
-MÓDULO 7 - HMI SIEMENS
-</h2>
-
-<p>
-Diseño de pantallas HMI profesionales y comunicación con PLC Siemens.
-</p>
-
-<button class="btn yellow">
-🔒 BLOQUEADO
-</button>
+  <h2>🔒 MÓDULO 7 - HMI SIEMENS</h2>
+  <p>Diseño de pantallas HMI profesionales y comunicación con PLC Siemens.</p>
+  <button class="btn yellow">🔒 BLOQUEADO</button>
 
 </div>
 
 <!-- ===================================================== -->
-<!-- MODULO 8 -->
+<!-- MÓDULO 8 - PREMIUM -->
 <!-- ===================================================== -->
 
-<div
-class="course-card premium-module"
-style="
-opacity:0.5;
-pointer-events:none;
-border:2px solid #ffb400;
-">
+<div class="course-card premium-module" data-requiere-premium="true"
+  style="position:relative; opacity:0.5; pointer-events:none; border:2px solid #ffb400;">
 
-<h2>
-MÓDULO 8 - SCADA INDUSTRIAL
-</h2>
-
-<p>
-Supervisión industrial, alarmas y monitoreo en tiempo real.
-</p>
-
-<button class="btn yellow">
-🔒 BLOQUEADO
-</button>
+  <h2>🔒 MÓDULO 8 - SCADA INDUSTRIAL</h2>
+  <p>Supervisión industrial, alarmas y monitoreo en tiempo real.</p>
+  <button class="btn yellow">🔒 BLOQUEADO</button>
 
 </div>
 
 <!-- ===================================================== -->
-<!-- MODULO 9 -->
+<!-- MÓDULO 9 - PREMIUM -->
 <!-- ===================================================== -->
 
-<div
-class="course-card premium-module"
-style="
-opacity:0.5;
-pointer-events:none;
-border:2px solid #ffb400;
-">
+<div class="course-card premium-module" data-requiere-premium="true"
+  style="position:relative; opacity:0.5; pointer-events:none; border:2px solid #ffb400;">
 
-<h2>
-MÓDULO 9 - VARIADORES DE FRECUENCIA
-</h2>
-
-<p>
-Configuración avanzada de variadores Siemens SINAMICS G120.
-</p>
-
-<button class="btn yellow">
-🔒 BLOQUEADO
-</button>
+  <h2>🔒 MÓDULO 9 - VARIADORES DE FRECUENCIA</h2>
+  <p>Configuración avanzada de variadores Siemens SINAMICS G120.</p>
+  <button class="btn yellow">🔒 BLOQUEADO</button>
 
 </div>
 
 <!-- ===================================================== -->
-<!-- MODULO 10 -->
+<!-- MÓDULO 10 - PREMIUM -->
 <!-- ===================================================== -->
 
-<div
-class="course-card premium-module"
-style="
-opacity:0.5;
-pointer-events:none;
-border:2px solid #ffb400;
-">
+<div class="course-card premium-module" data-requiere-premium="true"
+  style="position:relative; opacity:0.5; pointer-events:none; border:2px solid #ffb400;">
 
-<h2>
-MÓDULO 10 - REDES INDUSTRIALES
-</h2>
-
-<p>
-PROFINET, Modbus TCP, Ethernet/IP y comunicación industrial moderna.
-</p>
-
-<button class="btn yellow">
-🔒 BLOQUEADO
-</button>
+  <h2>🔒 MÓDULO 10 - REDES INDUSTRIALES</h2>
+  <p>PROFINET, Modbus TCP, Ethernet/IP y comunicación industrial moderna.</p>
+  <button class="btn yellow">🔒 BLOQUEADO</button>
 
 </div>
-
-<!-- ===================================================== -->
-<!-- SCRIPT PREMIUM -->
-<!-- ===================================================== -->
-
-<script>
-
-function unlockPremium(){
-
-const code =
-document.getElementById("premiumCode").value
-
-const status =
-document.getElementById("unlockStatus")
-
-/* CONTRASEÑA */
-
-if(code === "AUTOMATION2026"){
-
-localStorage.setItem(
-"premiumUnlocked",
-"true"
-)
-
-unlockModules()
-
-status.innerText =
-"✅ CURSO PREMIUM DESBLOQUEADO"
-
-}else{
-
-status.innerText =
-"❌ CONTRASEÑA INCORRECTA"
-
-}
-
-}
-
-function unlockModules(){
-
-document
-.querySelectorAll(".premium-module")
-.forEach(module=>{
-
-module.style.opacity = "1"
-
-module.style.pointerEvents = "auto"
-
-})
-
-document
-.querySelectorAll(".premium-module button")
-.forEach(btn=>{
-
-btn.innerText = "ACCEDER"
-
-btn.classList.remove("yellow")
-
-btn.classList.add("green")
-
-})
-
-}
-
-/* AUTO LOGIN */
-
-window.addEventListener("load",()=>{
-
-if(
-localStorage.getItem(
-"premiumUnlocked"
-) === "true"
-){
-
-unlockModules()
-
-}
-
-})
-
-</script>
 
 <!-- ===================================================== -->
 <!-- VOLVER -->
 <!-- ===================================================== -->
 
-<div style="
-margin-top:40px;
-display:flex;
-justify-content:center;
-">
-
-<button
-class="btn red"
-onclick="showSection('coursesSection',this)">
-
-VOLVER A CURSOS
-
-</button>
-
+<div style="margin-top:40px; display:flex; justify-content:center;">
+  <button class="btn red" onclick="showSection('coursesSection',this)">
+    VOLVER A CURSOS
+  </button>
 </div>
 
-</div>
-
-</div>
+</div><!-- cierre courses-page -->
+</div><!-- cierre tiaPortalSection -->
 
 <!-- ===================================================== -->
 <!-- VFD PROFESIONAL SIEMENS G120 STYLE -->
