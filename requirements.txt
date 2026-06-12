@@ -3,3 +3,5 @@ uvicorn
 jinja2
 flask
 gunicorn
+firebase-admin
+requests
