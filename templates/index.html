@@ -132,29 +132,62 @@ TIENDA
 <!-- STATUS -->
 
 <div class="top-status">
+  <div class="status-box run" id="cpuState">CPU RUN</div>
+  <div class="status-box run" id="plcState">PLC RUN</div>
 
-<div class="status-box run"
-id="cpuState">
+  <!-- BOTONES FIREBASE AUTH -->
+  <div id="authButtons" style="display:flex; gap:8px; align-items:center;">
+    <button onclick="loginGoogle()" style="
+      padding:8px 14px;
+      background:#4285F4;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-family:Orbitron;
+      font-size:11px;
+      font-weight:700;
+      cursor:pointer;
+      letter-spacing:1px;
+    ">
+      🔑 GOOGLE
+    </button>
+    <button onclick="showEmailLogin()" style="
+      padding:8px 14px;
+      background:#00ff99;
+      color:#000;
+      border:none;
+      border-radius:8px;
+      font-family:Orbitron;
+      font-size:11px;
+      font-weight:700;
+      cursor:pointer;
+      letter-spacing:1px;
+    ">
+      📧 LOGIN
+    </button>
+  </div>
 
-CPU RUN
-
-</div>
-
-<div class="status-box run"
-id="plcState">
-
-PLC RUN
-
-</div>
-
-<div class="status-box">
-SCAN 120ms
-</div>
-
-<div class="status-box">
-ETHERNET OK
-</div>
-
+  <!-- USUARIO LOGUEADO (oculto al inicio) -->
+  <div id="userInfo" style="display:none; align-items:center; gap:10px;">
+    <span id="userEmail" style="
+      color:#00ff99;
+      font-size:11px;
+      font-family:Orbitron;
+    "></span>
+    <button onclick="logoutUser()" style="
+      padding:6px 12px;
+      background:#ef4444;
+      color:white;
+      border:none;
+      border-radius:8px;
+      font-family:Orbitron;
+      font-size:10px;
+      font-weight:700;
+      cursor:pointer;
+    ">
+      SALIR
+    </button>
+  </div>
 </div>
 
 </header>
