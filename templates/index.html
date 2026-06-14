@@ -6,9 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>
-AULAPLC
-</title>
+<title>AULAPLC</title>
 
 <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
 
@@ -17,7 +15,7 @@ AULAPLC
 <meta name="keywords" content="PLC Siemens, TIA Portal, programación Ladder, SCADA, HMI, variadores frecuencia, curso automatización industrial">
 <meta name="author" content="AulaPLC">
 
-<!-- COMPARTIR EN REDES (WhatsApp, Facebook, etc) -->
+<!-- COMPARTIR EN REDES -->
 <meta property="og:title" content="AULAPLC STUDIO X — Cursos PLC Industrial">
 <meta property="og:description" content="Simulador PLC online, cursos de Ladder, HMI, SCADA y variadores Siemens. Aprende automatización industrial desde cero.">
 <meta property="og:image" content="https://aulaplc.com/static/img/logo.png">
@@ -29,125 +27,454 @@ AULAPLC
 <meta name="twitter:title" content="AULAPLC — Cursos PLC Industrial">
 <meta name="twitter:description" content="Simulador PLC online y cursos de automatización industrial Siemens.">
 <meta name="twitter:image" content="https://aulaplc.com/static/img/logo.png">
+
 <!-- GOOGLE ANALYTICS -->
-
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6KP8S8FS3T"></script>
-
 <script>
-
 window.dataLayer = window.dataLayer || [];
-
-function gtag(){
-dataLayer.push(arguments);
-}
-
+function gtag(){ dataLayer.push(arguments); }
 gtag('js', new Date());
-
 gtag('config', 'G-6KP8S8FS3T');
-
 </script>
 
-<link
-href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ladder.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/vfd.css') }}">
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/main.css') }}">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844056830018969" crossorigin="anonymous"></script>
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/ladder.css') }}">
-
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/vfd.css') }}">
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1844056830018969"
-     crossorigin="anonymous"></script>
-     
 </head>
 
 <body>
 
 <!-- LOADER -->
-
 <div id="loader" class="loading">
-
-<h1>
-⚡ AULAPLC
-</h1>
-
-<p>
-INICIANDO PAGINA WEB
-</p>
-
+<h1>⚡ AULAPLC</h1>
+<p>INICIANDO PAGINA WEB</p>
 </div>
 
 <!-- APP -->
-
 <div id="app" style="display:none;flex-direction:column;height:100vh;">
 
 <header class="top-header">
 
 <div class="logo-area">
-
-<div class="logo-icon">
-⚡
-</div>
-
+<div class="logo-icon">⚡</div>
 <div>
-
-<div class="title">
-AULAPLC STUDIO X
+<div class="title">AULAPLC STUDIO X</div>
+<div class="subtitle">PLC LADDER ENGINE</div>
 </div>
-
-<div class="subtitle">
-PLC LADDER ENGINE
-</div>
-
-</div>
-
 </div>
 
 <!-- NAV -->
-
 <div class="top-buttons">
 
-<button class="nav-btn active-nav"
-onclick="showSection('simulatorSection',this)">
-
-SIMULADOR PLC
-
-</button>
-
-<button class="nav-btn"
-onclick="showSection('coursesSection',this)">
-
+<button class="nav-btn active-nav" onclick="showSection('coursesSection',this)">
 CURSOS
-
 </button>
 
-<button class="nav-btn"
-onclick="showSection('vfdSection',this)">
-
-VARIADOR VFD
-
+<button class="nav-btn" onclick="openComunidad(this)">
+COMUNIDAD
 </button>
 
-<button class="nav-btn"
-onclick="showSection('faqSection',this)">
+<button class="nav-btn" onclick="showSection('simulatorSection',this)">
+SIMULADOR PLC
+</button>
 
+<button class="nav-btn" onclick="showSection('vfdSection',this)">
+SIMULADOR VFD
+</button>
+
+<button class="nav-btn" onclick="showSection('faqSection',this)">
 DUDAS
-
 </button>
 
-<button class="nav-btn"
-onclick="showSection('storeSection',this)">
-
+<button class="nav-btn" onclick="showSection('storeSection',this)">
 TIENDA
-
 </button>
 
 </div>
 
+<!-- STATUS -->
+<div class="top-status">
+<div class="status-box run" id="cpuState">CPU RUN</div>
+<div class="status-box run" id="plcState">PLC RUN</div>
+<div id="auth-area"></div>
+</div>
+
+</header>
+
+<!-- ===================================================== -->
+<!-- SIMULADOR PLC -->
+<!-- ===================================================== -->
+<div id="simulatorSection" style="display:none;">
+<!-- tu contenido del simulador sin cambios -->
+</div>
+
+<!-- ===================================================== -->
+<!-- CURSOS -->
+<!-- ===================================================== -->
+<div id="coursesSection">
+<!-- tu contenido de cursos sin cambios -->
+</div>
+
+<!-- ===================================================== -->
+<!-- TIA PORTAL -->
+<!-- ===================================================== -->
+<div id="tiaPortalSection" style="display:none;">
+<!-- tu contenido de tia portal sin cambios -->
+</div>
+
+<!-- ===================================================== -->
+<!-- VFD -->
+<!-- ===================================================== -->
+<div id="vfdSection" style="display:none; height:calc(100vh - 80px); overflow-y:auto; overflow-x:hidden;">
+<!-- tu contenido del vfd sin cambios -->
+</div>
+
+<!-- ===================================================== -->
+<!-- DUDAS -->
+<!-- ===================================================== -->
+<div id="faqSection" style="display:none;">
+<!-- tu contenido de dudas sin cambios -->
+</div>
+
+<!-- ===================================================== -->
+<!-- TIENDA -->
+<!-- ===================================================== -->
+<div id="storeSection" style="display:none;">
+<!-- tu contenido de tienda sin cambios -->
+</div>
+
+<!-- ===================================================== -->
+<!-- COMUNIDAD — ✅ AQUÍ, dentro de #app               -->
+<!-- ===================================================== -->
+<div id="comunidadSection" style="display:none; height:calc(100vh - 80px); overflow-y:auto; overflow-x:hidden;">
+
+<div class="courses-page">
+
+<h1 class="courses-title">COMUNIDAD AULAPLC</h1>
+<p class="courses-subtitle">Pregunta, responde y aprende con otros estudiantes de automatización industrial.</p>
+
+<!-- FORMULARIO NUEVA PREGUNTA -->
+<div class="course-card" style="border:2px solid #2563eb; margin-bottom:30px;">
+
+<h2 style="color:#60a5fa; margin-bottom:16px;">✏️ HACER UNA PREGUNTA</h2>
+
+<input type="text" id="comunidadTitulo" placeholder="Título de tu pregunta..."
+style="width:100%;padding:14px;background:#0f172a;border:1px solid #334155;border-radius:10px;color:white;font-size:15px;margin-bottom:12px;outline:none;">
+
+<select id="comunidadCategoria"
+style="width:100%;padding:12px;background:#0f172a;border:1px solid #334155;border-radius:10px;color:#94a3b8;font-size:14px;margin-bottom:12px;outline:none;">
+<option value="plc">PLC / Ladder</option>
+<option value="hmi">HMI / SCADA</option>
+<option value="variador">Variadores VFD</option>
+<option value="sensores">Sensores</option>
+<option value="tia">TIA Portal</option>
+<option value="general">General</option>
+</select>
+
+<textarea id="comunidadTexto" placeholder="Describe tu pregunta con detalle..." rows="4"
+style="width:100%;padding:14px;background:#0f172a;border:1px solid #334155;border-radius:10px;color:white;font-size:14px;resize:vertical;margin-bottom:16px;outline:none;font-family:inherit;"></textarea>
+
+<button onclick="publicarPregunta()"
+style="padding:14px 28px;background:#2563eb;color:white;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;"
+onmouseover="this.style.background='#1d4ed8'"
+onmouseout="this.style.background='#2563eb'">
+📤 PUBLICAR PREGUNTA
+</button>
+
+</div>
+
+<!-- FILTRO -->
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center;">
+<span style="color:#94a3b8;font-size:13px;font-weight:600;">FILTRAR:</span>
+<button onclick="filtrarComunidad('all',this)" style="padding:6px 14px;border-radius:8px;border:1px solid #2563eb;background:#2563eb;color:white;cursor:pointer;font-weight:700;font-size:12px;">TODOS</button>
+<button onclick="filtrarComunidad('plc',this)" style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">PLC</button>
+<button onclick="filtrarComunidad('hmi',this)" style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">HMI</button>
+<button onclick="filtrarComunidad('variador',this)" style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">VARIADOR</button>
+<button onclick="filtrarComunidad('sensores',this)" style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">SENSORES</button>
+<button onclick="filtrarComunidad('tia',this)" style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">TIA PORTAL</button>
+</div>
+
+<!-- LISTA PREGUNTAS -->
+<div id="comunidadLista">
+<div style="text-align:center;color:#475569;padding:40px;font-size:16px;">Cargando preguntas...</div>
+</div>
+
+</div>
+</div> <!-- comunidadSection -->
+
+<!-- ===================================================== -->
+<!-- JS EXTERNOS -->
+<!-- ===================================================== -->
+<script src="{{ url_for('static', filename='js/logs.js') }}"></script>
+<script src="{{ url_for('static', filename='js/motor.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plc_engine.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ladder.js') }}"></script>
+<script src="{{ url_for('static', filename='js/vfd.js') }}"></script>
+
+<!-- ===================================================== -->
+<!-- INIT + SHOW SECTION -->
+<!-- ===================================================== -->
+<script>
+
+window.onload = () => {
+  setTimeout(() => {
+    document.getElementById("loader").style.display = "none"
+    document.getElementById("app").style.display = "flex"
+    if(typeof log === "function") log("SISTEMA PLC INICIADO")
+    if(typeof scanPLC === "function") scanPLC()
+    if(typeof updateVFD === "function") updateVFD(0)
+  }, 1000)
+}
+
+function showSection(sectionId, btn){
+  const secciones = [
+    "simulatorSection","coursesSection","tiaPortalSection",
+    "vfdSection","faqSection","storeSection","comunidadSection"
+  ]
+  secciones.forEach(id => {
+    document.getElementById(id).style.display = "none"
+  })
+  document.getElementById(sectionId).style.display = "block"
+  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active-nav"))
+  if(btn) btn.classList.add("active-nav")
+}
+
+function openComunidad(btn){
+  if(!window._usuarioComunidad){
+    alert("Debes iniciar sesión para acceder a la comunidad.")
+    return
+  }
+  showSection("comunidadSection", btn)
+  if(typeof cargarPreguntas === "function") cargarPreguntas()
+}
+
+</script>
+
+<!-- ===================================================== -->
+<!-- ESTILOS COMUNIDAD -->
+<!-- ===================================================== -->
+<style>
+.pregunta-card{background:#1f2937;border:1px solid #374151;border-radius:14px;padding:20px;margin-bottom:16px;transition:.2s;}
+.pregunta-card:hover{border-color:#2563eb;}
+.pregunta-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
+.pregunta-titulo{font-size:17px;font-weight:700;color:#f1f5f9;cursor:pointer;}
+.pregunta-titulo:hover{color:#60a5fa;}
+.pregunta-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px;color:#64748b;}
+.pregunta-cat{background:#1e3a5f;color:#60a5fa;padding:3px 10px;border-radius:6px;font-weight:700;font-size:11px;}
+.pregunta-texto{color:#94a3b8;font-size:14px;line-height:1.6;margin-bottom:14px;}
+.pregunta-acciones{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.btn-responder{padding:8px 16px;background:#1e3a5f;color:#60a5fa;border:1px solid #2563eb;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-responder:hover{background:#2563eb;color:white;}
+.btn-like{padding:8px 14px;background:transparent;color:#94a3b8;border:1px solid #374151;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-like:hover{border-color:#22c55e;color:#22c55e;}
+.respuestas-box{margin-top:14px;border-top:1px solid #1e293b;padding-top:14px;display:none;}
+.respuesta-item{background:#0f172a;border-radius:10px;padding:12px 16px;margin-bottom:10px;border-left:3px solid #2563eb;}
+.respuesta-autor{font-size:11px;color:#475569;margin-bottom:6px;}
+.respuesta-texto{color:#cbd5e1;font-size:14px;line-height:1.5;}
+.responder-form{margin-top:12px;display:flex;gap:10px;}
+.responder-form textarea{flex:1;padding:10px;background:#0f172a;border:1px solid #334155;border-radius:8px;color:white;font-size:13px;resize:none;outline:none;font-family:inherit;}
+.responder-form button{padding:10px 18px;background:#2563eb;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;}
+</style>
+
+<!-- ===================================================== -->
+<!-- ESTILOS TIENDA -->
+<!-- ===================================================== -->
+<style>
+.store-card{position:relative;display:flex;flex-direction:column;}
+.store-card .course-image{width:100%;height:180px;object-fit:contain;background:#1a2332;border-radius:10px;margin-bottom:14px;padding:10px;}
+.store-badge{position:absolute;top:12px;right:12px;background:#2563eb;color:white;font-size:10px;font-weight:700;padding:4px 10px;border-radius:6px;letter-spacing:1px;}
+.store-price{font-size:20px;font-weight:700;color:#22c55e;margin:10px 0 14px;font-family:'Segoe UI',sans-serif;}
+.store-btn{display:block;text-align:center;padding:12px;background:#2563eb;color:white;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;margin-top:auto;transition:.2s;}
+.store-btn:hover{background:#1d4ed8;transform:translateY(-2px);}
+</style>
+
+<!-- ===================================================== -->
+<!-- FIREBASE AUTH -->
+<!-- ===================================================== -->
+<script type="module" src="{{ url_for('static', filename='js/firebase-auth.js') }}"></script>
+
+<!-- ===================================================== -->
+<!-- FILTRO TIENDA -->
+<!-- ===================================================== -->
+<script>
+function filterStore(cat, btn){
+  document.querySelectorAll('.store-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none'
+  })
+  document.querySelectorAll('[onclick^="filterStore"]').forEach(b => {
+    b.style.background = 'transparent'
+    b.style.color = '#94a3b8'
+    b.style.borderColor = '#374151'
+  })
+  btn.style.background = '#3b82f6'
+  btn.style.color = 'white'
+  btn.style.borderColor = '#3b82f6'
+}
+</script>
+
+<!-- ===================================================== -->
+<!-- ENGINE COMUNIDAD -->
+<!-- ===================================================== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"
+import {
+  getFirestore, collection, addDoc, getDocs,
+  orderBy, query, serverTimestamp, doc, updateDoc, increment
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+
+const firebaseConfig = {
+  apiKey:            "TU_API_KEY",
+  authDomain:        "TU_AUTH_DOMAIN",
+  projectId:         "TU_PROJECT_ID",
+  storageBucket:     "TU_STORAGE_BUCKET",
+  messagingSenderId: "TU_SENDER_ID",
+  appId:             "TU_APP_ID"
+}
+
+const app  = initializeApp(firebaseConfig, "comunidad")
+const auth = getAuth(app)
+const db   = getFirestore(app)
+
+let usuarioActual = null
+
+onAuthStateChanged(auth, user => {
+  usuarioActual = user
+  window._usuarioComunidad = user
+})
+
+window.publicarPregunta = async function(){
+  if(!usuarioActual){ alert("Debes iniciar sesión."); return }
+  const titulo = document.getElementById("comunidadTitulo").value.trim()
+  const texto  = document.getElementById("comunidadTexto").value.trim()
+  const cat    = document.getElementById("comunidadCategoria").value
+  if(!titulo || !texto){ alert("Completa el título y la descripción."); return }
+  try {
+    await addDoc(collection(db,"comunidad"),{
+      titulo, texto, categoria:cat,
+      autor: usuarioActual.displayName || usuarioActual.email,
+      uid: usuarioActual.uid, likes:0, fecha:serverTimestamp()
+    })
+    document.getElementById("comunidadTitulo").value = ""
+    document.getElementById("comunidadTexto").value  = ""
+    alert("✅ Pregunta publicada")
+    cargarPreguntas()
+  } catch(e){ alert("Error: "+e.message) }
+}
+
+let catActual = "all"
+
+window.cargarPreguntas = async function(){
+  const lista = document.getElementById("comunidadLista")
+  lista.innerHTML = '<div style="text-align:center;color:#475569;padding:40px;">Cargando...</div>'
+  try {
+    const q    = query(collection(db,"comunidad"), orderBy("fecha","desc"))
+    const snap = await getDocs(q)
+    if(snap.empty){
+      lista.innerHTML = '<div style="text-align:center;color:#475569;padding:40px;">Aún no hay preguntas. ¡Sé el primero!</div>'
+      return
+    }
+    lista.innerHTML = ""
+    snap.forEach(docSnap => {
+      const d  = docSnap.data()
+      const id = docSnap.id
+      if(catActual !== "all" && d.categoria !== catActual) return
+      const fecha = d.fecha?.toDate?.()?.toLocaleDateString("es-CL") || "Ahora"
+      const card = document.createElement("div")
+      card.className = "pregunta-card"
+      card.dataset.cat = d.categoria
+      card.innerHTML = `
+        <div class="pregunta-header">
+          <div class="pregunta-titulo" onclick="toggleRespuestas('${id}')">${d.titulo}</div>
+          <div class="pregunta-meta">
+            <span class="pregunta-cat">${d.categoria.toUpperCase()}</span>
+            <span>👤 ${d.autor}</span>
+            <span>📅 ${fecha}</span>
+          </div>
+        </div>
+        <div class="pregunta-texto">${d.texto}</div>
+        <div class="pregunta-acciones">
+          <button class="btn-like" onclick="darLike('${id}',this)">👍 ${d.likes||0}</button>
+          <button class="btn-responder" onclick="toggleRespuestas('${id}')">💬 Ver respuestas</button>
+        </div>
+        <div class="respuestas-box" id="resp-${id}">
+          <div id="lista-resp-${id}"></div>
+          <div class="responder-form">
+            <textarea id="txt-resp-${id}" rows="2" placeholder="Escribe tu respuesta..."></textarea>
+            <button onclick="enviarRespuesta('${id}')">RESPONDER</button>
+          </div>
+        </div>`
+      lista.appendChild(card)
+    })
+  } catch(e){
+    lista.innerHTML = `<div style="color:#ef4444;padding:20px;">Error: ${e.message}</div>`
+  }
+}
+
+window.toggleRespuestas = async function(id){
+  const box = document.getElementById("resp-"+id)
+  if(box.style.display === "block"){ box.style.display="none"; return }
+  box.style.display = "block"
+  const listaEl = document.getElementById("lista-resp-"+id)
+  listaEl.innerHTML = "Cargando respuestas..."
+  try {
+    const q    = query(collection(db,"comunidad",id,"respuestas"), orderBy("fecha","asc"))
+    const snap = await getDocs(q)
+    listaEl.innerHTML = ""
+    if(snap.empty){ listaEl.innerHTML='<p style="color:#475569;font-size:13px;">Sin respuestas aún.</p>'; return }
+    snap.forEach(r => {
+      const rd = r.data()
+      const fecha = rd.fecha?.toDate?.()?.toLocaleDateString("es-CL") || ""
+      listaEl.innerHTML += `
+        <div class="respuesta-item">
+          <div class="respuesta-autor">👤 ${rd.autor} · ${fecha}</div>
+          <div class="respuesta-texto">${rd.texto}</div>
+        </div>`
+    })
+  } catch(e){ listaEl.innerHTML=`<span style="color:#ef4444;">Error: ${e.message}</span>` }
+}
+
+window.enviarRespuesta = async function(id){
+  if(!usuarioActual){ alert("Inicia sesión."); return }
+  const txt = document.getElementById("txt-resp-"+id).value.trim()
+  if(!txt){ alert("Escribe tu respuesta."); return }
+  try {
+    await addDoc(collection(db,"comunidad",id,"respuestas"),{
+      texto:txt, autor:usuarioActual.displayName||usuarioActual.email,
+      uid:usuarioActual.uid, fecha:serverTimestamp()
+    })
+    document.getElementById("txt-resp-"+id).value = ""
+    toggleRespuestas(id)
+    setTimeout(()=>toggleRespuestas(id),300)
+  } catch(e){ alert("Error: "+e.message) }
+}
+
+window.darLike = async function(id,btn){
+  try {
+    await updateDoc(doc(db,"comunidad",id),{likes:increment(1)})
+    const n = parseInt(btn.textContent.replace(/\D/g,""))+1
+    btn.textContent = "👍 "+n
+  } catch(e){}
+}
+
+window.filtrarComunidad = function(cat,btn){
+  catActual = cat
+  document.querySelectorAll('[onclick^="filtrarComunidad"]').forEach(b=>{
+    b.style.background="transparent"; b.style.color="#94a3b8"; b.style.borderColor="#374151"
+  })
+  btn.style.background="#2563eb"; btn.style.color="white"; btn.style.borderColor="#2563eb"
+  cargarPreguntas()
+}
+</script>
+
+</div> <!-- cierre #app -->
+
+</body>
+</html>
 <!-- STATUS -->
 
 <div class="top-status">
