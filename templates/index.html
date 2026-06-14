@@ -2199,34 +2199,32 @@ src="{{ url_for('static', filename='js/vfd.js') }}">
 
 <script>
 
-=()=>{window.onload
+window.onload = function(){
+  setTimeout(()=>{
 
-setTimeout(()=>{
+    document.getElementById("loader")
+    .style.display="none"
 
-document.getElementById("loader")
-.style.display="none"
+    document.getElementById("app")
+    .style.display="flex"
 
-document.getElementById("app")
-.style.display="flex"
+    if(typeof showSection==="function"){
+      showSection('coursesSection', document.querySelector('.nav-btn.active-nav'))
+    }
 
-if(typeof showSection==="function"){
-showSection('coursesSection', document.querySelector('.nav-btn.active-nav'))
-}
+    if(typeof log==="function"){
+      log("SISTEMA PLC INICIADO")
+    }
 
-if(typeof log==="function"){
-log("SISTEMA PLC INICIADO")
-}
+    if(typeof scanPLC==="function"){
+      scanPLC()
+    }
 
-if(typeof scanPLC==="function"){
-scanPLC()
-}
+    if(typeof updateVFD==="function"){
+      updateVFD(0)
+    }
 
-if(typeof updateVFD==="function"){
-updateVFD(0)
-}
-
-},1000)
-
+  },1000)
 }
 
 function showSection(sectionId,btn){
