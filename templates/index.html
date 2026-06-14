@@ -2199,7 +2199,7 @@ src="{{ url_for('static', filename='js/vfd.js') }}">
 
 <script>
 
-window.onload=()=>{
+=()=>{window.onload
 
 setTimeout(()=>{
 
@@ -2208,6 +2208,8 @@ document.getElementById("loader")
 
 document.getElementById("app")
 .style.display="flex"
+
+showSection('coursesSection', document.querySelector('.nav-btn.active-nav'))
 
 if(typeof log==="function"){
 log("SISTEMA PLC INICIADO")
