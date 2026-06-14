@@ -2642,423 +2642,518 @@ function filterStore(cat, btn){
 <!-- COMUNIDAD -->
 <!-- ===================================================== -->
 
-<div id="comunidadSection" style="display:none; height:calc(100vh - 80px); overflow-y:auto; overflow-x:hidden;">
+<div id="comunidadSection" style="display:none; min-height:calc(100vh - 80px); background:#0d1117; overflow-y:auto; overflow-x:hidden;">
 
-<div class="courses-page">
+  <div style="max-width:860px; margin:0 auto; padding:32px 16px;">
 
-<h1 class="courses-title">COMUNIDAD AULAPLC</h1>
-<p class="courses-subtitle">Pregunta, responde y aprende con otros estudiantes de automatización industrial.</p>
+    <!-- HEADER -->
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:28px;">
+      <div>
+        <h1 style="font-size:22px; font-weight:800; color:#f0f6fc; margin:0 0 4px; letter-spacing:-.3px;">Comunidad AulaPlc</h1>
+        <p style="color:#8b949e; font-size:13px; margin:0;">Hace una pregunta, responde y aprende junto a otros técnicos.</p>
+      </div>
+      <button onclick="toggleFormPregunta()" id="btn-nueva-pregunta"
+        style="display:flex;align-items:center;gap:8px;padding:10px 18px;background:#238636;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;transition:.15s;"
+        onmouseover="this.style.background='#2ea043'" onmouseout="this.style.background='#238636'">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+        Nueva pregunta
+      </button>
+    </div>
 
-<!-- FORMULARIO NUEVA PREGUNTA -->
-<div class="course-card" style="border:2px solid #2563eb; margin-bottom:30px;">
+    <!-- FORM NUEVA PREGUNTA (oculto por defecto) -->
+    <div id="form-pregunta-box" style="display:none; background:#161b22; border:1px solid #30363d; border-radius:12px; padding:24px; margin-bottom:24px;">
+      <h3 style="color:#f0f6fc; font-size:15px; font-weight:700; margin:0 0 16px;">Hacer una pregunta</h3>
 
-<h2 style="color:#60a5fa; margin-bottom:16px;">✏️ HACER UNA PREGUNTA</h2>
+      <input type="text" id="comunidadTitulo" placeholder="Título claro y concreto de tu pregunta"
+        style="width:100%;padding:11px 14px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#f0f6fc;font-size:14px;margin-bottom:12px;outline:none;box-sizing:border-box;transition:.15s;"
+        onfocus="this.style.borderColor='#388bfd'" onblur="this.style.borderColor='#30363d'">
 
-<input
-  type="text"
-  id="comunidadTitulo"
-  placeholder="Título de tu pregunta..."
-  style="width:100%;padding:14px;background:#0f172a;border:1px solid #334155;border-radius:10px;color:white;font-size:15px;margin-bottom:12px;outline:none;">
+      <select id="comunidadCategoria"
+        style="width:100%;padding:11px 14px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#8b949e;font-size:13px;margin-bottom:12px;outline:none;box-sizing:border-box;">
+        <option value="plc">PLC / Ladder</option>
+        <option value="hmi">HMI / SCADA</option>
+        <option value="variador">Variadores VFD</option>
+        <option value="sensores">Sensores</option>
+        <option value="tia">TIA Portal</option>
+        <option value="general">General</option>
+      </select>
 
-<select id="comunidadCategoria"
-  style="width:100%;padding:12px;background:#0f172a;border:1px solid #334155;border-radius:10px;color:#94a3b8;font-size:14px;margin-bottom:12px;outline:none;">
-  <option value="plc">PLC / Ladder</option>
-  <option value="hmi">HMI / SCADA</option>
-  <option value="variador">Variadores VFD</option>
-  <option value="sensores">Sensores</option>
-  <option value="tia">TIA Portal</option>
-  <option value="general">General</option>
-</select>
+      <textarea id="comunidadTexto" placeholder="Describe el problema con detalle. Incluye qué probaste, qué resultado obtienes y qué esperabas." rows="5"
+        style="width:100%;padding:11px 14px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#f0f6fc;font-size:13px;resize:vertical;margin-bottom:16px;outline:none;font-family:inherit;box-sizing:border-box;line-height:1.6;transition:.15s;"
+        onfocus="this.style.borderColor='#388bfd'" onblur="this.style.borderColor='#30363d'"></textarea>
 
-<textarea
-  id="comunidadTexto"
-  placeholder="Describe tu pregunta con detalle..."
-  rows="4"
-  style="width:100%;padding:14px;background:#0f172a;border:1px solid #334155;border-radius:10px;color:white;font-size:14px;resize:vertical;margin-bottom:16px;outline:none;font-family:inherit;"></textarea>
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button onclick="toggleFormPregunta()"
+          style="padding:9px 18px;background:transparent;color:#8b949e;border:1px solid #30363d;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">
+          Cancelar
+        </button>
+        <button onclick="publicarPregunta()"
+          style="padding:9px 18px;background:#238636;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;"
+          onmouseover="this.style.background='#2ea043'" onmouseout="this.style.background='#238636'">
+          Publicar pregunta
+        </button>
+      </div>
+    </div>
 
-<button onclick="publicarPregunta()"
-  style="padding:14px 28px;background:#2563eb;color:white;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;transition:.2s;"
-  onmouseover="this.style.background='#1d4ed8'"
-  onmouseout="this.style.background='#2563eb'">
-  📤 PUBLICAR PREGUNTA
-</button>
+    <!-- BARRA DE ORDENAMIENTO -->
+    <div style="display:flex; align-items:center; gap:4px; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:4px; margin-bottom:20px; width:fit-content;">
+      <button onclick="cambiarOrden('nuevas', this)" id="orden-nuevas"
+        style="padding:7px 16px;border-radius:6px;border:none;background:#388bfd;color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;">
+        🕐 Nuevas
+      </button>
+      <button onclick="cambiarOrden('populares', this)" id="orden-populares"
+        style="padding:7px 16px;border-radius:6px;border:none;background:transparent;color:#8b949e;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;">
+        🔥 Populares
+      </button>
+      <button onclick="cambiarOrden('sin-respuesta', this)" id="orden-sin-respuesta"
+        style="padding:7px 16px;border-radius:6px;border:none;background:transparent;color:#8b949e;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;">
+        💬 Sin respuesta
+      </button>
+    </div>
 
+    <!-- LISTA DE PREGUNTAS -->
+    <div id="comunidadLista">
+      <div style="text-align:center;color:#484f58;padding:60px 0;font-size:14px;">Cargando...</div>
+    </div>
+
+  </div>
 </div>
 
-<!-- FILTRO CATEGORÍAS -->
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center;">
-<span style="color:#94a3b8;font-size:13px;font-weight:600;">FILTRAR:</span>
-<button onclick="filtrarComunidad('all',this)"
-  style="padding:6px 14px;border-radius:8px;border:1px solid #2563eb;background:#2563eb;color:white;cursor:pointer;font-weight:700;font-size:12px;">
-  TODOS
-</button>
-<button onclick="filtrarComunidad('plc',this)"
-  style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
-  PLC
-</button>
-<button onclick="filtrarComunidad('hmi',this)"
-  style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
-  HMI
-</button>
-<button onclick="filtrarComunidad('variador',this)"
-  style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
-  VARIADOR
-</button>
-<button onclick="filtrarComunidad('sensores',this)"
-  style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
-  SENSORES
-</button>
-<button onclick="filtrarComunidad('tia',this)"
-  style="padding:6px 14px;border-radius:8px;border:1px solid #374151;background:transparent;color:#94a3b8;cursor:pointer;font-weight:700;font-size:12px;">
-  TIA PORTAL
-</button>
-</div>
-
-<!-- LISTA DE PREGUNTAS -->
-<div id="comunidadLista">
-<div style="text-align:center;color:#475569;padding:40px;font-size:16px;">
-  Cargando preguntas...
-</div>
-</div>
-
-</div>
-</div>
-
-<!-- ESTILOS COMUNIDAD -->
+<!-- ── ESTILOS COMUNIDAD ── -->
 <style>
-.pregunta-card{
-background:#1f2937;
-border:1px solid #374151;
-border-radius:14px;
-padding:20px;
-margin-bottom:16px;
-transition:.2s;
+.q-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 0;
+  margin-bottom: 10px;
+  transition: border-color .15s;
+  overflow: hidden;
 }
-.pregunta-card:hover{
-border-color:#2563eb;
+.q-card:hover { border-color: #388bfd; }
+
+.q-card-body { padding: 16px 18px; }
+
+.q-vote-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
 }
-.pregunta-header{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-flex-wrap:wrap;
-gap:10px;
-margin-bottom:10px;
+.q-vote-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid #30363d;
+  border-radius: 20px;
+  color: #8b949e;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s;
 }
-.pregunta-titulo{
-font-size:17px;
-font-weight:700;
-color:#f1f5f9;
-cursor:pointer;
+.q-vote-btn:hover { border-color: #388bfd; color: #388bfd; background: rgba(56,139,253,.08); }
+.q-vote-btn.voted { border-color: #388bfd; color: #388bfd; background: rgba(56,139,253,.12); }
+
+.q-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(56,139,253,.15);
+  color: #388bfd;
+  border: 1px solid rgba(56,139,253,.3);
 }
-.pregunta-titulo:hover{
-color:#60a5fa;
+
+.q-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f0f6fc;
+  cursor: pointer;
+  margin-bottom: 6px;
+  line-height: 1.4;
 }
-.pregunta-meta{
-display:flex;
-gap:10px;
-align-items:center;
-flex-wrap:wrap;
-font-size:12px;
-color:#64748b;
+.q-title:hover { color: #388bfd; }
+
+.q-body {
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.pregunta-cat{
-background:#1e3a5f;
-color:#60a5fa;
-padding:3px 10px;
-border-radius:6px;
-font-weight:700;
-font-size:11px;
+
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: #484f58;
+  flex-wrap: wrap;
 }
-.pregunta-texto{
-color:#94a3b8;
-font-size:14px;
-line-height:1.6;
-margin-bottom:14px;
+.q-meta span { display: flex; align-items: center; gap: 4px; }
+
+.q-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #8b949e;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s;
 }
-.pregunta-acciones{
-display:flex;
-gap:10px;
-align-items:center;
-flex-wrap:wrap;
+.q-action-btn:hover { background: rgba(255,255,255,.05); color: #f0f6fc; border-color: #30363d; }
+
+/* Respuestas */
+.q-respuestas-box {
+  display: none;
+  border-top: 1px solid #21262d;
+  background: #0d1117;
 }
-.btn-responder{
-padding:8px 16px;
-background:#1e3a5f;
-color:#60a5fa;
-border:1px solid #2563eb;
-border-radius:8px;
-font-size:12px;
-font-weight:700;
-cursor:pointer;
-transition:.2s;
+.q-respuesta-item {
+  padding: 14px 18px;
+  border-bottom: 1px solid #21262d;
 }
-.btn-responder:hover{
-background:#2563eb;
-color:white;
+.q-respuesta-item:last-child { border-bottom: none; }
+.q-respuesta-autor {
+  font-size: 12px;
+  color: #388bfd;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.btn-like{
-padding:8px 14px;
-background:transparent;
-color:#94a3b8;
-border:1px solid #374151;
-border-radius:8px;
-font-size:12px;
-font-weight:700;
-cursor:pointer;
-transition:.2s;
+.q-respuesta-texto {
+  font-size: 13px;
+  color: #c9d1d9;
+  line-height: 1.6;
 }
-.btn-like:hover{
-border-color:#22c55e;
-color:#22c55e;
+.q-responder-form {
+  padding: 14px 18px;
+  border-top: 1px solid #21262d;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
 }
-.respuestas-box{
-margin-top:14px;
-border-top:1px solid #1e293b;
-padding-top:14px;
-display:none;
+.q-responder-form textarea {
+  flex: 1;
+  padding: 10px 12px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: #f0f6fc;
+  font-size: 13px;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  line-height: 1.5;
+  transition: .15s;
 }
-.respuesta-item{
-background:#0f172a;
-border-radius:10px;
-padding:12px 16px;
-margin-bottom:10px;
-border-left:3px solid #2563eb;
+.q-responder-form textarea:focus { border-color: #388bfd; }
+.q-responder-form button {
+  padding: 10px 16px;
+  background: #238636;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: .15s;
 }
-.respuesta-autor{
-font-size:11px;
-color:#475569;
-margin-bottom:6px;
+.q-responder-form button:hover { background: #2ea043; }
+
+.q-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #484f58;
 }
-.respuesta-texto{
-color:#cbd5e1;
-font-size:14px;
-line-height:1.5;
+.q-empty svg { opacity: .3; margin-bottom: 12px; }
+.q-empty p { font-size: 14px; margin: 0; }
+
+/* Skeleton loader */
+.q-skeleton {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 10px;
+  padding: 20px 18px;
+  margin-bottom: 10px;
 }
-.responder-form{
-margin-top:12px;
-display:flex;
-gap:10px;
+.q-sk-line {
+  background: linear-gradient(90deg, #21262d 25%, #30363d 50%, #21262d 75%);
+  background-size: 200% 100%;
+  animation: q-shimmer 1.4s infinite;
+  border-radius: 4px;
+  height: 12px;
+  margin-bottom: 10px;
 }
-.responder-form textarea{
-flex:1;
-padding:10px;
-background:#0f172a;
-border:1px solid #334155;
-border-radius:8px;
-color:white;
-font-size:13px;
-resize:none;
-outline:none;
-font-family:inherit;
-}
-.responder-form button{
-padding:10px 18px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:8px;
-font-weight:700;
-cursor:pointer;
-white-space:nowrap;
-}
+@keyframes q-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+.orden-btn-active { background: #388bfd !important; color: #fff !important; }
 </style>
 
-<!-- ENGINE COMUNIDAD — usa la misma instancia de firebase-auth.js -->
+<!-- ── ENGINE COMUNIDAD ── -->
 <script type="module">
-import { 
-  getFirestore, collection, addDoc, getDocs,
-  orderBy, query, serverTimestamp, doc, updateDoc, increment
+import {
+  getFirestore, collection, addDoc, getDocs, getDoc,
+  orderBy, query, serverTimestamp, doc, updateDoc, increment, where
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-/* ── Reutiliza la app ya inicializada por firebase-auth.js ── */
-const app  = getApp();          // ← sin segundo argumento, toma la app default
+const app  = getApp();
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-/* ── Usuario actual (leído directo del auth) ── */
-function usuarioActual() {
-  return auth.currentUser;
+const u = () => auth.currentUser;
+
+let ordenActual = "nuevas";
+
+/* ── helpers ── */
+function timeAgo(date) {
+  if (!date) return "";
+  const s = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (s < 60)   return "hace un momento";
+  if (s < 3600) return `hace ${Math.floor(s/60)} min`;
+  if (s < 86400)return `hace ${Math.floor(s/3600)} h`;
+  return `hace ${Math.floor(s/86400)} d`;
 }
 
-/* ── Abrir comunidad con control de sesión ── */
-window.openComunidad = function(){
-  if (!usuarioActual()) {
-    openLoginModal();   // usa el modal ya existente de firebase-auth.js
-    return;
-  }
+function avatarLetras(nombre) {
+  return (nombre || "?").split(" ").map(p => p[0]).join("").toUpperCase().slice(0,2);
+}
+
+function skeleton() {
+  return `
+    <div class="q-skeleton"><div class="q-sk-line" style="width:60%;height:14px"></div><div class="q-sk-line" style="width:90%"></div><div class="q-sk-line" style="width:75%"></div></div>
+    <div class="q-skeleton"><div class="q-sk-line" style="width:50%;height:14px"></div><div class="q-sk-line" style="width:85%"></div></div>
+    <div class="q-skeleton"><div class="q-sk-line" style="width:65%;height:14px"></div><div class="q-sk-line" style="width:70%"></div><div class="q-sk-line" style="width:80%"></div></div>
+  `;
+}
+
+/* ── Abrir sección ── */
+window.openComunidad = function() {
+  if (!u()) { openLoginModal(); return; }
   showSection("comunidadSection", document.querySelector('[onclick="openComunidad()"]'));
   cargarPreguntas();
 }
 
-/* ── Publicar pregunta ── */
-window.publicarPregunta = async function(){
-  const user = usuarioActual();
-  if (!user) { openLoginModal(); return; }
+/* ── Toggle form ── */
+window.toggleFormPregunta = function() {
+  const box = document.getElementById("form-pregunta-box");
+  const open = box.style.display === "block";
+  box.style.display = open ? "none" : "block";
+  if (!open) document.getElementById("comunidadTitulo").focus();
+}
 
+/* ── Cambiar orden ── */
+window.cambiarOrden = function(orden, btn) {
+  ordenActual = orden;
+  document.querySelectorAll("[onclick^='cambiarOrden']").forEach(b => {
+    b.style.background = "transparent";
+    b.style.color = "#8b949e";
+  });
+  btn.style.background = "#388bfd";
+  btn.style.color = "#fff";
+  cargarPreguntas();
+}
+
+/* ── Publicar ── */
+window.publicarPregunta = async function() {
+  if (!u()) { openLoginModal(); return; }
   const titulo = document.getElementById("comunidadTitulo").value.trim();
   const texto  = document.getElementById("comunidadTexto").value.trim();
   const cat    = document.getElementById("comunidadCategoria").value;
+  if (!titulo || !texto) { alert("Completa el título y la descripción."); return; }
 
-  if (!titulo || !texto) {
-    alert("Completa el título y la descripción.");
-    return;
-  }
+  const btn = document.querySelector("#form-pregunta-box button[onclick='publicarPregunta()']");
+  btn.textContent = "Publicando..."; btn.disabled = true;
 
   try {
     await addDoc(collection(db, "comunidad"), {
-      titulo,
-      texto,
-      categoria: cat,
-      autor:     user.displayName || user.email,
-      uid:       user.uid,
-      likes:     0,
-      fecha:     serverTimestamp()
+      titulo, texto, categoria: cat,
+      autor:      u().displayName || u().email,
+      uid:        u().uid,
+      likes:      0,
+      respuestas: 0,
+      fecha:      serverTimestamp()
     });
     document.getElementById("comunidadTitulo").value = "";
     document.getElementById("comunidadTexto").value  = "";
-    alert("✅ Pregunta publicada");
+    document.getElementById("form-pregunta-box").style.display = "none";
+    ordenActual = "nuevas";
+    document.getElementById("orden-nuevas").style.background = "#388bfd";
+    document.getElementById("orden-nuevas").style.color = "#fff";
+    document.getElementById("orden-populares").style.background = "transparent";
+    document.getElementById("orden-populares").style.color = "#8b949e";
+    document.getElementById("orden-sin-respuesta").style.background = "transparent";
+    document.getElementById("orden-sin-respuesta").style.color = "#8b949e";
     cargarPreguntas();
-  } catch(e) {
-    alert("Error al publicar: " + e.message);
-  }
+  } catch(e) { alert("Error: " + e.message); }
+  finally { btn.textContent = "Publicar pregunta"; btn.disabled = false; }
 }
 
 /* ── Cargar preguntas ── */
-let catActual = "all";
-
-window.cargarPreguntas = async function(){
+window.cargarPreguntas = async function() {
   const lista = document.getElementById("comunidadLista");
-  lista.innerHTML = '<div style="text-align:center;color:#475569;padding:40px;">Cargando...</div>';
+  lista.innerHTML = skeleton();
 
   try {
-    const q    = query(collection(db, "comunidad"), orderBy("fecha", "desc"));
-    const snap = await getDocs(q);
+    let q;
+    if (ordenActual === "nuevas") {
+      q = query(collection(db, "comunidad"), orderBy("fecha", "desc"));
+    } else if (ordenActual === "populares") {
+      q = query(collection(db, "comunidad"), orderBy("likes", "desc"));
+    } else {
+      // sin respuesta — ordenamos por fecha y filtramos client-side
+      q = query(collection(db, "comunidad"), orderBy("fecha", "desc"));
+    }
 
-    if (snap.empty) {
-      lista.innerHTML = '<div style="text-align:center;color:#475569;padding:40px;">Aún no hay preguntas. ¡Sé el primero!</div>';
+    const snap = await getDocs(q);
+    lista.innerHTML = "";
+
+    let docs = [];
+    snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
+
+    if (ordenActual === "sin-respuesta") {
+      docs = docs.filter(d => !d.respuestas || d.respuestas === 0);
+    }
+
+    if (docs.length === 0) {
+      lista.innerHTML = `
+        <div class="q-empty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <p>${ordenActual === "sin-respuesta" ? "Todas las preguntas tienen respuesta 🎉" : "Aún no hay preguntas. ¡Sé el primero!"}</p>
+        </div>`;
       return;
     }
 
-    lista.innerHTML = "";
-    snap.forEach(docSnap => {
-      const d  = docSnap.data();
-      const id = docSnap.id;
-      if (catActual !== "all" && d.categoria !== catActual) return;
-
-      const fecha = d.fecha?.toDate?.()?.toLocaleDateString("es-CL") || "Ahora";
-
-      const card = document.createElement("div");
-      card.className = "pregunta-card";
-      card.dataset.cat = d.categoria;
+    docs.forEach(d => {
+      const fecha = d.fecha?.toDate ? timeAgo(d.fecha.toDate()) : "";
+      const card  = document.createElement("div");
+      card.className = "q-card";
       card.innerHTML = `
-        <div class="pregunta-header">
-          <div class="pregunta-titulo" onclick="toggleRespuestas('${id}')">${d.titulo}</div>
-          <div class="pregunta-meta">
-            <span class="pregunta-cat">${d.categoria.toUpperCase()}</span>
-            <span>👤 ${d.autor}</span>
-            <span>📅 ${fecha}</span>
+        <div class="q-card-body">
+          <div class="q-vote-row">
+            <button class="q-vote-btn" onclick="darLike('${d.id}', this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              <span>${d.likes || 0}</span>
+            </button>
+            <span class="q-tag">${d.categoria?.toUpperCase() || "GENERAL"}</span>
+          </div>
+          <div class="q-title" onclick="toggleRespuestas('${d.id}')">${d.titulo}</div>
+          <div class="q-body">${d.texto}</div>
+          <div class="q-meta">
+            <span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              ${d.autor}
+            </span>
+            <span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+              ${fecha}
+            </span>
+            <span style="margin-left:auto;">
+              <button class="q-action-btn" onclick="toggleRespuestas('${d.id}')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                ${d.respuestas || 0} respuestas
+              </button>
+            </span>
           </div>
         </div>
-        <div class="pregunta-texto">${d.texto}</div>
-        <div class="pregunta-acciones">
-          <button class="btn-like" onclick="darLike('${id}',this)">👍 ${d.likes || 0}</button>
-          <button class="btn-responder" onclick="toggleRespuestas('${id}')">💬 Ver respuestas</button>
-        </div>
-        <div class="respuestas-box" id="resp-${id}">
-          <div id="lista-resp-${id}"></div>
-          <div class="responder-form">
-            <textarea id="txt-resp-${id}" rows="2" placeholder="Escribe tu respuesta..."></textarea>
-            <button onclick="enviarRespuesta('${id}')">RESPONDER</button>
+        <div class="q-respuestas-box" id="resp-${d.id}">
+          <div id="lista-resp-${d.id}" style="padding:0;"></div>
+          <div class="q-responder-form">
+            <textarea id="txt-resp-${d.id}" rows="2" placeholder="Escribe tu respuesta..."></textarea>
+            <button onclick="enviarRespuesta('${d.id}')">Responder</button>
           </div>
         </div>
       `;
       lista.appendChild(card);
     });
   } catch(e) {
-    lista.innerHTML = `<div style="color:#ef4444;padding:20px;">Error: ${e.message}</div>`;
+    lista.innerHTML = `<div style="color:#f85149;padding:20px;font-size:13px;">Error cargando preguntas: ${e.message}</div>`;
   }
 }
 
 /* ── Toggle respuestas ── */
-window.toggleRespuestas = async function(id){
+window.toggleRespuestas = async function(id) {
   const box = document.getElementById("resp-" + id);
   if (box.style.display === "block") { box.style.display = "none"; return; }
   box.style.display = "block";
-
   const listaEl = document.getElementById("lista-resp-" + id);
-  listaEl.innerHTML = "Cargando respuestas...";
+  listaEl.innerHTML = '<div style="padding:16px 18px;color:#484f58;font-size:13px;">Cargando respuestas...</div>';
 
   try {
     const q    = query(collection(db, "comunidad", id, "respuestas"), orderBy("fecha", "asc"));
     const snap = await getDocs(q);
     listaEl.innerHTML = "";
     if (snap.empty) {
-      listaEl.innerHTML = '<p style="color:#475569;font-size:13px;">Sin respuestas aún.</p>';
+      listaEl.innerHTML = '<div style="padding:16px 18px;color:#484f58;font-size:13px;">Sin respuestas aún. ¡Sé el primero en responder!</div>';
       return;
     }
     snap.forEach(r => {
       const rd    = r.data();
-      const fecha = rd.fecha?.toDate?.()?.toLocaleDateString("es-CL") || "";
-      listaEl.innerHTML += `
-        <div class="respuesta-item">
-          <div class="respuesta-autor">👤 ${rd.autor} · ${fecha}</div>
-          <div class="respuesta-texto">${rd.texto}</div>
+      const fecha = rd.fecha?.toDate ? timeAgo(rd.fecha.toDate()) : "";
+      const div   = document.createElement("div");
+      div.className = "q-respuesta-item";
+      div.innerHTML = `
+        <div class="q-respuesta-autor">
+          <div style="width:22px;height:22px;border-radius:50%;background:#1f4068;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#388bfd;">${avatarLetras(rd.autor)}</div>
+          ${rd.autor} <span style="color:#484f58;font-weight:400;">· ${fecha}</span>
         </div>
+        <div class="q-respuesta-texto">${rd.texto}</div>
       `;
+      listaEl.appendChild(div);
     });
   } catch(e) {
-    listaEl.innerHTML = `<span style="color:#ef4444;">Error: ${e.message}</span>`;
+    listaEl.innerHTML = `<div style="padding:16px;color:#f85149;font-size:13px;">Error: ${e.message}</div>`;
   }
 }
 
 /* ── Enviar respuesta ── */
-window.enviarRespuesta = async function(id){
-  const user = usuarioActual();
-  if (!user) { openLoginModal(); return; }
-
+window.enviarRespuesta = async function(id) {
+  if (!u()) { openLoginModal(); return; }
   const txt = document.getElementById("txt-resp-" + id).value.trim();
-  if (!txt) { alert("Escribe tu respuesta."); return; }
-
+  if (!txt) return;
+  const btn = document.querySelector(`#resp-${id} .q-responder-form button`);
+  btn.textContent = "Enviando..."; btn.disabled = true;
   try {
     await addDoc(collection(db, "comunidad", id, "respuestas"), {
-      texto: txt,
-      autor: user.displayName || user.email,
-      uid:   user.uid,
-      fecha: serverTimestamp()
+      texto: txt, autor: u().displayName || u().email, uid: u().uid, fecha: serverTimestamp()
     });
+    // incrementa contador
+    await updateDoc(doc(db, "comunidad", id), { respuestas: increment(1) });
     document.getElementById("txt-resp-" + id).value = "";
-    // Refresca respuestas
     document.getElementById("resp-" + id).style.display = "none";
     setTimeout(() => toggleRespuestas(id), 200);
-  } catch(e) {
-    alert("Error: " + e.message);
-  }
+    cargarPreguntas();
+  } catch(e) { alert("Error: " + e.message); }
+  finally { btn.textContent = "Responder"; btn.disabled = false; }
 }
 
 /* ── Like ── */
-window.darLike = async function(id, btn){
+window.darLike = async function(id, btn) {
+  if (!u()) { openLoginModal(); return; }
+  if (btn.classList.contains("voted")) return;
+  btn.classList.add("voted");
   try {
     await updateDoc(doc(db, "comunidad", id), { likes: increment(1) });
-    const n = parseInt(btn.textContent.replace(/\D/g, "")) + 1;
-    btn.textContent = "👍 " + n;
-  } catch(e) {}
-}
-
-/* ── Filtrar ── */
-window.filtrarComunidad = function(cat, btn){
-  catActual = cat;
-  document.querySelectorAll('[onclick^="filtrarComunidad"]').forEach(b => {
-    b.style.background  = "transparent";
-    b.style.color       = "#94a3b8";
-    b.style.borderColor = "#374151";
-  });
-  btn.style.background  = "#2563eb";
-  btn.style.color       = "white";
-  btn.style.borderColor = "#2563eb";
-  cargarPreguntas();
+    const span = btn.querySelector("span");
+    span.textContent = parseInt(span.textContent) + 1;
+  } catch(e) { btn.classList.remove("voted"); }
 }
 </script>
 
