@@ -2209,6 +2209,10 @@ document.getElementById("loader")
 document.getElementById("app")
 .style.display="flex"
 
+if(typeof showSection==="function"){
+showSection('coursesSection', document.querySelector('.nav-btn.active-nav'))
+}
+
 if(typeof log==="function"){
 log("SISTEMA PLC INICIADO")
 }
