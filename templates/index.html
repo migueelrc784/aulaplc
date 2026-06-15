@@ -425,143 +425,12 @@ SIMULAR PLC
     <div class="ladder-left-rail"></div>
     <div class="ladder-right-rail"></div>
 
-    <!-- ================================================= -->
+   <!-- ================================================= -->
     <!-- RUNG 1  —  SEAL START/STOP/EMERGENCY              -->
     <!-- ( I0.0 || M0.0 ) && /I0.1 && /I0.2  →  M0.0     -->
     <!-- ================================================= -->
 
-    <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diagrama Ladder - Corregido</title>
-  <style>
-    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-    h2 { color: #333; }
-    .simulator-section { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-    .layout { display: flex; flex-direction: column; gap: 16px; }
-    .ladder { display: flex; flex-direction: column; gap: 12px; }
-
-    /* Rungs */
-    .rung {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      padding: 12px 16px;
-      background: #fafafa;
-      flex-wrap: wrap;
-    }
-
-    /* Contactos */
-    .contact {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 50px;
-      border: 2px solid #333;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: bold;
-      text-align: center;
-      background: white;
-      position: relative;
-    }
-    .contact[data-type="NO"] { border-color: #2255aa; color: #2255aa; }
-    .contact[data-type="NC"] { border-color: #aa2222; color: #aa2222; }
-
-    /* Diagonal para NC */
-    .contact[data-type="NC"]::before {
-      content: '';
-      position: absolute;
-      top: 6px; left: 6px; right: 6px; bottom: 6px;
-      background: linear-gradient(
-        to top right,
-        transparent calc(50% - 1px),
-        #aa2222 calc(50% - 1px),
-        #aa2222 calc(50% + 1px),
-        transparent calc(50% + 1px)
-      );
-    }
-
-    /* Bobinas */
-    .coil {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 60px;
-      height: 50px;
-      border: 2px solid #228822;
-      border-radius: 50%;
-      font-size: 10px;
-      font-weight: bold;
-      color: #228822;
-      background: white;
-      text-align: center;
-    }
-    .coil[data-type="SET"]  { border-color: #cc7700; color: #cc7700; }
-    .coil[data-type="RESET"]{ border-color: #9900aa; color: #9900aa; }
-
-    /* Líneas de conexión */
-    .line {
-      width: 20px;
-      height: 2px;
-      background: #555;
-    }
-
-    /* Etiqueta de rung */
-    .rung-label {
-      font-size: 11px;
-      color: #888;
-      margin-bottom: 4px;
-    }
-
-    /* Rama paralela */
-    .branch {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .branch-path {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Comentarios de rung */
-    .rung-comment {
-      font-size: 12px;
-      color: #555;
-      font-style: italic;
-      width: 100%;
-      margin-bottom: 4px;
-    }
-
-    /* Separador de bobinas múltiples */
-    .coil-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      align-items: center;
-    }
-  </style>
-</head>
-<body>
-
-<div class="simulator-section">
-  <div class="layout">
-    <h2>Diagrama Ladder</h2>
-    <main>
-      <div class="ladder">
-
-        <!-- ============================================= -->
-        <!-- RUNG 1 — HABILITACIÓN SISTEMA                 -->
-        <!-- I0.0(NO) && /I0.1(NC) && /I0.2(NC) → M0.0   -->
-        <!-- ============================================= -->
-<div class="rung">
+    <div class="rung">
 
         <div class="branch">
             <div class="branch-path">
@@ -569,7 +438,13 @@ SIMULAR PLC
                     <span>I0.0</span>
                 </div>
             </div>
-         
+            <div class="branch-path">
+                <div class="contact" data-type="NO" data-address="M0.0">
+                    <span>M0.0</span>
+                </div>
+            </div>
+        </div>
+
         <div class="line"></div>
 
         <div class="contact" data-type="NC" data-address="I0.1">
