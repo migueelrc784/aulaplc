@@ -2640,11 +2640,9 @@ function filterStore(cat, btn){
         <span style="width:2px; height:14px; background:#FFE81F; border-radius:1px; display:inline-block;"></span>
         Hacer una pregunta
       </h3>
-
       <input type="text" id="comunidadTitulo" placeholder="Título claro y concreto de tu pregunta"
         style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; margin-bottom:10px; outline:none; box-sizing:border-box; transition:.14s; letter-spacing:.3px;"
         onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
-
       <select id="comunidadCategoria"
         style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#888888; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; outline:none; box-sizing:border-box; cursor:pointer;">
         <option value="plc">PLC / Ladder</option>
@@ -2654,11 +2652,9 @@ function filterStore(cat, btn){
         <option value="tia">TIA Portal</option>
         <option value="general">General</option>
       </select>
-
       <textarea id="comunidadTexto" placeholder="Describe el problema con detalle. Qué probaste, qué resultado obtienes y qué esperabas." rows="5"
         style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; resize:vertical; margin-bottom:16px; outline:none; box-sizing:border-box; line-height:1.6; transition:.14s;"
         onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
-
       <div style="display:flex; gap:10px; justify-content:flex-end;">
         <button onclick="toggleFormPregunta()"
           style="padding:9px 18px; background:transparent; color:#888888; border:1px solid rgba(255,255,255,0.08); border-radius:2px; font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:.14s;"
@@ -2677,18 +2673,9 @@ function filterStore(cat, btn){
 
     <!-- BARRA DE FILTROS -->
     <div style="display:flex; align-items:center; gap:0; margin-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.06);">
-      <button onclick="cambiarOrden('nuevas', this)" id="orden-nuevas"
-        class="com-filtro com-filtro-active">
-      Nuevas
-      </button>
-      <button onclick="cambiarOrden('populares', this)" id="orden-populares"
-        class="com-filtro">
-      Populares
-      </button>
-      <button onclick="cambiarOrden('sin-respuesta', this)" id="orden-sin-respuesta"
-        class="com-filtro">
-      Sin respuesta
-      </button>
+      <button onclick="cambiarOrden('nuevas', this)" id="orden-nuevas" class="com-filtro com-filtro-active">Nuevas</button>
+      <button onclick="cambiarOrden('populares', this)" id="orden-populares" class="com-filtro">Populares</button>
+      <button onclick="cambiarOrden('sin-respuesta', this)" id="orden-sin-respuesta" class="com-filtro">Sin respuesta</button>
     </div>
 
     <!-- LISTA DE PREGUNTAS -->
@@ -2701,7 +2688,6 @@ function filterStore(cat, btn){
 
 <!-- ── ESTILOS COMUNIDAD ── -->
 <style>
-/* Filtros de orden */
 .com-filtro {
   padding: 10px 20px;
   border: none;
@@ -2718,12 +2704,8 @@ function filterStore(cat, btn){
   margin-bottom: -1px;
 }
 .com-filtro:hover { color: #F0F0F0; }
-.com-filtro-active {
-  color: #FFE81F !important;
-  border-bottom-color: #FFE81F !important;
-}
+.com-filtro-active { color: #FFE81F !important; border-bottom-color: #FFE81F !important; }
 
-/* Cards de pregunta */
 .q-card {
   background: #111111;
   border: 1px solid rgba(255,255,255,0.06);
@@ -2733,10 +2715,8 @@ function filterStore(cat, btn){
   overflow: hidden;
 }
 .q-card:hover { border-color: rgba(255,232,31,0.22); }
-
 .q-card-body { padding: 18px 20px; }
 
-/* Voto */
 .q-vote-btn {
   display: inline-flex;
   align-items: center;
@@ -2754,9 +2734,8 @@ function filterStore(cat, btn){
   transition: .14s;
 }
 .q-vote-btn:hover { border-color: rgba(255,232,31,0.40); color: #FFE81F; }
-.q-vote-btn.voted { border-color: rgba(255,232,31,0.40); color: #FFE81F; background: rgba(255,232,31,0.06); }
+.q-vote-btn.voted { border-color: rgba(255,232,31,0.40); color: #FFE81F; background: rgba(255,232,31,0.06); cursor: not-allowed; }
 
-/* Tag categoría */
 .q-tag {
   display: inline-block;
   padding: 2px 9px;
@@ -2771,7 +2750,39 @@ function filterStore(cat, btn){
   border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* Título */
+/* Badge premium */
+.q-badge-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  background: linear-gradient(135deg, rgba(255,232,31,0.15), rgba(255,180,0,0.15));
+  border: 1px solid rgba(255,232,31,0.35);
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #FFE81F;
+  text-transform: uppercase;
+}
+
+/* Nombre premium destacado */
+.q-autor-premium {
+  color: #FFE81F !important;
+  font-weight: 700 !important;
+}
+
+/* Vistas */
+.q-views {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #333333;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+}
+
 .q-title {
   font-family: 'Outfit', sans-serif;
   font-size: 15px;
@@ -2785,7 +2796,6 @@ function filterStore(cat, btn){
 }
 .q-title:hover { color: #FFE81F; }
 
-/* Cuerpo preview */
 .q-body {
   font-family: 'Outfit', sans-serif;
   font-size: 13px;
@@ -2798,7 +2808,6 @@ function filterStore(cat, btn){
   overflow: hidden;
 }
 
-/* Meta */
 .q-meta {
   display: flex;
   align-items: center;
@@ -2811,7 +2820,6 @@ function filterStore(cat, btn){
 }
 .q-meta span { display: flex; align-items: center; gap: 4px; }
 
-/* Botón acción */
 .q-action-btn {
   display: inline-flex;
   align-items: center;
@@ -2829,7 +2837,6 @@ function filterStore(cat, btn){
 }
 .q-action-btn:hover { color: #F0F0F0; }
 
-/* Respuestas */
 .q-respuestas-box {
   display: none;
   border-top: 1px solid rgba(255,255,255,0.05);
@@ -2858,7 +2865,6 @@ function filterStore(cat, btn){
   line-height: 1.6;
 }
 
-/* Formulario de respuesta */
 .q-responder-form {
   padding: 14px 20px;
   border-top: 1px solid rgba(255,255,255,0.04);
@@ -2896,33 +2902,12 @@ function filterStore(cat, btn){
   white-space: nowrap;
   transition: .14s;
 }
-.q-responder-form button:hover {
-  background: rgba(255,232,31,0.18);
-  border-color: rgba(255,232,31,0.55);
-}
+.q-responder-form button:hover { background: rgba(255,232,31,0.18); border-color: rgba(255,232,31,0.55); }
 
-/* Empty state */
-.q-empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: #444444;
-}
-.q-empty p {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin: 0;
-}
+.q-empty { text-align: center; padding: 60px 20px; color: #444444; }
+.q-empty p { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
 
-/* Skeleton */
-.q-skeleton {
-  background: #111111;
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 8px;
-}
+.q-skeleton { background: #111111; border: 1px solid rgba(255,255,255,0.05); border-radius: 5px; padding: 20px; margin-bottom: 8px; }
 .q-sk-line {
   background: linear-gradient(90deg, #161616 25%, #1c1c1c 50%, #161616 75%);
   background-size: 200% 100%;
@@ -2937,8 +2922,9 @@ function filterStore(cat, btn){
 <!-- ── ENGINE COMUNIDAD ── -->
 <script type="module">
 import {
-  getFirestore, collection, addDoc, getDocs, getDoc,
-  orderBy, query, serverTimestamp, doc, updateDoc, increment, where
+  getFirestore, collection, addDoc, getDocs,
+  orderBy, query, serverTimestamp, doc, updateDoc,
+  increment, arrayUnion, getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -2948,8 +2934,15 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 
 const u = () => auth.currentUser;
-
 let ordenActual = "nuevas";
+
+/* ── Detectar si el usuario actual es premium via custom claims ── */
+async function esPremium() {
+  const user = u();
+  if (!user) return false;
+  const tokenResult = await user.getIdTokenResult();
+  return tokenResult.claims.premium === true;
+}
 
 /* ── helpers ── */
 function timeAgo(date) {
@@ -2973,19 +2966,17 @@ function skeleton() {
   `;
 }
 
-/* ── helpers de filtros ── */
 function resetFiltros() {
   document.querySelectorAll(".com-filtro").forEach(b => b.classList.remove("com-filtro-active"));
 }
 
-/* ── Abrir sección ── */
+/* ── Abrir sección: registra vista ── */
 window.openComunidad = function() {
   if (!u()) { openLoginModal(); return; }
   showSection("comunidadSection", document.querySelector('[onclick="openComunidad()"]'));
   cargarPreguntas();
 }
 
-/* ── Toggle form ── */
 window.toggleFormPregunta = function() {
   const box  = document.getElementById("form-pregunta-box");
   const open = box.style.display === "block";
@@ -2993,7 +2984,6 @@ window.toggleFormPregunta = function() {
   if (!open) document.getElementById("comunidadTitulo").focus();
 }
 
-/* ── Cambiar orden ── */
 window.cambiarOrden = function(orden, btn) {
   ordenActual = orden;
   resetFiltros();
@@ -3012,13 +3002,20 @@ window.publicarPregunta = async function() {
   const btn = document.querySelector("#form-pregunta-box button[onclick='publicarPregunta()']");
   btn.textContent = "Publicando..."; btn.disabled = true;
 
+  // Verificar si el autor es premium
+  const premium = await esPremium();
+
   try {
     await addDoc(collection(db, "comunidad"), {
       titulo, texto, categoria: cat,
       autor:      u().displayName || u().email,
       uid:        u().uid,
+      autorPremium: premium,
       likes:      0,
+      likedBy:    [],   // array de UIDs que ya votaron
       respuestas: 0,
+      vistas:     0,
+      viewedBy:   [],   // array de UIDs que ya vieron
       fecha:      serverTimestamp()
     });
     document.getElementById("comunidadTitulo").value = "";
@@ -3039,9 +3036,7 @@ window.cargarPreguntas = async function() {
 
   try {
     let q;
-    if (ordenActual === "nuevas") {
-      q = query(collection(db, "comunidad"), orderBy("fecha", "desc"));
-    } else if (ordenActual === "populares") {
+    if (ordenActual === "populares") {
       q = query(collection(db, "comunidad"), orderBy("likes", "desc"));
     } else {
       q = query(collection(db, "comunidad"), orderBy("fecha", "desc"));
@@ -3058,33 +3053,54 @@ window.cargarPreguntas = async function() {
     }
 
     if (docs.length === 0) {
-      lista.innerHTML = `
-        <div class="q-empty">
-          <p>${ordenActual === "sin-respuesta" ? "Todas las preguntas tienen respuesta" : "Aún no hay preguntas — sé el primero"}</p>
-        </div>`;
+      lista.innerHTML = `<div class="q-empty"><p>${ordenActual === "sin-respuesta" ? "Todas las preguntas tienen respuesta" : "Aún no hay preguntas — sé el primero"}</p></div>`;
       return;
     }
 
+    // Saber si el usuario actual ya votó cada pregunta
+    const uid = u()?.uid;
+
     docs.forEach(d => {
-      const fecha = d.fecha?.toDate ? timeAgo(d.fecha.toDate()) : "";
-      const card  = document.createElement("div");
+      const fecha      = d.fecha?.toDate ? timeAgo(d.fecha.toDate()) : "";
+      const yaVoto     = uid && Array.isArray(d.likedBy) && d.likedBy.includes(uid);
+      const vistas     = d.vistas || 0;
+      const isPremium  = d.autorPremium === true;
+
+      // Badge premium del autor
+      const badgePremium = isPremium
+        ? `<span class="q-badge-premium">⚡ PREMIUM</span>`
+        : "";
+
+      // Nombre del autor con o sin destacado
+      const nombreAutor = isPremium
+        ? `<span class="q-autor-premium">${d.autor}</span>`
+        : `<span>${d.autor}</span>`;
+
+      const card = document.createElement("div");
       card.className = "q-card";
       card.innerHTML = `
         <div class="q-card-body">
           <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-            <button class="q-vote-btn" onclick="darLike('${d.id}', this)">
+            <button class="q-vote-btn ${yaVoto ? 'voted' : ''}" onclick="darLike('${d.id}', this)" ${yaVoto ? 'disabled' : ''}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
               <span>${d.likes || 0}</span>
             </button>
             <span class="q-tag">${d.categoria?.toUpperCase() || "GENERAL"}</span>
           </div>
-          <div class="q-title" onclick="toggleRespuestas('${d.id}')">${d.titulo}</div>
+          <div class="q-title" onclick="registrarVista('${d.id}'); toggleRespuestas('${d.id}')">${d.titulo}</div>
           <div class="q-body">${d.texto}</div>
           <div class="q-meta">
-            <span>${d.autor}</span>
+            <span style="display:flex; align-items:center; gap:6px;">
+              ${nombreAutor}
+              ${badgePremium}
+            </span>
             <span>${fecha}</span>
-            <span style="margin-left:auto;">
-              <button class="q-action-btn" onclick="toggleRespuestas('${d.id}')">
+            <span style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+              <span class="q-views">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                ${vistas}
+              </span>
+              <button class="q-action-btn" onclick="registrarVista('${d.id}'); toggleRespuestas('${d.id}')">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 ${d.respuestas || 0} respuestas
               </button>
@@ -3106,6 +3122,23 @@ window.cargarPreguntas = async function() {
   }
 }
 
+/* ── Registrar vista (1 vez por usuario por pregunta) ── */
+window.registrarVista = async function(id) {
+  const uid = u()?.uid;
+  if (!uid) return;
+  try {
+    const ref  = doc(db, "comunidad", id);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return;
+    const viewedBy = snap.data().viewedBy || [];
+    if (viewedBy.includes(uid)) return; // ya vio
+    await updateDoc(ref, {
+      vistas:   increment(1),
+      viewedBy: arrayUnion(uid)
+    });
+  } catch(e) { /* silencioso */ }
+}
+
 /* ── Toggle respuestas ── */
 window.toggleRespuestas = async function(id) {
   const box = document.getElementById("resp-" + id);
@@ -3125,12 +3158,13 @@ window.toggleRespuestas = async function(id) {
     snap.forEach(r => {
       const rd    = r.data();
       const fecha = rd.fecha?.toDate ? timeAgo(rd.fecha.toDate()) : "";
+      const isPremiumResp = rd.autorPremium === true;
       const div   = document.createElement("div");
       div.className = "q-respuesta-item";
       div.innerHTML = `
         <div class="q-respuesta-autor">
           <div style="width:22px; height:22px; border-radius:2px; background:rgba(255,232,31,0.08); border:1px solid rgba(255,232,31,0.22); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#FFE81F; font-family:'DM Mono',monospace;">${avatarLetras(rd.autor)}</div>
-          ${rd.autor}
+          ${isPremiumResp ? `<span class="q-autor-premium">${rd.autor}</span><span class="q-badge-premium">⚡ PREMIUM</span>` : rd.autor}
           <span style="color:#444444; font-weight:400;">· ${fecha}</span>
         </div>
         <div class="q-respuesta-texto">${rd.texto}</div>
@@ -3149,9 +3183,14 @@ window.enviarRespuesta = async function(id) {
   if (!txt) return;
   const btn = document.querySelector(`#resp-${id} .q-responder-form button`);
   btn.textContent = "Enviando..."; btn.disabled = true;
+  const premium = await esPremium();
   try {
     await addDoc(collection(db, "comunidad", id, "respuestas"), {
-      texto: txt, autor: u().displayName || u().email, uid: u().uid, fecha: serverTimestamp()
+      texto: txt,
+      autor: u().displayName || u().email,
+      uid:   u().uid,
+      autorPremium: premium,
+      fecha: serverTimestamp()
     });
     await updateDoc(doc(db, "comunidad", id), { respuestas: increment(1) });
     document.getElementById("txt-resp-" + id).value = "";
@@ -3162,16 +3201,38 @@ window.enviarRespuesta = async function(id) {
   finally { btn.textContent = "Responder"; btn.disabled = false; }
 }
 
-/* ── Like ── */
+/* ── Like: solo 1 vez por usuario usando likedBy array ── */
 window.darLike = async function(id, btn) {
   if (!u()) { openLoginModal(); return; }
-  if (btn.classList.contains("voted")) return;
+  if (btn.classList.contains("voted") || btn.disabled) return;
+
+  const uid = u().uid;
+  const ref = doc(db, "comunidad", id);
+
+  // Verificar en Firestore (doble seguridad)
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+  const likedBy = snap.data().likedBy || [];
+  if (likedBy.includes(uid)) {
+    btn.classList.add("voted");
+    btn.disabled = true;
+    return;
+  }
+
   btn.classList.add("voted");
+  btn.disabled = true;
+
   try {
-    await updateDoc(doc(db, "comunidad", id), { likes: increment(1) });
+    await updateDoc(ref, {
+      likes:   increment(1),
+      likedBy: arrayUnion(uid)
+    });
     const span = btn.querySelector("span");
     span.textContent = parseInt(span.textContent) + 1;
-  } catch(e) { btn.classList.remove("voted"); }
+  } catch(e) {
+    btn.classList.remove("voted");
+    btn.disabled = false;
+  }
 }
 </script>
 
