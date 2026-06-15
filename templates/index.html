@@ -561,164 +561,170 @@ SIMULAR PLC
         <!-- RUNG 1 — HABILITACIÓN SISTEMA                 -->
         <!-- I0.0(NO) && /I0.1(NC) && /I0.2(NC) → M0.0   -->
         <!-- ============================================= -->
-        <div class="rung-comment">Rung 1 — Habilitación sistema: I0.0 && /I0.1 && /I0.2 → M0.0</div>
-        <div class="rung">
-          <div class="contact" data-type="NO" data-address="I0.0">
-            <span>I0.0</span>
-          </div>
+<div class="rung">
 
-          <div class="line"></div>
+        <div class="branch">
+            <div class="branch-path">
+                <div class="contact" data-type="NO" data-address="I0.0">
+                    <span>I0.0</span>
+                </div>
+            </div>
+         
+        <div class="line"></div>
 
-          <div class="contact" data-type="NC" data-address="I0.1">
+        <div class="contact" data-type="NC" data-address="I0.1">
+            <span class="diag"></span>
             <span>I0.1</span>
-          </div>
+        </div>
 
-          <div class="line"></div>
+        <div class="line"></div>
 
-          <div class="contact" data-type="NC" data-address="I0.2">
+        <div class="contact" data-type="NC" data-address="I0.2">
+            <span class="diag"></span>
             <span>I0.2</span>
-          </div>
-
-          <div class="line"></div>
-
-          <div class="coil" data-address="M0.0">
-            <span>M0.0</span>
-          </div>
         </div>
-        <!-- FIN RUNG 1 -->
 
-        <!-- ============================================= -->
-        <!-- RUNG 2 — HABILITACIÓN MOTOR CON SENSOR        -->
-        <!-- M0.0(NO) && I0.3(NO) → M0.1                  -->
-        <!-- ============================================= -->
-        <div class="rung-comment">Rung 2 — Habilitación motor con sensor: M0.0 && I0.3 → M0.1</div>
-        <div class="rung">
-          <div class="contact" data-type="NO" data-address="M0.0">
+        <div class="line"></div>
+
+        <div class="coil" data-address="M0.0">
+            <span class="coil-circle">M0.0</span>
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 2  —  HABILITACIÓN MOTOR CON SENSOR          -->
+    <!-- M0.0 && I0.3  →  M0.1                            -->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact" data-type="NO" data-address="M0.0">
             <span>M0.0</span>
-          </div>
+        </div>
 
-          <div class="line"></div>
+        <div class="line"></div>
 
-          <div class="contact" data-type="NO" data-address="I0.3">
+        <div class="contact" data-type="NO" data-address="I0.3">
             <span>I0.3</span>
-          </div>
-
-          <div class="line"></div>
-
-          <div class="coil" data-address="M0.1">
-            <span>M0.1</span>
-          </div>
         </div>
-        <!-- FIN RUNG 2 -->
 
-        <!-- ============================================= -->
-        <!-- RUNG 3 — SALIDAS MOTOR + LUZ VERDE            -->
-        <!-- M0.1(NO) && /M0.2(NC) → Q0.0 · Q0.1          -->
-        <!-- ============================================= -->
-        <div class="rung-comment">Rung 3 — Salidas motor + luz verde: M0.1 && /M0.2 → Q0.0, Q0.1</div>
-        <div class="rung">
-          <div class="contact" data-type="NO" data-address="M0.1">
+        <div class="line"></div>
+
+        <div class="coil" data-address="M0.1">
+            <span class="coil-circle">M0.1</span>
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 3  —  SALIDAS MOTOR + LUZ VERDE              -->
+    <!-- M0.1 && /M0.2  →  Q0.0 · Q0.1                   -->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact" data-type="NO" data-address="M0.1">
             <span>M0.1</span>
-          </div>
+        </div>
 
-          <div class="line"></div>
+        <div class="line"></div>
 
-          <div class="contact" data-type="NC" data-address="M0.2">
+        <div class="contact" data-type="NC" data-address="M0.2">
+            <span class="diag"></span>
             <span>M0.2</span>
-          </div>
-
-          <div class="line"></div>
-
-          <!-- Bobinas paralelas: Q0.0 y Q0.1 van en el mismo rung separadas verticalmente -->
-          <div class="coil-group">
-            <div class="coil" data-address="Q0.0">
-              <span>Q0.0</span>
-            </div>
-            <div class="coil" data-address="Q0.1">
-              <span>Q0.1</span>
-            </div>
-          </div>
         </div>
-        <!-- FIN RUNG 3 -->
 
-        <!-- ============================================= -->
-        <!-- RUNG 4 — EMERGENCIA: SET ALARMA + LUZ ROJA   -->
-        <!-- I0.2(NO) → SET M0.2 · Q0.2                   -->
-        <!-- ============================================= -->
-        <div class="rung-comment">Rung 4 — Emergencia: I0.2 → SET M0.2, Q0.2</div>
-        <div class="rung">
-          <div class="contact" data-type="NO" data-address="I0.2">
+        <div class="line"></div>
+
+        <div class="coil" data-address="Q0.0">
+            <span class="coil-circle">Q0.0</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil" data-address="Q0.1">
+            <span class="coil-circle">Q0.1</span>
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 4  —  EMERGENCIA: SET ALARMA + LUZ ROJA     -->
+    <!-- I0.2  →  SET M0.2 · Q0.2                        -->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact" data-type="NO" data-address="I0.2">
             <span>I0.2</span>
-          </div>
-
-          <div class="line"></div>
-
-          <!-- Bobinas paralelas: SET M0.2 y Q0.2 -->
-          <div class="coil-group">
-            <div class="coil" data-type="SET" data-address="M0.2">
-              <span>S M0.2</span>
-            </div>
-            <div class="coil" data-address="Q0.2">
-              <span>Q0.2</span>
-            </div>
-          </div>
         </div>
-        <!-- FIN RUNG 4 -->
 
-        <!-- ============================================= -->
-        <!-- RUNG 5a — RESET ALARMA                        -->
-        <!-- I0.0(NO) && /I0.2(NC) → RESET M0.2           -->
-        <!-- ============================================= -->
-        <div class="rung-comment">Rung 5a — Reset alarma: I0.0 && /I0.2 → RESET M0.2</div>
-        <div class="rung">
-          <div class="contact" data-type="NO" data-address="I0.0">
+        <div class="line"></div>
+
+        <div class="coil" data-type="SET" data-address="M0.2">
+            <span class="coil-circle">S M0.2</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil" data-address="Q0.2">
+            <span class="coil-circle">Q0.2</span>
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- RUNG 5  —  RESET ALARMA + LUZ AZUL SENSOR        -->
+    <!-- I0.0 && /I0.2  →  RESET M0.2 · (I0.3&&M0.0→Q0.3)-->
+    <!-- ================================================= -->
+
+    <div class="rung">
+
+        <div class="contact" data-type="NO" data-address="I0.0">
             <span>I0.0</span>
-          </div>
+        </div>
 
-          <div class="line"></div>
+        <div class="line"></div>
 
-          <div class="contact" data-type="NC" data-address="I0.2">
+        <div class="contact" data-type="NC" data-address="I0.2">
+            <span class="diag"></span>
             <span>I0.2</span>
-          </div>
-
-          <div class="line"></div>
-
-          <div class="coil" data-type="RESET" data-address="M0.2">
-            <span>R M0.2</span>
-          </div>
         </div>
-        <!-- FIN RUNG 5a -->
 
-        <!-- ============================================= -->
-        <!-- RUNG 5b — LUZ AZUL SENSOR                     -->
-        <!-- I0.3(NO) && M0.0(NO) → Q0.3                  -->
-        <!-- (separado de 5a: una bobina no puede tener     -->
-        <!--  contactos en serie después de ella)           -->
-        <!-- ============================================= -->
-        <div class="rung-comment">Rung 5b — Luz azul sensor: I0.3 && M0.0 → Q0.3</div>
-        <div class="rung">
-          <div class="contact" data-type="NO" data-address="I0.3">
+        <div class="line"></div>
+
+        <div class="coil" data-type="RESET" data-address="M0.2">
+            <span class="coil-circle">R M0.2</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="contact" data-type="NO" data-address="I0.3">
             <span>I0.3</span>
-          </div>
-
-          <div class="line"></div>
-
-          <div class="contact" data-type="NO" data-address="M0.0">
-            <span>M0.0</span>
-          </div>
-
-          <div class="line"></div>
-
-          <div class="coil" data-address="Q0.3">
-            <span>Q0.3</span>
-          </div>
         </div>
-        <!-- FIN RUNG 5b -->
 
-      </div><!-- /ladder -->
-    </main>
-  </div><!-- /layout -->
-</div><!-- /simulator-section -->
+        <div class="line"></div>
+
+        <div class="contact" data-type="NO" data-address="M0.0">
+            <span>M0.0</span>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="coil" data-address="Q0.3">
+            <span class="coil-circle">Q0.3</span>
+        </div>
+
+    </div>
+
+</div> <!-- ladder -->
+
+</main>
+
+</div> <!-- layout -->
+
+</div> <!-- simulatorSection -->
 
 <!-- ===================================================== -->
 <!-- CURSOS -->
