@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Simulador PLC Siemens Online — AULAPLC{% endblock %}
+{% block canonical %}/simulador-plc{% endblock %}
+{% block og_url %}/simulador-plc{% endblock %}
+{% block og_title %}Simulador PLC Online — AULAPLC STUDIO X{% endblock %}
+{% block meta_description %}Simula programación Ladder con entradas, salidas, motor trifásico y lógica PLC Siemens directamente en el navegador, gratis.{% endblock %}
+
+{% block content %}
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- INPUTS -->
+    <div class="panel">
+      <h2>ENTRADAS DIGITALES</h2>
+      <div class="io-grid">
+
+        <div class="io-card" id="card-I0.0">
+          <div class="io-name">I0.0 START</div>
+          <button class="btn green" onclick="toggleInput('I0.0')">FORZAR</button>
+        </div>
+
+        <div class="io-card" id="card-I0.1">
+          <div class="io-name">I0.1 STOP</div>
+          <button class="btn red" onclick="toggleInput('I0.1')">FORZAR</button>
+        </div>
+
+        <div class="io-card" id="card-I0.2">
+          <div class="io-name">I0.2 EMERGENCY</div>
+          <button class="btn yellow" onclick="toggleInput('I0.2')">FORZAR</button>
+        </div>
+
+        <div class="io-card" id="card-I0.3">
+          <div class="io-name">I0.3 SENSOR</div>
+          <button class="btn blue" onclick="toggleInput('I0.3')">FORZAR</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- OUTPUTS -->
+    <div class="panel">
+      <h2>SALIDAS PLC</h2>
+      <div class="memory-list">
+        <div class="memory-item"><span>Q0.0 MOTOR</span><span data-output="Q0.0">FALSE</span></div>
+        <div class="memory-item"><span>Q0.1 VERDE</span><span data-output="Q0.1">FALSE</span></div>
+        <div class="memory-item"><span>Q0.2 ROJO</span><span data-output="Q0.2">FALSE</span></div>
+        <div class="memory-item"><span>Q0.3 AZUL</span><span data-output="Q0.3">FALSE</span></div>
+      </div>
+    </div>
+
+    <!-- MOTOR -->
+    <div class="panel">
+      <h2>MOTOR TRIFÁSICO</h2>
+      <div class="motor-container">
+        <div class="motor">
+          <div class="fan" id="motorFan"></div>
+        </div>
+        <div class="pilot-row">
+          <div class="pilot" id="greenPilot"></div>
+          <div class="pilot" id="redPilot"></div>
+          <div class="pilot" id="bluePilot"></div>
+        </div>
+        <div class="motor-info">
+          <div class="info-box">RPM<br><span id="rpmValue">0 RPM</span></div>
+          <div class="info-box">ESTADO<br><span id="motorState">STOP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGS -->
+    <div class="panel">
+      <h2>EVENTOS PLC</h2>
+      <div class="log-box" id="logBox"></div>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="toolbar">
+      <button class="btn green" onclick="runSimulation()">SIMULAR PLC</button>
+    </div>
+
+    <!-- LADDER -->
+    <div class="ladder-area" id="ladder">
+      <div class="ladder-area">
+
+        <div class="ladder-left-rail"></div>
+        <div class="ladder-right-rail"></div>
+
+        <!-- RUNG 1 — START/STOP/EMERGENCY -->
+        <!-- I0.0 && /I0.1 && /I0.2 → M0.0 -->
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="I0.0"><span>I0.0</span></div>
+          <div class="line"></div>
+          <div class="contact" data-type="NC" data-address="I0.1"><span class="diag"></span><span>I0.1</span></div>
+          <div class="line"></div>
+          <div class="contact" data-type="NC" data-address="I0.2"><span class="diag"></span><span>I0.2</span></div>
+          <div class="line"></div>
+          <div class="coil" data-address="M0.0"><span class="coil-circle">M0.0</span></div>
+        </div>
+
+        <!-- RUNG 2 — HABILITACIÓN MOTOR CON SENSOR -->
+        <!-- M0.0 && I0.3 → M0.1 -->
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="M0.0"><span>M0.0</span></div>
+          <div class="line"></div>
+          <div class="contact" data-type="NO" data-address="I0.3"><span>I0.3</span></div>
+          <div class="line"></div>
+          <div class="coil" data-address="M0.1"><span class="coil-circle">M0.1</span></div>
+        </div>
+
+        <!-- RUNG 3 — SALIDAS MOTOR + LUZ VERDE -->
+        <!-- M0.1 && /M0.2 → Q0.0 · Q0.1 -->
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="M0.1"><span>M0.1</span></div>
+          <div class="line"></div>
+          <div class="contact" data-type="NC" data-address="M0.2"><span class="diag"></span><span>M0.2</span></div>
+          <div class="line"></div>
+          <div class="coil" data-address="Q0.0"><span class="coil-circle">Q0.0</span></div>
+          <div class="line"></div>
+          <div class="coil" data-address="Q0.1"><span class="coil-circle">Q0.1</span></div>
+        </div>
+
+        <!-- RUNG 4 — EMERGENCIA: SET ALARMA + LUZ ROJA -->
+        <!-- I0.2 → SET M0.2 · Q0.2 -->
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="I0.2"><span>I0.2</span></div>
+          <div class="line"></div>
+          <div class="coil" data-type="SET" data-address="M0.2"><span class="coil-circle">S M0.2</span></div>
+          <div class="line"></div>
+          <div class="coil" data-address="Q0.2"><span class="coil-circle">Q0.2</span></div>
+        </div>
+
+        <!-- RUNG 5 — RESET ALARMA + LUZ AZUL SENSOR -->
+        <!-- I0.0 && /I0.2 → RESET M0.2 · (I0.3&&M0.0→Q0.3) -->
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="I0.0"><span>I0.0</span></div>
+          <div class="line"></div>
+          <div class="contact" data-type="NC" data-address="I0.2"><span class="diag"></span><span>I0.2</span></div>
+          <div class="line"></div>
+          <div class="coil" data-type="RESET" data-address="M0.2"><span class="coil-circle">R M0.2</span></div>
+          <div class="line"></div>
+          <div class="contact" data-type="NO" data-address="I0.3"><span>I0.3</span></div>
+          <div class="line"></div>
+          <div class="contact" data-type="NO" data-address="M0.0"><span>M0.0</span></div>
+          <div class="line"></div>
+          <div class="coil" data-address="Q0.3"><span class="coil-circle">Q0.3</span></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+</div>
+{% endblock %}

@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Tienda PLC Siemens, Sensores, HMI, Variadores — AULAPLC{% endblock %}
+{% block canonical %}/tienda{% endblock %}
+{% block og_url %}/tienda{% endblock %}
+{% block og_title %}Tienda AULAPLC — Equipos para Automatización Industrial{% endblock %}
+{% block meta_description %}Productos recomendados para automatización industrial: PLC Siemens, HMI, sensores, variadores, cables y más. Envío a todo Chile.{% endblock %}
+
+{% block extra_head %}
+<style>
+.store-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.store-card .course-image {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  background: #1a2332;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  padding: 10px;
+}
+.store-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #2563eb;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+}
+.store-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #22c55e;
+  margin: 10px 0 14px;
+  font-family: 'Segoe UI', sans-serif;
+}
+.store-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: auto;
+  transition: .2s;
+}
+.store-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="courses-page">
+
+  <h1 class="courses-title">TIENDA AULAPLC</h1>
+  <p class="courses-subtitle">Productos recomendados para automatización industrial, PLC Siemens, sensores, HMI y variadores.</p>
+
+  <!-- BARRA DE FILTRO -->
+  <div style="display:flex; gap:10px; margin-bottom:25px; flex-wrap:wrap; align-items:center;">
+    <span style="color:#94a3b8; font-size:13px; font-weight:600;">FILTRAR:</span>
+    <button onclick="filterStore('all',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #3b82f6; background:#3b82f6; color:white; cursor:pointer; font-weight:700; font-size:12px;">
+      TODOS
+    </button>
+    <button onclick="filterStore('plc',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      PLC
+    </button>
+    <button onclick="filterStore('hmi',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      HMI
+    </button>
+    <button onclick="filterStore('sensor',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      SENSORES
+    </button>
+    <button onclick="filterStore('cable',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      CABLES
+    </button>
+    <button onclick="filterStore('fuente',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      FUENTE
+    </button>
+    <button onclick="filterStore('luces',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      LUCES
+    </button>
+    <button onclick="filterStore('interruptor',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      INTERRUPTOR
+    </button>
+    <button onclick="filterStore('variador',this)"
+      style="padding:7px 16px; border-radius:8px; border:1px solid #374151; background:transparent; color:#94a3b8; cursor:pointer; font-weight:700; font-size:12px;">
+      VARIADOR
+    </button>
+  </div>
+
+  <div class="courses-grid" id="storeGrid">
+
+    <!-- PRODUCTO 1 -->
+    <div class="course-card store-card" data-cat="plc" data-price="210000">
+      <div class="store-badge">PLC</div>
+      <img src="{{ url_for('static', filename='img/plclogo.png') }}" class="course-image" alt="PLC Siemens Logo V8.4">
+      <h2>Plc Controlador Siemens Logo V8.4 Para 12/24v</h2>
+      <p>LOGO! 12/24RCE, módulo lógico, display FA/E/S: 12/24 V DC/relé, 8 DI (4 AI)/4 DO, mem. 400 bloques.</p>
+      <div class="store-price">$ 210.000 CLP</div>
+      <a href="https://meli.la/1H8s22Y" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 2 -->
+    <div class="course-card store-card" data-cat="cable" data-price="59000">
+      <div class="store-badge">CABLE</div>
+      <img src="{{ url_for('static', filename='img/s7200.png') }}" class="course-image" alt="Cable Programacion PLC USB MPI">
+      <h2>Cable Programacion Plc Usb Mpi Para Siemens S7-200/300/400</h2>
+      <p>Compatible con protocolos MPI y PPI en controladores Siemens S7 serie.</p>
+      <div class="store-price">$ 59.000 CLP</div>
+      <a href="https://meli.la/1hp31eS" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 3 -->
+    <div class="course-card store-card" data-cat="hmi" data-price="2190000">
+      <div class="store-badge">HMI</div>
+      <img src="{{ url_for('static', filename='img/hmi1200.png') }}" class="course-image" alt="HMI KTP1200">
+      <h2>Hmi Ktp1200</h2>
+      <p>Táctil 12 Profinet 6av2123-2mb03-0ax0.</p>
+      <div class="store-price">$ 2.190.000 CLP</div>
+      <a href="https://meli.la/1KFJ37a" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 4 -->
+    <div class="course-card store-card" data-cat="sensor" data-price="3490">
+      <div class="store-badge">SENSOR</div>
+      <img src="{{ url_for('static', filename='img/sensorinductivo.png') }}" class="course-image" alt="Sensor Inductivo">
+      <h2>Sensor De Proximidad Inductivo</h2>
+      <p>Sn04-n (npn-no), distancia: 4mm de detección.</p>
+      <div class="store-price">$ 3.490 CLP</div>
+      <a href="https://meli.la/1huMYUD" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 5 -->
+    <div class="course-card store-card" data-cat="sensor" data-price="50000">
+      <div class="store-badge">SENSOR</div>
+      <img src="{{ url_for('static', filename='img/sensorfotoelectrico.png') }}" class="course-image" alt="Sensor Fotoelectrico Laser">
+      <h2>Sensor Fotoelectrico Laser 30 Cm Npn</h2>
+      <p>Detecta objetos de todos incluso vidrio.</p>
+      <div class="store-price">$ 50.000 CLP</div>
+      <a href="https://meli.la/116TFVX" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 6 -->
+    <div class="course-card store-card" data-cat="sensor" data-price="45000">
+      <div class="store-badge">SENSOR</div>
+      <img src="{{ url_for('static', filename='img/sensorherradura.png') }}" class="course-image" alt="Sensor de Herradura">
+      <h2>Sensor De Herradura Pnp 25mm 12-24 Vdc</h2>
+      <p>Fabricado en plástico y componentes electrónicos.</p>
+      <div class="store-price">$ 45.000 CLP</div>
+      <a href="https://meli.la/1HDRx77" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 7 -->
+    <div class="course-card store-card" data-cat="cable" data-price="37800">
+      <div class="store-badge">CABLE</div>
+      <img src="{{ url_for('static', filename='img/usbalogo.png') }}" class="course-image" alt="Cable USB Logo Siemens">
+      <h2>Cable Programación Usb Plc Siemens Logo 6ed1057-1aa01-0ba0</h2>
+      <p>Cable Programación USB PLC compatible con Siemens LOGO!.</p>
+      <div class="store-price">$ 37.800 CLP</div>
+      <a href="https://meli.la/2FXfXya" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 8 -->
+    <div class="course-card store-card" data-cat="plc" data-price="566972">
+      <div class="store-badge">PLC</div>
+      <img src="{{ url_for('static', filename='img/plcsiemens1200.png') }}" class="course-image" alt="PLC Siemens S7-1200">
+      <h2>Plc Siemens S7-1200 Cpu 1214c Dc/dc/dc 14di 10do G2</h2>
+      <p>CPU compacta de segunda generación G2 con alimentación 24 V DC, entradas digitales 24 V DC y salidas digitales transistor 24 V DC. Diseñada para aplicaciones industriales de alto rendimiento con Motion Control integrado y comunicaciones avanzadas PROFINET.</p>
+      <div class="store-price">$ 566.972 CLP</div>
+      <a href="https://meli.la/1x7reqt" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 9 -->
+    <div class="course-card store-card" data-cat="plc" data-price="237612">
+      <div class="store-badge">PLC</div>
+      <img src="{{ url_for('static', filename='img/plcsiemens1211.png') }}" class="course-image" alt="PLC Siemens S7-1211C">
+      <h2>Siemens 6es7 211-1be40-0xb0 Simatic S7-1200, Cpu 1211c</h2>
+      <p>Desde china: Marca Generic Modelo Generic584763.</p>
+      <div class="store-price">$ 237.612 CLP</div>
+      <a href="https://meli.la/1Kh7Pzf" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 10 -->
+    <div class="course-card store-card" data-cat="luces" data-price="69000">
+      <div class="store-badge">LUCES</div>
+      <img src="{{ url_for('static', filename='img/lucesled.png') }}" class="course-image" alt="Luces LED Industriales">
+      <h2>Ad16-22d - Luces Indicadoras Led Industriales</h2>
+      <p>2 verdes, 2 amarillas y 2 rojas para equipos industriales y paneles de montaje, 12V AC/DC.</p>
+      <div class="store-price">$ 69.000 CLP</div>
+      <a href="https://meli.la/2yDDPre" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 11 -->
+    <div class="course-card store-card" data-cat="cable" data-price="7990">
+      <div class="store-badge">CABLE</div>
+      <img src="{{ url_for('static', filename='img/cableelectrico.png') }}" class="course-image" alt="Cable Eléctrico Flexible">
+      <h2>Cable Cordón Eléctrico Flexible 2x0.75mm Negro 10mts</h2>
+      <p>Cable multipolar con conductor flexible de cobre, aislamiento y cubierta de PVC. H05VV-F 10Mts.</p>
+      <div class="store-price">$ 7.990 CLP</div>
+      <a href="https://meli.la/21JR7hv" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 12 -->
+    <div class="course-card store-card" data-cat="fuente" data-price="45567">
+      <div class="store-badge">FUENTE</div>
+      <img src="{{ url_for('static', filename='img/fuentedepoder.png') }}" class="course-image" alt="Fuente de Poder Riel Din">
+      <h2>Fuente De Poder Riel Din 100-240vac / 24vdc 120w 5amp</h2>
+      <p>Voltaje de Entrada: 100-240 VAC. Voltaje de Salida: +24Vdc. Potencia de Salida: 120W a 5A.</p>
+      <div class="store-price">$ 45.567 CLP</div>
+      <a href="https://meli.la/1FvbFUW" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 13 -->
+    <div class="course-card store-card" data-cat="interruptor" data-price="6090">
+      <div class="store-badge">INTERRUPTOR</div>
+      <img src="{{ url_for('static', filename='img/interruptorautomatico.png') }}" class="course-image" alt="Interruptor Automático">
+      <h2>Interruptor Automático 2 Polos</h2>
+      <p>Lexo 25A curva C 6kA DIN certificado SEC. Protección contra sobrecargas y cortocircuitos.</p>
+      <div class="store-price">$ 6.090 CLP</div>
+      <a href="https://meli.la/2qVVaZA" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 14 -->
+    <div class="course-card store-card" data-cat="cable" data-price="19990">
+      <div class="store-badge">CABLE</div>
+      <img src="{{ url_for('static', filename='img/ethernet.png') }}" class="course-image" alt="Cable Ethernet CAT 8">
+      <h2>Cable Ethernet VeggieG CAT 8 SFTP 10m RJ45 40Gbps</h2>
+      <p>Integra conectores RJ-45 en ambos extremos. Compatible con categorías 7, 6 y 5.</p>
+      <div class="store-price">$ 19.990 CLP</div>
+      <a href="https://meli.la/2K7J8EJ" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 15 -->
+    <div class="course-card store-card" data-cat="interruptor" data-price="5990">
+      <div class="store-badge">INTERRUPTOR</div>
+      <img src="{{ url_for('static', filename='img/botonerapartirparar.png') }}" class="course-image" alt="Botonera Partir Parar">
+      <h2>Botonera De Sobreponer Partir/parar 1no+1nc</h2>
+      <p>Botón Partir: Verde (NA). Botón Parar: Rojo (NC).</p>
+      <div class="store-price">$ 5.990 CLP</div>
+      <a href="https://meli.la/1mgraqf" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 16 -->
+    <div class="course-card store-card" data-cat="interruptor" data-price="7450">
+      <div class="store-badge">INTERRUPTOR</div>
+      <img src="{{ url_for('static', filename='img/emergencia.png') }}" class="course-image" alt="Parada de Emergencia">
+      <h2>Parada De Emergencia C/reten. En Caja 1nc</h2>
+      <p>Botón de seta con retén. Reset girar para liberar. 10A / 600V. Contactos Auxiliares: 1NC.</p>
+      <div class="store-price">$ 7.450 CLP</div>
+      <a href="https://meli.la/1mBvuA6" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 17 -->
+    <div class="course-card store-card" data-cat="interruptor" data-price="16400">
+      <div class="store-badge">INTERRUPTOR</div>
+      <img src="{{ url_for('static', filename='img/selector.png') }}" class="course-image" alt="Selector Schneider">
+      <h2>Selector 22mm 2 Posiciones 1 Na Schneider Electric</h2>
+      <p>Selector maneta, tipo de alimentación: corriente eléctrica.</p>
+      <div class="store-price">$ 16.400 CLP</div>
+      <a href="https://meli.la/2EVsezo" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 18 -->
+    <div class="course-card store-card" data-cat="sensor" data-price="9952">
+      <div class="store-badge">SENSOR</div>
+      <img src="{{ url_for('static', filename='img/sensorproximidad.png') }}" class="course-image" alt="Sensor Proximidad Fotoeléctrico">
+      <h2>Sensor De Proximidad E18-d80nk Fotoeléctrico 6-36v</h2>
+      <p>Voltaje de funcionamiento: 6-36V. Reflexión difusa. Distancia de inducción: 11.8 in ajustable.</p>
+      <div class="store-price">$ 9.952 CLP</div>
+      <a href="https://meli.la/1QG9QYz" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 19 -->
+    <div class="course-card store-card" data-cat="variador" data-price="85999">
+      <div class="store-badge">VARIADOR</div>
+      <img src="{{ url_for('static', filename='img/variador1.png') }}" class="course-image" alt="Variador de Frecuencia 3HP">
+      <h2>Variador De Frecuencia 3hp 2.2kw Monofásico A Trifásico 220v</h2>
+      <p>Potencia: 2.2KW. Frecuencia de salida: 0.1-400 Hz. Voltaje de entrada: 220V monofásico. Corriente: 10A.</p>
+      <div class="store-price">$ 85.999 CLP</div>
+      <a href="https://meli.la/2RSshfn" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+    <!-- PRODUCTO 20 -->
+    <div class="course-card store-card" data-cat="variador" data-price="138000">
+      <div class="store-badge">VARIADOR</div>
+      <img src="{{ url_for('static', filename='img/variador2.png') }}" class="course-image" alt="Variador Trifásico Enertik">
+      <h2>Variador De Frecuencia Trifásico Enertik 2200w 3hp</h2>
+      <p>Voltaje: 380V. Soporta motores trifásicos hasta 2.2kW y 3HP. Sobrecarga 150% por 60 segundos.</p>
+      <div class="store-price">$ 138.000 CLP</div>
+      <a href="https://meli.la/1yPRNx7" target="_blank" class="store-btn">VER PRODUCTO ↗</a>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function filterStore(cat, btn) {
+  document.querySelectorAll('.store-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
+  });
+  document.querySelectorAll('[onclick^="filterStore"]').forEach(b => {
+    b.style.background  = 'transparent';
+    b.style.color       = '#94a3b8';
+    b.style.borderColor = '#374151';
+  });
+  btn.style.background  = '#3b82f6';
+  btn.style.color       = 'white';
+  btn.style.borderColor = '#3b82f6';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Cursos PLC Siemens, HMI, SCADA — AULAPLC{% endblock %}
+{% block canonical %}/cursos{% endblock %}
+{% block og_url %}/cursos{% endblock %}
+{% block og_title %}Cursos PLC Industrial — AULAPLC STUDIO X{% endblock %}
+{% block meta_description %}Aprende PLC Siemens TIA Portal, HMI, SCADA y variadores desde cero con proyectos industriales reales.{% endblock %}
+
+{% block content %}
+<div class="courses-page">
+  <h1 class="courses-title">CURSOS AULAPLC STUDIO X</h1>
+  <p class="courses-subtitle">Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.</p>
+
+  <div class="courses-grid">
+
+    <!-- CURSO 1 -->
+    <div class="course-card">
+      <h2>PLC SIEMENS TIA PORTAL</h2>
+      <p>Curso completo desde cero con Ladder, simulación y proyectos industriales reales.</p>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">PLC</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">TIA PORTAL</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">LADDER</span>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <a href="/cursos/tia-portal"><button class="btn green" style="width:100%;">ENTRAR AL CURSO</button></a>
+        <a href="{{ url_for('static', filename='pdfs/guia_tia_portal.pdf') }}" target="_blank">
+          <button class="btn blue" style="width:100%;">DESCARGAR PDF</button>
+        </a>
+        <a href="https://www.youtube.com/@AULAPLC" target="_blank">
+          <button class="btn yellow" style="width:100%;">VER VIDEOS</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- CURSO 2 -->
+    <div class="course-card">
+      <h2>HMI + SCADA INDUSTRIAL</h2>
+      <p>Diseña pantallas profesionales y sistemas SCADA modernos para procesos industriales.</p>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">WINCC</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">SCADA</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">HMI</span>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <button class="btn blue">VER CURSO</button>
+        <button class="btn green">DESCARGAR MATERIAL</button>
+      </div>
+    </div>
+
+    <!-- CURSO 3 -->
+    <div class="course-card">
+      <h2>VARIADORES DE FRECUENCIA</h2>
+      <p>Configuración avanzada de variadores Siemens G120 y control de motores industriales.</p>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">SINAMICS</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">G120</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">MOTORES</span>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <button class="btn yellow">VER CURSO</button>
+        <button class="btn blue">MANUALES PDF</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
