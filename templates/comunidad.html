@@ -1,11 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Comunidad — Aula PLC</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+{% extends "base.html" %}
+
+{% block title %}Comunidad PLC — AULAPLC{% endblock %}
+{% block canonical %}/comunidad{% endblock %}
+{% block og_url %}/comunidad{% endblock %}
+{% block og_title %}Comunidad PLC — AULAPLC{% endblock %}
+{% block meta_description %}
+Foro de automatización industrial. Resuelve dudas sobre PLC Siemens, TIA Portal, HMI, SCADA, variadores VFD y sensores.
+{% endblock %}
+
+{% block content %}
+<div id="comunidadSection"
+     style="min-height:calc(100vh - 120px);
+            background:#000000;
+            overflow-y:auto;
+            overflow-x:hidden;">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
