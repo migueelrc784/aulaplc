@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
 
@@ -6,7 +6,11 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-# importante para vercel
+@app.route("/ads.txt")
+def ads():
+    return send_from_directory("static", "ads.txt")
+
+# importante para Vercel
 app = app
 
 if __name__ == "__main__":
