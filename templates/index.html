@@ -2750,7 +2750,6 @@ function filterStore(cat, btn){
   border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* Badge premium */
 .q-badge-premium {
   display: inline-flex;
   align-items: center;
@@ -2767,13 +2766,11 @@ function filterStore(cat, btn){
   text-transform: uppercase;
 }
 
-/* Nombre premium destacado */
 .q-autor-premium {
   color: #FFE81F !important;
   font-weight: 700 !important;
 }
 
-/* Vistas */
 .q-views {
   display: inline-flex;
   align-items: center;
@@ -2836,6 +2833,41 @@ function filterStore(cat, btn){
   transition: color .14s;
 }
 .q-action-btn:hover { color: #F0F0F0; }
+
+/* Botón eliminar pregunta */
+.q-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: transparent;
+  border: none;
+  color: #3a1a1a;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .4px;
+  cursor: pointer;
+  transition: color .14s;
+}
+.q-delete-btn:hover { color: #ff4444; }
+
+/* Botón eliminar respuesta */
+.q-delete-resp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: transparent;
+  border: none;
+  color: #2a0a0a;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  cursor: pointer;
+  transition: color .14s;
+  margin-left: auto;
+}
+.q-delete-resp-btn:hover { color: #ff4444; }
 
 .q-respuestas-box {
   display: none;
@@ -2917,13 +2949,98 @@ function filterStore(cat, btn){
   margin-bottom: 10px;
 }
 @keyframes q-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* Modal confirmación borrar */
+#modal-confirmar-borrar {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+#modal-confirmar-borrar.visible {
+  display: flex;
+}
+.modal-borrar-box {
+  background: #111111;
+  border: 1px solid rgba(255,60,60,0.25);
+  border-radius: 6px;
+  padding: 28px 32px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+}
+.modal-borrar-box p {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: #F0F0F0;
+  margin: 0 0 22px;
+  line-height: 1.6;
+}
+.modal-borrar-box .modal-titulo {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: #ff4444;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.modal-borrar-acciones {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.modal-btn-cancelar {
+  padding: 9px 20px;
+  background: transparent;
+  color: #888888;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .14s;
+}
+.modal-btn-cancelar:hover { color: #F0F0F0; border-color: rgba(255,255,255,0.2); }
+.modal-btn-borrar {
+  padding: 9px 20px;
+  background: rgba(255,60,60,0.12);
+  color: #ff4444;
+  border: 1px solid rgba(255,60,60,0.30);
+  border-radius: 2px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .14s;
+}
+.modal-btn-borrar:hover { background: rgba(255,60,60,0.22); border-color: rgba(255,60,60,0.55); }
 </style>
+
+<!-- Modal confirmación borrar -->
+<div id="modal-confirmar-borrar">
+  <div class="modal-borrar-box">
+    <div class="modal-titulo">⚠ Confirmar eliminación</div>
+    <p id="modal-borrar-texto">¿Seguro que quieres eliminar esto? Esta acción no se puede deshacer.</p>
+    <div class="modal-borrar-acciones">
+      <button class="modal-btn-cancelar" onclick="cerrarModalBorrar()">Cancelar</button>
+      <button class="modal-btn-borrar" id="modal-btn-confirmar">Eliminar</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── ENGINE COMUNIDAD ── -->
 <script type="module">
 import {
   getFirestore, collection, addDoc, getDocs,
-  orderBy, query, serverTimestamp, doc, updateDoc,
+  orderBy, query, serverTimestamp, doc, updateDoc, deleteDoc,
   increment, arrayUnion, getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -2936,7 +3053,7 @@ const db   = getFirestore(app);
 const u = () => auth.currentUser;
 let ordenActual = "nuevas";
 
-/* ── Detectar si el usuario actual es premium via custom claims ── */
+/* ── Premium ── */
 async function esPremium() {
   const user = u();
   if (!user) return false;
@@ -2970,7 +3087,26 @@ function resetFiltros() {
   document.querySelectorAll(".com-filtro").forEach(b => b.classList.remove("com-filtro-active"));
 }
 
-/* ── Abrir sección: registra vista ── */
+/* ── Modal confirmar borrar ── */
+window.cerrarModalBorrar = function() {
+  document.getElementById("modal-confirmar-borrar").classList.remove("visible");
+}
+
+function confirmarBorrar(texto, callback) {
+  document.getElementById("modal-borrar-texto").textContent = texto;
+  const modal = document.getElementById("modal-confirmar-borrar");
+  modal.classList.add("visible");
+  const btnConfirmar = document.getElementById("modal-btn-confirmar");
+  // Remover listener anterior para evitar duplicados
+  const nuevo = btnConfirmar.cloneNode(true);
+  btnConfirmar.parentNode.replaceChild(nuevo, btnConfirmar);
+  nuevo.addEventListener("click", async () => {
+    modal.classList.remove("visible");
+    await callback();
+  });
+}
+
+/* ── Abrir sección ── */
 window.openComunidad = function() {
   if (!u()) { openLoginModal(); return; }
   showSection("comunidadSection", document.querySelector('[onclick="openComunidad()"]'));
@@ -3002,21 +3138,20 @@ window.publicarPregunta = async function() {
   const btn = document.querySelector("#form-pregunta-box button[onclick='publicarPregunta()']");
   btn.textContent = "Publicando..."; btn.disabled = true;
 
-  // Verificar si el autor es premium
   const premium = await esPremium();
 
   try {
     await addDoc(collection(db, "comunidad"), {
       titulo, texto, categoria: cat,
-      autor:      u().displayName || u().email,
-      uid:        u().uid,
+      autor:        u().displayName || u().email,
+      uid:          u().uid,
       autorPremium: premium,
-      likes:      0,
-      likedBy:    [],   // array de UIDs que ya votaron
-      respuestas: 0,
-      vistas:     0,
-      viewedBy:   [],   // array de UIDs que ya vieron
-      fecha:      serverTimestamp()
+      likes:        0,
+      likedBy:      [],
+      respuestas:   0,
+      vistas:       0,
+      viewedBy:     [],
+      fecha:        serverTimestamp()
     });
     document.getElementById("comunidadTitulo").value = "";
     document.getElementById("comunidadTexto").value  = "";
@@ -3027,6 +3162,35 @@ window.publicarPregunta = async function() {
     cargarPreguntas();
   } catch(e) { alert("Error: " + e.message); }
   finally { btn.textContent = "Publicar"; btn.disabled = false; }
+}
+
+/* ── Eliminar pregunta propia ── */
+window.eliminarPregunta = function(id) {
+  confirmarBorrar("¿Eliminar esta pregunta? Se borrarán también todas sus respuestas.", async () => {
+    try {
+      // Borrar subcolección de respuestas primero
+      const respSnap = await getDocs(collection(db, "comunidad", id, "respuestas"));
+      const borrados = respSnap.docs.map(r => deleteDoc(doc(db, "comunidad", id, "respuestas", r.id)));
+      await Promise.all(borrados);
+      // Borrar pregunta
+      await deleteDoc(doc(db, "comunidad", id));
+      cargarPreguntas();
+    } catch(e) { alert("Error al eliminar: " + e.message); }
+  });
+}
+
+/* ── Eliminar respuesta propia ── */
+window.eliminarRespuesta = function(preguntaId, respuestaId) {
+  confirmarBorrar("¿Eliminar esta respuesta?", async () => {
+    try {
+      await deleteDoc(doc(db, "comunidad", preguntaId, "respuestas", respuestaId));
+      // Restar 1 al contador de respuestas
+      await updateDoc(doc(db, "comunidad", preguntaId), { respuestas: increment(-1) });
+      // Recargar respuestas de esa pregunta
+      await toggleRespuestasInterno(preguntaId, true);
+      cargarPreguntas();
+    } catch(e) { alert("Error al eliminar: " + e.message); }
+  });
 }
 
 /* ── Cargar preguntas ── */
@@ -3057,24 +3221,26 @@ window.cargarPreguntas = async function() {
       return;
     }
 
-    // Saber si el usuario actual ya votó cada pregunta
     const uid = u()?.uid;
 
     docs.forEach(d => {
-      const fecha      = d.fecha?.toDate ? timeAgo(d.fecha.toDate()) : "";
-      const yaVoto     = uid && Array.isArray(d.likedBy) && d.likedBy.includes(uid);
-      const vistas     = d.vistas || 0;
-      const isPremium  = d.autorPremium === true;
+      const fecha     = d.fecha?.toDate ? timeAgo(d.fecha.toDate()) : "";
+      const yaVoto    = uid && Array.isArray(d.likedBy) && d.likedBy.includes(uid);
+      const vistas    = d.vistas || 0;
+      const isPremium = d.autorPremium === true;
+      const esMio     = uid && d.uid === uid;
 
-      // Badge premium del autor
-      const badgePremium = isPremium
-        ? `<span class="q-badge-premium">⚡ PREMIUM</span>`
-        : "";
-
-      // Nombre del autor con o sin destacado
-      const nombreAutor = isPremium
+      const badgePremium = isPremium ? `<span class="q-badge-premium">⚡ PREMIUM</span>` : "";
+      const nombreAutor  = isPremium
         ? `<span class="q-autor-premium">${d.autor}</span>`
         : `<span>${d.autor}</span>`;
+
+      // Botón eliminar solo si es la pregunta del usuario actual
+      const btnEliminar = esMio ? `
+        <button class="q-delete-btn" onclick="eliminarPregunta('${d.id}')" title="Eliminar pregunta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Eliminar
+        </button>` : "";
 
       const card = document.createElement("div");
       card.className = "q-card";
@@ -3104,6 +3270,7 @@ window.cargarPreguntas = async function() {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 ${d.respuestas || 0} respuestas
               </button>
+              ${btnEliminar}
             </span>
           </div>
         </div>
@@ -3122,7 +3289,7 @@ window.cargarPreguntas = async function() {
   }
 }
 
-/* ── Registrar vista (1 vez por usuario por pregunta) ── */
+/* ── Registrar vista ── */
 window.registrarVista = async function(id) {
   const uid = u()?.uid;
   if (!uid) return;
@@ -3131,19 +3298,19 @@ window.registrarVista = async function(id) {
     const snap = await getDoc(ref);
     if (!snap.exists()) return;
     const viewedBy = snap.data().viewedBy || [];
-    if (viewedBy.includes(uid)) return; // ya vio
-    await updateDoc(ref, {
-      vistas:   increment(1),
-      viewedBy: arrayUnion(uid)
-    });
+    if (viewedBy.includes(uid)) return;
+    await updateDoc(ref, { vistas: increment(1), viewedBy: arrayUnion(uid) });
   } catch(e) { /* silencioso */ }
 }
 
-/* ── Toggle respuestas ── */
-window.toggleRespuestas = async function(id) {
+/* ── Toggle respuestas (interno para poder llamarlo tras borrar) ── */
+async function toggleRespuestasInterno(id, forceOpen = false) {
   const box = document.getElementById("resp-" + id);
-  if (box.style.display === "block") { box.style.display = "none"; return; }
+  if (!box) return;
+  if (!forceOpen && box.style.display === "block") { box.style.display = "none"; return; }
   box.style.display = "block";
+
+  const uid     = u()?.uid;
   const listaEl = document.getElementById("lista-resp-" + id);
   listaEl.innerHTML = '<div style="padding:16px 20px; color:#444444; font-family:\'DM Mono\',monospace; font-size:11px; letter-spacing:1px;">Cargando...</div>';
 
@@ -3156,16 +3323,26 @@ window.toggleRespuestas = async function(id) {
       return;
     }
     snap.forEach(r => {
-      const rd    = r.data();
-      const fecha = rd.fecha?.toDate ? timeAgo(rd.fecha.toDate()) : "";
+      const rd            = r.data();
+      const fecha         = rd.fecha?.toDate ? timeAgo(rd.fecha.toDate()) : "";
       const isPremiumResp = rd.autorPremium === true;
-      const div   = document.createElement("div");
+      const esMiaResp     = uid && rd.uid === uid;
+
+      // Botón eliminar respuesta solo si es del usuario
+      const btnEliminarResp = esMiaResp ? `
+        <button class="q-delete-resp-btn" onclick="eliminarRespuesta('${id}', '${r.id}')" title="Eliminar respuesta">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Eliminar
+        </button>` : "";
+
+      const div = document.createElement("div");
       div.className = "q-respuesta-item";
       div.innerHTML = `
         <div class="q-respuesta-autor">
           <div style="width:22px; height:22px; border-radius:2px; background:rgba(255,232,31,0.08); border:1px solid rgba(255,232,31,0.22); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#FFE81F; font-family:'DM Mono',monospace;">${avatarLetras(rd.autor)}</div>
           ${isPremiumResp ? `<span class="q-autor-premium">${rd.autor}</span><span class="q-badge-premium">⚡ PREMIUM</span>` : rd.autor}
           <span style="color:#444444; font-weight:400;">· ${fecha}</span>
+          ${btnEliminarResp}
         </div>
         <div class="q-respuesta-texto">${rd.texto}</div>
       `;
@@ -3175,6 +3352,8 @@ window.toggleRespuestas = async function(id) {
     listaEl.innerHTML = `<div style="padding:16px; color:#FF3D3D; font-family:'DM Mono',monospace; font-size:11px;">ERROR: ${e.message}</div>`;
   }
 }
+
+window.toggleRespuestas = (id) => toggleRespuestasInterno(id, false);
 
 /* ── Enviar respuesta ── */
 window.enviarRespuesta = async function(id) {
@@ -3194,14 +3373,13 @@ window.enviarRespuesta = async function(id) {
     });
     await updateDoc(doc(db, "comunidad", id), { respuestas: increment(1) });
     document.getElementById("txt-resp-" + id).value = "";
-    document.getElementById("resp-" + id).style.display = "none";
-    setTimeout(() => toggleRespuestas(id), 200);
+    await toggleRespuestasInterno(id, true);
     cargarPreguntas();
   } catch(e) { alert("Error: " + e.message); }
   finally { btn.textContent = "Responder"; btn.disabled = false; }
 }
 
-/* ── Like: solo 1 vez por usuario usando likedBy array ── */
+/* ── Like ── */
 window.darLike = async function(id, btn) {
   if (!u()) { openLoginModal(); return; }
   if (btn.classList.contains("voted") || btn.disabled) return;
@@ -3209,7 +3387,6 @@ window.darLike = async function(id, btn) {
   const uid = u().uid;
   const ref = doc(db, "comunidad", id);
 
-  // Verificar en Firestore (doble seguridad)
   const snap = await getDoc(ref);
   if (!snap.exists()) return;
   const likedBy = snap.data().likedBy || [];
@@ -3223,10 +3400,7 @@ window.darLike = async function(id, btn) {
   btn.disabled = true;
 
   try {
-    await updateDoc(ref, {
-      likes:   increment(1),
-      likedBy: arrayUnion(uid)
-    });
+    await updateDoc(ref, { likes: increment(1), likedBy: arrayUnion(uid) });
     const span = btn.querySelector("span");
     span.textContent = parseInt(span.textContent) + 1;
   } catch(e) {
