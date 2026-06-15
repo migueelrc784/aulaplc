@@ -426,23 +426,14 @@ SIMULAR PLC
     <div class="ladder-right-rail"></div>
 
    <!-- ================================================= -->
-    <!-- RUNG 1  —  SEAL START/STOP/EMERGENCY              -->
-    <!-- ( I0.0 || M0.0 ) && /I0.1 && /I0.2  →  M0.0     -->
+    <!-- RUNG 1  —  START/STOP/EMERGENCY                   -->
+    <!-- I0.0 && /I0.1 && /I0.2  →  M0.0                 -->
     <!-- ================================================= -->
 
     <div class="rung">
 
-        <div class="branch">
-            <div class="branch-path">
-                <div class="contact" data-type="NO" data-address="I0.0">
-                    <span>I0.0</span>
-                </div>
-            </div>
-            <div class="branch-path">
-                <div class="contact" data-type="NO" data-address="M0.0">
-                    <span>M0.0</span>
-                </div>
-            </div>
+        <div class="contact" data-type="NO" data-address="I0.0">
+            <span>I0.0</span>
         </div>
 
         <div class="line"></div>
