@@ -3,7 +3,7 @@
    Plataforma de Automatización Industrial
    Stack: HTML/CSS/JS puro + Firebase Auth + MercadoPago
    Fonts: DM Mono (datos/código) + Outfit (UI limpia)
-   Versión: 3.0 — estética Star Wars: negro profundo + amarillo dorado
+   Versión: 3.1 — estética Star Wars: negro profundo + amarillo dorado
 ========================================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap');
@@ -13,7 +13,6 @@
 ========================================================= */
 
 :root {
-  /* Fondos — negro absoluto estilo Star Wars */
   --bg-void:    #000000;
   --bg-base:    #070707;
   --bg-surface: #0d0d0d;
@@ -22,18 +21,15 @@
   --bg-hover:   #1c1c1c;
   --bg-active:  #222222;
 
-  /* Acento principal — amarillo dorado Star Wars */
   --accent:        #FFE81F;
   --accent-dim:    rgba(255, 232, 31, 0.08);
   --accent-border: rgba(255, 232, 31, 0.22);
   --accent-text:   #FFE81F;
 
-  /* Segundo acento — rojo Sith */
   --amber:         #FF3D3D;
   --amber-dim:     rgba(255, 61, 61, 0.10);
   --amber-border:  rgba(255, 61, 61, 0.25);
 
-  /* Estados */
   --green:         #3DFF8F;
   --green-dim:     rgba(61, 255, 143, 0.10);
   --green-border:  rgba(61, 255, 143, 0.22);
@@ -50,19 +46,16 @@
   --violet-dim:    rgba(192, 132, 252, 0.10);
   --violet-border: rgba(192, 132, 252, 0.22);
 
-  /* Texto */
   --text-primary:   #F0F0F0;
   --text-secondary: #888888;
   --text-muted:     #444444;
   --text-accent:    var(--accent);
 
-  /* Bordes — muy sutiles sobre negro */
   --border-faint:  rgba(255,255,255,0.02);
   --border-soft:   rgba(255,255,255,0.06);
   --border-mid:    rgba(255,255,255,0.10);
   --border-strong: rgba(255,255,255,0.18);
 
-  /* Radios — más angulares, estilo industrial/galáctico */
   --r-xs: 2px;
   --r-sm: 3px;
   --r-md: 5px;
@@ -70,16 +63,13 @@
   --r-xl: 10px;
   --r-2xl: 14px;
 
-  /* Fuentes */
   --font-ui:   'Outfit', sans-serif;
   --font-mono: 'DM Mono', monospace;
 
-  /* Transiciones */
   --t-fast: 0.14s cubic-bezier(0.4,0,0.2,1);
   --t-mid:  0.24s cubic-bezier(0.4,0,0.2,1);
   --t-slow: 0.38s cubic-bezier(0.4,0,0.2,1);
 
-  /* Sombras */
   --shadow-card:  0 2px 16px rgba(0,0,0,0.6);
   --shadow-modal: 0 8px 48px rgba(0,0,0,0.85);
 }
@@ -103,7 +93,6 @@ body {
   font-size: 14px;
   line-height: 1.6;
   overflow: hidden;
-  /* Gradiente ambiental mínimo — destello estelar lejano */
   background-image:
     radial-gradient(ellipse 60% 30% at 10% 0%, rgba(255,232,31,0.015) 0%, transparent 60%),
     radial-gradient(ellipse 40% 20% at 90% 100%, rgba(255,61,61,0.012) 0%, transparent 60%);
@@ -122,19 +111,11 @@ a:hover { color: #fff5a0; }
 
 .layout {
   display: flex;
-  height: calc(100vh - 120px); /* ajustado al nuevo header más alto */
+  height: calc(100vh - 120px);
 }
 
 /* =========================================================
-   HEADER — estilo Star Wars
-   Estructura:
-     .top-header
-       .header-top-bar       ← redes izq | logo centro | auth der
-         .header-social
-         .header-logo-center
-         .header-auth
-       .header-nav-bar       ← navegación centrada abajo
-         .top-nav
+   HEADER
 ========================================================= */
 
 .top-header {
@@ -144,7 +125,6 @@ a:hover { color: #fff5a0; }
   z-index: 100;
 }
 
-/* Línea dorada bajo toda la cabecera */
 .top-header::after {
   content: '';
   position: absolute;
@@ -158,63 +138,68 @@ a:hover { color: #fff5a0; }
   pointer-events: none;
 }
 
-/* ---- Fila superior: social | logo | auth ---- */
-/* Fila superior más alta y aireada */
+/* ---- Fila superior: social izq | logo centro | auth der ---- */
 .header-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 16px 40px;
   min-height: 80px;
+  position: relative;
 }
 
-/* Logo: texto más grande y separado */
-.header-logo-name {
-  font-size: 18px;
-  letter-spacing: 6px;
-}
-.header-logo-sub {
-  font-size: 9px;
-  letter-spacing: 4px;
+/* Redes sociales — izquierda */
+.header-social {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 1;
 }
 
-/* Nav: más padding por botón = más aire */
-.nav-btn {
-  padding: 14px 24px;
-  letter-spacing: 2px;
+.social-link {
+  color: var(--text-muted);
+  transition: color var(--t-fast);
+  display: flex;
+  align-items: center;
 }
 
-/* Íconos sociales más pequeños y sutiles */
+.social-link:hover { color: var(--text-primary); }
+
 .social-link svg {
   width: 16px;
   height: 16px;
+  fill: currentColor;
 }
 
 .social-divider {
   width: 1px;
-  height: 16px;
+  height: 14px;
   background: var(--border-mid);
 }
 
-/* Logo central */
+/* Logo — centro absoluto */
 .header-logo-center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   text-decoration: none;
+  cursor: pointer;
 }
 
 .header-logo-icon {
-  width: 52px;
-  height: 52px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--r-md);
   background: var(--bg-card);
   border: 1px solid var(--accent-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
+  font-size: 22px;
   color: var(--accent);
   transition: border-color var(--t-fast);
 }
@@ -228,27 +213,29 @@ a:hover { color: #fff5a0; }
   flex-direction: column;
   align-items: center;
   line-height: 1;
-  gap: 3px;
+  gap: 4px;
 }
 
 .header-logo-name {
   font-family: var(--font-ui);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--text-primary);
-  letter-spacing: 5px;
+  letter-spacing: 6px;
   text-transform: uppercase;
+  line-height: 1;
 }
 
 .header-logo-sub {
   font-family: var(--font-mono);
   font-size: 9px;
   color: var(--text-muted);
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   text-transform: uppercase;
+  line-height: 1;
 }
 
-/* Auth + status (derecha) */
+/* Auth — derecha */
 .header-auth {
   display: flex;
   align-items: center;
@@ -262,29 +249,27 @@ a:hover { color: #fff5a0; }
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 32px 4px;
+  padding: 0 40px 0;
   border-top: 1px solid var(--border-faint);
 }
 
-/* Navegación */
 .top-nav {
   display: flex;
-  gap: 0px;
   align-items: center;
 }
 
 .nav-btn {
-  padding: 10px 22px;
+  padding: 14px 24px;
   border: none;
   border-bottom: 2px solid transparent;
   border-radius: 0;
   cursor: pointer;
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 11px;
   background: transparent;
   color: var(--text-secondary);
-  letter-spacing: 1.8px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   transition: color var(--t-fast), border-color var(--t-fast);
   white-space: nowrap;
@@ -302,14 +287,7 @@ a:hover { color: #fff5a0; }
   background: transparent;
 }
 
-/* Status boxes dentro del auth */
-.top-status {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-/* Estado del sistema */
+/* Status boxes */
 .top-status {
   display: flex;
   gap: 8px;
@@ -344,7 +322,37 @@ a:hover { color: #fff5a0; }
 .status-box.stop .status-dot { background: var(--red); }
 
 /* =========================================================
-   AUTH BUTTON — LOGIN CON GOOGLE (header)
+   LANG BUTTONS
+========================================================= */
+
+.lang-btn {
+  padding: 5px 12px;
+  border-radius: var(--r-xs);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: 1px solid var(--border-mid);
+  background: transparent;
+  color: var(--text-secondary);
+  transition: var(--t-fast);
+  text-transform: uppercase;
+}
+
+.lang-btn.active-lang {
+  background: var(--accent);
+  color: #000000;
+  border-color: var(--accent);
+}
+
+.lang-btn:hover:not(.active-lang) {
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+/* =========================================================
+   AUTH BUTTON — LOGIN CON GOOGLE
 ========================================================= */
 
 .auth-area {
@@ -354,7 +362,6 @@ a:hover { color: #fff5a0; }
   flex-shrink: 0;
 }
 
-/* Botón Login con Google */
 .btn-google {
   display: inline-flex;
   align-items: center;
@@ -386,7 +393,6 @@ a:hover { color: #fff5a0; }
   flex-shrink: 0;
 }
 
-/* Avatar de usuario */
 .user-avatar {
   width: 34px;
   height: 34px;
@@ -401,7 +407,7 @@ a:hover { color: #fff5a0; }
 
 .user-menu {
   position: absolute;
-  top: 58px;
+  top: 88px;
   right: 20px;
   background: var(--bg-card);
   border: 1px solid var(--border-mid);
@@ -505,7 +511,6 @@ a:hover { color: #fff5a0; }
   flex-shrink: 0;
 }
 
-/* Línea de acento lateral dorada */
 .sidebar::after {
   content: '';
   position: absolute;
@@ -642,7 +647,6 @@ a:hover { color: #fff5a0; }
 .btn-blue   { background: var(--blue-dim);   color: var(--blue);   border-color: var(--blue-border);   }
 .btn-accent { background: var(--accent-dim); color: var(--accent); border-color: var(--accent-border); }
 
-/* Alias legacy */
 .green  { background: var(--green-dim);  color: var(--green);  border-color: var(--green-border);  }
 .red    { background: var(--red-dim);    color: var(--red);    border-color: var(--red-border);    }
 .yellow { background: var(--amber-dim);  color: var(--amber);  border-color: var(--amber-border);  }
@@ -882,7 +886,6 @@ a:hover { color: #fff5a0; }
   gap: 16px;
 }
 
-/* ---- Tarjeta de curso ---- */
 .course-card {
   background: var(--bg-panel);
   border: 1px solid var(--border-soft);
@@ -902,7 +905,6 @@ a:hover { color: #fff5a0; }
   box-shadow: 0 8px 32px rgba(255,232,31,0.06);
 }
 
-/* Imagen del curso */
 .course-image {
   width: 100%;
   height: 200px;
@@ -919,7 +921,6 @@ a:hover { color: #fff5a0; }
   flex-direction: column;
 }
 
-/* Tags de tecnología */
 .course-tags {
   display: flex;
   gap: 6px;
@@ -953,7 +954,6 @@ a:hover { color: #fff5a0; }
   margin-top: auto;
 }
 
-/* Precio del curso */
 .course-price {
   font-family: var(--font-mono);
   font-size: 16px;
@@ -967,7 +967,6 @@ a:hover { color: #fff5a0; }
   font-size: 13px;
 }
 
-/* Badge PRO */
 .premium-card {
   border-color: var(--accent-border);
 }
@@ -989,7 +988,7 @@ a:hover { color: #fff5a0; }
 }
 
 /* =========================================================
-   MÓDULOS — vista detalle del curso
+   MÓDULOS
 ========================================================= */
 
 .module-list { display: flex; flex-direction: column; gap: 10px; }
@@ -1081,7 +1080,7 @@ a:hover { color: #fff5a0; }
 }
 
 /* =========================================================
-   SECCIÓN PREMIUM — banner de desbloqueo
+   SECCIÓN PREMIUM
 ========================================================= */
 
 .premium-gate {
@@ -1155,7 +1154,6 @@ a:hover { color: #fff5a0; }
   font-weight: 700;
 }
 
-/* Botón de pago MercadoPago */
 .btn-mercadopago {
   display: inline-flex;
   align-items: center;
@@ -1200,7 +1198,7 @@ a:hover { color: #fff5a0; }
 }
 
 /* =========================================================
-   MODAL DE LOGIN (Firebase Google Auth)
+   MODAL DE LOGIN
 ========================================================= */
 
 .modal-backdrop {
@@ -1385,7 +1383,6 @@ a:hover { color: #fff5a0; }
   overflow: hidden;
 }
 
-/* Scanlines */
 .drive-screen::after {
   content: '';
   position: absolute;
@@ -1467,7 +1464,6 @@ a:hover { color: #fff5a0; }
 .drive-btn.stop { background: var(--red-dim);   color: var(--red);   border-color: var(--red-border);   }
 .drive-btn.gray { background: var(--bg-card);   color: var(--text-secondary); border-color: var(--border-soft); }
 
-/* VFD panel derecho */
 .vfd-panel {
   flex: 1;
   background: var(--bg-panel);
@@ -1597,7 +1593,6 @@ a:hover { color: #fff5a0; }
 .cmd-red   { background: var(--red-dim);    color: var(--red);   border-color: var(--red-border);   }
 .cmd-dark  { background: var(--bg-hover);   color: var(--text-secondary); border-color: var(--border-soft); }
 
-/* Gauges */
 .gauge-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1758,7 +1753,7 @@ a:hover { color: #fff5a0; }
 }
 
 /* =========================================================
-   UTILIDADES — tags, badges, dividers
+   UTILIDADES
 ========================================================= */
 
 .tag {
@@ -1793,7 +1788,6 @@ a:hover { color: #fff5a0; }
   text-transform: uppercase;
 }
 
-/* Botón de volver */
 .back-btn {
   margin-top: 24px;
   padding: 9px 18px;
@@ -1856,11 +1850,11 @@ a:hover { color: #fff5a0; }
 
   .sidebar::after { display: none; }
 
-  /* Header responsive: apila en columna */
   .header-top-bar {
     flex-direction: column;
     gap: 12px;
     padding: 16px 20px 12px;
+    min-height: auto;
   }
 
   .header-logo-center {
@@ -1879,13 +1873,12 @@ a:hover { color: #fff5a0; }
   }
 
   .header-nav-bar {
-    padding: 0 16px 4px;
+    padding: 0 16px 0;
     overflow-x: auto;
     justify-content: flex-start;
   }
 
   .top-nav {
-    gap: 0;
     min-width: max-content;
   }
 
@@ -1897,7 +1890,6 @@ a:hover { color: #fff5a0; }
 
   .vfd-container { flex-direction: column; }
   .gauge-grid { grid-template-columns: 1fr; }
-
   .courses-page { padding: 20px; }
 }
 
@@ -1915,7 +1907,6 @@ a:hover { color: #fff5a0; }
   }
 
   .courses-title { font-size: 20px; }
-
   .modal { padding: 28px 20px; }
 
   .premium-features {
