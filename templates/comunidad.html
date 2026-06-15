@@ -4,802 +4,615 @@
 {% block canonical %}/comunidad{% endblock %}
 {% block og_url %}/comunidad{% endblock %}
 {% block og_title %}Comunidad PLC — AULAPLC{% endblock %}
-{% block meta_description %}
-Foro de automatización industrial. Resuelve dudas sobre PLC Siemens, TIA Portal, HMI, SCADA, variadores VFD y sensores.
-{% endblock %}
+{% block meta_description %}Foro de automatización industrial. Resuelve dudas sobre PLC Siemens, TIA Portal, HMI, SCADA, variadores VFD y sensores.{% endblock %}
 
 {% block content %}
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #000000; color: #F0F0F0; }
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .com-filtro {
-      padding: 10px 20px;
-      border: none;
-      border-bottom: 2px solid transparent;
-      background: transparent;
-      color: #444444;
-      font-family: 'Outfit', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: .14s;
-      margin-bottom: -1px;
-    }
-    .com-filtro:hover { color: #F0F0F0; }
-    .com-filtro-active { color: #FFE81F !important; border-bottom-color: #FFE81F !important; }
+.com-filtro {
+  padding: 10px 20px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #444444;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .14s;
+  margin-bottom: -1px;
+}
+.com-filtro:hover { color: #F0F0F0; }
+.com-filtro-active { color: #FFE81F !important; border-bottom-color: #FFE81F !important; }
 
-    .q-card {
-      background: #111111;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 5px;
-      margin-bottom: 8px;
-      transition: border-color .14s;
-      overflow: hidden;
-    }
-    .q-card:hover { border-color: rgba(255,232,31,0.22); }
-    .q-card-body { padding: 18px 20px; }
+.q-card {
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 5px;
+  margin-bottom: 8px;
+  transition: border-color .14s;
+  overflow: hidden;
+}
+.q-card:hover { border-color: rgba(255,232,31,0.22); }
+.q-card-body { padding: 18px 20px; }
 
-    .q-vote-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 2px;
-      color: #888888;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .5px;
-      cursor: pointer;
-      transition: .14s;
-    }
-    .q-vote-btn:hover { border-color: rgba(255,232,31,0.40); color: #FFE81F; }
-    .q-vote-btn.voted { border-color: rgba(255,232,31,0.40); color: #FFE81F; background: rgba(255,232,31,0.06); cursor: not-allowed; }
+.q-vote-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+  color: #888888;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: .5px;
+  cursor: pointer; transition: .14s;
+}
+.q-vote-btn:hover { border-color: rgba(255,232,31,0.40); color: #FFE81F; }
+.q-vote-btn.voted { border-color: rgba(255,232,31,0.40); color: #FFE81F; background: rgba(255,232,31,0.06); cursor: not-allowed; }
 
-    .q-tag {
-      display: inline-block;
-      padding: 2px 9px;
-      border-radius: 2px;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      font-weight: 500;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.04);
-      color: #888888;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
+.q-tag {
+  display: inline-block; padding: 2px 9px; border-radius: 2px;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  background: rgba(255,255,255,0.04); color: #888888;
+  border: 1px solid rgba(255,255,255,0.08);
+}
 
-    .q-badge-premium {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 7px;
-      background: linear-gradient(135deg, rgba(255,232,31,0.15), rgba(255,180,0,0.15));
-      border: 1px solid rgba(255,232,31,0.35);
-      border-radius: 2px;
-      font-family: 'DM Mono', monospace;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      color: #FFE81F;
-      text-transform: uppercase;
-    }
+.q-badge-premium {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px;
+  background: linear-gradient(135deg, rgba(255,232,31,0.15), rgba(255,180,0,0.15));
+  border: 1px solid rgba(255,232,31,0.35); border-radius: 2px;
+  font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; color: #FFE81F; text-transform: uppercase;
+}
 
-    .q-autor-premium {
-      color: #FFE81F !important;
-      font-weight: 700 !important;
-    }
+.q-autor-premium { color: #FFE81F !important; font-weight: 700 !important; }
 
-    .q-views {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: #333333;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-    }
+.q-views {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: #333333; font-family: 'DM Mono', monospace; font-size: 11px;
+}
 
-    .q-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #F0F0F0;
-      cursor: pointer;
-      margin-bottom: 6px;
-      line-height: 1.4;
-      letter-spacing: .2px;
-      transition: color .14s;
-    }
-    .q-title:hover { color: #FFE81F; }
+.q-title {
+  font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+  color: #F0F0F0; cursor: pointer; margin-bottom: 6px;
+  line-height: 1.4; letter-spacing: .2px; transition: color .14s;
+}
+.q-title:hover { color: #FFE81F; }
 
-    .q-body {
-      font-family: 'Outfit', sans-serif;
-      font-size: 13px;
-      color: #888888;
-      line-height: 1.6;
-      margin-bottom: 14px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
+.q-body {
+  font-family: 'Outfit', sans-serif; font-size: 13px; color: #888888;
+  line-height: 1.6; margin-bottom: 14px;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
 
-    .q-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: #444444;
-      letter-spacing: .4px;
-      flex-wrap: wrap;
-    }
-    .q-meta span { display: flex; align-items: center; gap: 4px; }
+.q-meta {
+  display: flex; align-items: center; gap: 16px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: #444444; letter-spacing: .4px; flex-wrap: wrap;
+}
+.q-meta span { display: flex; align-items: center; gap: 4px; }
 
-    .q-action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      background: transparent;
-      border: none;
-      color: #444444;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .4px;
-      cursor: pointer;
-      transition: color .14s;
-    }
-    .q-action-btn:hover { color: #F0F0F0; }
+.q-action-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; background: transparent; border: none;
+  color: #444444; font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: .4px;
+  cursor: pointer; transition: color .14s;
+}
+.q-action-btn:hover { color: #F0F0F0; }
 
-    .q-delete-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      background: transparent;
-      border: none;
-      color: #3a1a1a;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .4px;
-      cursor: pointer;
-      transition: color .14s;
-    }
-    .q-delete-btn:hover { color: #ff4444; }
+.q-delete-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; background: transparent; border: none;
+  color: #3a1a1a; font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: .4px;
+  cursor: pointer; transition: color .14s;
+}
+.q-delete-btn:hover { color: #ff4444; }
 
-    .q-delete-resp-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      background: transparent;
-      border: none;
-      color: #2a0a0a;
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      cursor: pointer;
-      transition: color .14s;
-      margin-left: auto;
-    }
-    .q-delete-resp-btn:hover { color: #ff4444; }
+.q-delete-resp-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; background: transparent; border: none;
+  color: #2a0a0a; font-family: 'DM Mono', monospace;
+  font-size: 10px; cursor: pointer; transition: color .14s; margin-left: auto;
+}
+.q-delete-resp-btn:hover { color: #ff4444; }
 
-    .q-respuestas-box {
-      display: none;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      background: #0a0a0a;
-    }
-    .q-respuesta-item {
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-    .q-respuesta-item:last-child { border-bottom: none; }
-    .q-respuesta-autor {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: #FFE81F;
-      font-weight: 500;
-      letter-spacing: .8px;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .q-respuesta-texto {
-      font-family: 'Outfit', sans-serif;
-      font-size: 13px;
-      color: #888888;
-      line-height: 1.6;
-    }
+.q-respuestas-box {
+  display: none; border-top: 1px solid rgba(255,255,255,0.05);
+  background: #0a0a0a;
+}
+.q-respuesta-item {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.q-respuesta-item:last-child { border-bottom: none; }
+.q-respuesta-autor {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: #FFE81F; font-weight: 500; letter-spacing: .8px;
+  margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+}
+.q-respuesta-texto {
+  font-family: 'Outfit', sans-serif; font-size: 13px;
+  color: #888888; line-height: 1.6;
+}
 
-    .q-responder-form {
-      padding: 14px 20px;
-      border-top: 1px solid rgba(255,255,255,0.04);
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-    .q-responder-form textarea {
-      flex: 1;
-      padding: 10px 12px;
-      background: #111111;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 3px;
-      color: #F0F0F0;
-      font-family: 'Outfit', sans-serif;
-      font-size: 13px;
-      resize: none;
-      outline: none;
-      line-height: 1.5;
-      transition: border-color .14s;
-    }
-    .q-responder-form textarea:focus { border-color: rgba(255,232,31,0.35); }
-    .q-responder-form button {
-      padding: 10px 16px;
-      background: rgba(255,232,31,0.10);
-      color: #FFE81F;
-      border: 1px solid rgba(255,232,31,0.28);
-      border-radius: 2px;
-      font-family: 'Outfit', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: .14s;
-    }
-    .q-responder-form button:hover { background: rgba(255,232,31,0.18); border-color: rgba(255,232,31,0.55); }
+.q-responder-form {
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.q-responder-form textarea {
+  flex: 1; padding: 10px 12px;
+  background: #111111; border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 3px; color: #F0F0F0;
+  font-family: 'Outfit', sans-serif; font-size: 13px;
+  resize: none; outline: none; line-height: 1.5; transition: border-color .14s;
+}
+.q-responder-form textarea:focus { border-color: rgba(255,232,31,0.35); }
+.q-responder-form button {
+  padding: 10px 16px; background: rgba(255,232,31,0.10);
+  color: #FFE81F; border: 1px solid rgba(255,232,31,0.28);
+  border-radius: 2px; font-family: 'Outfit', sans-serif;
+  font-weight: 700; font-size: 11px; letter-spacing: 1.2px;
+  text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: .14s;
+}
+.q-responder-form button:hover { background: rgba(255,232,31,0.18); border-color: rgba(255,232,31,0.55); }
 
-    .q-empty { text-align: center; padding: 60px 20px; color: #444444; }
-    .q-empty p { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
+.q-empty { text-align: center; padding: 60px 20px; color: #444444; }
+.q-empty p { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; }
 
-    .q-skeleton { background: #111111; border: 1px solid rgba(255,255,255,0.05); border-radius: 5px; padding: 20px; margin-bottom: 8px; }
-    .q-sk-line {
-      background: linear-gradient(90deg, #161616 25%, #1c1c1c 50%, #161616 75%);
-      background-size: 200% 100%;
-      animation: q-shimmer 1.4s infinite;
-      border-radius: 2px;
-      height: 11px;
-      margin-bottom: 10px;
-    }
-    @keyframes q-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.q-skeleton { background: #111111; border: 1px solid rgba(255,255,255,0.05); border-radius: 5px; padding: 20px; margin-bottom: 8px; }
+.q-sk-line {
+  background: linear-gradient(90deg, #161616 25%, #1c1c1c 50%, #161616 75%);
+  background-size: 200% 100%;
+  animation: q-shimmer 1.4s infinite;
+  border-radius: 2px; height: 11px; margin-bottom: 10px;
+}
+@keyframes q-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    #modal-confirmar-borrar {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-    }
-    #modal-confirmar-borrar.visible { display: flex; }
-    .modal-borrar-box {
-      background: #111111;
-      border: 1px solid rgba(255,60,60,0.25);
-      border-radius: 6px;
-      padding: 28px 32px;
-      max-width: 380px;
-      width: 90%;
-      text-align: center;
-    }
-    .modal-borrar-box p {
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
-      color: #F0F0F0;
-      margin: 0 0 22px;
-      line-height: 1.6;
-    }
-    .modal-borrar-box .modal-titulo {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: #ff4444;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    .modal-borrar-acciones { display: flex; gap: 10px; justify-content: center; }
-    .modal-btn-cancelar {
-      padding: 9px 20px;
-      background: transparent;
-      color: #888888;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 2px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: .14s;
-    }
-    .modal-btn-cancelar:hover { color: #F0F0F0; border-color: rgba(255,255,255,0.2); }
-    .modal-btn-borrar {
-      padding: 9px 20px;
-      background: rgba(255,60,60,0.12);
-      color: #ff4444;
-      border: 1px solid rgba(255,60,60,0.30);
-      border-radius: 2px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: .14s;
-    }
-    .modal-btn-borrar:hover { background: rgba(255,60,60,0.22); border-color: rgba(255,60,60,0.55); }
-  </style>
+#modal-confirmar-borrar {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.85); z-index: 9999;
+  align-items: center; justify-content: center;
+}
+#modal-confirmar-borrar.visible { display: flex; }
+.modal-borrar-box {
+  background: #111111; border: 1px solid rgba(255,60,60,0.25);
+  border-radius: 6px; padding: 28px 32px;
+  max-width: 380px; width: 90%; text-align: center;
+}
+.modal-borrar-box p { font-family: 'Outfit', sans-serif; font-size: 14px; color: #F0F0F0; margin: 0 0 22px; line-height: 1.6; }
+.modal-borrar-box .modal-titulo { font-family: 'DM Mono', monospace; font-size: 10px; color: #ff4444; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.modal-borrar-acciones { display: flex; gap: 10px; justify-content: center; }
+.modal-btn-cancelar {
+  padding: 9px 20px; background: transparent; color: #888888;
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 2px;
+  font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: .14s;
+}
+.modal-btn-cancelar:hover { color: #F0F0F0; border-color: rgba(255,255,255,0.2); }
+.modal-btn-borrar {
+  padding: 9px 20px; background: rgba(255,60,60,0.12); color: #ff4444;
+  border: 1px solid rgba(255,60,60,0.30); border-radius: 2px;
+  font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: .14s;
+}
+.modal-btn-borrar:hover { background: rgba(255,60,60,0.22); border-color: rgba(255,60,60,0.55); }
+</style>
 
-  <!-- ===================================================== -->
-  <!-- COMUNIDAD                                             -->
-  <!-- ===================================================== -->
-  <div style="min-height:100vh; background:#000000; overflow-y:auto; overflow-x:hidden;">
-    <div style="max-width:860px; margin:0 auto; padding:36px 20px;">
+<div style="min-height:100vh; background:#000000; overflow-y:auto; overflow-x:hidden;">
+  <div style="max-width:860px; margin:0 auto; padding:36px 20px;">
 
-      <!-- HEADER -->
-      <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:32px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06);">
-        <div>
-          <p style="font-family:'DM Mono',monospace; font-size:10px; color:#444444; letter-spacing:2.5px; text-transform:uppercase; margin:0 0 6px;">AULA PLC — FORO</p>
-          <h1 style="font-family:'Outfit',sans-serif; font-size:26px; font-weight:800; color:#F0F0F0; margin:0; letter-spacing:2px; text-transform:uppercase;">Comunidad</h1>
-        </div>
-        <button onclick="toggleFormPregunta()" id="btn-nueva-pregunta"
-          style="display:flex; align-items:center; gap:8px; padding:10px 20px; background:transparent; color:#FFE81F; border:1px solid rgba(255,232,31,0.30); border-radius:2px; font-family:'Outfit',sans-serif; font-weight:700; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:.14s;"
-          onmouseover="this.style.background='rgba(255,232,31,0.07)'; this.style.borderColor='rgba(255,232,31,0.6)'"
-          onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(255,232,31,0.30)'">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
-          Nueva pregunta
+    <!-- HEADER -->
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:32px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06);">
+      <div>
+        <p style="font-family:'DM Mono',monospace; font-size:10px; color:#444444; letter-spacing:2.5px; text-transform:uppercase; margin:0 0 6px;">AULA PLC — FORO</p>
+        <h1 style="font-family:'Outfit',sans-serif; font-size:26px; font-weight:800; color:#F0F0F0; margin:0; letter-spacing:2px; text-transform:uppercase;">Comunidad</h1>
+      </div>
+      <button id="btn-nueva-pregunta" onclick="comToggleForm()"
+        style="display:flex; align-items:center; gap:8px; padding:10px 20px; background:transparent; color:#FFE81F; border:1px solid rgba(255,232,31,0.30); border-radius:2px; font-family:'Outfit',sans-serif; font-weight:700; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:.14s;"
+        onmouseover="this.style.background='rgba(255,232,31,0.07)'; this.style.borderColor='rgba(255,232,31,0.6)'"
+        onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(255,232,31,0.30)'">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+        Nueva pregunta
+      </button>
+    </div>
+
+    <!-- FORM NUEVA PREGUNTA -->
+    <div id="form-pregunta-box" style="display:none; background:#111111; border:1px solid rgba(255,232,31,0.18); border-radius:5px; padding:24px; margin-bottom:24px;">
+      <h3 style="font-family:'Outfit',sans-serif; color:#F0F0F0; font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin:0 0 20px; display:flex; align-items:center; gap:8px;">
+        <span style="width:2px; height:14px; background:#FFE81F; border-radius:1px; display:inline-block;"></span>
+        Hacer una pregunta
+      </h3>
+      <input type="text" id="comunidadTitulo" placeholder="Título claro y concreto de tu pregunta"
+        style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; margin-bottom:10px; outline:none; box-sizing:border-box; transition:.14s; letter-spacing:.3px;"
+        onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+      <select id="comunidadCategoria"
+        style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#888888; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; outline:none; box-sizing:border-box; cursor:pointer;">
+        <option value="plc">PLC / Ladder</option>
+        <option value="hmi">HMI / SCADA</option>
+        <option value="variador">Variadores VFD</option>
+        <option value="sensores">Sensores</option>
+        <option value="tia">TIA Portal</option>
+        <option value="general">General</option>
+      </select>
+      <textarea id="comunidadTexto" placeholder="Describe el problema con detalle. Qué probaste, qué resultado obtienes y qué esperabas." rows="5"
+        style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; resize:vertical; margin-bottom:16px; outline:none; box-sizing:border-box; line-height:1.6; transition:.14s;"
+        onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button onclick="comToggleForm()"
+          style="padding:9px 18px; background:transparent; color:#888888; border:1px solid rgba(255,255,255,0.08); border-radius:2px; font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer;"
+          onmouseover="this.style.color='#F0F0F0'; this.style.borderColor='rgba(255,255,255,0.18)'"
+          onmouseout="this.style.color='#888888'; this.style.borderColor='rgba(255,255,255,0.08)'">
+          Cancelar
+        </button>
+        <button id="btn-publicar" onclick="comPublicar()"
+          style="padding:9px 20px; background:rgba(255,232,31,0.10); color:#FFE81F; border:1px solid rgba(255,232,31,0.30); border-radius:2px; font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer;"
+          onmouseover="this.style.background='rgba(255,232,31,0.18)'; this.style.borderColor='rgba(255,232,31,0.60)'"
+          onmouseout="this.style.background='rgba(255,232,31,0.10)'; this.style.borderColor='rgba(255,232,31,0.30)'">
+          Publicar
         </button>
       </div>
+    </div>
 
-      <!-- FORM NUEVA PREGUNTA -->
-      <div id="form-pregunta-box" style="display:none; background:#111111; border:1px solid rgba(255,232,31,0.18); border-radius:5px; padding:24px; margin-bottom:24px;">
-        <h3 style="font-family:'Outfit',sans-serif; color:#F0F0F0; font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin:0 0 20px; display:flex; align-items:center; gap:8px;">
-          <span style="width:2px; height:14px; background:#FFE81F; border-radius:1px; display:inline-block;"></span>
-          Hacer una pregunta
-        </h3>
-        <input type="text" id="comunidadTitulo" placeholder="Título claro y concreto de tu pregunta"
-          style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; margin-bottom:10px; outline:none; box-sizing:border-box; transition:.14s; letter-spacing:.3px;"
-          onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
-        <select id="comunidadCategoria"
-          style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#888888; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; outline:none; box-sizing:border-box; cursor:pointer;">
-          <option value="plc">PLC / Ladder</option>
-          <option value="hmi">HMI / SCADA</option>
-          <option value="variador">Variadores VFD</option>
-          <option value="sensores">Sensores</option>
-          <option value="tia">TIA Portal</option>
-          <option value="general">General</option>
-        </select>
-        <textarea id="comunidadTexto" placeholder="Describe el problema con detalle. Qué probaste, qué resultado obtienes y qué esperabas." rows="5"
-          style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; resize:vertical; margin-bottom:16px; outline:none; box-sizing:border-box; line-height:1.6; transition:.14s;"
-          onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
-        <div style="display:flex; gap:10px; justify-content:flex-end;">
-          <button onclick="toggleFormPregunta()"
-            style="padding:9px 18px; background:transparent; color:#888888; border:1px solid rgba(255,255,255,0.08); border-radius:2px; font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:.14s;"
-            onmouseover="this.style.color='#F0F0F0'; this.style.borderColor='rgba(255,255,255,0.18)'"
-            onmouseout="this.style.color='#888888'; this.style.borderColor='rgba(255,255,255,0.08)'">
-            Cancelar
-          </button>
-          <button onclick="publicarPregunta()"
-            style="padding:9px 20px; background:rgba(255,232,31,0.10); color:#FFE81F; border:1px solid rgba(255,232,31,0.30); border-radius:2px; font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:.14s;"
-            onmouseover="this.style.background='rgba(255,232,31,0.18)'; this.style.borderColor='rgba(255,232,31,0.60)'"
-            onmouseout="this.style.background='rgba(255,232,31,0.10)'; this.style.borderColor='rgba(255,232,31,0.30)'">
-            Publicar
-          </button>
-        </div>
-      </div>
+    <!-- FILTROS -->
+    <div style="display:flex; align-items:center; gap:0; margin-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.06);">
+      <button onclick="comOrden('nuevas', this)" id="orden-nuevas" class="com-filtro com-filtro-active">Nuevas</button>
+      <button onclick="comOrden('populares', this)" id="orden-populares" class="com-filtro">Populares</button>
+      <button onclick="comOrden('sin-respuesta', this)" id="orden-sin-respuesta" class="com-filtro">Sin respuesta</button>
+    </div>
 
-      <!-- BARRA DE FILTROS -->
-      <div style="display:flex; align-items:center; gap:0; margin-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.06);">
-        <button onclick="cambiarOrden('nuevas', this)" id="orden-nuevas" class="com-filtro com-filtro-active">Nuevas</button>
-        <button onclick="cambiarOrden('populares', this)" id="orden-populares" class="com-filtro">Populares</button>
-        <button onclick="cambiarOrden('sin-respuesta', this)" id="orden-sin-respuesta" class="com-filtro">Sin respuesta</button>
-      </div>
+    <!-- LISTA -->
+    <div id="comunidadLista">
+      <div style="text-align:center; color:#444444; padding:60px 0; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase;">Cargando...</div>
+    </div>
 
-      <!-- LISTA DE PREGUNTAS -->
-      <div id="comunidadLista">
-        <div style="text-align:center; color:#444444; padding:60px 0; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase;">Cargando...</div>
-      </div>
+  </div>
+</div>
 
+<!-- Modal borrar -->
+<div id="modal-confirmar-borrar">
+  <div class="modal-borrar-box">
+    <div class="modal-titulo">⚠ Confirmar eliminación</div>
+    <p id="modal-borrar-texto">¿Seguro que quieres eliminar esto? Esta acción no se puede deshacer.</p>
+    <div class="modal-borrar-acciones">
+      <button class="modal-btn-cancelar" onclick="comCerrarModal()">Cancelar</button>
+      <button class="modal-btn-borrar" id="modal-btn-confirmar">Eliminar</button>
     </div>
   </div>
+</div>
 
-  <!-- Modal confirmación borrar -->
-  <div id="modal-confirmar-borrar">
-    <div class="modal-borrar-box">
-      <div class="modal-titulo">⚠ Confirmar eliminación</div>
-      <p id="modal-borrar-texto">¿Seguro que quieres eliminar esto? Esta acción no se puede deshacer.</p>
-      <div class="modal-borrar-acciones">
-        <button class="modal-btn-cancelar" onclick="cerrarModalBorrar()">Cancelar</button>
-        <button class="modal-btn-borrar" id="modal-btn-confirmar">Eliminar</button>
-      </div>
-    </div>
-  </div>
+{% endblock %}
 
-  <!-- ── ENGINE COMUNIDAD ── -->
-  <!--
-    IMPORTANTE: Este archivo necesita que Firebase esté inicializado antes de este script.
-    Puedes inicializarlo aquí mismo o importarlo desde un archivo compartido (ej: firebase-init.js).
+{% block extra_scripts %}
+<script type="module">
+import {
+  getFirestore, collection, addDoc, getDocs,
+  orderBy, query, serverTimestamp, doc, updateDoc, deleteDoc,
+  increment, arrayUnion, getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    Ejemplo mínimo de inicialización (reemplaza con tu config real):
+const app  = getApp();
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    const firebaseConfig = { apiKey: "...", authDomain: "...", projectId: "..." };
-    initializeApp(firebaseConfig);
-  -->
-  <script type="module">
-    import {
-      getFirestore, collection, addDoc, getDocs,
-      orderBy, query, serverTimestamp, doc, updateDoc, deleteDoc,
-      increment, arrayUnion, getDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+const u = () => auth.currentUser;
+let ordenActual = "nuevas";
 
-    const app  = getApp();
-    const auth = getAuth(app);
-    const db   = getFirestore(app);
+/* ── helpers ── */
+async function esPremium() {
+  const user = u();
+  if (!user) return false;
+  const t = await user.getIdTokenResult();
+  return t.claims.premium === true;
+}
 
-    const u = () => auth.currentUser;
-    let ordenActual = "nuevas";
+function timeAgo(date) {
+  if (!date) return "";
+  const s = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (s < 60)    return "hace un momento";
+  if (s < 3600)  return `hace ${Math.floor(s/60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s/3600)} h`;
+  return `hace ${Math.floor(s/86400)} d`;
+}
 
-    /* ── Premium ── */
-    async function esPremium() {
-      const user = u();
-      if (!user) return false;
-      const tokenResult = await user.getIdTokenResult();
-      return tokenResult.claims.premium === true;
-    }
+function avatarLetras(nombre) {
+  return (nombre || "?").split(" ").map(p => p[0]).join("").toUpperCase().slice(0,2);
+}
 
-    /* ── helpers ── */
-    function timeAgo(date) {
-      if (!date) return "";
-      const s = Math.floor((Date.now() - date.getTime()) / 1000);
-      if (s < 60)    return "hace un momento";
-      if (s < 3600)  return `hace ${Math.floor(s/60)} min`;
-      if (s < 86400) return `hace ${Math.floor(s/3600)} h`;
-      return `hace ${Math.floor(s/86400)} d`;
-    }
+function skeleton() {
+  return `
+    <div class="q-skeleton"><div class="q-sk-line" style="width:55%;height:13px"></div><div class="q-sk-line" style="width:88%"></div><div class="q-sk-line" style="width:70%"></div></div>
+    <div class="q-skeleton"><div class="q-sk-line" style="width:48%;height:13px"></div><div class="q-sk-line" style="width:82%"></div></div>
+    <div class="q-skeleton"><div class="q-sk-line" style="width:62%;height:13px"></div><div class="q-sk-line" style="width:75%"></div><div class="q-sk-line" style="width:60%"></div></div>`;
+}
 
-    function avatarLetras(nombre) {
-      return (nombre || "?").split(" ").map(p => p[0]).join("").toUpperCase().slice(0,2);
-    }
+function resetFiltros() {
+  document.querySelectorAll(".com-filtro").forEach(b => b.classList.remove("com-filtro-active"));
+}
 
-    function skeleton() {
-      return `
-        <div class="q-skeleton"><div class="q-sk-line" style="width:55%;height:13px"></div><div class="q-sk-line" style="width:88%"></div><div class="q-sk-line" style="width:70%"></div></div>
-        <div class="q-skeleton"><div class="q-sk-line" style="width:48%;height:13px"></div><div class="q-sk-line" style="width:82%"></div></div>
-        <div class="q-skeleton"><div class="q-sk-line" style="width:62%;height:13px"></div><div class="q-sk-line" style="width:75%"></div><div class="q-sk-line" style="width:60%"></div></div>
-      `;
-    }
+/* ── Modal ── */
+window.comCerrarModal = function() {
+  document.getElementById("modal-confirmar-borrar").classList.remove("visible");
+}
 
-    function resetFiltros() {
-      document.querySelectorAll(".com-filtro").forEach(b => b.classList.remove("com-filtro-active"));
-    }
+function confirmarBorrar(texto, cb) {
+  document.getElementById("modal-borrar-texto").textContent = texto;
+  const modal = document.getElementById("modal-confirmar-borrar");
+  modal.classList.add("visible");
+  const btnOld = document.getElementById("modal-btn-confirmar");
+  const btnNew = btnOld.cloneNode(true);
+  btnOld.parentNode.replaceChild(btnNew, btnOld);
+  btnNew.addEventListener("click", async () => {
+    modal.classList.remove("visible");
+    await cb();
+  });
+}
 
-    /* ── Modal confirmar borrar ── */
-    window.cerrarModalBorrar = function() {
-      document.getElementById("modal-confirmar-borrar").classList.remove("visible");
-    }
+/* ── Exponer funciones globales que el HTML inline necesita ── */
+window.comToggleForm = function() {
+  const box = document.getElementById("form-pregunta-box");
+  const open = box.style.display === "block";
+  box.style.display = open ? "none" : "block";
+  if (!open) document.getElementById("comunidadTitulo").focus();
+}
 
-    function confirmarBorrar(texto, callback) {
-      document.getElementById("modal-borrar-texto").textContent = texto;
-      const modal = document.getElementById("modal-confirmar-borrar");
-      modal.classList.add("visible");
-      const btnConfirmar = document.getElementById("modal-btn-confirmar");
-      const nuevo = btnConfirmar.cloneNode(true);
-      btnConfirmar.parentNode.replaceChild(nuevo, btnConfirmar);
-      nuevo.addEventListener("click", async () => {
-        modal.classList.remove("visible");
-        await callback();
-      });
-    }
+window.comOrden = function(orden, btn) {
+  ordenActual = orden;
+  resetFiltros();
+  btn.classList.add("com-filtro-active");
+  cargarPreguntas();
+}
 
-    /* ── Toggle form nueva pregunta ── */
-    window.toggleFormPregunta = function() {
-      const box  = document.getElementById("form-pregunta-box");
-      const open = box.style.display === "block";
-      box.style.display = open ? "none" : "block";
-      if (!open) document.getElementById("comunidadTitulo").focus();
-    }
+window.comPublicar = async function() {
+  const titulo = document.getElementById("comunidadTitulo").value.trim();
+  const texto  = document.getElementById("comunidadTexto").value.trim();
+  const cat    = document.getElementById("comunidadCategoria").value;
+  if (!titulo || !texto) { alert("Completa el título y la descripción."); return; }
 
-    window.cambiarOrden = function(orden, btn) {
-      ordenActual = orden;
-      resetFiltros();
-      btn.classList.add("com-filtro-active");
-      cargarPreguntas();
-    }
+  const btn = document.getElementById("btn-publicar");
+  btn.textContent = "Publicando..."; btn.disabled = true;
 
-    /* ── Publicar ── */
-    window.publicarPregunta = async function() {
-      const titulo = document.getElementById("comunidadTitulo").value.trim();
-      const texto  = document.getElementById("comunidadTexto").value.trim();
-      const cat    = document.getElementById("comunidadCategoria").value;
-      if (!titulo || !texto) { alert("Completa el título y la descripción."); return; }
-
-      const btn = document.querySelector("#form-pregunta-box button[onclick='publicarPregunta()']");
-      btn.textContent = "Publicando..."; btn.disabled = true;
-
-      const premium = await esPremium();
-
-      try {
-        await addDoc(collection(db, "comunidad"), {
-          titulo, texto, categoria: cat,
-          autor:        u().displayName || u().email,
-          uid:          u().uid,
-          autorPremium: premium,
-          likes:        0,
-          likedBy:      [],
-          respuestas:   0,
-          vistas:       0,
-          viewedBy:     [],
-          fecha:        serverTimestamp()
-        });
-        document.getElementById("comunidadTitulo").value = "";
-        document.getElementById("comunidadTexto").value  = "";
-        document.getElementById("form-pregunta-box").style.display = "none";
-        ordenActual = "nuevas";
-        resetFiltros();
-        document.getElementById("orden-nuevas").classList.add("com-filtro-active");
-        cargarPreguntas();
-      } catch(e) { alert("Error: " + e.message); }
-      finally { btn.textContent = "Publicar"; btn.disabled = false; }
-    }
-
-    /* ── Eliminar pregunta propia ── */
-    window.eliminarPregunta = function(id) {
-      confirmarBorrar("¿Eliminar esta pregunta? Se borrarán también todas sus respuestas.", async () => {
-        try {
-          const respSnap = await getDocs(collection(db, "comunidad", id, "respuestas"));
-          const borrados = respSnap.docs.map(r => deleteDoc(doc(db, "comunidad", id, "respuestas", r.id)));
-          await Promise.all(borrados);
-          await deleteDoc(doc(db, "comunidad", id));
-          cargarPreguntas();
-        } catch(e) { alert("Error al eliminar: " + e.message); }
-      });
-    }
-
-    /* ── Eliminar respuesta propia ── */
-    window.eliminarRespuesta = function(preguntaId, respuestaId) {
-      confirmarBorrar("¿Eliminar esta respuesta?", async () => {
-        try {
-          await deleteDoc(doc(db, "comunidad", preguntaId, "respuestas", respuestaId));
-          await updateDoc(doc(db, "comunidad", preguntaId), { respuestas: increment(-1) });
-          await toggleRespuestasInterno(preguntaId, true);
-          cargarPreguntas();
-        } catch(e) { alert("Error al eliminar: " + e.message); }
-      });
-    }
-
-    /* ── Cargar preguntas ── */
-    window.cargarPreguntas = async function() {
-      const lista = document.getElementById("comunidadLista");
-      lista.innerHTML = skeleton();
-
-      try {
-        let q;
-        if (ordenActual === "populares") {
-          q = query(collection(db, "comunidad"), orderBy("likes", "desc"));
-        } else {
-          q = query(collection(db, "comunidad"), orderBy("fecha", "desc"));
-        }
-
-        const snap = await getDocs(q);
-        lista.innerHTML = "";
-
-        let docs = [];
-        snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
-
-        if (ordenActual === "sin-respuesta") {
-          docs = docs.filter(d => !d.respuestas || d.respuestas === 0);
-        }
-
-        if (docs.length === 0) {
-          lista.innerHTML = `<div class="q-empty"><p>${ordenActual === "sin-respuesta" ? "Todas las preguntas tienen respuesta" : "Aún no hay preguntas — sé el primero"}</p></div>`;
-          return;
-        }
-
-        const uid = u()?.uid;
-
-        docs.forEach(d => {
-          const fecha     = d.fecha?.toDate ? timeAgo(d.fecha.toDate()) : "";
-          const yaVoto    = uid && Array.isArray(d.likedBy) && d.likedBy.includes(uid);
-          const vistas    = d.vistas || 0;
-          const isPremium = d.autorPremium === true;
-          const esMio     = uid && d.uid === uid;
-
-          const badgePremium = isPremium ? `<span class="q-badge-premium">⚡ PREMIUM</span>` : "";
-          const nombreAutor  = isPremium
-            ? `<span class="q-autor-premium">${d.autor}</span>`
-            : `<span>${d.autor}</span>`;
-
-          const btnEliminar = esMio ? `
-            <button class="q-delete-btn" onclick="eliminarPregunta('${d.id}')" title="Eliminar pregunta">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-              Eliminar
-            </button>` : "";
-
-          const card = document.createElement("div");
-          card.className = "q-card";
-          card.innerHTML = `
-            <div class="q-card-body">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                <button class="q-vote-btn ${yaVoto ? 'voted' : ''}" onclick="darLike('${d.id}', this)" ${yaVoto ? 'disabled' : ''}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-                  <span>${d.likes || 0}</span>
-                </button>
-                <span class="q-tag">${d.categoria?.toUpperCase() || "GENERAL"}</span>
-              </div>
-              <div class="q-title" onclick="registrarVista('${d.id}'); toggleRespuestas('${d.id}')">${d.titulo}</div>
-              <div class="q-body">${d.texto}</div>
-              <div class="q-meta">
-                <span style="display:flex; align-items:center; gap:6px;">
-                  ${nombreAutor}
-                  ${badgePremium}
-                </span>
-                <span>${fecha}</span>
-                <span style="margin-left:auto; display:flex; align-items:center; gap:12px;">
-                  <span class="q-views">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    ${vistas}
-                  </span>
-                  <button class="q-action-btn" onclick="registrarVista('${d.id}'); toggleRespuestas('${d.id}')">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    ${d.respuestas || 0} respuestas
-                  </button>
-                  ${btnEliminar}
-                </span>
-              </div>
-            </div>
-            <div class="q-respuestas-box" id="resp-${d.id}">
-              <div id="lista-resp-${d.id}"></div>
-              <div class="q-responder-form">
-                <textarea id="txt-resp-${d.id}" rows="2" placeholder="Escribe tu respuesta..."></textarea>
-                <button onclick="enviarRespuesta('${d.id}')">Responder</button>
-              </div>
-            </div>
-          `;
-          lista.appendChild(card);
-        });
-      } catch(e) {
-        lista.innerHTML = `<div style="color:#FF3D3D; padding:20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px;">ERROR: ${e.message}</div>`;
-      }
-    }
-
-    /* ── Registrar vista ── */
-    window.registrarVista = async function(id) {
-      const uid = u()?.uid;
-      if (!uid) return;
-      try {
-        const ref  = doc(db, "comunidad", id);
-        const snap = await getDoc(ref);
-        if (!snap.exists()) return;
-        const viewedBy = snap.data().viewedBy || [];
-        if (viewedBy.includes(uid)) return;
-        await updateDoc(ref, { vistas: increment(1), viewedBy: arrayUnion(uid) });
-      } catch(e) { /* silencioso */ }
-    }
-
-    /* ── Toggle respuestas ── */
-    async function toggleRespuestasInterno(id, forceOpen = false) {
-      const box = document.getElementById("resp-" + id);
-      if (!box) return;
-      if (!forceOpen && box.style.display === "block") { box.style.display = "none"; return; }
-      box.style.display = "block";
-
-      const uid     = u()?.uid;
-      const listaEl = document.getElementById("lista-resp-" + id);
-      listaEl.innerHTML = '<div style="padding:16px 20px; color:#444444; font-family:\'DM Mono\',monospace; font-size:11px; letter-spacing:1px;">Cargando...</div>';
-
-      try {
-        const q    = query(collection(db, "comunidad", id, "respuestas"), orderBy("fecha", "asc"));
-        const snap = await getDocs(q);
-        listaEl.innerHTML = "";
-        if (snap.empty) {
-          listaEl.innerHTML = '<div style="padding:16px 20px; color:#444444; font-family:\'DM Mono\',monospace; font-size:11px; letter-spacing:1px;">Sin respuestas aún.</div>';
-          return;
-        }
-        snap.forEach(r => {
-          const rd            = r.data();
-          const fecha         = rd.fecha?.toDate ? timeAgo(rd.fecha.toDate()) : "";
-          const isPremiumResp = rd.autorPremium === true;
-          const esMiaResp     = uid && rd.uid === uid;
-
-          const btnEliminarResp = esMiaResp ? `
-            <button class="q-delete-resp-btn" onclick="eliminarRespuesta('${id}', '${r.id}')" title="Eliminar respuesta">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
-              Eliminar
-            </button>` : "";
-
-          const div = document.createElement("div");
-          div.className = "q-respuesta-item";
-          div.innerHTML = `
-            <div class="q-respuesta-autor">
-              <div style="width:22px; height:22px; border-radius:2px; background:rgba(255,232,31,0.08); border:1px solid rgba(255,232,31,0.22); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#FFE81F; font-family:'DM Mono',monospace;">${avatarLetras(rd.autor)}</div>
-              ${isPremiumResp ? `<span class="q-autor-premium">${rd.autor}</span><span class="q-badge-premium">⚡ PREMIUM</span>` : rd.autor}
-              <span style="color:#444444; font-weight:400;">· ${fecha}</span>
-              ${btnEliminarResp}
-            </div>
-            <div class="q-respuesta-texto">${rd.texto}</div>
-          `;
-          listaEl.appendChild(div);
-        });
-      } catch(e) {
-        listaEl.innerHTML = `<div style="padding:16px; color:#FF3D3D; font-family:'DM Mono',monospace; font-size:11px;">ERROR: ${e.message}</div>`;
-      }
-    }
-
-    window.toggleRespuestas = (id) => toggleRespuestasInterno(id, false);
-
-    /* ── Enviar respuesta ── */
-    window.enviarRespuesta = async function(id) {
-      const txt = document.getElementById("txt-resp-" + id).value.trim();
-      if (!txt) return;
-      const btn = document.querySelector(`#resp-${id} .q-responder-form button`);
-      btn.textContent = "Enviando..."; btn.disabled = true;
-      const premium = await esPremium();
-      try {
-        await addDoc(collection(db, "comunidad", id, "respuestas"), {
-          texto: txt,
-          autor: u().displayName || u().email,
-          uid:   u().uid,
-          autorPremium: premium,
-          fecha: serverTimestamp()
-        });
-        await updateDoc(doc(db, "comunidad", id), { respuestas: increment(1) });
-        document.getElementById("txt-resp-" + id).value = "";
-        await toggleRespuestasInterno(id, true);
-        cargarPreguntas();
-      } catch(e) { alert("Error: " + e.message); }
-      finally { btn.textContent = "Responder"; btn.disabled = false; }
-    }
-
-    /* ── Like ── */
-    window.darLike = async function(id, btn) {
-      if (btn.classList.contains("voted") || btn.disabled) return;
-
-      const uid = u()?.uid;
-      if (!uid) return;
-
-      const ref  = doc(db, "comunidad", id);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) return;
-      const likedBy = snap.data().likedBy || [];
-      if (likedBy.includes(uid)) {
-        btn.classList.add("voted");
-        btn.disabled = true;
-        return;
-      }
-
-      btn.classList.add("voted");
-      btn.disabled = true;
-
-      try {
-        await updateDoc(ref, { likes: increment(1), likedBy: arrayUnion(uid) });
-        const span = btn.querySelector("span");
-        span.textContent = parseInt(span.textContent) + 1;
-      } catch(e) {
-        btn.classList.remove("voted");
-        btn.disabled = false;
-      }
-    }
-
-    /* ── Iniciar carga al cargar la página ── */
-    document.addEventListener("DOMContentLoaded", () => {
-      // Esperar a que Firebase Auth esté listo antes de cargar
-      auth.onAuthStateChanged(user => {
-        cargarPreguntas();
-      });
+  const premium = await esPremium();
+  try {
+    await addDoc(collection(db, "comunidad"), {
+      titulo, texto, categoria: cat,
+      autor:        u().displayName || u().email,
+      uid:          u().uid,
+      autorPremium: premium,
+      likes: 0, likedBy: [], respuestas: 0, vistas: 0, viewedBy: [],
+      fecha: serverTimestamp()
     });
-  </script>
-  {% endblock %}
+    document.getElementById("comunidadTitulo").value = "";
+    document.getElementById("comunidadTexto").value  = "";
+    document.getElementById("form-pregunta-box").style.display = "none";
+    ordenActual = "nuevas";
+    resetFiltros();
+    document.getElementById("orden-nuevas").classList.add("com-filtro-active");
+    cargarPreguntas();
+  } catch(e) { alert("Error: " + e.message); }
+  finally { btn.textContent = "Publicar"; btn.disabled = false; }
+}
+
+window.eliminarPregunta = function(id) {
+  confirmarBorrar("¿Eliminar esta pregunta? Se borrarán también todas sus respuestas.", async () => {
+    try {
+      const respSnap = await getDocs(collection(db, "comunidad", id, "respuestas"));
+      await Promise.all(respSnap.docs.map(r => deleteDoc(doc(db, "comunidad", id, "respuestas", r.id))));
+      await deleteDoc(doc(db, "comunidad", id));
+      cargarPreguntas();
+    } catch(e) { alert("Error al eliminar: " + e.message); }
+  });
+}
+
+window.eliminarRespuesta = function(preguntaId, respuestaId) {
+  confirmarBorrar("¿Eliminar esta respuesta?", async () => {
+    try {
+      await deleteDoc(doc(db, "comunidad", preguntaId, "respuestas", respuestaId));
+      await updateDoc(doc(db, "comunidad", preguntaId), { respuestas: increment(-1) });
+      await toggleRespuestasInterno(preguntaId, true);
+      cargarPreguntas();
+    } catch(e) { alert("Error al eliminar: " + e.message); }
+  });
+}
+
+async function cargarPreguntas() {
+  const lista = document.getElementById("comunidadLista");
+  lista.innerHTML = skeleton();
+  try {
+    const q = ordenActual === "populares"
+      ? query(collection(db, "comunidad"), orderBy("likes", "desc"))
+      : query(collection(db, "comunidad"), orderBy("fecha", "desc"));
+
+    const snap = await getDocs(q);
+    lista.innerHTML = "";
+
+    let docs = [];
+    snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
+
+    if (ordenActual === "sin-respuesta") {
+      docs = docs.filter(d => !d.respuestas || d.respuestas === 0);
+    }
+
+    if (docs.length === 0) {
+      lista.innerHTML = `<div class="q-empty"><p>${ordenActual === "sin-respuesta" ? "Todas las preguntas tienen respuesta" : "Aún no hay preguntas — sé el primero"}</p></div>`;
+      return;
+    }
+
+    const uid = u()?.uid;
+
+    docs.forEach(d => {
+      const fecha     = d.fecha?.toDate ? timeAgo(d.fecha.toDate()) : "";
+      const yaVoto    = uid && Array.isArray(d.likedBy) && d.likedBy.includes(uid);
+      const vistas    = d.vistas || 0;
+      const isPremium = d.autorPremium === true;
+      const esMio     = uid && d.uid === uid;
+
+      const badgePremium = isPremium ? `<span class="q-badge-premium">⚡ PREMIUM</span>` : "";
+      const nombreAutor  = isPremium
+        ? `<span class="q-autor-premium">${d.autor}</span>`
+        : `<span>${d.autor}</span>`;
+
+      const btnEliminar = esMio ? `
+        <button class="q-delete-btn" onclick="eliminarPregunta('${d.id}')" title="Eliminar pregunta">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Eliminar
+        </button>` : "";
+
+      const card = document.createElement("div");
+      card.className = "q-card";
+      card.innerHTML = `
+        <div class="q-card-body">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+            <button class="q-vote-btn ${yaVoto ? 'voted' : ''}" onclick="comLike('${d.id}', this)" ${yaVoto ? 'disabled' : ''}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              <span>${d.likes || 0}</span>
+            </button>
+            <span class="q-tag">${d.categoria?.toUpperCase() || "GENERAL"}</span>
+          </div>
+          <div class="q-title" onclick="comVista('${d.id}'); comToggleResp('${d.id}')">${d.titulo}</div>
+          <div class="q-body">${d.texto}</div>
+          <div class="q-meta">
+            <span style="display:flex; align-items:center; gap:6px;">${nombreAutor}${badgePremium}</span>
+            <span>${fecha}</span>
+            <span style="margin-left:auto; display:flex; align-items:center; gap:12px;">
+              <span class="q-views">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                ${vistas}
+              </span>
+              <button class="q-action-btn" onclick="comVista('${d.id}'); comToggleResp('${d.id}')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                ${d.respuestas || 0} respuestas
+              </button>
+              ${btnEliminar}
+            </span>
+          </div>
+        </div>
+        <div class="q-respuestas-box" id="resp-${d.id}">
+          <div id="lista-resp-${d.id}"></div>
+          <div class="q-responder-form">
+            <textarea id="txt-resp-${d.id}" rows="2" placeholder="Escribe tu respuesta..."></textarea>
+            <button onclick="comResponder('${d.id}')">Responder</button>
+          </div>
+        </div>`;
+      lista.appendChild(card);
+    });
+  } catch(e) {
+    lista.innerHTML = `<div style="color:#FF3D3D; padding:20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px;">ERROR: ${e.message}</div>`;
+  }
+}
+
+window.comVista = async function(id) {
+  const uid = u()?.uid;
+  if (!uid) return;
+  try {
+    const ref  = doc(db, "comunidad", id);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) return;
+    const viewedBy = snap.data().viewedBy || [];
+    if (viewedBy.includes(uid)) return;
+    await updateDoc(ref, { vistas: increment(1), viewedBy: arrayUnion(uid) });
+  } catch(e) { /* silencioso */ }
+}
+
+async function toggleRespuestasInterno(id, forceOpen = false) {
+  const box = document.getElementById("resp-" + id);
+  if (!box) return;
+  if (!forceOpen && box.style.display === "block") { box.style.display = "none"; return; }
+  box.style.display = "block";
+
+  const uid     = u()?.uid;
+  const listaEl = document.getElementById("lista-resp-" + id);
+  listaEl.innerHTML = '<div style="padding:16px 20px; color:#444444; font-family:\'DM Mono\',monospace; font-size:11px; letter-spacing:1px;">Cargando...</div>';
+
+  try {
+    const q    = query(collection(db, "comunidad", id, "respuestas"), orderBy("fecha", "asc"));
+    const snap = await getDocs(q);
+    listaEl.innerHTML = "";
+    if (snap.empty) {
+      listaEl.innerHTML = '<div style="padding:16px 20px; color:#444444; font-family:\'DM Mono\',monospace; font-size:11px; letter-spacing:1px;">Sin respuestas aún.</div>';
+      return;
+    }
+    snap.forEach(r => {
+      const rd        = r.data();
+      const fecha     = rd.fecha?.toDate ? timeAgo(rd.fecha.toDate()) : "";
+      const isPremR   = rd.autorPremium === true;
+      const esMiaResp = uid && rd.uid === uid;
+
+      const btnElimR = esMiaResp ? `
+        <button class="q-delete-resp-btn" onclick="eliminarRespuesta('${id}', '${r.id}')" title="Eliminar respuesta">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Eliminar
+        </button>` : "";
+
+      const div = document.createElement("div");
+      div.className = "q-respuesta-item";
+      div.innerHTML = `
+        <div class="q-respuesta-autor">
+          <div style="width:22px; height:22px; border-radius:2px; background:rgba(255,232,31,0.08); border:1px solid rgba(255,232,31,0.22); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#FFE81F; font-family:'DM Mono',monospace;">${avatarLetras(rd.autor)}</div>
+          ${isPremR ? `<span class="q-autor-premium">${rd.autor}</span><span class="q-badge-premium">⚡ PREMIUM</span>` : rd.autor}
+          <span style="color:#444444; font-weight:400;">· ${fecha}</span>
+          ${btnElimR}
+        </div>
+        <div class="q-respuesta-texto">${rd.texto}</div>`;
+      listaEl.appendChild(div);
+    });
+  } catch(e) {
+    listaEl.innerHTML = `<div style="padding:16px; color:#FF3D3D; font-family:'DM Mono',monospace; font-size:11px;">ERROR: ${e.message}</div>`;
+  }
+}
+
+window.comToggleResp = (id) => toggleRespuestasInterno(id, false);
+
+window.comResponder = async function(id) {
+  const txt = document.getElementById("txt-resp-" + id).value.trim();
+  if (!txt) return;
+  const btn = document.querySelector(`#resp-${id} .q-responder-form button`);
+  btn.textContent = "Enviando..."; btn.disabled = true;
+  const premium = await esPremium();
+  try {
+    await addDoc(collection(db, "comunidad", id, "respuestas"), {
+      texto: txt,
+      autor: u().displayName || u().email,
+      uid:   u().uid,
+      autorPremium: premium,
+      fecha: serverTimestamp()
+    });
+    await updateDoc(doc(db, "comunidad", id), { respuestas: increment(1) });
+    document.getElementById("txt-resp-" + id).value = "";
+    await toggleRespuestasInterno(id, true);
+    cargarPreguntas();
+  } catch(e) { alert("Error: " + e.message); }
+  finally { btn.textContent = "Responder"; btn.disabled = false; }
+}
+
+window.comLike = async function(id, btn) {
+  if (btn.classList.contains("voted") || btn.disabled) return;
+  const uid = u()?.uid;
+  if (!uid) return;
+  const ref  = doc(db, "comunidad", id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+  const likedBy = snap.data().likedBy || [];
+  if (likedBy.includes(uid)) { btn.classList.add("voted"); btn.disabled = true; return; }
+  btn.classList.add("voted"); btn.disabled = true;
+  try {
+    await updateDoc(ref, { likes: increment(1), likedBy: arrayUnion(uid) });
+    btn.querySelector("span").textContent = parseInt(btn.querySelector("span").textContent) + 1;
+  } catch(e) { btn.classList.remove("voted"); btn.disabled = false; }
+}
+
+/* ── Iniciar ── */
+auth.onAuthStateChanged(() => cargarPreguntas());
+</script>
+{% endblock %}
