@@ -2656,34 +2656,38 @@ function filterStore(cat, btn){
 <!-- COMUNIDAD -->
 <!-- ===================================================== -->
 
-<div id="comunidadSection" style="display:none; min-height:calc(100vh - 80px); background:#0d1117; overflow-y:auto; overflow-x:hidden;">
+<div id="comunidadSection" style="display:none; min-height:calc(100vh - 120px); background:#000000; overflow-y:auto; overflow-x:hidden;">
 
-  <div style="max-width:860px; margin:0 auto; padding:32px 16px;">
+  <div style="max-width:860px; margin:0 auto; padding:36px 20px;">
 
     <!-- HEADER -->
-    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:28px;">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:32px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06);">
       <div>
-        <h1 style="font-size:22px; font-weight:800; color:#f0f6fc; margin:0 0 4px; letter-spacing:-.3px;">Comunidad AulaPlc</h1>
-        <p style="color:#8b949e; font-size:13px; margin:0;">Hace una pregunta, responde y aprende junto a otros técnicos.</p>
+        <p style="font-family:'DM Mono',monospace; font-size:10px; color:#444444; letter-spacing:2.5px; text-transform:uppercase; margin:0 0 6px;">AULA PLC — FORO</p>
+        <h1 style="font-family:'Outfit',sans-serif; font-size:26px; font-weight:800; color:#F0F0F0; margin:0; letter-spacing:2px; text-transform:uppercase;">Comunidad</h1>
       </div>
       <button onclick="toggleFormPregunta()" id="btn-nueva-pregunta"
-        style="display:flex;align-items:center;gap:8px;padding:10px 18px;background:#238636;color:#fff;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;transition:.15s;"
-        onmouseover="this.style.background='#2ea043'" onmouseout="this.style.background='#238636'">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+        style="display:flex; align-items:center; gap:8px; padding:10px 20px; background:transparent; color:#FFE81F; border:1px solid rgba(255,232,31,0.30); border-radius:2px; font-family:'Outfit',sans-serif; font-weight:700; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:.14s;"
+        onmouseover="this.style.background='rgba(255,232,31,0.07)'; this.style.borderColor='rgba(255,232,31,0.6)'"
+        onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(255,232,31,0.30)'">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
         Nueva pregunta
       </button>
     </div>
 
-    <!-- FORM NUEVA PREGUNTA (oculto por defecto) -->
-    <div id="form-pregunta-box" style="display:none; background:#161b22; border:1px solid #30363d; border-radius:12px; padding:24px; margin-bottom:24px;">
-      <h3 style="color:#f0f6fc; font-size:15px; font-weight:700; margin:0 0 16px;">Hacer una pregunta</h3>
+    <!-- FORM NUEVA PREGUNTA -->
+    <div id="form-pregunta-box" style="display:none; background:#111111; border:1px solid rgba(255,232,31,0.18); border-radius:5px; padding:24px; margin-bottom:24px;">
+      <h3 style="font-family:'Outfit',sans-serif; color:#F0F0F0; font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin:0 0 20px; display:flex; align-items:center; gap:8px;">
+        <span style="width:2px; height:14px; background:#FFE81F; border-radius:1px; display:inline-block;"></span>
+        Hacer una pregunta
+      </h3>
 
       <input type="text" id="comunidadTitulo" placeholder="Título claro y concreto de tu pregunta"
-        style="width:100%;padding:11px 14px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#f0f6fc;font-size:14px;margin-bottom:12px;outline:none;box-sizing:border-box;transition:.15s;"
-        onfocus="this.style.borderColor='#388bfd'" onblur="this.style.borderColor='#30363d'">
+        style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; margin-bottom:10px; outline:none; box-sizing:border-box; transition:.14s; letter-spacing:.3px;"
+        onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
 
       <select id="comunidadCategoria"
-        style="width:100%;padding:11px 14px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#8b949e;font-size:13px;margin-bottom:12px;outline:none;box-sizing:border-box;">
+        style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#888888; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; outline:none; box-sizing:border-box; cursor:pointer;">
         <option value="plc">PLC / Ladder</option>
         <option value="hmi">HMI / SCADA</option>
         <option value="variador">Variadores VFD</option>
@@ -2692,42 +2696,45 @@ function filterStore(cat, btn){
         <option value="general">General</option>
       </select>
 
-      <textarea id="comunidadTexto" placeholder="Describe el problema con detalle. Incluye qué probaste, qué resultado obtienes y qué esperabas." rows="5"
-        style="width:100%;padding:11px 14px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#f0f6fc;font-size:13px;resize:vertical;margin-bottom:16px;outline:none;font-family:inherit;box-sizing:border-box;line-height:1.6;transition:.15s;"
-        onfocus="this.style.borderColor='#388bfd'" onblur="this.style.borderColor='#30363d'"></textarea>
+      <textarea id="comunidadTexto" placeholder="Describe el problema con detalle. Qué probaste, qué resultado obtienes y qué esperabas." rows="5"
+        style="width:100%; padding:11px 14px; background:#000000; border:1px solid rgba(255,255,255,0.08); border-radius:3px; color:#F0F0F0; font-family:'Outfit',sans-serif; font-size:13px; resize:vertical; margin-bottom:16px; outline:none; box-sizing:border-box; line-height:1.6; transition:.14s;"
+        onfocus="this.style.borderColor='rgba(255,232,31,0.40)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
 
       <div style="display:flex; gap:10px; justify-content:flex-end;">
         <button onclick="toggleFormPregunta()"
-          style="padding:9px 18px;background:transparent;color:#8b949e;border:1px solid #30363d;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">
+          style="padding:9px 18px; background:transparent; color:#888888; border:1px solid rgba(255,255,255,0.08); border-radius:2px; font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:.14s;"
+          onmouseover="this.style.color='#F0F0F0'; this.style.borderColor='rgba(255,255,255,0.18)'"
+          onmouseout="this.style.color='#888888'; this.style.borderColor='rgba(255,255,255,0.08)'">
           Cancelar
         </button>
         <button onclick="publicarPregunta()"
-          style="padding:9px 18px;background:#238636;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;"
-          onmouseover="this.style.background='#2ea043'" onmouseout="this.style.background='#238636'">
-          Publicar pregunta
+          style="padding:9px 20px; background:rgba(255,232,31,0.10); color:#FFE81F; border:1px solid rgba(255,232,31,0.30); border-radius:2px; font-family:'Outfit',sans-serif; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:.14s;"
+          onmouseover="this.style.background='rgba(255,232,31,0.18)'; this.style.borderColor='rgba(255,232,31,0.60)'"
+          onmouseout="this.style.background='rgba(255,232,31,0.10)'; this.style.borderColor='rgba(255,232,31,0.30)'">
+          Publicar
         </button>
       </div>
     </div>
 
-    <!-- BARRA DE ORDENAMIENTO -->
-    <div style="display:flex; align-items:center; gap:4px; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:4px; margin-bottom:20px; width:fit-content;">
+    <!-- BARRA DE FILTROS -->
+    <div style="display:flex; align-items:center; gap:0; margin-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.06);">
       <button onclick="cambiarOrden('nuevas', this)" id="orden-nuevas"
-        style="padding:7px 16px;border-radius:6px;border:none;background:#388bfd;color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:.15s;">
-         Nuevas
+        class="com-filtro com-filtro-active">
+        Nuevas
       </button>
       <button onclick="cambiarOrden('populares', this)" id="orden-populares"
-        style="padding:7px 16px;border-radius:6px;border:none;background:transparent;color:#8b949e;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;">
-         Populares
+        class="com-filtro">
+        Populares
       </button>
       <button onclick="cambiarOrden('sin-respuesta', this)" id="orden-sin-respuesta"
-        style="padding:7px 16px;border-radius:6px;border:none;background:transparent;color:#8b949e;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;">
-         Sin respuesta
+        class="com-filtro">
+        Sin respuesta
       </button>
     </div>
 
     <!-- LISTA DE PREGUNTAS -->
     <div id="comunidadLista">
-      <div style="text-align:center;color:#484f58;padding:60px 0;font-size:14px;">Cargando...</div>
+      <div style="text-align:center; color:#444444; padding:60px 0; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase;">Cargando...</div>
     </div>
 
   </div>
@@ -2735,128 +2742,167 @@ function filterStore(cat, btn){
 
 <!-- ── ESTILOS COMUNIDAD ── -->
 <style>
+/* Filtros de orden */
+.com-filtro {
+  padding: 10px 20px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #444444;
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .14s;
+  margin-bottom: -1px;
+}
+.com-filtro:hover { color: #F0F0F0; }
+.com-filtro-active {
+  color: #FFE81F !important;
+  border-bottom-color: #FFE81F !important;
+}
+
+/* Cards de pregunta */
 .q-card {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  padding: 0;
-  margin-bottom: 10px;
-  transition: border-color .15s;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 5px;
+  margin-bottom: 8px;
+  transition: border-color .14s;
   overflow: hidden;
 }
-.q-card:hover { border-color: #388bfd; }
+.q-card:hover { border-color: rgba(255,232,31,0.22); }
 
-.q-card-body { padding: 16px 18px; }
+.q-card-body { padding: 18px 20px; }
 
-.q-vote-row {
-  display: flex;
+/* Voto */
+.q-vote-btn {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 10px;
-}
-.q-vote-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
+  padding: 4px 12px;
   background: transparent;
-  border: 1px solid #30363d;
-  border-radius: 20px;
-  color: #8b949e;
-  font-size: 13px;
-  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+  color: #888888;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .5px;
   cursor: pointer;
-  transition: .15s;
+  transition: .14s;
 }
-.q-vote-btn:hover { border-color: #388bfd; color: #388bfd; background: rgba(56,139,253,.08); }
-.q-vote-btn.voted { border-color: #388bfd; color: #388bfd; background: rgba(56,139,253,.12); }
+.q-vote-btn:hover { border-color: rgba(255,232,31,0.40); color: #FFE81F; }
+.q-vote-btn.voted { border-color: rgba(255,232,31,0.40); color: #FFE81F; background: rgba(255,232,31,0.06); }
 
+/* Tag categoría */
 .q-tag {
   display: inline-block;
-  padding: 2px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  background: rgba(56,139,253,.15);
-  color: #388bfd;
-  border: 1px solid rgba(56,139,253,.3);
+  padding: 2px 9px;
+  border-radius: 2px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.04);
+  color: #888888;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
+/* Título */
 .q-title {
-  font-size: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
   font-weight: 700;
-  color: #f0f6fc;
+  color: #F0F0F0;
   cursor: pointer;
   margin-bottom: 6px;
   line-height: 1.4;
+  letter-spacing: .2px;
+  transition: color .14s;
 }
-.q-title:hover { color: #388bfd; }
+.q-title:hover { color: #FFE81F; }
 
+/* Cuerpo preview */
 .q-body {
+  font-family: 'Outfit', sans-serif;
   font-size: 13px;
-  color: #8b949e;
+  color: #888888;
   line-height: 1.6;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
+/* Meta */
 .q-meta {
   display: flex;
   align-items: center;
   gap: 16px;
-  font-size: 12px;
-  color: #484f58;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #444444;
+  letter-spacing: .4px;
   flex-wrap: wrap;
 }
 .q-meta span { display: flex; align-items: center; gap: 4px; }
 
+/* Botón acción */
 .q-action-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 12px;
+  padding: 4px 10px;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  color: #8b949e;
-  font-size: 12px;
-  font-weight: 600;
+  border: none;
+  color: #444444;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .4px;
   cursor: pointer;
-  transition: .15s;
+  transition: color .14s;
 }
-.q-action-btn:hover { background: rgba(255,255,255,.05); color: #f0f6fc; border-color: #30363d; }
+.q-action-btn:hover { color: #F0F0F0; }
 
 /* Respuestas */
 .q-respuestas-box {
   display: none;
-  border-top: 1px solid #21262d;
-  background: #0d1117;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background: #0a0a0a;
 }
 .q-respuesta-item {
-  padding: 14px 18px;
-  border-bottom: 1px solid #21262d;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 .q-respuesta-item:last-child { border-bottom: none; }
 .q-respuesta-autor {
-  font-size: 12px;
-  color: #388bfd;
-  font-weight: 700;
-  margin-bottom: 5px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #FFE81F;
+  font-weight: 500;
+  letter-spacing: .8px;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 .q-respuesta-texto {
+  font-family: 'Outfit', sans-serif;
   font-size: 13px;
-  color: #c9d1d9;
+  color: #888888;
   line-height: 1.6;
 }
+
+/* Formulario de respuesta */
 .q-responder-form {
-  padding: 14px 18px;
-  border-top: 1px solid #21262d;
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255,255,255,0.04);
   display: flex;
   gap: 10px;
   align-items: flex-start;
@@ -2864,59 +2910,69 @@ function filterStore(cat, btn){
 .q-responder-form textarea {
   flex: 1;
   padding: 10px 12px;
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 8px;
-  color: #f0f6fc;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 3px;
+  color: #F0F0F0;
+  font-family: 'Outfit', sans-serif;
   font-size: 13px;
   resize: none;
   outline: none;
-  font-family: inherit;
   line-height: 1.5;
-  transition: .15s;
+  transition: border-color .14s;
 }
-.q-responder-form textarea:focus { border-color: #388bfd; }
+.q-responder-form textarea:focus { border-color: rgba(255,232,31,0.35); }
 .q-responder-form button {
   padding: 10px 16px;
-  background: #238636;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  background: rgba(255,232,31,0.10);
+  color: #FFE81F;
+  border: 1px solid rgba(255,232,31,0.28);
+  border-radius: 2px;
+  font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
-  transition: .15s;
+  transition: .14s;
 }
-.q-responder-form button:hover { background: #2ea043; }
+.q-responder-form button:hover {
+  background: rgba(255,232,31,0.18);
+  border-color: rgba(255,232,31,0.55);
+}
 
+/* Empty state */
 .q-empty {
   text-align: center;
   padding: 60px 20px;
-  color: #484f58;
+  color: #444444;
 }
-.q-empty svg { opacity: .3; margin-bottom: 12px; }
-.q-empty p { font-size: 14px; margin: 0; }
+.q-empty p {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0;
+}
 
-/* Skeleton loader */
+/* Skeleton */
 .q-skeleton {
-  background: #161b22;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  padding: 20px 18px;
-  margin-bottom: 10px;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 8px;
 }
 .q-sk-line {
-  background: linear-gradient(90deg, #21262d 25%, #30363d 50%, #21262d 75%);
+  background: linear-gradient(90deg, #161616 25%, #1c1c1c 50%, #161616 75%);
   background-size: 200% 100%;
   animation: q-shimmer 1.4s infinite;
-  border-radius: 4px;
-  height: 12px;
+  border-radius: 2px;
+  height: 11px;
   margin-bottom: 10px;
 }
 @keyframes q-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
-.orden-btn-active { background: #388bfd !important; color: #fff !important; }
 </style>
 
 <!-- ── ENGINE COMUNIDAD ── -->
@@ -2940,9 +2996,9 @@ let ordenActual = "nuevas";
 function timeAgo(date) {
   if (!date) return "";
   const s = Math.floor((Date.now() - date.getTime()) / 1000);
-  if (s < 60)   return "hace un momento";
-  if (s < 3600) return `hace ${Math.floor(s/60)} min`;
-  if (s < 86400)return `hace ${Math.floor(s/3600)} h`;
+  if (s < 60)    return "hace un momento";
+  if (s < 3600)  return `hace ${Math.floor(s/60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s/3600)} h`;
   return `hace ${Math.floor(s/86400)} d`;
 }
 
@@ -2952,10 +3008,15 @@ function avatarLetras(nombre) {
 
 function skeleton() {
   return `
-    <div class="q-skeleton"><div class="q-sk-line" style="width:60%;height:14px"></div><div class="q-sk-line" style="width:90%"></div><div class="q-sk-line" style="width:75%"></div></div>
-    <div class="q-skeleton"><div class="q-sk-line" style="width:50%;height:14px"></div><div class="q-sk-line" style="width:85%"></div></div>
-    <div class="q-skeleton"><div class="q-sk-line" style="width:65%;height:14px"></div><div class="q-sk-line" style="width:70%"></div><div class="q-sk-line" style="width:80%"></div></div>
+    <div class="q-skeleton"><div class="q-sk-line" style="width:55%;height:13px"></div><div class="q-sk-line" style="width:88%"></div><div class="q-sk-line" style="width:70%"></div></div>
+    <div class="q-skeleton"><div class="q-sk-line" style="width:48%;height:13px"></div><div class="q-sk-line" style="width:82%"></div></div>
+    <div class="q-skeleton"><div class="q-sk-line" style="width:62%;height:13px"></div><div class="q-sk-line" style="width:75%"></div><div class="q-sk-line" style="width:60%"></div></div>
   `;
+}
+
+/* ── helpers de filtros ── */
+function resetFiltros() {
+  document.querySelectorAll(".com-filtro").forEach(b => b.classList.remove("com-filtro-active"));
 }
 
 /* ── Abrir sección ── */
@@ -2967,7 +3028,7 @@ window.openComunidad = function() {
 
 /* ── Toggle form ── */
 window.toggleFormPregunta = function() {
-  const box = document.getElementById("form-pregunta-box");
+  const box  = document.getElementById("form-pregunta-box");
   const open = box.style.display === "block";
   box.style.display = open ? "none" : "block";
   if (!open) document.getElementById("comunidadTitulo").focus();
@@ -2976,12 +3037,8 @@ window.toggleFormPregunta = function() {
 /* ── Cambiar orden ── */
 window.cambiarOrden = function(orden, btn) {
   ordenActual = orden;
-  document.querySelectorAll("[onclick^='cambiarOrden']").forEach(b => {
-    b.style.background = "transparent";
-    b.style.color = "#8b949e";
-  });
-  btn.style.background = "#388bfd";
-  btn.style.color = "#fff";
+  resetFiltros();
+  btn.classList.add("com-filtro-active");
   cargarPreguntas();
 }
 
@@ -3009,15 +3066,11 @@ window.publicarPregunta = async function() {
     document.getElementById("comunidadTexto").value  = "";
     document.getElementById("form-pregunta-box").style.display = "none";
     ordenActual = "nuevas";
-    document.getElementById("orden-nuevas").style.background = "#388bfd";
-    document.getElementById("orden-nuevas").style.color = "#fff";
-    document.getElementById("orden-populares").style.background = "transparent";
-    document.getElementById("orden-populares").style.color = "#8b949e";
-    document.getElementById("orden-sin-respuesta").style.background = "transparent";
-    document.getElementById("orden-sin-respuesta").style.color = "#8b949e";
+    resetFiltros();
+    document.getElementById("orden-nuevas").classList.add("com-filtro-active");
     cargarPreguntas();
   } catch(e) { alert("Error: " + e.message); }
-  finally { btn.textContent = "Publicar pregunta"; btn.disabled = false; }
+  finally { btn.textContent = "Publicar"; btn.disabled = false; }
 }
 
 /* ── Cargar preguntas ── */
@@ -3032,7 +3085,6 @@ window.cargarPreguntas = async function() {
     } else if (ordenActual === "populares") {
       q = query(collection(db, "comunidad"), orderBy("likes", "desc"));
     } else {
-      // sin respuesta — ordenamos por fecha y filtramos client-side
       q = query(collection(db, "comunidad"), orderBy("fecha", "desc"));
     }
 
@@ -3049,8 +3101,7 @@ window.cargarPreguntas = async function() {
     if (docs.length === 0) {
       lista.innerHTML = `
         <div class="q-empty">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <p>${ordenActual === "sin-respuesta" ? "Todas las preguntas tienen respuesta 🎉" : "Aún no hay preguntas. ¡Sé el primero!"}</p>
+          <p>${ordenActual === "sin-respuesta" ? "Todas las preguntas tienen respuesta" : "Aún no hay preguntas — sé el primero"}</p>
         </div>`;
       return;
     }
@@ -3061,9 +3112,9 @@ window.cargarPreguntas = async function() {
       card.className = "q-card";
       card.innerHTML = `
         <div class="q-card-body">
-          <div class="q-vote-row">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
             <button class="q-vote-btn" onclick="darLike('${d.id}', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
               <span>${d.likes || 0}</span>
             </button>
             <span class="q-tag">${d.categoria?.toUpperCase() || "GENERAL"}</span>
@@ -3071,24 +3122,18 @@ window.cargarPreguntas = async function() {
           <div class="q-title" onclick="toggleRespuestas('${d.id}')">${d.titulo}</div>
           <div class="q-body">${d.texto}</div>
           <div class="q-meta">
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              ${d.autor}
-            </span>
-            <span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-              ${fecha}
-            </span>
+            <span>${d.autor}</span>
+            <span>${fecha}</span>
             <span style="margin-left:auto;">
               <button class="q-action-btn" onclick="toggleRespuestas('${d.id}')">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 ${d.respuestas || 0} respuestas
               </button>
             </span>
           </div>
         </div>
         <div class="q-respuestas-box" id="resp-${d.id}">
-          <div id="lista-resp-${d.id}" style="padding:0;"></div>
+          <div id="lista-resp-${d.id}"></div>
           <div class="q-responder-form">
             <textarea id="txt-resp-${d.id}" rows="2" placeholder="Escribe tu respuesta..."></textarea>
             <button onclick="enviarRespuesta('${d.id}')">Responder</button>
@@ -3098,7 +3143,7 @@ window.cargarPreguntas = async function() {
       lista.appendChild(card);
     });
   } catch(e) {
-    lista.innerHTML = `<div style="color:#f85149;padding:20px;font-size:13px;">Error cargando preguntas: ${e.message}</div>`;
+    lista.innerHTML = `<div style="color:#FF3D3D; padding:20px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px;">ERROR: ${e.message}</div>`;
   }
 }
 
@@ -3108,14 +3153,14 @@ window.toggleRespuestas = async function(id) {
   if (box.style.display === "block") { box.style.display = "none"; return; }
   box.style.display = "block";
   const listaEl = document.getElementById("lista-resp-" + id);
-  listaEl.innerHTML = '<div style="padding:16px 18px;color:#484f58;font-size:13px;">Cargando respuestas...</div>';
+  listaEl.innerHTML = '<div style="padding:16px 20px; color:#444444; font-family:\'DM Mono\',monospace; font-size:11px; letter-spacing:1px;">Cargando...</div>';
 
   try {
     const q    = query(collection(db, "comunidad", id, "respuestas"), orderBy("fecha", "asc"));
     const snap = await getDocs(q);
     listaEl.innerHTML = "";
     if (snap.empty) {
-      listaEl.innerHTML = '<div style="padding:16px 18px;color:#484f58;font-size:13px;">Sin respuestas aún. ¡Sé el primero en responder!</div>';
+      listaEl.innerHTML = '<div style="padding:16px 20px; color:#444444; font-family:\'DM Mono\',monospace; font-size:11px; letter-spacing:1px;">Sin respuestas aún.</div>';
       return;
     }
     snap.forEach(r => {
@@ -3125,15 +3170,16 @@ window.toggleRespuestas = async function(id) {
       div.className = "q-respuesta-item";
       div.innerHTML = `
         <div class="q-respuesta-autor">
-          <div style="width:22px;height:22px;border-radius:50%;background:#1f4068;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#388bfd;">${avatarLetras(rd.autor)}</div>
-          ${rd.autor} <span style="color:#484f58;font-weight:400;">· ${fecha}</span>
+          <div style="width:22px; height:22px; border-radius:2px; background:rgba(255,232,31,0.08); border:1px solid rgba(255,232,31,0.22); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#FFE81F; font-family:'DM Mono',monospace;">${avatarLetras(rd.autor)}</div>
+          ${rd.autor}
+          <span style="color:#444444; font-weight:400;">· ${fecha}</span>
         </div>
         <div class="q-respuesta-texto">${rd.texto}</div>
       `;
       listaEl.appendChild(div);
     });
   } catch(e) {
-    listaEl.innerHTML = `<div style="padding:16px;color:#f85149;font-size:13px;">Error: ${e.message}</div>`;
+    listaEl.innerHTML = `<div style="padding:16px; color:#FF3D3D; font-family:'DM Mono',monospace; font-size:11px;">ERROR: ${e.message}</div>`;
   }
 }
 
@@ -3148,7 +3194,6 @@ window.enviarRespuesta = async function(id) {
     await addDoc(collection(db, "comunidad", id, "respuestas"), {
       texto: txt, autor: u().displayName || u().email, uid: u().uid, fecha: serverTimestamp()
     });
-    // incrementa contador
     await updateDoc(doc(db, "comunidad", id), { respuestas: increment(1) });
     document.getElementById("txt-resp-" + id).value = "";
     document.getElementById("resp-" + id).style.display = "none";
