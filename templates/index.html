@@ -430,170 +430,295 @@ SIMULAR PLC
     <!-- ( I0.0 || M0.0 ) && /I0.1 && /I0.2  →  M0.0     -->
     <!-- ================================================= -->
 
-    <div class="rung">
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagrama Ladder - Corregido</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+    h2 { color: #333; }
+    .simulator-section { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .layout { display: flex; flex-direction: column; gap: 16px; }
+    .ladder { display: flex; flex-direction: column; gap: 12px; }
 
-        <div class="branch">
-            <div class="branch-path">
-                <div class="contact" data-type="NO" data-address="I0.0">
-                    <span>I0.0</span>
-                </div>
-            </div>
-         
-        <div class="line"></div>
+    /* Rungs */
+    .rung {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 12px 16px;
+      background: #fafafa;
+      flex-wrap: wrap;
+    }
 
-        <div class="contact" data-type="NC" data-address="I0.1">
-            <span class="diag"></span>
-            <span>I0.1</span>
-        </div>
+    /* Contactos */
+    .contact {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 50px;
+      border: 2px solid #333;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
+      background: white;
+      position: relative;
+    }
+    .contact[data-type="NO"] { border-color: #2255aa; color: #2255aa; }
+    .contact[data-type="NC"] { border-color: #aa2222; color: #aa2222; }
 
-        <div class="line"></div>
+    /* Diagonal para NC */
+    .contact[data-type="NC"]::before {
+      content: '';
+      position: absolute;
+      top: 6px; left: 6px; right: 6px; bottom: 6px;
+      background: linear-gradient(
+        to top right,
+        transparent calc(50% - 1px),
+        #aa2222 calc(50% - 1px),
+        #aa2222 calc(50% + 1px),
+        transparent calc(50% + 1px)
+      );
+    }
 
-        <div class="contact" data-type="NC" data-address="I0.2">
-            <span class="diag"></span>
-            <span>I0.2</span>
-        </div>
+    /* Bobinas */
+    .coil {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 50px;
+      border: 2px solid #228822;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: bold;
+      color: #228822;
+      background: white;
+      text-align: center;
+    }
+    .coil[data-type="SET"]  { border-color: #cc7700; color: #cc7700; }
+    .coil[data-type="RESET"]{ border-color: #9900aa; color: #9900aa; }
 
-        <div class="line"></div>
+    /* Líneas de conexión */
+    .line {
+      width: 20px;
+      height: 2px;
+      background: #555;
+    }
 
-        <div class="coil" data-address="M0.0">
-            <span class="coil-circle">M0.0</span>
-        </div>
+    /* Etiqueta de rung */
+    .rung-label {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 4px;
+    }
 
-    </div>
+    /* Rama paralela */
+    .branch {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .branch-path {
+      display: flex;
+      align-items: center;
+    }
 
-    <!-- ================================================= -->
-    <!-- RUNG 2  —  HABILITACIÓN MOTOR CON SENSOR          -->
-    <!-- M0.0 && I0.3  →  M0.1                            -->
-    <!-- ================================================= -->
+    /* Comentarios de rung */
+    .rung-comment {
+      font-size: 12px;
+      color: #555;
+      font-style: italic;
+      width: 100%;
+      margin-bottom: 4px;
+    }
 
-    <div class="rung">
+    /* Separador de bobinas múltiples */
+    .coil-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
 
-        <div class="contact" data-type="NO" data-address="M0.0">
-            <span>M0.0</span>
-        </div>
+<div class="simulator-section">
+  <div class="layout">
+    <h2>Diagrama Ladder</h2>
+    <main>
+      <div class="ladder">
 
-        <div class="line"></div>
-
-        <div class="contact" data-type="NO" data-address="I0.3">
-            <span>I0.3</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="M0.1">
-            <span class="coil-circle">M0.1</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 3  —  SALIDAS MOTOR + LUZ VERDE              -->
-    <!-- M0.1 && /M0.2  →  Q0.0 · Q0.1                   -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="M0.1">
-            <span>M0.1</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="contact" data-type="NC" data-address="M0.2">
-            <span class="diag"></span>
-            <span>M0.2</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="Q0.0">
-            <span class="coil-circle">Q0.0</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="Q0.1">
-            <span class="coil-circle">Q0.1</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 4  —  EMERGENCIA: SET ALARMA + LUZ ROJA     -->
-    <!-- I0.2  →  SET M0.2 · Q0.2                        -->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="I0.2">
-            <span>I0.2</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-type="SET" data-address="M0.2">
-            <span class="coil-circle">S M0.2</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="coil" data-address="Q0.2">
-            <span class="coil-circle">Q0.2</span>
-        </div>
-
-    </div>
-
-    <!-- ================================================= -->
-    <!-- RUNG 5  —  RESET ALARMA + LUZ AZUL SENSOR        -->
-    <!-- I0.0 && /I0.2  →  RESET M0.2 · (I0.3&&M0.0→Q0.3)-->
-    <!-- ================================================= -->
-
-    <div class="rung">
-
-        <div class="contact" data-type="NO" data-address="I0.0">
+        <!-- ============================================= -->
+        <!-- RUNG 1 — HABILITACIÓN SISTEMA                 -->
+        <!-- I0.0(NO) && /I0.1(NC) && /I0.2(NC) → M0.0   -->
+        <!-- ============================================= -->
+        <div class="rung-comment">Rung 1 — Habilitación sistema: I0.0 && /I0.1 && /I0.2 → M0.0</div>
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="I0.0">
             <span>I0.0</span>
-        </div>
+          </div>
 
-        <div class="line"></div>
+          <div class="line"></div>
 
-        <div class="contact" data-type="NC" data-address="I0.2">
-            <span class="diag"></span>
+          <div class="contact" data-type="NC" data-address="I0.1">
+            <span>I0.1</span>
+          </div>
+
+          <div class="line"></div>
+
+          <div class="contact" data-type="NC" data-address="I0.2">
             <span>I0.2</span>
-        </div>
+          </div>
 
-        <div class="line"></div>
+          <div class="line"></div>
 
-        <div class="coil" data-type="RESET" data-address="M0.2">
-            <span class="coil-circle">R M0.2</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="contact" data-type="NO" data-address="I0.3">
-            <span>I0.3</span>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="contact" data-type="NO" data-address="M0.0">
+          <div class="coil" data-address="M0.0">
             <span>M0.0</span>
+          </div>
         </div>
+        <!-- FIN RUNG 1 -->
 
-        <div class="line"></div>
+        <!-- ============================================= -->
+        <!-- RUNG 2 — HABILITACIÓN MOTOR CON SENSOR        -->
+        <!-- M0.0(NO) && I0.3(NO) → M0.1                  -->
+        <!-- ============================================= -->
+        <div class="rung-comment">Rung 2 — Habilitación motor con sensor: M0.0 && I0.3 → M0.1</div>
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="M0.0">
+            <span>M0.0</span>
+          </div>
 
-        <div class="coil" data-address="Q0.3">
-            <span class="coil-circle">Q0.3</span>
+          <div class="line"></div>
+
+          <div class="contact" data-type="NO" data-address="I0.3">
+            <span>I0.3</span>
+          </div>
+
+          <div class="line"></div>
+
+          <div class="coil" data-address="M0.1">
+            <span>M0.1</span>
+          </div>
         </div>
+        <!-- FIN RUNG 2 -->
 
-    </div>
+        <!-- ============================================= -->
+        <!-- RUNG 3 — SALIDAS MOTOR + LUZ VERDE            -->
+        <!-- M0.1(NO) && /M0.2(NC) → Q0.0 · Q0.1          -->
+        <!-- ============================================= -->
+        <div class="rung-comment">Rung 3 — Salidas motor + luz verde: M0.1 && /M0.2 → Q0.0, Q0.1</div>
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="M0.1">
+            <span>M0.1</span>
+          </div>
 
-</div> <!-- ladder -->
+          <div class="line"></div>
 
-</main>
+          <div class="contact" data-type="NC" data-address="M0.2">
+            <span>M0.2</span>
+          </div>
 
-</div> <!-- layout -->
+          <div class="line"></div>
 
-</div> <!-- simulatorSection -->
+          <!-- Bobinas paralelas: Q0.0 y Q0.1 van en el mismo rung separadas verticalmente -->
+          <div class="coil-group">
+            <div class="coil" data-address="Q0.0">
+              <span>Q0.0</span>
+            </div>
+            <div class="coil" data-address="Q0.1">
+              <span>Q0.1</span>
+            </div>
+          </div>
+        </div>
+        <!-- FIN RUNG 3 -->
+
+        <!-- ============================================= -->
+        <!-- RUNG 4 — EMERGENCIA: SET ALARMA + LUZ ROJA   -->
+        <!-- I0.2(NO) → SET M0.2 · Q0.2                   -->
+        <!-- ============================================= -->
+        <div class="rung-comment">Rung 4 — Emergencia: I0.2 → SET M0.2, Q0.2</div>
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="I0.2">
+            <span>I0.2</span>
+          </div>
+
+          <div class="line"></div>
+
+          <!-- Bobinas paralelas: SET M0.2 y Q0.2 -->
+          <div class="coil-group">
+            <div class="coil" data-type="SET" data-address="M0.2">
+              <span>S M0.2</span>
+            </div>
+            <div class="coil" data-address="Q0.2">
+              <span>Q0.2</span>
+            </div>
+          </div>
+        </div>
+        <!-- FIN RUNG 4 -->
+
+        <!-- ============================================= -->
+        <!-- RUNG 5a — RESET ALARMA                        -->
+        <!-- I0.0(NO) && /I0.2(NC) → RESET M0.2           -->
+        <!-- ============================================= -->
+        <div class="rung-comment">Rung 5a — Reset alarma: I0.0 && /I0.2 → RESET M0.2</div>
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="I0.0">
+            <span>I0.0</span>
+          </div>
+
+          <div class="line"></div>
+
+          <div class="contact" data-type="NC" data-address="I0.2">
+            <span>I0.2</span>
+          </div>
+
+          <div class="line"></div>
+
+          <div class="coil" data-type="RESET" data-address="M0.2">
+            <span>R M0.2</span>
+          </div>
+        </div>
+        <!-- FIN RUNG 5a -->
+
+        <!-- ============================================= -->
+        <!-- RUNG 5b — LUZ AZUL SENSOR                     -->
+        <!-- I0.3(NO) && M0.0(NO) → Q0.3                  -->
+        <!-- (separado de 5a: una bobina no puede tener     -->
+        <!--  contactos en serie después de ella)           -->
+        <!-- ============================================= -->
+        <div class="rung-comment">Rung 5b — Luz azul sensor: I0.3 && M0.0 → Q0.3</div>
+        <div class="rung">
+          <div class="contact" data-type="NO" data-address="I0.3">
+            <span>I0.3</span>
+          </div>
+
+          <div class="line"></div>
+
+          <div class="contact" data-type="NO" data-address="M0.0">
+            <span>M0.0</span>
+          </div>
+
+          <div class="line"></div>
+
+          <div class="coil" data-address="Q0.3">
+            <span>Q0.3</span>
+          </div>
+        </div>
+        <!-- FIN RUNG 5b -->
+
+      </div><!-- /ladder -->
+    </main>
+  </div><!-- /layout -->
+</div><!-- /simulator-section -->
 
 <!-- ===================================================== -->
 <!-- CURSOS -->
