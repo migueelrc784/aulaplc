@@ -1,38 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
 
-  <title>AulaPLC</title>
+{% block title %}AulaPLC{% endblock %}
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/comunidad.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/store.css') }}">
-</head>
+{% block content %}
 
-<body>
+{% include 'simulador.html' %}
+{% include 'cursos.html' %}
+{% include 'faq.html' %}
+{% include 'tienda.html' %}
 
-  {% include 'navbar.html' %}
-
-  {% include 'simulador.html' %}
-  {% include 'cursos.html' %}
-  {% include 'faq.html' %}
-  {% include 'tienda.html' %}
-  {% include 'comunidad.html' %}
-
-  <script src="{{ url_for('static', filename='js/plc_engine.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/ladder.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/vfd.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/store.js') }}"></script>
-
-  <script type="module"
-    src="{{ url_for('static', filename='js/firebase-auth.js') }}">
-  </script>
-
-  <script type="module"
-    src="{{ url_for('static', filename='js/comunidad.js') }}">
-  </script>
-
-</body>
-</html>
+{% endblock %}
