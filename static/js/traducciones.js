@@ -29,11 +29,6 @@ const T = {
     simMotor:      "MOTOR TRIFÁSICO",
     simEventos:    "EVENTOS PLC",
     simForzar:     "FORZAR",
-    simContactoNO: "CONTACTO NO",
-    simContactoNC: "CONTACTO NC",
-    simBobina:     "BOBINA",
-    simTimer:      "TEMPORIZADOR",
-    simNuevoRung:  "NUEVO RUNG",
     simSimular:    "SIMULAR PLC",
 
     // ── CURSOS ──
@@ -256,11 +251,6 @@ const T = {
     simMotor:      "THREE-PHASE MOTOR",
     simEventos:    "PLC EVENTS",
     simForzar:     "FORCE",
-    simContactoNO: "NO CONTACT",
-    simContactoNC: "NC CONTACT",
-    simBobina:     "COIL",
-    simTimer:      "TIMER",
-    simNuevoRung:  "NEW RUNG",
     simSimular:    "SIMULATE PLC",
 
     // ── CURSOS ──
@@ -486,12 +476,7 @@ const MAP = [
   { k:"simSalidas",    s:"#simulatorSection .panel:nth-child(2) h2" },
   { k:"simMotor",      s:"#simulatorSection .panel:nth-child(3) h2" },
   { k:"simEventos",    s:"#simulatorSection .panel:nth-child(4) h2" },
-  { k:"simContactoNO", s:".toolbar .btn.green:nth-child(1)" },
-  { k:"simContactoNC", s:".toolbar .btn.yellow" },
-  { k:"simBobina",     s:".toolbar .btn.blue:nth-child(3)" },
-  { k:"simTimer",      s:".toolbar .btn.red" },
-  { k:"simNuevoRung",  s:".toolbar .btn.blue:nth-child(5)" },
-  { k:"simSimular",    s:".toolbar .btn.green:nth-child(6)" },
+  { k:"simSimular",    s:".toolbar .btn.green:nth-child(1)" },
 
   // CURSOS
   { k:"cursosTitle",    s:"#coursesSection .courses-title" },
