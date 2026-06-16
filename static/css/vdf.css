@@ -6,7 +6,6 @@
 padding:25px;
 background:#030b16;
 min-height:calc(100vh - 80px);
-overflow-y:auto;
 overflow-x:hidden;
 font-family:Inter;
 }
@@ -445,11 +444,10 @@ color:#ffffff;
 #freqInput:focus{border-color:#00ff99;box-shadow:0 0 15px rgba(0,255,153,.3);}
 
 /* =========================================================
-   SCROLL FIX — reemplaza todo lo anterior
+   SCROLL FIX
 ========================================================= */
 
 #vfdSection{
-height:calc(100vh - 80px);
 overflow-y:auto;
 overflow-x:hidden;
 }
@@ -458,9 +456,9 @@ overflow-x:hidden;
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1200px){
+@media(max-width:900px){
 .vfd-wrapper{flex-direction:column;}
-.vfd-drive-real{width:100%;min-width:unset;position:static;}
+.vfd-drive-real{width:100%!important;min-width:unset!important;position:static;}
 .vfd-content{flex-direction:column;}
 .vfd-left{width:100%;}
 .gauges-grid{grid-template-columns:1fr 1fr;}
