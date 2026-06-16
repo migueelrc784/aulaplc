@@ -43,8 +43,13 @@
         <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">HMI</span>
       </div>
       <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
-        <button class="btn blue">VER CURSO</button>
-        <button class="btn green">DESCARGAR MATERIAL</button>
+        <a href="/cursos/hmi-scada"><button class="btn blue" style="width:100%;">ENTRAR AL CURSO</button></a>
+        <a href="{{ url_for('static', filename='pdfs/guia_hmi_scada.pdf') }}" target="_blank">
+          <button class="btn green" style="width:100%;">DESCARGAR MATERIAL</button>
+        </a>
+        <a href="https://www.youtube.com/@AULAPLC" target="_blank">
+          <button class="btn yellow" style="width:100%;">VER VIDEOS</button>
+        </a>
       </div>
     </div>
 
@@ -58,8 +63,13 @@
         <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">MOTORES</span>
       </div>
       <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
-        <button class="btn yellow">VER CURSO</button>
-        <button class="btn blue">MANUALES PDF</button>
+        <a href="/simulador-vfd"><button class="btn yellow" style="width:100%;">ENTRAR AL CURSO</button></a>
+        <a href="{{ url_for('static', filename='pdfs/guia_variadores.pdf') }}" target="_blank">
+          <button class="btn blue" style="width:100%;">MANUALES PDF</button>
+        </a>
+        <a href="https://www.youtube.com/@AULAPLC" target="_blank">
+          <button class="btn green" style="width:100%;">VER VIDEOS</button>
+        </a>
       </div>
     </div>
 
