@@ -13,16 +13,15 @@
   <p class="courses-subtitle">30 módulos de automatización industrial con videos, PDFs y simulaciones reales.</p>
 
   <!-- PROGRESO -->
-  <div class="course-card" style="background:#0b1220; border:1px solid #1e293b; padding:20px; margin-bottom:10px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-      <div>
-        <div style="font-size:13px; color:#8ca3bf; margin-bottom:6px; font-family:Orbitron; letter-spacing:1px;">PROGRESO DEL CURSO</div>
-        <div style="font-size:28px; font-family:Orbitron; color:#00ff99; font-weight:700;" id="progreso-texto">0 / 9 módulos</div>
-      </div>
-      <div style="flex:1; min-width:200px;">
-        <div style="background:#1e293b; border-radius:10px; height:10px; overflow:hidden;">
-          <div id="progreso-barra" style="height:100%; background:linear-gradient(90deg,#00ff99,#00d4ff); border-radius:10px; width:0%; transition:.4s;"></div>
-        </div>
+  <div style="background:#0b1220; border:1px solid #1e293b; border-radius:14px; padding:14px 20px; margin-bottom:10px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+    <div style="display:flex; align-items:center; gap:10px; white-space:nowrap;">
+      <span style="font-size:11px; color:#8ca3bf; font-family:Orbitron; letter-spacing:1px;">PROGRESO</span>
+      <span style="font-size:18px; font-family:Orbitron; color:#00ff99; font-weight:700;" id="progreso-texto">0 / 30</span>
+      <span style="font-size:11px; color:#475569; font-family:Orbitron;" id="progreso-pct">0%</span>
+    </div>
+    <div style="flex:1; min-width:140px;">
+      <div style="background:#1e293b; border-radius:6px; height:7px; overflow:hidden;">
+        <div id="progreso-barra" style="height:100%; background:linear-gradient(90deg,#00ff99,#00d4ff); border-radius:6px; width:0%; transition:.4s;"></div>
       </div>
     </div>
   </div>
@@ -302,7 +301,7 @@ function checkQ2(c){ const r=document.getElementById("r2"); r.innerHTML=c?"✅ C
 function checkQ3(c){ const r=document.getElementById("r3"); r.innerHTML=c?"✅ Correcto. TP genera un pulso temporizado.":"❌ Incorrecto. TP genera un pulso de duración fija."; r.style.color=c?"#00ff88":"#ff4d4d"; }
 
 /* ── Progreso ── */
-const MODULOS_GRATIS = 9;
+const TOTAL_MODULOS = 30;
 function saveModuleProgress(modulo, completado){
   try {
     const data = JSON.parse(localStorage.getItem('aulaplc_progress') || '{}');
@@ -317,9 +316,10 @@ function actualizarProgreso(){
   try {
     const data = JSON.parse(localStorage.getItem('aulaplc_progress') || '{}');
     let completados = 0;
-    for(let i=1; i<=MODULOS_GRATIS; i++){ if(data['modulo'+i]) completados++; }
-    const pct = Math.round((completados/MODULOS_GRATIS)*100);
-    document.getElementById('progreso-texto').textContent = completados+' / '+MODULOS_GRATIS+' módulos';
+    for(let i=1; i<=TOTAL_MODULOS; i++){ if(data['modulo'+i]) completados++; }
+    const pct = Math.round((completados/TOTAL_MODULOS)*100);
+    document.getElementById('progreso-texto').textContent = completados+' / '+TOTAL_MODULOS;
+    document.getElementById('progreso-pct').textContent = pct+'%';
     document.getElementById('progreso-barra').style.width = pct+'%';
   } catch(e){}
 }
