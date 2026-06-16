@@ -1,8 +1,9 @@
 // =========================================================
 //  AULAPLC — SISTEMA DE TRADUCCIÓN ES / EN
 //  Archivo: traducciones.js
-//  Uso: agregar <script src=".../traducciones.js"></script>
-//       justo antes de </body> en index.html
+//  Cargado desde base.html — funciona en TODAS las páginas
+//  separadas: /cursos  /comunidad  /simulador-plc
+//             /simulador-vfd  /dudas  /tienda  /cursos/tia-portal
 // =========================================================
 
 const T = {
@@ -23,7 +24,7 @@ const T = {
     navDudas:      "DUDAS",
     navTienda:     "TIENDA",
 
-    // ── SIMULADOR PLC ──
+    // ── SIMULADOR PLC (/simulador-plc) ──
     simEntradas:   "ENTRADAS DIGITALES",
     simSalidas:    "SALIDAS PLC",
     simMotor:      "MOTOR TRIFÁSICO",
@@ -31,7 +32,7 @@ const T = {
     simForzar:     "FORZAR",
     simSimular:    "SIMULAR PLC",
 
-    // ── CURSOS ──
+    // ── CURSOS (/cursos) ──
     cursosTitle:    "CURSOS AULAPLC STUDIO X",
     cursosSubtitle: "Aprende PLC, HMI, SCADA, Variadores y Automatización Industrial.",
     curso1Title:    "PLC SIEMENS TIA PORTAL",
@@ -47,7 +48,7 @@ const T = {
     btnDescargarMat:"DESCARGAR MATERIAL",
     btnManualesPDF: "MANUALES PDF",
 
-    // ── TIA PORTAL ──
+    // ── TIA PORTAL (/cursos/tia-portal) ──
     tiaTitle:       "CURSO PLC SIEMENS TIA PORTAL",
     tiaSubtitle:    "Aprende automatización industrial paso a paso con videos, PDFs y simulaciones reales.",
     tiaDescargaTitle:"DESCARGAR TIA PORTAL",
@@ -95,7 +96,7 @@ const T = {
     mod9Sub:        "Variadores SINAMICS G120",
     mod10Sub:       "Redes industriales PROFINET, Modbus TCP, Ethernet/IP",
 
-    // ── VFD ──
+    // ── VFD (/simulador-vfd) ──
     vfdControl:     "CONTROL",
     vfdParametros:  "PARÁMETROS",
     vfdMonitoreo:   "MONITOREO",
@@ -128,7 +129,7 @@ const T = {
     vfdAplicarFreq: "APLICAR FRECUENCIA",
     vfdNinguna:     "NINGUNA",
 
-    // ── DUDAS ──
+    // ── DUDAS (/dudas) ──
     dudasTitle:     "DUDAS FRECUENTES",
     dudasSubtitle:  "Preguntas comunes sobre automatización industrial, PLC y variadores.",
     faq: [
@@ -146,7 +147,7 @@ const T = {
       ["¿QUÉ ES MODBUS?", "Es un protocolo de comunicación industrial usado entre PLC, HMI y variadores."],
       ["¿QUÉ ES PROFINET?", "Es una red Ethernet industrial usada principalmente en automatización Siemens."],
       ["¿QUÉ ES ETHERNET/IP?", "Es un protocolo industrial basado en Ethernet para comunicación en automatización."],
-      ["¿QUÉ ES UN TEMPORIZADOR TON?", "Activa una salida después de un tiempo determinado."],
+      ["¿QUÉ ES UN TEMPORIZADOR TON?", "Activa una salida después de un tiempo determinado (retardo a la conexión)."],
       ["¿QUÉ ES UN CONTADOR CTU?", "Cuenta pulsos o eventos dentro de un programa PLC."],
       ["¿QUÉ ES UNA ENTRADA DIGITAL?", "Es una señal ON/OFF proveniente desde sensores o pulsadores."],
       ["¿QUÉ ES UNA SALIDA DIGITAL?", "Es una señal enviada por el PLC para activar actuadores."],
@@ -180,7 +181,7 @@ const T = {
       ["¿QUÉ ES POTENCIA ELÉCTRICA?", "Es la energía consumida o entregada por un sistema eléctrico."]
     ],
 
-    // ── TIENDA ──
+    // ── TIENDA (/tienda) ──
     tiendaTitle:    "TIENDA AULAPLC",
     tiendaSubtitle: "Productos recomendados para automatización industrial, PLC Siemens, sensores, HMI y variadores.",
     tiendaFiltrar:  "FILTRAR:",
@@ -193,7 +194,7 @@ const T = {
     tiendaVariador: "VARIADOR",
     btnVerProducto: "VER PRODUCTO ↗",
 
-    // ── COMUNIDAD ──
+    // ── COMUNIDAD (/comunidad) ──
     comunidadTitle:   "Comunidad AulaPlc",
     comunidadSubtitle:"Hace una pregunta, responde y aprende junto a otros técnicos.",
     comunidadNueva:   "Nueva pregunta",
@@ -289,7 +290,7 @@ const T = {
     mod4Title:      "⏱️ MODULE 4 - TON, TOF AND TP TIMERS",
     mod4Desc:       "Learn to use industrial TON, TOF and TP timers in Siemens PLC systems and real automated processes.",
     mod5Title:      "🔢 MODULE 5 - CTU AND CTD COUNTERS",
-    mod5Desc:       "Programming of industrial CTU and CTD counters used in production, part counting and industrial automation.",
+    mod5Desc:       "Programming of industrial CTU and CTD counters used in production, parts counting and industrial automation.",
     mod6Title:      "🔒 MODULE 6 - ADVANCED FUNCTIONS",
     mod6Desc:       "FC, FB, data blocks and structured programming in TIA Portal.",
     mod7Title:      "🔒 MODULE 7 - SIEMENS HMI",
@@ -310,8 +311,8 @@ const T = {
     premiumDesc:    "Access advanced modules (6 to 10) with a single purchase. Your access activates automatically after payment.",
     premiumBtn:     "💳 ACTIVATE PREMIUM — $ 1.990 CLP",
     premiumAcceso:  "Immediate access after confirming payment",
-    premiumYaPagaste:"Already paid? Log out and log back in. If access doesn't activate within 5 minutes contact us at",
-    mod6Sub:        "Advanced functions FC and FB",
+    premiumYaPagaste:"Already paid? Log out and log back in. If access doesn't activate within 5 minutes write us at",
+    mod6Sub:        "Advanced FC and FB functions",
     mod7Sub:        "Professional Siemens HMI",
     mod8Sub:        "Industrial SCADA",
     mod9Sub:        "SINAMICS G120 Drives",
@@ -368,7 +369,7 @@ const T = {
       ["WHAT IS MODBUS?", "It is an industrial communication protocol used between PLCs, HMIs and drives."],
       ["WHAT IS PROFINET?", "It is an industrial Ethernet network used mainly in Siemens automation."],
       ["WHAT IS ETHERNET/IP?", "It is an industrial protocol based on Ethernet for communication in automation."],
-      ["WHAT IS A TON TIMER?", "Activates an output after a set time."],
+      ["WHAT IS A TON TIMER?", "Activates an output after a set time (on-delay)."],
       ["WHAT IS A CTU COUNTER?", "Counts pulses or events within a PLC program."],
       ["WHAT IS A DIGITAL INPUT?", "It is an ON/OFF signal coming from sensors or pushbuttons."],
       ["WHAT IS A DIGITAL OUTPUT?", "It is a signal sent by the PLC to activate actuators."],
@@ -452,77 +453,118 @@ const T = {
 }
 
 // =========================================================
-//  MAPA: clave → selector(es) CSS + propiedad
+//  DETECTAR QUÉ PÁGINA ESTÁ ACTIVA
+//  Basado en window.location.pathname — sin depender de IDs
+//  que solo existen en index.html
 // =========================================================
-const MAP = [
-  // LOADER
-  { k:"loaderTitle",   s:"#loader h1" },
-  { k:"loaderText",    s:"#loader p" },
+function paginaActual() {
+  const p = window.location.pathname
+  if (p.includes("simulador-vfd"))   return "vfd"
+  if (p.includes("simulador-plc"))   return "plc"
+  if (p.includes("tia-portal"))      return "tia"
+  if (p.includes("cursos"))          return "cursos"
+  if (p.includes("comunidad"))       return "comunidad"
+  if (p.includes("dudas"))           return "dudas"
+  if (p.includes("tienda"))          return "tienda"
+  return "home"
+}
 
-  // HEADER
-  { k:"appTitle",      s:".title" },
-  { k:"appSubtitle",   s:".subtitle" },
-
-  // NAV — en orden del DOM
+// =========================================================
+//  MAPA GLOBAL — header + nav (presentes en base.html)
+// =========================================================
+const MAP_GLOBAL = [
+  // Header
+  { k:"appTitle",      s:".header-logo-name, .title" },
+  { k:"appSubtitle",   s:".header-logo-sub, .subtitle" },
+  // Nav
   { k:"navCursos",     s:".nav-btn:nth-child(1)" },
   { k:"navComunidad",  s:".nav-btn:nth-child(2)" },
   { k:"navSimPLC",     s:".nav-btn:nth-child(3)" },
   { k:"navSimVFD",     s:".nav-btn:nth-child(4)" },
   { k:"navDudas",      s:".nav-btn:nth-child(5)" },
   { k:"navTienda",     s:".nav-btn:nth-child(6)" },
-
-  // SIMULADOR PLC
-  { k:"simEntradas",   s:"#simulatorSection .panel:nth-child(1) h2" },
-  { k:"simSalidas",    s:"#simulatorSection .panel:nth-child(2) h2" },
-  { k:"simMotor",      s:"#simulatorSection .panel:nth-child(3) h2" },
-  { k:"simEventos",    s:"#simulatorSection .panel:nth-child(4) h2" },
-  { k:"simSimular",    s:".toolbar .btn.green:nth-child(1)" },
-
-  // CURSOS
-  { k:"cursosTitle",    s:"#coursesSection .courses-title" },
-  { k:"cursosSubtitle", s:"#coursesSection .courses-subtitle" },
-
-  // TIA PORTAL
-  { k:"tiaTitle",       s:"#tiaPortalSection .courses-title" },
-  { k:"tiaSubtitle",    s:"#tiaPortalSection .courses-subtitle" },
-  { k:"btnVolverCursos",s:"#tiaPortalSection .btn.red" },
-
-  // VFD TABS
-  { k:"vfdControl",     s:".vfd-tab:nth-child(1)" },
-  { k:"vfdParametros",  s:".vfd-tab:nth-child(2)" },
-  { k:"vfdMonitoreo",   s:".vfd-tab:nth-child(3)" },
-  { k:"vfdAlarmas",     s:".vfd-tab:nth-child(4)" },
-  { k:"vfdRefFreq",     s:"#tab-control .vfd-card:nth-child(1) h3" },
-  { k:"vfdComandos",    s:"#tab-control .vfd-card:nth-child(2) h3" },
-  { k:"vfdArrancar",    s:".cmd-btn.cmd-green:nth-of-type(1)" },
-  { k:"vfdReversa",     s:".vfd-command-grid .cmd-btn.cmd-dark:nth-child(2)" },
-  { k:"vfdDetener",     s:".vfd-command-grid .cmd-btn.cmd-red" },
-  { k:"vfdGuardarParam",s:"#tab-parametros .cmd-btn.cmd-green" },
-  { k:"vfdMonitoreoRT", s:"#tab-monitoreo .vfd-card h3" },
-  { k:"vfdHistorial",   s:"#tab-alarmas .vfd-card h3" },
-  { k:"vfdResetAlarmas",s:"#tab-alarmas .cmd-btn.cmd-red" },
-  { k:"vfdAplicarFreq", s:"#tab-control .cmd-btn.cmd-green" },
-
-  // DUDAS
-  { k:"dudasTitle",     s:"#faqSection .courses-title" },
-  { k:"dudasSubtitle",  s:"#faqSection .courses-subtitle" },
-
-  // TIENDA
-  { k:"tiendaTitle",    s:"#storeSection .courses-title" },
-  { k:"tiendaSubtitle", s:"#storeSection .courses-subtitle" },
-
-  // COMUNIDAD
-  { k:"comunidadTitle",    s:"#comunidadSection h1" },
-  { k:"comunidadSubtitle", s:"#comunidadSection h1 + p" },
-  { k:"comunidadNuevas",   s:"#orden-nuevas" },
-  { k:"comunidadPopulares",s:"#orden-populares" },
-  { k:"comunidadSinResp",  s:"#orden-sin-respuesta" },
-  { k:"comunidadHacer",    s:"#form-pregunta-box h3" },
-  { k:"comunidadCancelar", s:"#form-pregunta-box button:first-of-type" },
-  { k:"comunidadPublicar", s:"#form-pregunta-box button[onclick='publicarPregunta()']" },
+  // Loader (si existe)
+  { k:"loaderTitle",   s:"#loader h1" },
+  { k:"loaderText",    s:"#loader p" },
 ]
 
-// Placeholders (input/textarea)
+// =========================================================
+//  MAPAS POR PÁGINA
+// =========================================================
+const MAP_POR_PAGINA = {
+
+  // /simulador-plc
+  plc: [
+    { k:"simEntradas", s:".sidebar .panel:nth-child(1) h2" },
+    { k:"simSalidas",  s:".sidebar .panel:nth-child(2) h2" },
+    { k:"simMotor",    s:".sidebar .panel:nth-child(3) h2" },
+    { k:"simEventos",  s:".sidebar .panel:nth-child(4) h2" },
+    { k:"simSimular",  s:".toolbar .btn.green" },
+  ],
+
+  // /simulador-vfd
+  vfd: [
+    { k:"vfdControl",     s:".vfd-tab:nth-child(1)" },
+    { k:"vfdParametros",  s:".vfd-tab:nth-child(2)" },
+    { k:"vfdMonitoreo",   s:".vfd-tab:nth-child(3)" },
+    { k:"vfdAlarmas",     s:".vfd-tab:nth-child(4)" },
+    { k:"vfdRefFreq",     s:"#tab-control .vfd-card:nth-child(1) h3" },
+    { k:"vfdComandos",    s:"#tab-control .vfd-card:nth-child(2) h3" },
+    { k:"vfdArrancar",    s:".vfd-command-grid .cmd-btn.cmd-green" },
+    { k:"vfdReversa",     s:".vfd-command-grid .cmd-btn.cmd-dark:nth-child(2)" },
+    { k:"vfdDetener",     s:".vfd-command-grid .cmd-btn.cmd-red" },
+    { k:"vfdGuardarParam",s:"#tab-parametros .cmd-btn.cmd-green" },
+    { k:"vfdMonitoreoRT", s:"#tab-monitoreo .vfd-card h3" },
+    { k:"vfdHistorial",   s:"#tab-alarmas .vfd-card h3" },
+    { k:"vfdResetAlarmas",s:"#tab-alarmas .cmd-btn.cmd-red" },
+    { k:"vfdAplicarFreq", s:"#tab-control > .vfd-card:nth-child(1) .cmd-btn.cmd-green" },
+  ],
+
+  // /cursos
+  cursos: [
+    { k:"cursosTitle",    s:".courses-page .courses-title" },
+    { k:"cursosSubtitle", s:".courses-page .courses-subtitle" },
+    { k:"curso1Title",    s:".course-card:nth-child(1) h2" },
+    { k:"curso1Desc",     s:".course-card:nth-child(1) p" },
+    { k:"curso2Title",    s:".course-card:nth-child(2) h2" },
+    { k:"curso2Desc",     s:".course-card:nth-child(2) p" },
+    { k:"curso3Title",    s:".course-card:nth-child(3) h2" },
+    { k:"curso3Desc",     s:".course-card:nth-child(3) p" },
+  ],
+
+  // /cursos/tia-portal
+  tia: [
+    { k:"tiaTitle",       s:".courses-page .courses-title" },
+    { k:"tiaSubtitle",    s:".courses-page .courses-subtitle" },
+    { k:"btnVolverCursos",s:".btn.red" },
+  ],
+
+  // /dudas  — las cards se reconstruyen dinámicamente vía JS (ver applyFAQ)
+  dudas: [
+    { k:"dudasTitle",    s:".courses-page .courses-title" },
+    { k:"dudasSubtitle", s:".courses-page .courses-subtitle" },
+  ],
+
+  // /tienda
+  tienda: [
+    { k:"tiendaTitle",    s:".courses-page .courses-title" },
+    { k:"tiendaSubtitle", s:".courses-page .courses-subtitle" },
+  ],
+
+  // /comunidad
+  comunidad: [
+    { k:"comunidadNuevas",    s:"#orden-nuevas" },
+    { k:"comunidadPopulares", s:"#orden-populares" },
+    { k:"comunidadSinResp",   s:"#orden-sin-respuesta" },
+    { k:"comunidadHacer",     s:"#form-pregunta-box h3" },
+    { k:"comunidadCancelar",  s:"#form-pregunta-box button:first-of-type" },
+    { k:"comunidadPublicar",  s:"#form-pregunta-box button[onclick='publicarPregunta()']" },
+  ],
+
+  home: [],
+}
+
+// Placeholders — solo comunidad
 const PLACEHOLDERS = [
   { k:"comunidadTituloPlaceholder", s:"#comunidadTitulo" },
   { k:"comunidadTextoPlaceholder",  s:"#comunidadTexto" },
@@ -533,69 +575,97 @@ const PLACEHOLDERS = [
 // =========================================================
 let langActual = localStorage.getItem("aulaplc-lang") || "es"
 
+function applyMap(map, t) {
+  map.forEach(({ k, s }) => {
+    if (!t[k]) return
+    document.querySelectorAll(s).forEach(el => { el.textContent = t[k] })
+  })
+}
+
 window.setLang = function(lang) {
   langActual = lang
   localStorage.setItem("aulaplc-lang", lang)
   const t = T[lang]
 
-  // Botones del selector
+  // Estilos botones selector
   const btnES = document.getElementById("lang-btn-es")
   const btnEN = document.getElementById("lang-btn-en")
   if (btnES && btnEN) {
-    const activeStyle  = "padding:4px 10px;border-radius:6px;border:1px solid #388bfd;background:#388bfd;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;"
-    const inactiveStyle= "padding:4px 10px;border-radius:6px;border:1px solid #374151;background:transparent;color:#94a3b8;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;"
-    btnES.style.cssText = lang === "es" ? activeStyle : inactiveStyle
-    btnEN.style.cssText = lang === "en" ? activeStyle : inactiveStyle
+    const on  = "padding:4px 10px;border-radius:6px;border:1px solid #388bfd;background:#388bfd;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;"
+    const off = "padding:4px 10px;border-radius:6px;border:1px solid #374151;background:transparent;color:#94a3b8;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;"
+    btnES.style.cssText = lang === "es" ? on : off
+    btnEN.style.cssText = lang === "en" ? on : off
   }
 
-  // Aplicar mapa principal
-  MAP.forEach(({ k, s }) => {
-    const els = document.querySelectorAll(s)
-    if (t[k]) els.forEach(el => { el.textContent = t[k] })
-  })
+  // Mapa global (header/nav) — siempre
+  applyMap(MAP_GLOBAL, t)
 
-  // Placeholders
+  // Mapa de la página actual
+  const pagina = paginaActual()
+  if (MAP_POR_PAGINA[pagina]) applyMap(MAP_POR_PAGINA[pagina], t)
+
+  // Placeholders (comunidad)
   PLACEHOLDERS.forEach(({ k, s }) => {
     const el = document.querySelector(s)
     if (el && t[k]) el.placeholder = t[k]
   })
 
-  // FAQ cards — reconstruye todas
-  const faqGrid = document.querySelector("#faqSection .courses-grid")
-  if (faqGrid && t.faq) {
-    faqGrid.innerHTML = ""
-    t.faq.forEach(([titulo, desc]) => {
-      const card = document.createElement("div")
-      card.className = "course-card"
-      card.innerHTML = `<h2>${titulo}</h2><p>${desc}</p>`
-      faqGrid.appendChild(card)
+  // ── FAQ: reconstruir cards en /dudas ──
+  if (pagina === "dudas" && t.faq) {
+    const grid = document.querySelector(".courses-page .courses-grid")
+    if (grid) {
+      grid.innerHTML = ""
+      t.faq.forEach(([titulo, desc]) => {
+        const card = document.createElement("div")
+        card.className = "course-card"
+        card.innerHTML = `<h2>${titulo}</h2><p>${desc}</p>`
+        grid.appendChild(card)
+      })
+    }
+  }
+
+  // ── Botones FORZAR en /simulador-plc ──
+  if (pagina === "plc") {
+    document.querySelectorAll(".sidebar .btn").forEach(btn => {
+      const txt = btn.textContent.trim()
+      if (txt === "FORZAR" || txt === "FORCE") btn.textContent = t.simForzar
     })
   }
 
-  // Botones "FORZAR" en simulador
-  document.querySelectorAll("#simulatorSection .btn").forEach(btn => {
-    const txt = btn.textContent.trim()
-    if (txt === "FORZAR" || txt === "FORCE") btn.textContent = t.simForzar
-  })
+  // ── Tienda: botones "VER PRODUCTO" y filtros ──
+  if (pagina === "tienda") {
+    document.querySelectorAll(".store-btn").forEach(a => {
+      a.textContent = t.btnVerProducto
+    })
 
-  // Botones de store "VER PRODUCTO ↗"
-  document.querySelectorAll(".store-btn").forEach(a => {
-    a.textContent = t.btnVerProducto
-  })
+    // Etiqueta FILTRAR:
+    const filtrarEl = document.querySelector(".courses-page > div > span")
+    if (filtrarEl) filtrarEl.textContent = t.tiendaFiltrar
 
-  // Filtro tienda
-  const filtrarLabel = document.querySelector("#storeSection [style*='color:#94a3b8']")
-  if (filtrarLabel) filtrarLabel.textContent = t.tiendaFiltrar
+    // Botones de filtro (TODOS / SENSORES / etc.)
+    const filterMap = {
+      all:         t.tiendaTodos,
+      plc:         "PLC",
+      hmi:         "HMI",
+      sensor:      t.tiendaSensores,
+      cable:       t.tiendaCables,
+      fuente:      t.tiendaFuente,
+      luces:       t.tiendaLuces,
+      interruptor: t.tiendaInterruptor,
+      variador:    t.tiendaVariador,
+    }
+    document.querySelectorAll("[onclick^='filterStore']").forEach(btn => {
+      const match = btn.getAttribute("onclick").match(/'([^']+)'/)
+      if (match && filterMap[match[1]]) btn.textContent = filterMap[match[1]]
+    })
+  }
 
-  const storeFilterBtns = document.querySelectorAll("#storeSection [onclick^='filterStore']")
-  const filterKeys = ["tiendaTodos","plc","hmi","tiendaSensores","tiendaCables","tiendaFuente","tiendaLuces","tiendaInterruptor","tiendaVariador"]
-  const filterTexts = [t.tiendaTodos,"PLC","HMI",t.tiendaSensores,t.tiendaCables,t.tiendaFuente,t.tiendaLuces,t.tiendaInterruptor,t.tiendaVariador]
-  storeFilterBtns.forEach((btn, i) => { if (filterTexts[i]) btn.textContent = filterTexts[i] })
-
-  // Botón "Nueva pregunta"
-  const btnNueva = document.getElementById("btn-nueva-pregunta")
-  if (btnNueva) {
-    btnNueva.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg> ${t.comunidadNueva}`
+  // ── Comunidad: botón "Nueva pregunta" ──
+  if (pagina === "comunidad") {
+    const btnNueva = document.getElementById("btn-nueva-pregunta")
+    if (btnNueva) {
+      btnNueva.innerHTML = `<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg> ${t.comunidadNueva}`
+    }
   }
 
   // Actualiza <html lang="">
@@ -603,12 +673,11 @@ window.setLang = function(lang) {
 }
 
 // =========================================================
-//  INYECTAR BOTONES ES / EN EN EL HEADER
+//  INYECTAR SELECTOR ES / EN EN EL HEADER
 // =========================================================
 function insertLangSelector() {
   const status = document.querySelector(".top-status")
   if (!status) return
-
   const wrapper = document.createElement("div")
   wrapper.style.cssText = "display:flex;align-items:center;gap:6px;margin-right:10px;"
   wrapper.innerHTML = `
@@ -631,3 +700,14 @@ document.addEventListener("DOMContentLoaded", () => {
   insertLangSelector()
   setLang(langActual)
 })
+
+// =========================================================
+//  API PÚBLICA — útil para llamar desde otros scripts
+//  Ejemplo: aplica traducciones después de cargar contenido
+//  dinámico (comunidad, quiz, etc.)
+//    window.T        → objeto de traducciones
+//    window.setLang  → cambia idioma
+//    window.getLang  → devuelve idioma actual
+// =========================================================
+window.getLang  = () => langActual
+window.T        = T
