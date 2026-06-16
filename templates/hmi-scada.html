@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block title %}Curso HMI y SCADA Industrial Siemens — AULAPLC{% endblock %}
+{% block canonical %}/cursos/hmi-scada{% endblock %}
+{% block og_url %}/cursos/hmi-scada{% endblock %}
+{% block og_title %}Curso HMI SCADA Industrial — AULAPLC STUDIO X{% endblock %}
+{% block meta_description %}Aprende a diseñar pantallas HMI Siemens KTP y sistemas SCADA industriales con WinCC. 30 módulos con proyectos reales, videos y PDFs descargables.{% endblock %}
+
+{% block content %}
+<div class="courses-page">
+
+  <h1 class="courses-title">CURSO HMI + SCADA INDUSTRIAL</h1>
+  <p class="courses-subtitle">30 módulos de diseño HMI y supervisión SCADA con Siemens WinCC y TIA Portal.</p>
+
+  <!-- PROGRESO -->
+  <div class="course-card" style="background:#0b1220; border:1px solid #1e293b; padding:20px; margin-bottom:10px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        <div style="font-size:13px; color:#8ca3bf; margin-bottom:6px; font-family:Orbitron; letter-spacing:1px;">PROGRESO DEL CURSO</div>
+        <div style="font-size:28px; font-family:Orbitron; color:#00d4ff; font-weight:700;" id="progreso-texto">0 / 9 módulos</div>
+      </div>
+      <div style="flex:1; min-width:200px;">
+        <div style="background:#1e293b; border-radius:10px; height:10px; overflow:hidden;">
+          <div id="progreso-barra" style="height:100%; background:linear-gradient(90deg,#00d4ff,#a855f7); border-radius:10px; width:0%; transition:.4s;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="course-card" style="border:2px solid #00d4ff; background:linear-gradient(135deg,#0f172a,#111827);">
+    <h2 style="color:#00d4ff; margin-bottom:15px;">¿QUÉ APRENDERÁS EN ESTE CURSO?</h2>
+    <p style="line-height:1.8;">Desde crear tu primera pantalla HMI hasta supervisar una planta completa con SCADA. Usarás Siemens TIA Portal, WinCC y herramientas industriales reales.</p>
+    <div style="background:#0b1220; padding:15px; border-radius:12px; margin:15px 0; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div>✅ Pantallas HMI KTP700 y KTP900<br>✅ Animaciones y botones industriales<br>✅ Alarmas y registros de eventos<br>✅ Comunicación HMI-PLC Siemens</div>
+      <div>✅ SCADA con WinCC<br>✅ Tendencias y gráficas en tiempo real<br>✅ Usuarios y niveles de acceso<br>✅ Proyectos industriales reales</div>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 1 ── -->
+  <div class="course-card">
+    <h2>🖥️ MÓDULO 1 - INTRODUCCIÓN A HMI</h2>
+    <p>Qué es una interfaz HMI, tipos de pantallas Siemens (KTP, TP, MP), diferencias y cuándo usar cada una en entornos industriales.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_1" title="Módulo 1 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='pdfs/hmi_modulo1.pdf') }}" target="_blank"><button class="btn blue">📘 ABRIR PDF</button></a>
+      <button class="btn green" id="completado-hmi1" onclick="saveModuleProgress('hmi1',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 2 ── -->
+  <div class="course-card">
+    <h2>🎨 MÓDULO 2 - PRIMERA PANTALLA HMI</h2>
+    <p>Crea tu primera pantalla HMI en TIA Portal: fondo, textos, botones básicos y vinculación con variables del PLC.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_2" title="Módulo 2 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo2.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi2" onclick="saveModuleProgress('hmi2',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 3 ── -->
+  <div class="course-card">
+    <h2>🔘 MÓDULO 3 - BOTONES Y CONTROLES</h2>
+    <p>Botones de pulsación, interruptores, selectores, sliders y teclas de función en pantallas HMI Siemens. Configuración de acciones y eventos.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_3" title="Módulo 3 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo3.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi3" onclick="saveModuleProgress('hmi3',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 4 ── -->
+  <div class="course-card">
+    <h2>📺 MÓDULO 4 - VISUALIZACIÓN DE VARIABLES</h2>
+    <p>Campos de entrada/salida, indicadores numéricos, barras de progreso y displays para mostrar variables del PLC en tiempo real.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_4" title="Módulo 4 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo4.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi4" onclick="saveModuleProgress('hmi4',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 5 ── -->
+  <div class="course-card">
+    <h2>🎭 MÓDULO 5 - ANIMACIONES Y GRÁFICOS</h2>
+    <p>Objetos animados, colores dinámicos según el estado del proceso, imágenes vectoriales y gráficos industriales en pantallas HMI.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_5" title="Módulo 5 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo5.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi5" onclick="saveModuleProgress('hmi5',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 6 ── -->
+  <div class="course-card">
+    <h2>🔔 MÓDULO 6 - SISTEMA DE ALARMAS HMI</h2>
+    <p>Configuración de alarmas discretas y analógicas, listas de alarmas, registro histórico y notificaciones en pantallas Siemens.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_6" title="Módulo 6 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo6.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi6" onclick="saveModuleProgress('hmi6',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 7 ── -->
+  <div class="course-card">
+    <h2>👤 MÓDULO 7 - USUARIOS Y NIVELES DE ACCESO</h2>
+    <p>Gestión de usuarios, contraseñas, grupos de acceso y niveles de autorización en pantallas HMI industriales Siemens.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_7" title="Módulo 7 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo7.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi7" onclick="saveModuleProgress('hmi7',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 8 ── -->
+  <div class="course-card">
+    <h2>📡 MÓDULO 8 - COMUNICACIÓN HMI-PLC</h2>
+    <p>Configuración de conexión HMI con PLC Siemens por PROFINET, mapeo de variables, tags y actualización cíclica de datos.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_8" title="Módulo 8 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo8.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi8" onclick="saveModuleProgress('hmi8',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── MÓDULO 9 ── -->
+  <div class="course-card">
+    <h2>🏭 MÓDULO 9 - PROYECTO HMI INTEGRADOR</h2>
+    <p>Proyecto completo: panel de control HMI para una línea de producción con arranque/paro, monitoreo de variables y alarmas.</p>
+    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_9" title="Módulo 9 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="{{ url_for('static', filename='proyectos/hmi_modulo9.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+      <button class="btn blue" id="completado-hmi9" onclick="saveModuleProgress('hmi9',true)">COMPLETADO</button>
+    </div>
+  </div>
+
+  <!-- ── BANNER PREMIUM ── -->
+  <div class="course-card" style="border:2px solid #00d4ff; background:#0f1722;">
+    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+      <h2 style="margin:0;">⚡ DESBLOQUEA EL CURSO COMPLETO</h2>
+      <div style="background:linear-gradient(135deg,#00d4ff,#a855f7); color:#000; font-family:Orbitron; font-weight:900; font-size:22px; padding:8px 20px; border-radius:10px; letter-spacing:1px; white-space:nowrap;">
+        $ 1.990 CLP
+      </div>
+    </div>
+    <p style="color:#d1d5db; line-height:1.7; margin-top:14px;">
+      Accede a los 21 módulos SCADA avanzados (10 al 30) con una sola compra.
+    </p>
+    <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div style="background:#0b1220; padding:12px; border-radius:10px; border:1px solid #1e293b;"><div style="color:#00d4ff; font-weight:700; margin-bottom:4px;">🔒 MÓDULO 10</div><div style="color:#94a3b8; font-size:13px;">Introducción a SCADA WinCC</div></div>
+      <div style="background:#0b1220; padding:12px; border-radius:10px; border:1px solid #1e293b;"><div style="color:#00d4ff; font-weight:700; margin-bottom:4px;">🔒 MÓDULO 11</div><div style="color:#94a3b8; font-size:13px;">Tendencias y gráficas SCADA</div></div>
+      <div style="background:#0b1220; padding:12px; border-radius:10px; border:1px solid #1e293b;"><div style="color:#00d4ff; font-weight:700; margin-bottom:4px;">🔒 MÓDULO 12</div><div style="color:#94a3b8; font-size:13px;">Reportes y base de datos</div></div>
+      <div style="background:#0b1220; padding:12px; border-radius:10px; border:1px solid #1e293b;"><div style="color:#00d4ff; font-weight:700; margin-bottom:4px;">🔒 MÓDULO 13-30</div><div style="color:#94a3b8; font-size:13px;">+18 módulos SCADA avanzados</div></div>
+    </div>
+    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+      <button onclick="openPaymentFlow()" style="padding:16px 32px; background:linear-gradient(135deg,#00d4ff,#a855f7); color:#000; border:none; border-radius:12px; font-family:Orbitron; font-size:14px; font-weight:900; cursor:pointer; letter-spacing:1px; box-shadow:0 0 20px rgba(0,212,255,0.3);">
+        💳 ACTIVAR PREMIUM — $ 1.990 CLP
+      </button>
+      <span style="color:#94a3b8; font-size:13px;">Acceso inmediato tras confirmar el pago</span>
+    </div>
+    <p style="margin-top:14px; font-size:12px; color:#475569;">
+      ¿Ya pagaste? Cierra sesión y vuelve a entrar. Si el acceso no se activa escríbenos a
+      <a href="mailto:aulaplcsoporte@gmail.com" style="color:#00d4ff;">aulaplcsoporte@gmail.com</a>
+    </p>
+  </div>
+
+  <!-- ── MÓDULOS PREMIUM 10-30 ── -->
+  {% set modulos_premium = [
+    (10, "INTRODUCCIÓN A SCADA WINCC",       "Qué es SCADA, diferencias con HMI, arquitectura de sistemas de supervisión y primeros pasos en WinCC."),
+    (11, "TENDENCIAS Y GRÁFICAS EN TIEMPO REAL", "Configuración de gráficas de tendencias, históricos y visualización de datos de proceso en tiempo real."),
+    (12, "REPORTES Y BASE DE DATOS",          "Generación de reportes automáticos, exportación a Excel, base de datos SQL y registros históricos SCADA."),
+    (13, "RECETAS Y PARÁMETROS",              "Gestión de recetas industriales, cambio de parámetros de proceso y transferencia entre HMI y PLC."),
+    (14, "PANTALLAS MÚLTIPLES Y NAVEGACIÓN",  "Diseño de proyectos multi-pantalla, menús de navegación, ventanas emergentes y plantillas globales."),
+    (15, "SCADA EN RED INDUSTRIAL",           "Arquitectura cliente-servidor SCADA, múltiples estaciones, acceso remoto y redundancia de sistemas."),
+    (16, "OPC UA Y CONECTIVIDAD",             "Servidor OPC UA desde WinCC, conexión con sistemas MES, ERP y plataformas de Industria 4.0."),
+    (17, "ALARMAS AVANZADAS SCADA",           "Sistema de alarmas SCADA multinivel, grupos, prioridades, notificaciones por email y SMS."),
+    (18, "CONTROL DESDE SCADA",              "Envío de setpoints, comandos y recetas al PLC directamente desde el sistema SCADA WinCC."),
+    (19, "SEGURIDAD EN SISTEMAS SCADA",       "Ciberseguridad industrial, usuarios, roles, auditorías, firewall y protección de sistemas SCADA."),
+    (20, "SCADA EN LA NUBE",                 "Integración de SCADA con plataformas cloud: Azure IoT, AWS y dashboards remotos industriales."),
+    (21, "DASHBOARDS INDUSTRIALES",          "Diseño de dashboards ejecutivos con KPIs, OEE, disponibilidad y métricas de producción en tiempo real."),
+    (22, "PROYECTO PLANTA DE AGUA",          "SCADA completo para planta de tratamiento de agua: bombas, niveles, caudal, alarmas y reportes."),
+    (23, "PROYECTO LÍNEA DE EMBOTELLADO",    "Supervisión SCADA de línea de embotellado con conteo, clasificación, llenado y control de calidad."),
+    (24, "PROYECTO SUBESTACIÓN ELÉCTRICA",   "Monitoreo SCADA de subestación eléctrica: tensiones, corrientes, potencias y protecciones."),
+    (25, "PROYECTO HVAC INDUSTRIAL",         "Control y supervisión SCADA de sistemas de climatización industrial HVAC con sensores y actuadores."),
+    (26, "MANTENIMIENTO PREDICTIVO",         "Análisis de datos SCADA para mantenimiento predictivo: vibración, temperatura y alertas tempranas."),
+    (27, "INTEGRACIÓN CON MES Y ERP",        "Conexión del SCADA con sistemas MES y ERP para trazabilidad, órdenes de producción y calidad."),
+    (28, "VISUALIZACIÓN 3D Y DIGITAL TWIN",  "Gemelos digitales 3D integrados con SCADA para visualización avanzada de procesos industriales."),
+    (29, "MOBILE HMI Y ACCESO REMOTO",       "Acceso a sistemas HMI y SCADA desde smartphones y tablets con Siemens Sinema y aplicaciones móviles."),
+    (30, "PROYECTO FINAL CERTIFICADO",       "Proyecto integrador final: planta industrial completa con HMI, SCADA, alarmas, reportes y gemelo digital. Incluye certificado.")
+  ] %}
+
+  {% for num, titulo, desc in modulos_premium %}
+  <div class="course-card premium-module" data-requiere-premium="true"
+    style="position:relative; opacity:0.55; pointer-events:none; border:2px solid #ffb400;">
+    <div style="position:absolute; top:16px; right:16px; background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">PREMIUM</div>
+    <h2>🔒 MÓDULO {{ num }} - {{ titulo }}</h2>
+    <p>{{ desc }}</p>
+    <div style="margin-top:15px;">
+      <button class="btn yellow" style="opacity:0.6;">🔒 BLOQUEADO</button>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- VOLVER -->
+  <div style="margin-top:40px; display:flex; justify-content:center;">
+    <a href="/cursos"><button class="btn red">VOLVER A CURSOS</button></a>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const MODULOS_GRATIS = 9;
+function saveModuleProgress(modulo, completado){
+  try {
+    const data = JSON.parse(localStorage.getItem('aulaplc_hmi_progress') || '{}');
+    data[modulo] = completado;
+    localStorage.setItem('aulaplc_hmi_progress', JSON.stringify(data));
+    const btn = document.getElementById('completado-'+modulo);
+    if(btn){ btn.textContent='✅ COMPLETADO'; btn.style.background='#22c55e'; btn.disabled=true; }
+    actualizarProgreso();
+  } catch(e){ console.log(e); }
+}
+function actualizarProgreso(){
+  try {
+    const data = JSON.parse(localStorage.getItem('aulaplc_hmi_progress') || '{}');
+    let completados = 0;
+    for(let i=1; i<=MODULOS_GRATIS; i++){ if(data['hmi'+i]) completados++; }
+    const pct = Math.round((completados/MODULOS_GRATIS)*100);
+    document.getElementById('progreso-texto').textContent = completados+' / '+MODULOS_GRATIS+' módulos';
+    document.getElementById('progreso-barra').style.width = pct+'%';
+  } catch(e){}
+}
+window.addEventListener('load', ()=>{
+  try {
+    const data = JSON.parse(localStorage.getItem('aulaplc_hmi_progress') || '{}');
+    Object.keys(data).forEach(modulo=>{
+      if(data[modulo]){ const btn=document.getElementById('completado-'+modulo); if(btn){btn.textContent='✅ COMPLETADO';btn.style.background='#22c55e';btn.disabled=true;} }
+    });
+    actualizarProgreso();
+  } catch(e){}
+});
+</script>
+{% endblock %}
