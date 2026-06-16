@@ -22,6 +22,10 @@ def cursos():
 def tia_portal():
     return render_template("tia-portal.html")
 
+@app.route("/cursos/hmi-scada")
+def hmi_scada():
+    return render_template("hmi-scada.html")
+
 @app.route("/comunidad")
 def comunidad():
     return render_template("comunidad.html")
@@ -46,13 +50,14 @@ def tienda():
 @app.route("/sitemap.xml")
 def sitemap():
     pages = [
-        {"url": "/cursos",          "priority": "1.0", "changefreq": "weekly"},
-        {"url": "/simulador-plc",   "priority": "0.9", "changefreq": "weekly"},
-        {"url": "/simulador-vfd",   "priority": "0.9", "changefreq": "weekly"},
-        {"url": "/cursos/tia-portal","priority": "0.8", "changefreq": "monthly"},
-        {"url": "/comunidad",       "priority": "0.7", "changefreq": "daily"},
-        {"url": "/dudas",           "priority": "0.6", "changefreq": "weekly"},
-        {"url": "/tienda",          "priority": "0.6", "changefreq": "weekly"},
+        {"url": "/cursos",              "priority": "1.0", "changefreq": "weekly"},
+        {"url": "/simulador-plc",       "priority": "0.9", "changefreq": "weekly"},
+        {"url": "/simulador-vfd",       "priority": "0.9", "changefreq": "weekly"},
+        {"url": "/cursos/tia-portal",   "priority": "0.8", "changefreq": "monthly"},
+        {"url": "/cursos/hmi-scada",    "priority": "0.8", "changefreq": "monthly"},
+        {"url": "/comunidad",           "priority": "0.7", "changefreq": "daily"},
+        {"url": "/dudas",               "priority": "0.6", "changefreq": "weekly"},
+        {"url": "/tienda",              "priority": "0.6", "changefreq": "weekly"},
     ]
     today = datetime.utcnow().strftime("%Y-%m-%d")
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
