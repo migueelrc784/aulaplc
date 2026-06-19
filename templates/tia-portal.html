@@ -12,20 +12,6 @@
   <h1 class="courses-title">CURSO PLC SIEMENS TIA PORTAL</h1>
   <p class="courses-subtitle">30 módulos de automatización industrial con videos, PDFs y simulaciones reales.</p>
 
-  <!-- PROGRESO -->
-  <div style="background:#0b1220; border:1px solid #1e293b; border-radius:14px; padding:14px 20px; margin-bottom:10px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-    <div style="display:flex; align-items:center; gap:10px; white-space:nowrap;">
-      <span style="font-size:11px; color:#8ca3bf; font-family:Orbitron; letter-spacing:1px;">PROGRESO</span>
-      <span style="font-size:18px; font-family:Orbitron; color:#00ff99; font-weight:700;" id="progreso-texto">0 / 30</span>
-      <span style="font-size:11px; color:#475569; font-family:Orbitron;" id="progreso-pct">0%</span>
-    </div>
-    <div style="flex:1; min-width:140px;">
-      <div style="background:#1e293b; border-radius:6px; height:7px; overflow:hidden;">
-        <div id="progreso-barra" style="height:100%; background:linear-gradient(90deg,#00ff99,#00d4ff); border-radius:6px; width:0%; transition:.4s;"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- INSTALACIÓN -->
   <div class="course-card" style="border:2px solid #00e5ff; background:linear-gradient(135deg,#0f172a,#111827);">
     <h2 style="color:#00e5ff; margin-bottom:15px;">DESCARGAR TIA PORTAL</h2>
@@ -80,10 +66,22 @@
     }
     .premium-module .module-header{ cursor:not-allowed; }
     .premium-module .module-header:hover{ background:transparent; }
+
+    /* Módulo marcado como completado */
+    .module-card.completado{
+      border-color:#22c55e !important;
+      background:linear-gradient(135deg, rgba(34,197,94,0.10), rgba(15,23,42,0.5));
+      box-shadow:0 0 0 1px rgba(34,197,94,0.25) inset;
+    }
+    button.is-completado{
+      background:#14532d !important;
+      color:#86efac !important;
+      border:1px solid #22c55e !important;
+    }
   </style>
 
   <!-- ── MÓDULO 1 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo1">
     <div class="module-header" onclick="toggleModulo('modulo1')">
       <div class="module-title-wrap">
         <h2>MÓDULO 1 - INTRODUCCIÓN A PLC</h2>
@@ -101,13 +99,13 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" target="_blank"><button type="button" class="btn blue">ABRIR PDF</button></a>
         <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" download><button type="button" class="btn yellow">DESCARGAR PDF</button></a>
-        <button type="button" class="btn green" id="completado-modulo1" onclick="saveModuleProgress('modulo1',true)">COMPLETADO</button>
+        <button type="button" class="btn green" id="completado-modulo1" onclick="toggleModuloCompletado('modulo1')">MARCAR COMPLETADO</button>
       </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 2 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo2">
     <div class="module-header" onclick="toggleModulo('modulo2')">
       <div class="module-title-wrap">
         <h2>MÓDULO 2 - PROGRAMACIÓN LADDER</h2>
@@ -124,7 +122,7 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="{{ url_for('static', filename='pdfs/GUIA_LADDER.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 GUÍA LADDER PDF</button></a>
         <button type="button" class="btn green" onclick="mostrarQuiz()">⚡ INICIAR PRÁCTICA</button>
-        <button type="button" class="btn blue" id="completado-modulo2" onclick="saveModuleProgress('modulo2',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo2" onclick="toggleModuloCompletado('modulo2')">MARCAR COMPLETADO</button>
       </div>
       <div id="quiz-box" style="display:none; margin-top:30px; background:#0f172a; padding:25px; border-radius:15px; border:2px solid #22c55e;">
         <h2 style="margin-bottom:20px;">🧠 TEST DE PROGRAMACIÓN LADDER</h2>
@@ -137,7 +135,7 @@
   </div>
 
   <!-- ── MÓDULO 3 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo3">
     <div class="module-header" onclick="toggleModulo('modulo3')">
       <div class="module-title-wrap">
         <h2>⚡ MÓDULO 3 - ENTRADAS Y SALIDAS</h2>
@@ -155,13 +153,13 @@
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo3_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
         <a href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 3</button></a>
-        <button type="button" class="btn blue" id="completado-modulo3" onclick="saveModuleProgress('modulo3',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo3" onclick="toggleModuloCompletado('modulo3')">MARCAR COMPLETADO</button>
       </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 4 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo4">
     <div class="module-header" onclick="toggleModulo('modulo4')">
       <div class="module-title-wrap">
         <h2>⏱️ MÓDULO 4 - TEMPORIZADORES TON, TOF Y TP</h2>
@@ -179,7 +177,7 @@
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo4_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
         <a href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 4</button></a>
-        <button type="button" class="btn blue" id="completado-modulo4" onclick="saveModuleProgress('modulo4',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo4" onclick="toggleModuloCompletado('modulo4')">MARCAR COMPLETADO</button>
       </div>
       <div style="margin-top:20px; background:#111827; padding:25px; border-radius:15px;">
         <h3 style="margin-bottom:20px;">📝 Quiz - Temporizadores</h3>
@@ -208,7 +206,7 @@
   </div>
 
   <!-- ── MÓDULO 5 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo5">
     <div class="module-header" onclick="toggleModulo('modulo5')">
       <div class="module-title-wrap">
         <h2>🔢 MÓDULO 5 - CONTADORES CTU Y CTD</h2>
@@ -226,13 +224,13 @@
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo5_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
         <a href="{{ url_for('static', filename='pdfs/modulo5_contadores.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 5</button></a>
-        <button type="button" class="btn blue" id="completado-modulo5" onclick="saveModuleProgress('modulo5',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo5" onclick="toggleModuloCompletado('modulo5')">MARCAR COMPLETADO</button>
       </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 6 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo6">
     <div class="module-header" onclick="toggleModulo('modulo6')">
       <div class="module-title-wrap">
         <h2>🔄 MÓDULO 6 - MARCAS Y MEMORIAS</h2>
@@ -249,13 +247,13 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo6_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-        <button type="button" class="btn blue" id="completado-modulo6" onclick="saveModuleProgress('modulo6',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo6" onclick="toggleModuloCompletado('modulo6')">MARCAR COMPLETADO</button>
       </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 7 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo7">
     <div class="module-header" onclick="toggleModulo('modulo7')">
       <div class="module-title-wrap">
         <h2>➗ MÓDULO 7 - OPERACIONES MATEMÁTICAS</h2>
@@ -272,13 +270,13 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo7_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-        <button type="button" class="btn blue" id="completado-modulo7" onclick="saveModuleProgress('modulo7',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo7" onclick="toggleModuloCompletado('modulo7')">MARCAR COMPLETADO</button>
       </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 8 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo8">
     <div class="module-header" onclick="toggleModulo('modulo8')">
       <div class="module-title-wrap">
         <h2>📊 MÓDULO 8 - ANALOGICAS Y PID</h2>
@@ -295,13 +293,13 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo8_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-        <button type="button" class="btn blue" id="completado-modulo8" onclick="saveModuleProgress('modulo8',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo8" onclick="toggleModuloCompletado('modulo8')">MARCAR COMPLETADO</button>
       </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 9 ── -->
-  <div class="course-card module-card">
+  <div class="course-card module-card" id="card-modulo9">
     <div class="module-header" onclick="toggleModulo('modulo9')">
       <div class="module-title-wrap">
         <h2>🏭 MÓDULO 9 - PROYECTO INTEGRADOR BÁSICO</h2>
@@ -318,7 +316,7 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo9_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-        <button type="button" class="btn blue" id="completado-modulo9" onclick="saveModuleProgress('modulo9',true)">COMPLETADO</button>
+        <button type="button" class="btn blue" id="completado-modulo9" onclick="toggleModuloCompletado('modulo9')">MARCAR COMPLETADO</button>
       </div>
     </div>
   </div>
@@ -450,17 +448,11 @@ function checkQ1(c){ const r=document.getElementById("r1"); r.innerHTML=c?"✅ C
 function checkQ2(c){ const r=document.getElementById("r2"); r.innerHTML=c?"✅ Correcto. TOF retarda el apagado.":"❌ Incorrecto. TOF retrasa el apagado de la salida."; r.style.color=c?"#00ff88":"#ff4d4d"; }
 function checkQ3(c){ const r=document.getElementById("r3"); r.innerHTML=c?"✅ Correcto. TP genera un pulso temporizado.":"❌ Incorrecto. TP genera un pulso de duración fija."; r.style.color=c?"#00ff88":"#ff4d4d"; }
 
-/* ── Progreso (guardado en servidor vía API, con caché local de respaldo) ── */
-const TOTAL_MODULOS = 30;
+/* ── Progreso por módulo (guardado en servidor vía API, con caché local de respaldo) ── */
 const CURSO_ID = 'tia-portal';
 const PROGRESO_LOCAL_KEY = 'aulaplc_progress_' + CURSO_ID;
 const LEGACY_LOCAL_KEY = 'aulaplc_progress'; // clave usada antes de separar el progreso por curso
 const API_PROGRESO = '/api/progreso/' + CURSO_ID;
-
-function marcarBadgeCompletado(modulo){
-  const badge = document.getElementById('status-'+modulo);
-  if(badge){ badge.textContent='✅ COMPLETADO'; badge.classList.add('done'); }
-}
 
 function leerProgresoLocal(){
   let actual = {};
@@ -486,33 +478,33 @@ function guardarProgresoLocal(data){
   catch(e){ console.log(e); }
 }
 
-function aplicarProgresoAlDOM(data){
-  Object.keys(data).forEach(modulo=>{
-    if(data[modulo]){
-      const btn = document.getElementById('completado-'+modulo);
-      if(btn){ btn.textContent='✅ COMPLETADO'; btn.style.background='#22c55e'; btn.disabled=true; }
-      marcarBadgeCompletado(modulo);
-    }
-  });
-  actualizarBarraProgreso(data);
+/* Pinta el estado (completado / pendiente) de UN módulo: botón, badge del
+   header y el color de toda la tarjeta. */
+function aplicarEstadoModulo(modulo, completado){
+  const btn = document.getElementById('completado-'+modulo);
+  if(btn){
+    btn.classList.toggle('is-completado', completado);
+    btn.textContent = completado ? '✅ COMPLETADO (clic para quitar)' : 'MARCAR COMPLETADO';
+  }
+  const card = document.getElementById('card-'+modulo);
+  if(card){ card.classList.toggle('completado', completado); }
+  const badge = document.getElementById('status-'+modulo);
+  if(badge){
+    badge.textContent = completado ? '✅ COMPLETADO' : 'PENDIENTE';
+    badge.classList.toggle('done', completado);
+  }
 }
 
-function actualizarBarraProgreso(data){
-  let completados = 0;
-  for(let i=1; i<=TOTAL_MODULOS; i++){ if(data['modulo'+i]) completados++; }
-  const pct = Math.round((completados/TOTAL_MODULOS)*100);
-  document.getElementById('progreso-texto').textContent = completados+' / '+TOTAL_MODULOS;
-  document.getElementById('progreso-pct').textContent = pct+'%';
-  document.getElementById('progreso-barra').style.width = pct+'%';
+function aplicarProgresoCompleto(data){
+  Object.keys(data).forEach(modulo => aplicarEstadoModulo(modulo, !!data[modulo]));
 }
 
 /* Carga el progreso real del usuario desde el servidor al abrir la página.
    Si falla (sin sesión, sin conexión, endpoint no implementado aún) usa la copia local. */
 async function cargarProgresoInicial(){
-  // Primero pinta inmediatamente lo que ya haya guardado localmente,
-  // para que el usuario nunca vea un "0/30" falso mientras llega el servidor.
+  // Primero pinta inmediatamente lo que ya haya guardado localmente.
   const local = leerProgresoLocal();
-  aplicarProgresoAlDOM(local);
+  aplicarProgresoCompleto(local);
 
   try {
     const res = await fetch(API_PROGRESO, { credentials: 'same-origin' });
@@ -523,7 +515,7 @@ async function cargarProgresoInicial(){
         // Así, si el endpoint aún no existe o devuelve datos vacíos, nunca se borra el progreso ya guardado.
         const fusionado = Object.assign({}, local, data);
         guardarProgresoLocal(fusionado);
-        aplicarProgresoAlDOM(fusionado);
+        aplicarProgresoCompleto(fusionado);
       }
       return;
     }
@@ -533,24 +525,22 @@ async function cargarProgresoInicial(){
   }
 }
 
-/* Marca un módulo como completado: actualiza la UI al instante (optimista),
-   guarda copia local de respaldo, y envía el cambio al servidor. */
-async function saveModuleProgress(modulo, completado){
-  const btn = document.getElementById('completado-'+modulo);
-  if(btn){ btn.textContent='✅ COMPLETADO'; btn.style.background='#22c55e'; btn.disabled=true; }
-  marcarBadgeCompletado(modulo);
-
+/* Marca / desmarca un módulo como completado al hacer clic en su botón
+   (por si se apretó por error, se puede volver a apretar para quitarlo). */
+async function toggleModuloCompletado(modulo){
   const local = leerProgresoLocal();
-  local[modulo] = completado;
+  const nuevoEstado = !local[modulo];
+
+  local[modulo] = nuevoEstado;
   guardarProgresoLocal(local);
-  actualizarBarraProgreso(local);
+  aplicarEstadoModulo(modulo, nuevoEstado);
 
   try {
     const res = await fetch(API_PROGRESO, {
       method: 'POST',
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ modulo: modulo, completado: completado })
+      body: JSON.stringify({ modulo: modulo, completado: nuevoEstado })
     });
     if(!res.ok){
       console.warn('No se pudo guardar el progreso en el servidor (status '+res.status+'). Quedó guardado localmente y se reintentará en la próxima visita.');
@@ -562,4 +552,5 @@ async function saveModuleProgress(modulo, completado){
 
 window.addEventListener('load', cargarProgresoInicial);
 </script>
+
 {% endblock %}
