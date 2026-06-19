@@ -45,145 +45,281 @@
     </a>
   </div>
 
+  <!-- ════════════════ ESTILOS DEL ACORDEÓN ════════════════ -->
+  <style>
+    .module-card{ padding:0; overflow:hidden; }
+    .module-header{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      cursor:pointer; padding:22px; user-select:none;
+    }
+    .module-header:hover{ background:rgba(255,255,255,0.03); }
+    .module-title-wrap{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+    .module-title-wrap h2{ margin:0; }
+    .module-desc-preview{
+      font-size:13px; color:#94a3b8; font-weight:400; line-height:1.5;
+      overflow:hidden; text-overflow:ellipsis; display:-webkit-box;
+      -webkit-line-clamp:1; -webkit-box-orient:vertical;
+    }
+    .module-header-right{ display:flex; align-items:center; gap:12px; flex-shrink:0; }
+    .module-status-badge{
+      font-size:10px; padding:4px 10px; border-radius:6px; font-family:Orbitron,sans-serif;
+      letter-spacing:.5px; white-space:nowrap; background:#1e293b; color:#8ca3bf;
+    }
+    .module-status-badge.done{ background:#14532d; color:#22c55e; }
+    .module-chevron{
+      font-size:14px; color:#00e5ff; transition:transform .3s ease; flex-shrink:0;
+      display:inline-block;
+    }
+    .module-chevron.open{ transform:rotate(180deg); }
+    .module-body{
+      max-height:0; overflow:hidden; padding:0 22px; opacity:0;
+      transition:max-height .35s ease, opacity .25s ease, padding .35s ease;
+    }
+    .module-body.open{
+      max-height:4000px; padding:0 22px 22px 22px; opacity:1;
+    }
+    .premium-module .module-header{ cursor:not-allowed; }
+    .premium-module .module-header:hover{ background:transparent; }
+  </style>
+
   <!-- ── MÓDULO 1 ── -->
-  <div class="course-card">
-    <h2>MÓDULO 1 - INTRODUCCIÓN A PLC</h2>
-    <p>Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/LGsKXPOd9lo" title="Módulo 1" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <iframe src="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" width="100%" height="700" style="margin-top:20px; border:none; border-radius:12px; background:white;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" target="_blank"><button class="btn blue">ABRIR PDF</button></a>
-      <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" download><button class="btn yellow">DESCARGAR PDF</button></a>
-      <button class="btn green" id="completado-modulo1" onclick="saveModuleProgress('modulo1',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo1')">
+      <div class="module-title-wrap">
+        <h2>MÓDULO 1 - INTRODUCCIÓN A PLC</h2>
+        <span class="module-desc-preview">Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo1">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo1">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-modulo1">
+      <p>Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/LGsKXPOd9lo" title="Módulo 1" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <iframe src="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" width="100%" height="700" style="margin-top:20px; border:none; border-radius:12px; background:white;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" target="_blank"><button class="btn blue">ABRIR PDF</button></a>
+        <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" download><button class="btn yellow">DESCARGAR PDF</button></a>
+        <button class="btn green" id="completado-modulo1" onclick="saveModuleProgress('modulo1',true)">COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 2 ── -->
-  <div class="course-card">
-    <h2>MÓDULO 2 - PROGRAMACIÓN LADDER</h2>
-    <p>Aprende programación Ladder industrial desde cero: contactos NO/NC, bobinas, temporizadores TON, TOF, TP y enclavamientos.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/ZdQO5_X9pzA" title="Módulo 2" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='pdfs/GUIA_LADDER.pdf') }}" target="_blank"><button class="btn yellow">📘 GUÍA LADDER PDF</button></a>
-      <button class="btn green" onclick="mostrarQuiz()">⚡ INICIAR PRÁCTICA</button>
-      <button class="btn blue" id="completado-modulo2" onclick="saveModuleProgress('modulo2',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo2')">
+      <div class="module-title-wrap">
+        <h2>MÓDULO 2 - PROGRAMACIÓN LADDER</h2>
+        <span class="module-desc-preview">Programación Ladder industrial desde cero: contactos NO/NC, bobinas, temporizadores y enclavamientos.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo2">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo2">▼</span>
+      </div>
     </div>
-    <div id="quiz-box" style="display:none; margin-top:30px; background:#0f172a; padding:25px; border-radius:15px; border:2px solid #22c55e;">
-      <h2 style="margin-bottom:20px;">🧠 TEST DE PROGRAMACIÓN LADDER</h2>
-      <h3 id="pregunta"></h3>
-      <div id="opciones" style="display:flex; flex-direction:column; gap:12px; margin-top:20px;"></div>
-      <p id="resultado" style="margin-top:20px; font-weight:bold; font-size:18px;"></p>
-      <button class="btn yellow" onclick="siguientePregunta()" style="margin-top:20px;">➡ SIGUIENTE PREGUNTA</button>
+    <div class="module-body" id="body-modulo2">
+      <p>Aprende programación Ladder industrial desde cero: contactos NO/NC, bobinas, temporizadores TON, TOF, TP y enclavamientos.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/ZdQO5_X9pzA" title="Módulo 2" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='pdfs/GUIA_LADDER.pdf') }}" target="_blank"><button class="btn yellow">📘 GUÍA LADDER PDF</button></a>
+        <button class="btn green" onclick="mostrarQuiz()">⚡ INICIAR PRÁCTICA</button>
+        <button class="btn blue" id="completado-modulo2" onclick="saveModuleProgress('modulo2',true)">COMPLETADO</button>
+      </div>
+      <div id="quiz-box" style="display:none; margin-top:30px; background:#0f172a; padding:25px; border-radius:15px; border:2px solid #22c55e;">
+        <h2 style="margin-bottom:20px;">🧠 TEST DE PROGRAMACIÓN LADDER</h2>
+        <h3 id="pregunta"></h3>
+        <div id="opciones" style="display:flex; flex-direction:column; gap:12px; margin-top:20px;"></div>
+        <p id="resultado" style="margin-top:20px; font-weight:bold; font-size:18px;"></p>
+        <button class="btn yellow" onclick="siguientePregunta()" style="margin-top:20px;">➡ SIGUIENTE PREGUNTA</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 3 ── -->
-  <div class="course-card">
-    <h2>⚡ MÓDULO 3 - ENTRADAS Y SALIDAS</h2>
-    <p>Configuración de sensores industriales, entradas y salidas digitales, y simulación de PLC con TIA Portal y PLCSIM.</p>
-    <img src="{{ url_for('static', filename='img/plc.jpg') }}" style="width:100%; margin-top:15px; border-radius:16px; border:2px solid #1f2937;">
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
-      <a href="{{ url_for('static', filename='proyectos/modulo3_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <a href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}" target="_blank"><button class="btn yellow">📘 PDF MÓDULO 3</button></a>
-      <button class="btn blue" id="completado-modulo3" onclick="saveModuleProgress('modulo3',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo3')">
+      <div class="module-title-wrap">
+        <h2>⚡ MÓDULO 3 - ENTRADAS Y SALIDAS</h2>
+        <span class="module-desc-preview">Configuración de sensores industriales, entradas y salidas digitales, y simulación con PLCSIM.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo3">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo3">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-modulo3">
+      <p>Configuración de sensores industriales, entradas y salidas digitales, y simulación de PLC con TIA Portal y PLCSIM.</p>
+      <img src="{{ url_for('static', filename='img/plc.jpg') }}" style="width:100%; margin-top:15px; border-radius:16px; border:2px solid #1f2937;">
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
+        <a href="{{ url_for('static', filename='proyectos/modulo3_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <a href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}" target="_blank"><button class="btn yellow">📘 PDF MÓDULO 3</button></a>
+        <button class="btn blue" id="completado-modulo3" onclick="saveModuleProgress('modulo3',true)">COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 4 ── -->
-  <div class="course-card">
-    <h2>⏱️ MÓDULO 4 - TEMPORIZADORES TON, TOF Y TP</h2>
-    <p>Aprende a utilizar temporizadores industriales en sistemas PLC Siemens y procesos automatizados reales.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" title="Módulo 4" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
-      <a href="{{ url_for('static', filename='proyectos/modulo4_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <a href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}" target="_blank"><button class="btn yellow">📘 PDF MÓDULO 4</button></a>
-      <button class="btn blue" id="completado-modulo4" onclick="saveModuleProgress('modulo4',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo4')">
+      <div class="module-title-wrap">
+        <h2>⏱️ MÓDULO 4 - TEMPORIZADORES TON, TOF Y TP</h2>
+        <span class="module-desc-preview">Temporizadores industriales en sistemas PLC Siemens y procesos automatizados reales.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo4">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo4">▼</span>
+      </div>
     </div>
-    <div style="margin-top:20px; background:#111827; padding:25px; border-radius:15px;">
-      <h3 style="margin-bottom:20px;">📝 Quiz - Temporizadores</h3>
-      <div id="q1"><p><strong>1. ¿Qué hace un temporizador TON?</strong></p>
-        <button class="btn blue" onclick="checkQ1(false)">Activa una salida inmediatamente</button>
-        <button class="btn blue" onclick="checkQ1(true)">Genera un retardo al encendido</button>
-        <button class="btn blue" onclick="checkQ1(false)">Genera pulsos continuos</button>
-        <p id="r1" style="margin-top:10px; font-weight:bold;"></p>
+    <div class="module-body" id="body-modulo4">
+      <p>Aprende a utilizar temporizadores industriales en sistemas PLC Siemens y procesos automatizados reales.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_AQUI" title="Módulo 4" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
+        <a href="{{ url_for('static', filename='proyectos/modulo4_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <a href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}" target="_blank"><button class="btn yellow">📘 PDF MÓDULO 4</button></a>
+        <button class="btn blue" id="completado-modulo4" onclick="saveModuleProgress('modulo4',true)">COMPLETADO</button>
       </div>
-      <hr style="margin:20px 0; border-color:#1e293b;">
-      <div id="q2"><p><strong>2. ¿Qué hace un temporizador TOF?</strong></p>
-        <button class="btn blue" onclick="checkQ2(false)">Retarda el encendido</button>
-        <button class="btn blue" onclick="checkQ2(false)">Genera un pulso fijo</button>
-        <button class="btn blue" onclick="checkQ2(true)">Retarda el apagado</button>
-        <p id="r2" style="margin-top:10px; font-weight:bold;"></p>
-      </div>
-      <hr style="margin:20px 0; border-color:#1e293b;">
-      <div id="q3"><p><strong>3. ¿Qué hace un temporizador TP?</strong></p>
-        <button class="btn blue" onclick="checkQ3(true)">Genera un pulso de duración fija</button>
-        <button class="btn blue" onclick="checkQ3(false)">Retarda el apagado</button>
-        <button class="btn blue" onclick="checkQ3(false)">Mantiene una salida permanente</button>
-        <p id="r3" style="margin-top:10px; font-weight:bold;"></p>
+      <div style="margin-top:20px; background:#111827; padding:25px; border-radius:15px;">
+        <h3 style="margin-bottom:20px;">📝 Quiz - Temporizadores</h3>
+        <div id="q1"><p><strong>1. ¿Qué hace un temporizador TON?</strong></p>
+          <button class="btn blue" onclick="checkQ1(false)">Activa una salida inmediatamente</button>
+          <button class="btn blue" onclick="checkQ1(true)">Genera un retardo al encendido</button>
+          <button class="btn blue" onclick="checkQ1(false)">Genera pulsos continuos</button>
+          <p id="r1" style="margin-top:10px; font-weight:bold;"></p>
+        </div>
+        <hr style="margin:20px 0; border-color:#1e293b;">
+        <div id="q2"><p><strong>2. ¿Qué hace un temporizador TOF?</strong></p>
+          <button class="btn blue" onclick="checkQ2(false)">Retarda el encendido</button>
+          <button class="btn blue" onclick="checkQ2(false)">Genera un pulso fijo</button>
+          <button class="btn blue" onclick="checkQ2(true)">Retarda el apagado</button>
+          <p id="r2" style="margin-top:10px; font-weight:bold;"></p>
+        </div>
+        <hr style="margin:20px 0; border-color:#1e293b;">
+        <div id="q3"><p><strong>3. ¿Qué hace un temporizador TP?</strong></p>
+          <button class="btn blue" onclick="checkQ3(true)">Genera un pulso de duración fija</button>
+          <button class="btn blue" onclick="checkQ3(false)">Retarda el apagado</button>
+          <button class="btn blue" onclick="checkQ3(false)">Mantiene una salida permanente</button>
+          <p id="r3" style="margin-top:10px; font-weight:bold;"></p>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 5 ── -->
-  <div class="course-card">
-    <h2>🔢 MÓDULO 5 - CONTADORES CTU Y CTD</h2>
-    <p>Programación de contadores industriales CTU y CTD para conteo de piezas y automatización de producción.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO5" title="Módulo 5" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
-      <a href="{{ url_for('static', filename='proyectos/modulo5_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <a href="{{ url_for('static', filename='pdfs/modulo5_contadores.pdf') }}" target="_blank"><button class="btn yellow">📘 PDF MÓDULO 5</button></a>
-      <button class="btn blue" id="completado-modulo5" onclick="saveModuleProgress('modulo5',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo5')">
+      <div class="module-title-wrap">
+        <h2>🔢 MÓDULO 5 - CONTADORES CTU Y CTD</h2>
+        <span class="module-desc-preview">Contadores industriales CTU y CTD para conteo de piezas y automatización de producción.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo5">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo5">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-modulo5">
+      <p>Programación de contadores industriales CTU y CTD para conteo de piezas y automatización de producción.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO5" title="Módulo 5" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
+        <a href="{{ url_for('static', filename='proyectos/modulo5_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <a href="{{ url_for('static', filename='pdfs/modulo5_contadores.pdf') }}" target="_blank"><button class="btn yellow">📘 PDF MÓDULO 5</button></a>
+        <button class="btn blue" id="completado-modulo5" onclick="saveModuleProgress('modulo5',true)">COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 6 ── -->
-  <div class="course-card">
-    <h2>🔄 MÓDULO 6 - MARCAS Y MEMORIAS</h2>
-    <p>Uso de marcas internas (M), variables globales y memorias remanentes en PLC Siemens TIA Portal para lógica avanzada.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO6" title="Módulo 6" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
-      <a href="{{ url_for('static', filename='proyectos/modulo6_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-modulo6" onclick="saveModuleProgress('modulo6',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo6')">
+      <div class="module-title-wrap">
+        <h2>🔄 MÓDULO 6 - MARCAS Y MEMORIAS</h2>
+        <span class="module-desc-preview">Marcas internas (M), variables globales y memorias remanentes en PLC Siemens TIA Portal.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo6">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo6">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-modulo6">
+      <p>Uso de marcas internas (M), variables globales y memorias remanentes en PLC Siemens TIA Portal para lógica avanzada.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO6" title="Módulo 6" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
+        <a href="{{ url_for('static', filename='proyectos/modulo6_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button class="btn blue" id="completado-modulo6" onclick="saveModuleProgress('modulo6',true)">COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 7 ── -->
-  <div class="course-card">
-    <h2>➗ MÓDULO 7 - OPERACIONES MATEMÁTICAS</h2>
-    <p>Instrucciones matemáticas en Ladder: suma, resta, multiplicación, división y conversión de tipos de datos en TIA Portal.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO7" title="Módulo 7" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
-      <a href="{{ url_for('static', filename='proyectos/modulo7_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-modulo7" onclick="saveModuleProgress('modulo7',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo7')">
+      <div class="module-title-wrap">
+        <h2>➗ MÓDULO 7 - OPERACIONES MATEMÁTICAS</h2>
+        <span class="module-desc-preview">Suma, resta, multiplicación, división y conversión de tipos de datos en TIA Portal.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo7">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo7">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-modulo7">
+      <p>Instrucciones matemáticas en Ladder: suma, resta, multiplicación, división y conversión de tipos de datos en TIA Portal.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO7" title="Módulo 7" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
+        <a href="{{ url_for('static', filename='proyectos/modulo7_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button class="btn blue" id="completado-modulo7" onclick="saveModuleProgress('modulo7',true)">COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 8 ── -->
-  <div class="course-card">
-    <h2>📊 MÓDULO 8 - ANALOGICAS Y PID</h2>
-    <p>Lectura de señales analógicas 4-20mA y 0-10V, escalado de señales y control PID básico en PLC Siemens.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO8" title="Módulo 8" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
-      <a href="{{ url_for('static', filename='proyectos/modulo8_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-modulo8" onclick="saveModuleProgress('modulo8',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo8')">
+      <div class="module-title-wrap">
+        <h2>📊 MÓDULO 8 - ANALOGICAS Y PID</h2>
+        <span class="module-desc-preview">Señales analógicas 4-20mA y 0-10V, escalado de señales y control PID básico.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo8">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo8">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-modulo8">
+      <p>Lectura de señales analógicas 4-20mA y 0-10V, escalado de señales y control PID básico en PLC Siemens.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO8" title="Módulo 8" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
+        <a href="{{ url_for('static', filename='proyectos/modulo8_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button class="btn blue" id="completado-modulo8" onclick="saveModuleProgress('modulo8',true)">COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 9 ── -->
-  <div class="course-card">
-    <h2>🏭 MÓDULO 9 - PROYECTO INTEGRADOR BÁSICO</h2>
-    <p>Proyecto real integrador: control de cinta transportadora con sensores, motores, contadores y temporizadores en TIA Portal.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO9" title="Módulo 9" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
-      <a href="{{ url_for('static', filename='proyectos/modulo9_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-modulo9" onclick="saveModuleProgress('modulo9',true)">COMPLETADO</button>
+  <div class="course-card module-card">
+    <div class="module-header" onclick="toggleModulo('modulo9')">
+      <div class="module-title-wrap">
+        <h2>🏭 MÓDULO 9 - PROYECTO INTEGRADOR BÁSICO</h2>
+        <span class="module-desc-preview">Proyecto real: control de cinta transportadora con sensores, motores, contadores y temporizadores.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-modulo9">PENDIENTE</span>
+        <span class="module-chevron" id="chev-modulo9">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-modulo9">
+      <p>Proyecto real integrador: control de cinta transportadora con sensores, motores, contadores y temporizadores en TIA Portal.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO9" title="Módulo 9" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/simulador-plc"><button class="btn blue">🖥️ SIMULAR PLC</button></a>
+        <a href="{{ url_for('static', filename='proyectos/modulo9_tia_portal.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button class="btn blue" id="completado-modulo9" onclick="saveModuleProgress('modulo9',true)">COMPLETADO</button>
+      </div>
     </div>
   </div>
 
@@ -248,13 +384,17 @@
   ] %}
 
   {% for num, titulo, desc in modulos_premium %}
-  <div class="course-card premium-module" data-requiere-premium="true"
+  <div class="course-card module-card premium-module" data-requiere-premium="true"
     style="position:relative; opacity:0.55; pointer-events:none; border:2px solid #ffb400;">
     <div style="position:absolute; top:16px; right:16px; background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">PREMIUM</div>
-    <h2>🔒 MÓDULO {{ num }} - {{ titulo }}</h2>
-    <p>{{ desc }}</p>
-    <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn yellow" style="opacity:0.6;">🔒 BLOQUEADO</button>
+    <div class="module-header">
+      <div class="module-title-wrap">
+        <h2>🔒 MÓDULO {{ num }} - {{ titulo }}</h2>
+        <span class="module-desc-preview">{{ desc }}</span>
+      </div>
+      <div class="module-header-right">
+        <button class="btn yellow" style="opacity:0.6;">🔒 BLOQUEADO</button>
+      </div>
     </div>
   </div>
   {% endfor %}
@@ -269,6 +409,16 @@
 
 {% block extra_scripts %}
 <script>
+/* ── Acordeón de módulos ── */
+function toggleModulo(id){
+  const body = document.getElementById('body-'+id);
+  const chevron = document.getElementById('chev-'+id);
+  if(!body) return;
+  const willOpen = !body.classList.contains('open');
+  body.classList.toggle('open', willOpen);
+  if(chevron) chevron.classList.toggle('open', willOpen);
+}
+
 /* ── Quiz Módulo 2 ── */
 const preguntas = [
   { pregunta:"¿Qué hace un contacto normalmente abierto (NO)?", opciones:["Permite el paso lógico cuando se activa","Bloquea siempre la corriente","Apaga automáticamente el PLC"], correcta:0 },
@@ -302,6 +452,10 @@ function checkQ3(c){ const r=document.getElementById("r3"); r.innerHTML=c?"✅ C
 
 /* ── Progreso ── */
 const TOTAL_MODULOS = 30;
+function marcarBadgeCompletado(modulo){
+  const badge = document.getElementById('status-'+modulo);
+  if(badge){ badge.textContent='✅ COMPLETADO'; badge.classList.add('done'); }
+}
 function saveModuleProgress(modulo, completado){
   try {
     const data = JSON.parse(localStorage.getItem('aulaplc_progress') || '{}');
@@ -309,6 +463,7 @@ function saveModuleProgress(modulo, completado){
     localStorage.setItem('aulaplc_progress', JSON.stringify(data));
     const btn = document.getElementById('completado-'+modulo);
     if(btn){ btn.textContent='✅ COMPLETADO'; btn.style.background='#22c55e'; btn.disabled=true; }
+    marcarBadgeCompletado(modulo);
     actualizarProgreso();
   } catch(e){ console.log(e); }
 }
@@ -327,7 +482,11 @@ window.addEventListener('load', ()=>{
   try {
     const data = JSON.parse(localStorage.getItem('aulaplc_progress') || '{}');
     Object.keys(data).forEach(modulo=>{
-      if(data[modulo]){ const btn=document.getElementById('completado-'+modulo); if(btn){btn.textContent='✅ COMPLETADO';btn.style.background='#22c55e';btn.disabled=true;} }
+      if(data[modulo]){
+        const btn=document.getElementById('completado-'+modulo);
+        if(btn){btn.textContent='✅ COMPLETADO';btn.style.background='#22c55e';btn.disabled=true;}
+        marcarBadgeCompletado(modulo);
+      }
     });
     actualizarProgreso();
   } catch(e){}
