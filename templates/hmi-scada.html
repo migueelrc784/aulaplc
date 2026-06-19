@@ -12,20 +12,6 @@
   <h1 class="courses-title">CURSO HMI + SCADA INDUSTRIAL</h1>
   <p class="courses-subtitle">30 módulos de diseño HMI y supervisión SCADA con Siemens WinCC y TIA Portal.</p>
 
-  <!-- PROGRESO -->
-  <div style="background:#0b1220; border:1px solid #1e293b; border-radius:14px; padding:14px 20px; margin-bottom:10px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-    <div style="display:flex; align-items:center; gap:10px; white-space:nowrap;">
-      <span style="font-size:11px; color:#8ca3bf; font-family:Orbitron; letter-spacing:1px;">PROGRESO</span>
-      <span style="font-size:18px; font-family:Orbitron; color:#00d4ff; font-weight:700;" id="progreso-texto">0 / 30</span>
-      <span style="font-size:11px; color:#475569; font-family:Orbitron;" id="progreso-pct">0%</span>
-    </div>
-    <div style="flex:1; min-width:140px;">
-      <div style="background:#1e293b; border-radius:6px; height:7px; overflow:hidden;">
-        <div id="progreso-barra" style="height:100%; background:linear-gradient(90deg,#00d4ff,#a855f7); border-radius:6px; width:0%; transition:.4s;"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- INTRO -->
   <div class="course-card" style="border:2px solid #00d4ff; background:linear-gradient(135deg,#0f172a,#111827);">
     <h2 style="color:#00d4ff; margin-bottom:15px;">¿QUÉ APRENDERÁS EN ESTE CURSO?</h2>
@@ -36,102 +22,250 @@
     </div>
   </div>
 
+  <!-- ════════════════ ESTILOS DEL ACORDEÓN ════════════════ -->
+  <style>
+    .module-card{ padding:0; overflow:hidden; }
+    .module-header{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      cursor:pointer; padding:22px; user-select:none;
+    }
+    .module-header:hover{ background:rgba(255,255,255,0.03); }
+    .module-title-wrap{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+    .module-title-wrap h2{ margin:0; }
+    .module-desc-preview{
+      font-size:13px; color:#94a3b8; font-weight:400; line-height:1.5;
+      overflow:hidden; text-overflow:ellipsis; display:-webkit-box;
+      -webkit-line-clamp:1; -webkit-box-orient:vertical;
+    }
+    .module-header-right{ display:flex; align-items:center; gap:12px; flex-shrink:0; }
+    .module-status-badge{
+      font-size:10px; padding:4px 10px; border-radius:6px; font-family:Orbitron,sans-serif;
+      letter-spacing:.5px; white-space:nowrap; background:#1e293b; color:#8ca3bf;
+    }
+    .module-status-badge.done{ background:#14532d; color:#22c55e; }
+    .module-chevron{
+      font-size:14px; color:#00d4ff; transition:transform .3s ease; flex-shrink:0;
+      display:inline-block;
+    }
+    .module-chevron.open{ transform:rotate(180deg); }
+    .module-body{
+      max-height:0; overflow:hidden; padding:0 22px; opacity:0;
+      transition:max-height .35s ease, opacity .25s ease, padding .35s ease;
+    }
+    .module-body.open{
+      max-height:4000px; padding:0 22px 22px 22px; opacity:1;
+    }
+    .premium-module .module-header{ cursor:not-allowed; }
+    .premium-module .module-header:hover{ background:transparent; }
+
+    /* Módulo marcado como completado */
+    .module-card.completado{
+      border-color:#22c55e !important;
+      background:linear-gradient(135deg, rgba(34,197,94,0.10), rgba(15,23,42,0.5));
+      box-shadow:0 0 0 1px rgba(34,197,94,0.25) inset;
+    }
+    button.is-completado{
+      background:#14532d !important;
+      color:#86efac !important;
+      border:1px solid #22c55e !important;
+    }
+  </style>
+
   <!-- ── MÓDULO 1 ── -->
-  <div class="course-card">
-    <h2>🖥️ MÓDULO 1 - INTRODUCCIÓN A HMI</h2>
-    <p>Qué es una interfaz HMI, tipos de pantallas Siemens (KTP, TP, MP), diferencias y cuándo usar cada una en entornos industriales.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_1" title="Módulo 1 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='pdfs/hmi_modulo1.pdf') }}" target="_blank"><button class="btn blue">📘 ABRIR PDF</button></a>
-      <button class="btn green" id="completado-hmi1" onclick="saveModuleProgress('hmi1',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi1">
+    <div class="module-header" onclick="toggleModulo('hmi1')">
+      <div class="module-title-wrap">
+        <h2>🖥️ MÓDULO 1 - INTRODUCCIÓN A HMI</h2>
+        <span class="module-desc-preview">Qué es una interfaz HMI, tipos de pantallas Siemens (KTP, TP, MP) y cuándo usar cada una.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi1">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi1">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi1">
+      <p>Qué es una interfaz HMI, tipos de pantallas Siemens (KTP, TP, MP), diferencias y cuándo usar cada una en entornos industriales.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_1" title="Módulo 1 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='pdfs/hmi_modulo1.pdf') }}" target="_blank"><button type="button" class="btn blue">📘 ABRIR PDF</button></a>
+        <button type="button" class="btn green" id="completado-hmi1" onclick="toggleModuloCompletado('hmi1')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 2 ── -->
-  <div class="course-card">
-    <h2>🎨 MÓDULO 2 - PRIMERA PANTALLA HMI</h2>
-    <p>Crea tu primera pantalla HMI en TIA Portal: fondo, textos, botones básicos y vinculación con variables del PLC.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_2" title="Módulo 2 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo2.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi2" onclick="saveModuleProgress('hmi2',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi2">
+    <div class="module-header" onclick="toggleModulo('hmi2')">
+      <div class="module-title-wrap">
+        <h2>🎨 MÓDULO 2 - PRIMERA PANTALLA HMI</h2>
+        <span class="module-desc-preview">Crea tu primera pantalla HMI en TIA Portal: fondo, textos, botones y vinculación con el PLC.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi2">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi2">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi2">
+      <p>Crea tu primera pantalla HMI en TIA Portal: fondo, textos, botones básicos y vinculación con variables del PLC.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_2" title="Módulo 2 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo2.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi2" onclick="toggleModuloCompletado('hmi2')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 3 ── -->
-  <div class="course-card">
-    <h2>🔘 MÓDULO 3 - BOTONES Y CONTROLES</h2>
-    <p>Botones de pulsación, interruptores, selectores, sliders y teclas de función en pantallas HMI Siemens. Configuración de acciones y eventos.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_3" title="Módulo 3 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo3.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi3" onclick="saveModuleProgress('hmi3',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi3">
+    <div class="module-header" onclick="toggleModulo('hmi3')">
+      <div class="module-title-wrap">
+        <h2>🔘 MÓDULO 3 - BOTONES Y CONTROLES</h2>
+        <span class="module-desc-preview">Botones, interruptores, selectores, sliders y teclas de función en pantallas HMI Siemens.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi3">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi3">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi3">
+      <p>Botones de pulsación, interruptores, selectores, sliders y teclas de función en pantallas HMI Siemens. Configuración de acciones y eventos.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_3" title="Módulo 3 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo3.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi3" onclick="toggleModuloCompletado('hmi3')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 4 ── -->
-  <div class="course-card">
-    <h2>📺 MÓDULO 4 - VISUALIZACIÓN DE VARIABLES</h2>
-    <p>Campos de entrada/salida, indicadores numéricos, barras de progreso y displays para mostrar variables del PLC en tiempo real.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_4" title="Módulo 4 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo4.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi4" onclick="saveModuleProgress('hmi4',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi4">
+    <div class="module-header" onclick="toggleModulo('hmi4')">
+      <div class="module-title-wrap">
+        <h2>📺 MÓDULO 4 - VISUALIZACIÓN DE VARIABLES</h2>
+        <span class="module-desc-preview">Campos de entrada/salida, indicadores numéricos, barras de progreso y displays en tiempo real.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi4">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi4">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi4">
+      <p>Campos de entrada/salida, indicadores numéricos, barras de progreso y displays para mostrar variables del PLC en tiempo real.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_4" title="Módulo 4 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo4.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi4" onclick="toggleModuloCompletado('hmi4')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 5 ── -->
-  <div class="course-card">
-    <h2>🎭 MÓDULO 5 - ANIMACIONES Y GRÁFICOS</h2>
-    <p>Objetos animados, colores dinámicos según el estado del proceso, imágenes vectoriales y gráficos industriales en pantallas HMI.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_5" title="Módulo 5 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo5.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi5" onclick="saveModuleProgress('hmi5',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi5">
+    <div class="module-header" onclick="toggleModulo('hmi5')">
+      <div class="module-title-wrap">
+        <h2>🎭 MÓDULO 5 - ANIMACIONES Y GRÁFICOS</h2>
+        <span class="module-desc-preview">Objetos animados, colores dinámicos según el estado del proceso y gráficos industriales.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi5">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi5">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi5">
+      <p>Objetos animados, colores dinámicos según el estado del proceso, imágenes vectoriales y gráficos industriales en pantallas HMI.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_5" title="Módulo 5 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo5.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi5" onclick="toggleModuloCompletado('hmi5')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 6 ── -->
-  <div class="course-card">
-    <h2>🔔 MÓDULO 6 - SISTEMA DE ALARMAS HMI</h2>
-    <p>Configuración de alarmas discretas y analógicas, listas de alarmas, registro histórico y notificaciones en pantallas Siemens.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_6" title="Módulo 6 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo6.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi6" onclick="saveModuleProgress('hmi6',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi6">
+    <div class="module-header" onclick="toggleModulo('hmi6')">
+      <div class="module-title-wrap">
+        <h2>🔔 MÓDULO 6 - SISTEMA DE ALARMAS HMI</h2>
+        <span class="module-desc-preview">Alarmas discretas y analógicas, listas de alarmas, registro histórico y notificaciones.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi6">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi6">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi6">
+      <p>Configuración de alarmas discretas y analógicas, listas de alarmas, registro histórico y notificaciones en pantallas Siemens.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_6" title="Módulo 6 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo6.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi6" onclick="toggleModuloCompletado('hmi6')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 7 ── -->
-  <div class="course-card">
-    <h2>👤 MÓDULO 7 - USUARIOS Y NIVELES DE ACCESO</h2>
-    <p>Gestión de usuarios, contraseñas, grupos de acceso y niveles de autorización en pantallas HMI industriales Siemens.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_7" title="Módulo 7 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo7.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi7" onclick="saveModuleProgress('hmi7',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi7">
+    <div class="module-header" onclick="toggleModulo('hmi7')">
+      <div class="module-title-wrap">
+        <h2>👤 MÓDULO 7 - USUARIOS Y NIVELES DE ACCESO</h2>
+        <span class="module-desc-preview">Gestión de usuarios, contraseñas, grupos de acceso y niveles de autorización.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi7">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi7">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi7">
+      <p>Gestión de usuarios, contraseñas, grupos de acceso y niveles de autorización en pantallas HMI industriales Siemens.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_7" title="Módulo 7 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo7.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi7" onclick="toggleModuloCompletado('hmi7')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 8 ── -->
-  <div class="course-card">
-    <h2>📡 MÓDULO 8 - COMUNICACIÓN HMI-PLC</h2>
-    <p>Configuración de conexión HMI con PLC Siemens por PROFINET, mapeo de variables, tags y actualización cíclica de datos.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_8" title="Módulo 8 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo8.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi8" onclick="saveModuleProgress('hmi8',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi8">
+    <div class="module-header" onclick="toggleModulo('hmi8')">
+      <div class="module-title-wrap">
+        <h2>📡 MÓDULO 8 - COMUNICACIÓN HMI-PLC</h2>
+        <span class="module-desc-preview">Conexión HMI con PLC Siemens por PROFINET, mapeo de variables y actualización cíclica.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi8">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi8">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi8">
+      <p>Configuración de conexión HMI con PLC Siemens por PROFINET, mapeo de variables, tags y actualización cíclica de datos.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_8" title="Módulo 8 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo8.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi8" onclick="toggleModuloCompletado('hmi8')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
   <!-- ── MÓDULO 9 ── -->
-  <div class="course-card">
-    <h2>🏭 MÓDULO 9 - PROYECTO HMI INTEGRADOR</h2>
-    <p>Proyecto completo: panel de control HMI para una línea de producción con arranque/paro, monitoreo de variables y alarmas.</p>
-    <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_9" title="Módulo 9 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-    <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-      <a href="{{ url_for('static', filename='proyectos/hmi_modulo9.zip') }}" download><button class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-      <button class="btn blue" id="completado-hmi9" onclick="saveModuleProgress('hmi9',true)">COMPLETADO</button>
+  <div class="course-card module-card" id="card-hmi9">
+    <div class="module-header" onclick="toggleModulo('hmi9')">
+      <div class="module-title-wrap">
+        <h2>🏭 MÓDULO 9 - PROYECTO HMI INTEGRADOR</h2>
+        <span class="module-desc-preview">Proyecto completo: panel de control HMI con arranque/paro, monitoreo y alarmas.</span>
+      </div>
+      <div class="module-header-right">
+        <span class="module-status-badge" id="status-hmi9">PENDIENTE</span>
+        <span class="module-chevron" id="chev-hmi9">▼</span>
+      </div>
+    </div>
+    <div class="module-body" id="body-hmi9">
+      <p>Proyecto completo: panel de control HMI para una línea de producción con arranque/paro, monitoreo de variables y alarmas.</p>
+      <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_HMI_9" title="Módulo 9 HMI" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="{{ url_for('static', filename='proyectos/hmi_modulo9.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
+        <button type="button" class="btn blue" id="completado-hmi9" onclick="toggleModuloCompletado('hmi9')">MARCAR COMPLETADO</button>
+      </div>
     </div>
   </div>
 
@@ -153,7 +287,7 @@
       <div style="background:#0b1220; padding:12px; border-radius:10px; border:1px solid #1e293b;"><div style="color:#00d4ff; font-weight:700; margin-bottom:4px;">🔒 MÓDULO 13-30</div><div style="color:#94a3b8; font-size:13px;">+18 módulos SCADA avanzados</div></div>
     </div>
     <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-      <button onclick="openPaymentFlow()" style="padding:16px 32px; background:linear-gradient(135deg,#00d4ff,#a855f7); color:#000; border:none; border-radius:12px; font-family:Orbitron; font-size:14px; font-weight:900; cursor:pointer; letter-spacing:1px; box-shadow:0 0 20px rgba(0,212,255,0.3);">
+      <button type="button" onclick="openPaymentFlow()" style="padding:16px 32px; background:linear-gradient(135deg,#00d4ff,#a855f7); color:#000; border:none; border-radius:12px; font-family:Orbitron; font-size:14px; font-weight:900; cursor:pointer; letter-spacing:1px; box-shadow:0 0 20px rgba(0,212,255,0.3);">
         💳 ACTIVAR PREMIUM — $ 1.990 CLP
       </button>
       <span style="color:#94a3b8; font-size:13px;">Acceso inmediato tras confirmar el pago</span>
@@ -190,20 +324,24 @@
   ] %}
 
   {% for num, titulo, desc in modulos_premium %}
-  <div class="course-card premium-module" data-requiere-premium="true"
+  <div class="course-card module-card premium-module" data-requiere-premium="true"
     style="position:relative; opacity:0.55; pointer-events:none; border:2px solid #ffb400;">
     <div style="position:absolute; top:16px; right:16px; background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">PREMIUM</div>
-    <h2>🔒 MÓDULO {{ num }} - {{ titulo }}</h2>
-    <p>{{ desc }}</p>
-    <div style="margin-top:15px;">
-      <button class="btn yellow" style="opacity:0.6;">🔒 BLOQUEADO</button>
+    <div class="module-header">
+      <div class="module-title-wrap">
+        <h2>🔒 MÓDULO {{ num }} - {{ titulo }}</h2>
+        <span class="module-desc-preview">{{ desc }}</span>
+      </div>
+      <div class="module-header-right">
+        <button type="button" class="btn yellow" style="opacity:0.6;">🔒 BLOQUEADO</button>
+      </div>
     </div>
   </div>
   {% endfor %}
 
   <!-- VOLVER -->
   <div style="margin-top:40px; display:flex; justify-content:center;">
-    <a href="/cursos"><button class="btn red">VOLVER A CURSOS</button></a>
+    <a href="/cursos"><button type="button" class="btn red">VOLVER A CURSOS</button></a>
   </div>
 
 </div>
@@ -211,36 +349,117 @@
 
 {% block extra_scripts %}
 <script>
-const TOTAL_MODULOS = 30;
-function saveModuleProgress(modulo, completado){
-  try {
-    const data = JSON.parse(localStorage.getItem('aulaplc_hmi_progress') || '{}');
-    data[modulo] = completado;
-    localStorage.setItem('aulaplc_hmi_progress', JSON.stringify(data));
-    const btn = document.getElementById('completado-'+modulo);
-    if(btn){ btn.textContent='✅ COMPLETADO'; btn.style.background='#22c55e'; btn.disabled=true; }
-    actualizarProgreso();
-  } catch(e){ console.log(e); }
+/* ── Acordeón de módulos ── */
+function toggleModulo(id){
+  const body = document.getElementById('body-'+id);
+  const chevron = document.getElementById('chev-'+id);
+  if(!body) return;
+  const willOpen = !body.classList.contains('open');
+  body.classList.toggle('open', willOpen);
+  if(chevron) chevron.classList.toggle('open', willOpen);
 }
-function actualizarProgreso(){
-  try {
-    const data = JSON.parse(localStorage.getItem('aulaplc_hmi_progress') || '{}');
-    let completados = 0;
-    for(let i=1; i<=TOTAL_MODULOS; i++){ if(data['hmi'+i]) completados++; }
-    const pct = Math.round((completados/TOTAL_MODULOS)*100);
-    document.getElementById('progreso-texto').textContent = completados+' / '+TOTAL_MODULOS;
-    document.getElementById('progreso-pct').textContent = pct+'%';
-    document.getElementById('progreso-barra').style.width = pct+'%';
-  } catch(e){}
+
+/* ── Progreso por módulo (guardado en servidor vía API, con caché local de respaldo) ── */
+const CURSO_ID = 'hmi-scada';
+const PROGRESO_LOCAL_KEY = 'aulaplc_progress_' + CURSO_ID;
+const LEGACY_LOCAL_KEY = 'aulaplc_hmi_progress'; // clave usada antes de unificar el guardado de progreso
+const API_PROGRESO = '/api/progreso/' + CURSO_ID;
+
+function leerProgresoLocal(){
+  let actual = {};
+  try { actual = JSON.parse(localStorage.getItem(PROGRESO_LOCAL_KEY) || '{}'); }
+  catch(e){ actual = {}; }
+
+  // Migración: si hay progreso guardado bajo la clave antigua, lo fusionamos para no perderlo.
+  let legado = {};
+  try { legado = JSON.parse(localStorage.getItem(LEGACY_LOCAL_KEY) || '{}'); }
+  catch(e){ legado = {}; }
+
+  if(Object.keys(legado).length){
+    const fusionado = Object.assign({}, legado, actual);
+    try { localStorage.setItem(PROGRESO_LOCAL_KEY, JSON.stringify(fusionado)); } catch(e){}
+    return fusionado;
+  }
+  return actual;
 }
-window.addEventListener('load', ()=>{
+
+function guardarProgresoLocal(data){
+  try { localStorage.setItem(PROGRESO_LOCAL_KEY, JSON.stringify(data)); }
+  catch(e){ console.log(e); }
+}
+
+/* Pinta el estado (completado / pendiente) de UN módulo: botón, badge del
+   header y el color de toda la tarjeta. */
+function aplicarEstadoModulo(modulo, completado){
+  const btn = document.getElementById('completado-'+modulo);
+  if(btn){
+    btn.classList.toggle('is-completado', completado);
+    btn.textContent = completado ? '✅ COMPLETADO (clic para quitar)' : 'MARCAR COMPLETADO';
+  }
+  const card = document.getElementById('card-'+modulo);
+  if(card){ card.classList.toggle('completado', completado); }
+  const badge = document.getElementById('status-'+modulo);
+  if(badge){
+    badge.textContent = completado ? '✅ COMPLETADO' : 'PENDIENTE';
+    badge.classList.toggle('done', completado);
+  }
+}
+
+function aplicarProgresoCompleto(data){
+  Object.keys(data).forEach(modulo => aplicarEstadoModulo(modulo, !!data[modulo]));
+}
+
+/* Carga el progreso real del usuario desde el servidor al abrir la página.
+   Si falla (sin sesión, sin conexión, endpoint no implementado aún) usa la copia local. */
+async function cargarProgresoInicial(){
+  // Primero pinta inmediatamente lo que ya haya guardado localmente.
+  const local = leerProgresoLocal();
+  aplicarProgresoCompleto(local);
+
   try {
-    const data = JSON.parse(localStorage.getItem('aulaplc_hmi_progress') || '{}');
-    Object.keys(data).forEach(modulo=>{
-      if(data[modulo]){ const btn=document.getElementById('completado-'+modulo); if(btn){btn.textContent='✅ COMPLETADO';btn.style.background='#22c55e';btn.disabled=true;} }
+    const res = await fetch(API_PROGRESO, { credentials: 'same-origin' });
+    if(res.ok){
+      const data = await res.json();
+      if(data && typeof data === 'object'){
+        // Unión: un módulo queda completado si lo dice el servidor O si ya estaba marcado localmente.
+        // Así, si el endpoint aún no existe o devuelve datos vacíos, nunca se borra el progreso ya guardado.
+        const fusionado = Object.assign({}, local, data);
+        guardarProgresoLocal(fusionado);
+        aplicarProgresoCompleto(fusionado);
+      }
+      return;
+    }
+    console.warn('No se pudo obtener el progreso del servidor (status '+res.status+'). Se mantiene la copia local.');
+  } catch(e){
+    console.warn('Error de red al obtener el progreso del servidor. Se mantiene la copia local.', e);
+  }
+}
+
+/* Marca / desmarca un módulo como completado al hacer clic en su botón
+   (por si se apretó por error, se puede volver a apretar para quitarlo). */
+async function toggleModuloCompletado(modulo){
+  const local = leerProgresoLocal();
+  const nuevoEstado = !local[modulo];
+
+  local[modulo] = nuevoEstado;
+  guardarProgresoLocal(local);
+  aplicarEstadoModulo(modulo, nuevoEstado);
+
+  try {
+    const res = await fetch(API_PROGRESO, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ modulo: modulo, completado: nuevoEstado })
     });
-    actualizarProgreso();
-  } catch(e){}
-});
+    if(!res.ok){
+      console.warn('No se pudo guardar el progreso en el servidor (status '+res.status+'). Quedó guardado localmente y se reintentará en la próxima visita.');
+    }
+  } catch(e){
+    console.warn('Error de red al guardar el progreso en el servidor. Quedó guardado localmente.', e);
+  }
+}
+
+window.addEventListener('load', cargarProgresoInicial);
 </script>
 {% endblock %}
