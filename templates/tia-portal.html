@@ -454,6 +454,7 @@ function checkQ3(c){ const r=document.getElementById("r3"); r.innerHTML=c?"✅ C
 const TOTAL_MODULOS = 30;
 const CURSO_ID = 'tia-portal';
 const PROGRESO_LOCAL_KEY = 'aulaplc_progress_' + CURSO_ID;
+const LEGACY_LOCAL_KEY = 'aulaplc_progress'; // clave usada antes de separar el progreso por curso
 const API_PROGRESO = '/api/progreso/' + CURSO_ID;
 
 function marcarBadgeCompletado(modulo){
@@ -462,8 +463,22 @@ function marcarBadgeCompletado(modulo){
 }
 
 function leerProgresoLocal(){
-  try { return JSON.parse(localStorage.getItem(PROGRESO_LOCAL_KEY) || '{}'); }
-  catch(e){ return {}; }
+  let actual = {};
+  try { actual = JSON.parse(localStorage.getItem(PROGRESO_LOCAL_KEY) || '{}'); }
+  catch(e){ actual = {}; }
+
+  // Migración: si hay progreso guardado bajo la clave antigua (de antes de
+  // separar el progreso por curso), lo fusionamos para no perderlo.
+  let legado = {};
+  try { legado = JSON.parse(localStorage.getItem(LEGACY_LOCAL_KEY) || '{}'); }
+  catch(e){ legado = {}; }
+
+  if(Object.keys(legado).length){
+    const fusionado = Object.assign({}, legado, actual);
+    try { localStorage.setItem(PROGRESO_LOCAL_KEY, JSON.stringify(fusionado)); } catch(e){}
+    return fusionado;
+  }
+  return actual;
 }
 
 function guardarProgresoLocal(data){
