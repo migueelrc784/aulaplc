@@ -1,0 +1,801 @@
+{% extends "base.html" %}
+
+{% block title %}Casino — AULAPLC{% endblock %}
+{% block canonical %}/casino{% endblock %}
+{% block meta_description %}Casino de práctica AulaPLC. Juega tragamonedas gratis con créditos virtuales. Sin dinero real.{% endblock %}
+{% block og_title %}Casino AulaPLC — Tragamonedas Gratis{% endblock %}
+{% block og_url %}/casino{% endblock %}
+
+{% block extra_head %}
+<style>
+
+/* ══════════════════════════════════════════
+   CASINO PAGE
+══════════════════════════════════════════ */
+
+.casino-page {
+  min-height: 100vh;
+  background: #06090f;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,180,0,0.08), transparent),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(255,60,60,0.05), transparent);
+  padding: 30px 20px 60px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── HEADER CASINO ── */
+.casino-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.casino-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #f5c518;
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(245,197,24,0.4);
+  margin-bottom: 6px;
+}
+
+.casino-subtitle {
+  color: #4a5568;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── CRÉDITOS ── */
+.credits-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.credits-box {
+  background: linear-gradient(135deg, #1a1400, #0d0b00);
+  border: 1px solid #f5c51840;
+  border-radius: 14px;
+  padding: 14px 28px;
+  text-align: center;
+  min-width: 160px;
+}
+
+.credits-label {
+  font-size: 10px;
+  color: #6b7280;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.credits-amount {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #f5c518;
+}
+
+.credits-amount span {
+  font-size: 14px;
+  color: #78716c;
+}
+
+.refill-info {
+  font-size: 11px;
+  color: #4a5568;
+  margin-top: 4px;
+}
+
+.refill-timer {
+  color: #f5c518;
+  font-weight: 700;
+}
+
+/* ── MÁQUINA ── */
+.slot-machine {
+  max-width: 520px;
+  margin: 0 auto 32px;
+  background: linear-gradient(160deg, #111018, #0c0b12);
+  border: 1px solid #2a2040;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow:
+    0 0 60px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* Reels */
+.reels-container {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  justify-content: center;
+}
+
+.reel-window {
+  flex: 1;
+  height: 130px;
+  background: #06060a;
+  border: 2px solid #1e1b2e;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 4px 20px rgba(0,0,0,0.8);
+}
+
+.reel-window::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to bottom, #06060a, transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.reel-window::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to top, #06060a, transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.reel-strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.08s linear;
+  will-change: transform;
+}
+
+.reel-symbol {
+  height: 130px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 54px;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Línea de pago */
+.payline {
+  position: absolute;
+  top: 50%;
+  left: -8px; right: -8px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #f5c518, transparent);
+  transform: translateY(-50%);
+  z-index: 3;
+  opacity: 0.6;
+}
+
+/* ── APUESTA ── */
+.bet-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.bet-label {
+  font-size: 11px;
+  color: #6b7280;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.bet-btn {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid #2a2040;
+  background: #12101c;
+  color: #a78bfa;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: .15s;
+}
+
+.bet-btn:hover { background: #1e1a30; border-color: #a78bfa; }
+
+.bet-amount {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f5c518;
+  min-width: 60px;
+  text-align: center;
+}
+
+.bet-presets {
+  display: flex;
+  gap: 6px;
+}
+
+.bet-preset {
+  padding: 6px 10px;
+  border-radius: 7px;
+  border: 1px solid #2a2040;
+  background: #12101c;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.bet-preset:hover, .bet-preset.active {
+  border-color: #f5c518;
+  color: #f5c518;
+  background: #1a1400;
+}
+
+/* ── SPIN BTN ── */
+.spin-btn {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f5c518, #f59e0b);
+  color: #000;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: .2s;
+  box-shadow: 0 4px 20px rgba(245,197,24,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.spin-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(245,197,24,0.45);
+}
+
+.spin-btn:active:not(:disabled) { transform: scale(0.98); }
+
+.spin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spin-btn.spinning {
+  background: linear-gradient(135deg, #374151, #1f2937);
+  color: #9ca3af;
+  box-shadow: none;
+}
+
+/* ── RESULTADO ── */
+.result-box {
+  text-align: center;
+  min-height: 44px;
+  margin-top: 18px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  transition: .3s;
+}
+
+.result-win  { color: #22c55e; text-shadow: 0 0 20px rgba(34,197,94,0.5); }
+.result-big  { color: #f5c518; text-shadow: 0 0 30px rgba(245,197,24,0.7); font-size: 24px; }
+.result-loss { color: #374151; }
+.result-jackpot {
+  color: #f5c518;
+  font-size: 28px;
+  animation: jackpot-pulse 0.5s ease-in-out infinite alternate;
+}
+@keyframes jackpot-pulse {
+  from { text-shadow: 0 0 20px rgba(245,197,24,0.6); }
+  to   { text-shadow: 0 0 50px rgba(245,197,24,1), 0 0 80px rgba(255,100,0,0.5); }
+}
+
+/* ── TABLA DE PAGOS ── */
+.paytable {
+  max-width: 520px;
+  margin: 0 auto 28px;
+  background: #0c0b12;
+  border: 1px solid #1e1b2e;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.paytable-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: #6b7280;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.paytable-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.pay-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #12101c;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.pay-symbols { font-size: 18px; letter-spacing: 2px; }
+.pay-mult {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f5c518;
+}
+
+/* ── HISTORIAL ── */
+.history-bar {
+  max-width: 520px;
+  margin: 0 auto 28px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.history-chip {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  transition: .2s;
+}
+
+.chip-win  { background: rgba(34,197,94,0.1);  border-color: rgba(34,197,94,0.3);  color: #22c55e; }
+.chip-loss { background: rgba(55,65,81,0.3);   border-color: rgba(55,65,81,0.4);   color: #4b5563; }
+.chip-big  { background: rgba(245,197,24,0.1); border-color: rgba(245,197,24,0.3); color: #f5c518; }
+
+/* ── DISCLAIMER ── */
+.disclaimer {
+  max-width: 520px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 11px;
+  color: #374151;
+  line-height: 1.6;
+  padding: 0 20px;
+}
+
+/* ── WIN FLASH ── */
+@keyframes win-flash {
+  0%,100% { box-shadow: inset 0 4px 20px rgba(0,0,0,0.8); }
+  50%      { box-shadow: inset 0 4px 20px rgba(0,0,0,0.8), 0 0 30px rgba(34,197,94,0.4); }
+}
+
+.reel-window.winning { animation: win-flash 0.4s ease-in-out 3; }
+
+/* ── JACKPOT FLASH ── */
+@keyframes jackpot-bg {
+  0%,100% { background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,180,0,0.08), transparent); }
+  50%     { background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,180,0,0.25), transparent); }
+}
+.casino-page.jackpot-anim { animation: jackpot-bg 0.4s ease-in-out 5; }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="casino-page" id="casinoPage">
+
+  <!-- HEADER -->
+  <div class="casino-header">
+    <div class="casino-title">🎰 CASINO AULAPLC</div>
+    <div class="casino-subtitle">Solo práctica · Créditos virtuales gratuitos</div>
+  </div>
+
+  <!-- CRÉDITOS -->
+  <div class="credits-bar">
+    <div class="credits-box">
+      <div class="credits-label">Tus créditos</div>
+      <div class="credits-amount" id="creditsDisplay">1000 <span>CR</span></div>
+      <div class="refill-info">Recarga en <span class="refill-timer" id="refillTimer">--:--</span></div>
+    </div>
+    <div class="credits-box">
+      <div class="credits-label">Ganancia sesión</div>
+      <div class="credits-amount" id="sessionWin" style="color:#22c55e">+0 <span>CR</span></div>
+    </div>
+    <div class="credits-box">
+      <div class="credits-label">Spins hoy</div>
+      <div class="credits-amount" id="spinsToday" style="color:#a78bfa">0</div>
+    </div>
+  </div>
+
+  <!-- MÁQUINA TRAGAMONEDAS -->
+  <div class="slot-machine">
+
+    <!-- REELS -->
+    <div class="reels-container" id="reelsContainer">
+
+      <div class="reel-window" id="reel0">
+        <div class="payline"></div>
+        <div class="reel-strip" id="strip0"></div>
+      </div>
+
+      <div class="reel-window" id="reel1">
+        <div class="payline"></div>
+        <div class="reel-strip" id="strip1"></div>
+      </div>
+
+      <div class="reel-window" id="reel2">
+        <div class="payline"></div>
+        <div class="reel-strip" id="strip2"></div>
+      </div>
+
+    </div>
+
+    <!-- APUESTA -->
+    <div class="bet-row">
+      <span class="bet-label">Apuesta</span>
+      <button class="bet-btn" onclick="changeBet(-10)">−</button>
+      <div class="bet-amount" id="betDisplay">10</div>
+      <button class="bet-btn" onclick="changeBet(10)">+</button>
+      <div class="bet-presets">
+        <button class="bet-preset" onclick="setBet(10)">10</button>
+        <button class="bet-preset" onclick="setBet(50)">50</button>
+        <button class="bet-preset" onclick="setBet(100)">100</button>
+        <button class="bet-preset" onclick="setBet(250)">250</button>
+      </div>
+    </div>
+
+    <!-- SPIN -->
+    <button class="spin-btn" id="spinBtn" onclick="spin()">
+      ▶ GIRAR
+    </button>
+
+    <!-- RESULTADO -->
+    <div class="result-box" id="resultBox"></div>
+
+  </div>
+
+  <!-- TABLA DE PAGOS -->
+  <div class="paytable">
+    <div class="paytable-title">Tabla de premios · Multiplica tu apuesta</div>
+    <div class="paytable-grid">
+      <div class="pay-row"><span class="pay-symbols">🔧🔧🔧</span><span class="pay-mult">×2</span></div>
+      <div class="pay-row"><span class="pay-symbols">⚡⚡⚡</span><span class="pay-mult">×3</span></div>
+      <div class="pay-row"><span class="pay-symbols">🖥️🖥️🖥️</span><span class="pay-mult">×4</span></div>
+      <div class="pay-row"><span class="pay-symbols">📡📡📡</span><span class="pay-mult">×5</span></div>
+      <div class="pay-row"><span class="pay-symbols">🤖🤖🤖</span><span class="pay-mult">×8</span></div>
+      <div class="pay-row"><span class="pay-symbols">🏭🏭🏭</span><span class="pay-mult">×12</span></div>
+      <div class="pay-row"><span class="pay-symbols">🎰🎰🎰</span><span class="pay-mult">×25</span></div>
+      <div class="pay-row"><span class="pay-symbols">⭐⭐⭐</span><span class="pay-mult">×50 JACKPOT</span></div>
+    </div>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="history-bar" id="historyBar">
+    <span style="font-size:11px;color:#374151;letter-spacing:1px;">ÚLTIMAS TIRADAS —</span>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    🎮 Solo entretenimiento · Sin dinero real · Los créditos son virtuales y no tienen valor monetario
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+/* ══════════════════════════════════════════
+   CASINO ENGINE
+══════════════════════════════════════════ */
+
+const SYMBOLS = ['🔧','⚡','🖥️','📡','🤖','🏭','🎰','⭐']
+const WEIGHTS  = [22,  18,  15,  13,  10,   8,   5,   4 ]  // probabilidades
+
+const PAYOUTS = {
+  '🔧': 2, '⚡': 3, '🖥️': 4, '📡': 5,
+  '🤖': 8, '🏭': 12, '🎰': 25, '⭐': 50
+}
+
+// Estado
+let credits     = 1000
+let bet         = 10
+let sessionWin  = 0
+let spinsToday  = 0
+let spinning    = false
+let history     = []
+let refillSec   = 0
+
+// Init desde localStorage
+function loadState() {
+  const saved = localStorage.getItem('casino_aulaplc')
+  if (saved) {
+    const s = JSON.parse(saved)
+    credits    = s.credits    ?? 1000
+    sessionWin = s.sessionWin ?? 0
+    spinsToday = s.spinsToday ?? 0
+    history    = s.history    ?? []
+    refillSec  = s.refillSec  ?? 0
+
+    // Si pasó el tiempo de recarga, recargamos
+    const now = Date.now()
+    if (s.nextRefill && now >= s.nextRefill) {
+      credits   = Math.max(credits, 1000)
+      refillSec = 0
+    } else if (s.nextRefill) {
+      refillSec = Math.ceil((s.nextRefill - Date.now()) / 1000)
+    }
+  }
+  updateUI()
+}
+
+function saveState() {
+  const nextRefill = refillSec > 0 ? Date.now() + refillSec * 1000 : null
+  localStorage.setItem('casino_aulaplc', JSON.stringify({
+    credits, sessionWin, spinsToday, history, refillSec, nextRefill
+  }))
+}
+
+// Dispensa de créditos si < 100
+function checkRefill() {
+  if (credits < 100 && refillSec <= 0) {
+    refillSec = 300 // 5 minutos
+    saveState()
+  }
+  if (credits < 100 && refillSec <= 0) {
+    credits   = 1000
+    refillSec = 0
+    updateUI()
+    saveState()
+  }
+}
+
+// Timer de recarga
+setInterval(() => {
+  if (refillSec > 0) {
+    refillSec--
+    if (refillSec <= 0) {
+      credits   = 1000
+      refillSec = 0
+      document.getElementById('resultBox').innerHTML =
+        '<span class="result-win">🎁 ¡Recarga completada! +1000 créditos</span>'
+      saveState()
+    }
+    updateTimer()
+    updateUI()
+  }
+}, 1000)
+
+function updateTimer() {
+  const el = document.getElementById('refillTimer')
+  if (refillSec > 0) {
+    const m = String(Math.floor(refillSec / 60)).padStart(2,'0')
+    const s = String(refillSec % 60).padStart(2,'0')
+    el.textContent = `${m}:${s}`
+  } else {
+    el.textContent = 'OK'
+  }
+}
+
+// ── RULETA DE SÍMBOLO ──
+function weightedRandom() {
+  const total = WEIGHTS.reduce((a,b) => a+b, 0)
+  let r = Math.random() * total
+  for (let i = 0; i < SYMBOLS.length; i++) {
+    r -= WEIGHTS[i]
+    if (r <= 0) return SYMBOLS[i]
+  }
+  return SYMBOLS[0]
+}
+
+// ── CONSTRUIR REELS ──
+function buildReels() {
+  for (let r = 0; r < 3; r++) {
+    const strip = document.getElementById(`strip${r}`)
+    strip.innerHTML = ''
+    // 20 símbolos por reel
+    for (let i = 0; i < 20; i++) {
+      const sym = document.createElement('div')
+      sym.className = 'reel-symbol'
+      sym.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]
+      strip.appendChild(sym)
+    }
+  }
+}
+
+// ── SPIN ──
+async function spin() {
+  if (spinning) return
+  if (credits < bet) {
+    document.getElementById('resultBox').innerHTML =
+      '<span class="result-loss">Sin créditos suficientes</span>'
+    checkRefill()
+    return
+  }
+
+  spinning = true
+  credits -= bet
+  spinsToday++
+  updateUI()
+  setSpinBtn(true)
+  document.getElementById('resultBox').innerHTML = ''
+
+  // Quitar clases winning
+  for (let i = 0; i < 3; i++) {
+    document.getElementById(`reel${i}`).classList.remove('winning')
+  }
+
+  // Resultado final decidido antes de animar
+  const result = [weightedRandom(), weightedRandom(), weightedRandom()]
+
+  // Animar cada reel con delay escalonado
+  const spinPromises = result.map((sym, i) => animateReel(i, sym, 600 + i * 300))
+  await Promise.all(spinPromises)
+
+  // Calcular premio
+  let won = 0
+  let resultClass = 'result-loss'
+  let resultText  = '— Sin premio —'
+
+  if (result[0] === result[1] && result[1] === result[2]) {
+    const mult = PAYOUTS[result[0]]
+    won = bet * mult
+    if (mult >= 50) {
+      resultClass = 'result-jackpot'
+      resultText  = `⭐ JACKPOT ⭐ +${won} CR`
+      document.getElementById('casinoPage').classList.add('jackpot-anim')
+      setTimeout(() => document.getElementById('casinoPage').classList.remove('jackpot-anim'), 2500)
+    } else if (mult >= 10) {
+      resultClass = 'result-big'
+      resultText  = `🎉 GRAN PREMIO × ${mult} → +${won} CR`
+    } else {
+      resultClass = 'result-win'
+      resultText  = `✅ Premio × ${mult} → +${won} CR`
+    }
+    // Flash reels
+    for (let i = 0; i < 3; i++) {
+      document.getElementById(`reel${i}`).classList.add('winning')
+    }
+  } else if (result[0] === result[1] || result[1] === result[2] || result[0] === result[2]) {
+    // Par: devuelve la mitad
+    won = Math.floor(bet * 0.5)
+    resultClass = 'result-win'
+    resultText  = `🔶 Par → +${won} CR`
+  }
+
+  if (won > 0) {
+    credits    += won
+    sessionWin += won - bet
+  } else {
+    sessionWin -= bet
+  }
+
+  document.getElementById('resultBox').innerHTML =
+    `<span class="${resultClass}">${resultText}</span>`
+
+  // Historial
+  addHistory(won > 0 ? (won >= bet * 8 ? 'big' : 'win') : 'loss', won - bet)
+
+  updateUI()
+  checkRefill()
+  saveState()
+  spinning = false
+  setSpinBtn(false)
+}
+
+// ── ANIMAR REEL ──
+function animateReel(reelIndex, finalSymbol, duration) {
+  return new Promise(resolve => {
+    const strip = document.getElementById(`strip${reelIndex}`)
+    const symbolHeight = 130
+    const totalSymbols = strip.children.length
+
+    let frame = 0
+    const totalFrames = Math.floor(duration / 16)
+    let currentOffset = 0
+
+    // Poner el símbolo final en posición visible (índice 10)
+    strip.children[10].textContent = finalSymbol
+
+    const animate = () => {
+      frame++
+      // Velocidad que va desacelerando
+      const progress = frame / totalFrames
+      const speed = Math.max(1, 20 * (1 - Math.pow(progress, 0.6)))
+      currentOffset = (currentOffset + speed) % (totalSymbols * symbolHeight)
+
+      strip.style.transform = `translateY(${-currentOffset}px)`
+
+      if (frame < totalFrames) {
+        requestAnimationFrame(animate)
+      } else {
+        // Alinear al símbolo final
+        strip.style.transition = 'transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        strip.style.transform  = `translateY(${-10 * symbolHeight}px)`
+        setTimeout(() => {
+          strip.style.transition = ''
+          resolve()
+        }, 160)
+      }
+    }
+
+    requestAnimationFrame(animate)
+  })
+}
+
+// ── CONTROLES ──
+function changeBet(delta) {
+  bet = Math.max(10, Math.min(credits, bet + delta))
+  updateUI()
+}
+
+function setBet(amount) {
+  bet = Math.max(10, Math.min(credits, amount))
+  document.querySelectorAll('.bet-preset').forEach(b => b.classList.remove('active'))
+  event.target.classList.add('active')
+  updateUI()
+}
+
+function setSpinBtn(isSpinning) {
+  const btn = document.getElementById('spinBtn')
+  btn.disabled = isSpinning
+  btn.textContent = isSpinning ? '⟳ GIRANDO...' : '▶ GIRAR'
+  btn.classList.toggle('spinning', isSpinning)
+}
+
+// ── HISTORIAL ──
+function addHistory(type, delta) {
+  history.unshift({ type, delta })
+  if (history.length > 12) history.pop()
+  renderHistory()
+}
+
+function renderHistory() {
+  const bar = document.getElementById('historyBar')
+  bar.innerHTML = '<span style="font-size:11px;color:#374151;letter-spacing:1px;">ÚLTIMAS —</span>'
+  history.forEach(h => {
+    const chip = document.createElement('div')
+    chip.className = `history-chip chip-${h.type}`
+    chip.textContent = h.delta >= 0 ? `+${h.delta}` : `${h.delta}`
+    bar.appendChild(chip)
+  })
+}
+
+// ── UPDATE UI ──
+function updateUI() {
+  document.getElementById('creditsDisplay').innerHTML = `${credits.toLocaleString()} <span>CR</span>`
+  document.getElementById('betDisplay').textContent   = bet
+  const sw = sessionWin
+  document.getElementById('sessionWin').innerHTML =
+    `${sw >= 0 ? '+' : ''}${sw} <span>CR</span>`
+  document.getElementById('sessionWin').style.color = sw >= 0 ? '#22c55e' : '#ef4444'
+  document.getElementById('spinsToday').textContent  = spinsToday
+  updateTimer()
+}
+
+// ── INIT ──
+buildReels()
+loadState()
+renderHistory()
+
+</script>
+{% endblock %}

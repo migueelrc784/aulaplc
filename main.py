@@ -46,6 +46,10 @@ def dudas():
 def tienda():
     return render_template("tienda.html")
 
+@app.route("/casino")
+def casino():
+    return render_template("casino.html")
+
 # ── SITEMAP ───────────────────────────────────────────────
 @app.route("/sitemap.xml")
 def sitemap():
