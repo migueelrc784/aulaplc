@@ -509,6 +509,35 @@
   text-align: center; font-size: 11px; color: #374151; line-height: 1.6;
 }
 
+/* ── GRID MONTOS RECARGA ── */
+.mp-montos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.mp-monto-btn {
+  padding: 10px 6px; border-radius: 10px;
+  border: 1px solid #2a2040; background: #12101c;
+  cursor: pointer; transition: .15s; text-align: center;
+}
+
+.mp-monto-btn:hover, .mp-monto-btn.selected {
+  border-color: #22c55e; background: #0a1c0f;
+}
+
+.mp-monto-cr {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px; font-weight: 700; color: #f5c518;
+}
+
+.mp-monto-precio {
+  font-size: 11px; color: #6b7280; margin-top: 3px;
+}
+
+.mp-monto-btn.selected .mp-monto-precio { color: #22c55e; }
+
 /* Win flash de fondo */
 @keyframes win-glow {
   0%,100% { background-image: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(0,180,80,0.08), transparent); }
@@ -544,7 +573,7 @@
       <div class="credits-amount" id="spinsToday" style="color:#a78bfa">0</div>
     </div>
     <button class="buy-credits-btn" onclick="openCreditPurchase()">
-      💎 +2000 CR
+      💎 RECARGAR CR
     </button>
   </div>
 
@@ -681,10 +710,15 @@ function numColor(n) {
   return RED_NUMS.has(n) ? 'red' : 'black'
 }
 
-// ── MERCADOPAGO ──
-const MP_LINK    = 'https://www.mercadopago.cl/checkout/v1/payment/redirect/b92aa66f-2fa4-4010-9114-0937ea31f506/payment-option-form/?source=link&preference-id=701853072-2b9a24fc-f7a2-40da-b4bb-28ffb39c2c21&router-request-id=aadf5777-a297-401e-95ab-941aa15ef3d2&p=04b34f18f4201e692be9f1951cd682f0'
-const MP_PREF_ID = '701853072-2b9a24fc-f7a2-40da-b4bb-28ffb39c2c21'
-const CREDIT_PACK = 2000
+// ── MERCADOPAGO — montos disponibles (1 peso = 1 crédito) ──
+const MP_PACKS = [
+  { pesos: 1000,  creditos: 1000  },
+  { pesos: 2000,  creditos: 2000  },
+  { pesos: 3000,  creditos: 3000  },
+  { pesos: 5000,  creditos: 5000  },
+  { pesos: 10000, creditos: 10000 },
+]
+let montoSeleccionado = 2000
 
 // Estado
 let credits    = 0
@@ -1081,7 +1115,7 @@ function updateUI() {
           <h3>💎 Sin créditos</h3>
           <p>Recarga para seguir jugando en la ruleta.</p>
           <button class="buy-credits-btn" style="margin:0 auto" onclick="openCreditPurchase()">
-            Comprar +2000 CR con MercadoPago
+            Comprar créditos con MercadoPago
           </button>
         </div>`)
     }
@@ -1122,30 +1156,74 @@ function saveState() {
 // ── COMPRA DE CRÉDITOS ──
 function openCreditPurchase() {
   if (document.getElementById('mpModal')) return
+
+  const opcionesHTML = MP_PACKS.map(p => `
+    <button class="mp-monto-btn ${p.pesos === montoSeleccionado ? 'selected' : ''}"
+            onclick="selectMonto(${p.pesos})" data-pesos="${p.pesos}">
+      <div class="mp-monto-cr">${p.creditos.toLocaleString('es-CL')} CR</div>
+      <div class="mp-monto-precio">$${p.pesos.toLocaleString('es-CL')} CLP</div>
+    </button>`).join('')
+
   document.body.insertAdjacentHTML('beforeend', `
     <div class="mp-modal-bg" id="mpModal" onclick="if(event.target.id==='mpModal')closeMpModal()">
       <div class="mp-modal">
         <button class="mp-modal-close" onclick="closeMpModal()">✕</button>
         <div class="mp-modal-icon">🎡</div>
         <div class="mp-modal-title">RECARGAR CRÉDITOS</div>
-        <div class="mp-modal-pack">
-          <div class="mp-modal-pack-cr">+2000</div>
-          <div class="mp-modal-pack-label">CRÉDITOS VIRTUALES</div>
-        </div>
-        <a href="${MP_LINK}" target="_blank" class="mp-pay-btn" onclick="setTimeout(closeMpModal,300)">
+        <div class="mp-montos-grid">${opcionesHTML}</div>
+        <button class="mp-pay-btn" id="mpPayBtn" onclick="iniciarPago()">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
             <path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Pagar con MercadoPago
-        </a>
+        </button>
         <p class="mp-modal-note">
-          🔒 Pago seguro via MercadoPago<br>
+          🔒 Pago seguro · 1 peso = 1 crédito<br>
           Los créditos se acreditan automáticamente al confirmar el pago.<br>
           ¿Dudas? <a href="mailto:aulaplcsoporte@gmail.com">aulaplcsoporte@gmail.com</a>
         </p>
       </div>
     </div>
   `)
+}
+
+function selectMonto(pesos) {
+  montoSeleccionado = pesos
+  document.querySelectorAll('.mp-monto-btn').forEach(b => {
+    b.classList.toggle('selected', +b.dataset.pesos === pesos)
+  })
+}
+
+async function iniciarPago() {
+  const btn = document.getElementById('mpPayBtn')
+  btn.disabled = true
+  btn.innerHTML = '⟳ Generando link...'
+
+  // Obtener uid de Firebase si está disponible
+  let uid = 'anonimo'
+  try {
+    const user = firebase?.auth?.()?.currentUser
+    if (user) uid = user.uid
+  } catch(e) {}
+
+  try {
+    const res  = await fetch('/api/casino/comprar', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ monto: montoSeleccionado, uid })
+    })
+    const data = await res.json()
+
+    if (data.init_point) {
+      window.location.href = data.init_point  // redirige al checkout de MP
+    } else {
+      btn.disabled = false
+      btn.innerHTML = '✕ Error — intenta de nuevo'
+    }
+  } catch(e) {
+    btn.disabled = false
+    btn.innerHTML = '✕ Error de conexión'
+  }
 }
 
 function closeMpModal() {
@@ -1165,32 +1243,27 @@ function showCreditToast(amount) {
 }
 
 // ── RETORNO DESDE MERCADOPAGO ──
+// Los créditos los acredita el webhook en Flask/Firestore.
+// Aquí solo mostramos un mensaje de espera y limpiamos la URL.
 function checkPaymentReturn() {
   try {
-    const p = new URLSearchParams(window.location.search)
-    const status = p.get('collection_status') || p.get('status') || p.get('mp_status')
-    const payId  = p.get('collection_id')     || p.get('payment_id')
-    const prefId = p.get('preference_id')
+    const p      = new URLSearchParams(window.location.search)
+    const status = p.get('mp_status') || p.get('collection_status') || p.get('status')
 
-    const isApproved = status === 'approved' && payId
-    const isOurPref  = !prefId || prefId === MP_PREF_ID
-
-    if (isApproved && isOurPref) {
-      const key = `mp_done_${payId}`
-      if (!localStorage.getItem(key)) {
-        credits += CREDIT_PACK
-        localStorage.setItem(key, '1')
-        saveState()
-        updateUI()
-        if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
-        showCreditToast(CREDIT_PACK)
-        setTimeout(() => {
-          document.getElementById('resultBox').innerHTML =
-            `<span class="result-win">💎 +${CREDIT_PACK} créditos añadidos. ¡Gracias! 🎉</span>`
-        }, 300)
-      }
-      window.history.replaceState({}, '', '/casino')
+    if (status === 'approved') {
+      setTimeout(() => {
+        document.getElementById('resultBox').innerHTML =
+          '<span class="result-win">💎 Pago aprobado — tus créditos se acreditan en segundos 🎉</span>'
+      }, 400)
+    } else if (status === 'failure') {
+      setTimeout(() => {
+        document.getElementById('resultBox').innerHTML =
+          '<span class="result-loss">El pago no se completó. Intenta de nuevo.</span>'
+      }, 400)
     }
+
+    // Limpiar params de la URL sin recargar
+    if (status) window.history.replaceState({}, '', '/casino')
   } catch(e) { console.warn('checkPaymentReturn error:', e) }
 }
 
@@ -1225,7 +1298,7 @@ window.addEventListener('casinoAuthReady', async () => {
         credits = fsCr
         updateUI()
         saveState()
-        if (diff >= CREDIT_PACK) showCreditToast(diff)
+        if (diff >= 1000) showCreditToast(diff)
       } else if (fsCr < credits) {
         if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
       }
