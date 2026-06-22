@@ -1,24 +1,40 @@
 from flask import Flask, render_template, send_from_directory, redirect, Response, request, jsonify
 from datetime import datetime
-import mercadopago
-import firebase_admin
-from firebase_admin import credentials, firestore
+import os, json
 
 app = Flask(__name__)
 
 # ── MERCADOPAGO ───────────────────────────────────────────
-MP_ACCESS_TOKEN = "TU_ACCESS_TOKEN_DE_PRODUCCION"   # ← reemplaza esto
-sdk = mercadopago.SDK(MP_ACCESS_TOKEN)
+try:
+    import mercadopago
+    MP_ACCESS_TOKEN = os.environ.get("MP_ACCESS_TOKEN", "")
+    sdk = mercadopago.SDK(MP_ACCESS_TOKEN) if MP_ACCESS_TOKEN else None
+except ImportError:
+    sdk = None
 
 # ── FIREBASE / FIRESTORE ──────────────────────────────────
-# Solo inicializa si no está ya inicializado (evita error en recargas)
-if not firebase_admin._apps:
-    cred = credentials.Certificate("serviceAccountKey.json")  # ← tu archivo de credenciales
-    firebase_admin.initialize_app(cred)
+try:
+    import firebase_admin
+    from firebase_admin import credentials, firestore as fs
 
-db = firestore.client()
+    if not firebase_admin._apps:
+        cred_json = os.environ.get("FIREBASE_CREDENTIALS")
+        if cred_json:
+            cred = credentials.Certificate(json.loads(cred_json))
+        elif os.path.exists("serviceAccountKey.json"):
+            cred = credentials.Certificate("serviceAccountKey.json")
+        else:
+            cred = None
 
-PRECIO_POR_CREDITO = 1   # 1 peso chileno = 1 crédito
+        if cred:
+            firebase_admin.initialize_app(cred)
+
+    db = fs.client() if firebase_admin._apps else None
+except Exception as e:
+    print(f"Firebase init error: {e}")
+    db = None
+
+PRECIO_POR_CREDITO = 1
 MONTOS_VALIDOS     = {1000, 2000, 3000, 5000, 10000}
 
 # ── PÁGINA PRINCIPAL ──────────────────────────────────────
@@ -71,13 +87,12 @@ def casino():
 # ── CASINO: CREAR PREFERENCIA DE PAGO ────────────────────
 @app.route("/api/casino/comprar", methods=["POST"])
 def casino_comprar():
-    """
-    Recibe: { "monto": 3000, "uid": "abc123" }
-    Devuelve: { "init_point": "https://www.mercadopago.cl/..." }
-    """
-    data   = request.get_json(silent=True) or {}
-    monto  = int(data.get("monto", 0))
-    uid    = str(data.get("uid", "anonimo"))
+    if not sdk:
+        return jsonify({"error": "Pagos no configurados"}), 503
+
+    data     = request.get_json(silent=True) or {}
+    monto    = int(data.get("monto", 0))
+    uid      = str(data.get("uid", "anonimo"))
 
     if monto not in MONTOS_VALIDOS:
         return jsonify({"error": "Monto inválido"}), 400
@@ -86,9 +101,9 @@ def casino_comprar():
 
     preference_data = {
         "items": [{
-            "title":      f"Ruleta AulaPLC — {creditos:,} créditos",
-            "quantity":   1,
-            "unit_price": monto,
+            "title":       f"Ruleta AulaPLC — {creditos:,} créditos",
+            "quantity":    1,
+            "unit_price":  monto,
             "currency_id": "CLP"
         }],
         "metadata": {
@@ -100,30 +115,27 @@ def casino_comprar():
             "failure": "https://aulaplc.com/casino?mp_status=failure",
             "pending": "https://aulaplc.com/casino?mp_status=pending"
         },
-        "auto_return":        "approved",
-        "notification_url":   "https://aulaplc.com/api/casino/webhook"
+        "auto_return":      "approved",
+        "notification_url": "https://aulaplc.com/api/casino/webhook"
     }
 
     result = sdk.preference().create(preference_data)
 
     if result["status"] != 201:
-        return jsonify({"error": "Error al crear preferencia en MercadoPago"}), 500
+        return jsonify({"error": "Error MercadoPago"}), 500
 
-    init_point = result["response"]["init_point"]
-    return jsonify({"init_point": init_point})
+    return jsonify({"init_point": result["response"]["init_point"]})
 
 
 # ── CASINO: WEBHOOK MERCADOPAGO ───────────────────────────
 @app.route("/api/casino/webhook", methods=["POST"])
 def casino_webhook():
-    """
-    MercadoPago llama aquí cuando se confirma un pago.
-    Acredita los créditos en Firestore según el monto pagado.
-    """
+    if not sdk or not db:
+        return "", 200
+
     data  = request.get_json(silent=True) or {}
     topic = request.args.get("topic") or data.get("type", "")
 
-    # MP también puede enviar topic=payment como query param
     if topic not in ("payment", "payment.updated"):
         return "", 200
 
@@ -135,19 +147,18 @@ def casino_webhook():
     if not payment_id:
         return "", 200
 
-    # ── Evitar doble acreditación ──
+    # Evitar doble acreditación
     pago_ref = db.collection("mp_pagos").document(payment_id)
     if pago_ref.get().exists:
-        return "", 200   # ya procesado antes
+        return "", 200
 
-    # ── Verificar estado del pago con la API de MP ──
+    # Verificar pago con MP
     payment_info = sdk.payment().get(payment_id)
     payment      = payment_info.get("response", {})
 
     if payment.get("status") != "approved":
         return "", 200
 
-    # ── Leer metadata que pusimos al crear la preferencia ──
     metadata = payment.get("metadata", {})
     uid      = metadata.get("uid", "")
     creditos = int(metadata.get("creditos", 0))
@@ -155,7 +166,7 @@ def casino_webhook():
     if not uid or uid == "anonimo" or creditos <= 0:
         return "", 200
 
-    # ── Marcar pago como procesado (antes de acreditar, por seguridad) ──
+    # Marcar como procesado
     pago_ref.set({
         "payment_id": payment_id,
         "uid":        uid,
@@ -164,10 +175,10 @@ def casino_webhook():
         "fecha":      datetime.utcnow().isoformat()
     })
 
-    # ── Acreditar créditos con transacción atómica ──
+    # Acreditar con transacción atómica
     user_ref = db.collection("usuarios").document(uid)
 
-    @firestore.transactional
+    @fs.transactional
     def acreditar(transaction, ref):
         snap     = ref.get(transaction=transaction)
         actuales = (snap.to_dict() or {}).get("casino_credits", 0)
@@ -176,7 +187,6 @@ def casino_webhook():
     try:
         acreditar(db.transaction(), user_ref)
     except Exception as e:
-        # Si falla la transacción, borramos el registro para poder reintentar
         pago_ref.delete()
         print(f"Error acreditando créditos: {e}")
         return "", 500
