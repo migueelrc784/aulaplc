@@ -372,6 +372,114 @@
 .chip-loss { background: rgba(55,65,81,0.3);   border-color: rgba(55,65,81,0.4);   color: #4b5563; }
 .chip-big  { background: rgba(245,197,24,0.1); border-color: rgba(245,197,24,0.3); color: #f5c518; }
 
+/* ── COMPRAR CRÉDITOS ── */
+.buy-credits-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #130d24, #0c0818);
+  color: #a78bfa;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: .2s;
+  animation: pulse-violet 2.5s ease-in-out infinite;
+}
+@keyframes pulse-violet {
+  0%,100% { box-shadow: 0 0 0 rgba(167,139,250,0); }
+  50%      { box-shadow: 0 0 18px rgba(167,139,250,0.25); }
+}
+.buy-credits-btn:hover {
+  border-color: #a78bfa;
+  background: #1a1035;
+  box-shadow: 0 0 28px rgba(167,139,250,0.22) !important;
+  transform: translateY(-2px);
+  animation: none;
+}
+
+/* MODAL COMPRA */
+.mp-modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+.mp-modal {
+  background: linear-gradient(160deg, #13111c, #0e0c17);
+  border: 1px solid #2a2040;
+  border-radius: 22px;
+  padding: 40px 36px 32px;
+  max-width: 380px;
+  width: 92%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 40px rgba(167,139,250,0.08);
+}
+.mp-modal-close {
+  position: absolute; top: 14px; right: 18px;
+  background: none; border: none;
+  color: #6b7280; font-size: 20px; cursor: pointer; transition: .15s;
+}
+.mp-modal-close:hover { color: #e5e7eb; }
+.mp-modal-icon { font-size: 42px; margin-bottom: 12px; }
+.mp-modal-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: #a78bfa; letter-spacing: 2px; margin-bottom: 20px;
+}
+.mp-modal-pack {
+  background: linear-gradient(135deg, #1a1400, #0d0b00);
+  border: 1px solid #f5c51840;
+  border-radius: 14px; padding: 18px; margin-bottom: 24px;
+}
+.mp-modal-pack-cr {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 44px; font-weight: 700; color: #f5c518; line-height: 1;
+}
+.mp-modal-pack-label {
+  font-size: 11px; color: #6b7280; letter-spacing: 2px; margin-top: 6px;
+}
+.mp-pay-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, #009ee3, #007abf);
+  color: white; border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  text-decoration: none; transition: .2s;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 20px rgba(0,158,227,0.3);
+}
+.mp-pay-btn:hover {
+  background: linear-gradient(135deg, #00b2ff, #0090d4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(0,158,227,0.45);
+}
+.mp-modal-note {
+  font-size: 11px; color: #374151; margin-top: 16px; line-height: 1.7;
+}
+.mp-modal-note a { color: #a78bfa; text-decoration: none; }
+
+/* TOAST créditos recibidos */
+.credits-toast {
+  position: fixed; bottom: 30px; left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #052e16, #065f46);
+  border: 1px solid #22c55e; border-radius: 14px;
+  padding: 14px 28px; color: #22c55e;
+  font-family: 'Orbitron', sans-serif; font-size: 13px;
+  font-weight: 700; letter-spacing: 1px; z-index: 9998;
+  transition: transform .45s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 8px 30px rgba(34,197,94,0.3);
+  white-space: nowrap;
+}
+.credits-toast.show { transform: translateX(-50%) translateY(0); }
+
 /* ── DISCLAIMER ── */
 .disclaimer {
   max-width: 520px;
@@ -425,6 +533,9 @@
       <div class="credits-label">Spins hoy</div>
       <div class="credits-amount" id="spinsToday" style="color:#a78bfa">0</div>
     </div>
+    <button class="buy-credits-btn" onclick="openCreditPurchase()">
+      💎 +2000 CR
+    </button>
   </div>
 
   <!-- MÁQUINA TRAGAMONEDAS -->
@@ -516,6 +627,11 @@ const PAYOUTS = {
   '🤖': 8, '🏭': 12, '🎰': 25, '⭐': 50
 }
 
+// ── MERCADOPAGO ──
+const MP_LINK    = 'https://www.mercadopago.cl/checkout/v1/payment/redirect/b92aa66f-2fa4-4010-9114-0937ea31f506/payment-option-form/?source=link&preference-id=701853072-2b9a24fc-f7a2-40da-b4bb-28ffb39c2c21&router-request-id=aadf5777-a297-401e-95ab-941aa15ef3d2&p=04b34f18f4201e692be9f1951cd682f0'
+const MP_PREF_ID = '701853072-2b9a24fc-f7a2-40da-b4bb-28ffb39c2c21'
+const CREDIT_PACK = 2000
+
 // Estado
 let credits     = 1000
 let bet         = 10
@@ -524,6 +640,7 @@ let spinsToday  = 0
 let spinning    = false
 let history     = []
 let refillSec   = 0
+let _fsSaveTimer = null
 
 // Init desde localStorage
 function loadState() {
@@ -553,6 +670,12 @@ function saveState() {
   localStorage.setItem('casino_aulaplc', JSON.stringify({
     credits, sessionWin, spinsToday, history, refillSec, nextRefill
   }))
+  // Sync a Firestore con debounce (evita spam de escrituras durante rondas rápidas)
+  if (_fsSaveTimer) clearTimeout(_fsSaveTimer)
+  _fsSaveTimer = setTimeout(() => {
+    if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
+    _fsSaveTimer = null
+  }, 1500)
 }
 
 // Dispensa de créditos si < 100
@@ -792,10 +915,139 @@ function updateUI() {
   updateTimer()
 }
 
+// ── COMPRA DE CRÉDITOS ──
+function openCreditPurchase() {
+  if (document.getElementById('mpModal')) return
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="mp-modal-bg" id="mpModal" onclick="if(event.target.id==='mpModal')closeMpModal()">
+      <div class="mp-modal">
+        <button class="mp-modal-close" onclick="closeMpModal()">✕</button>
+        <div class="mp-modal-icon">💎</div>
+        <div class="mp-modal-title">RECARGAR CRÉDITOS</div>
+        <div class="mp-modal-pack">
+          <div class="mp-modal-pack-cr">+2000</div>
+          <div class="mp-modal-pack-label">CRÉDITOS VIRTUALES</div>
+        </div>
+        <a href="${MP_LINK}" target="_blank" class="mp-pay-btn" onclick="setTimeout(closeMpModal,300)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Pagar con MercadoPago
+        </a>
+        <p class="mp-modal-note">
+          🔒 Pago seguro via MercadoPago<br>
+          Los créditos se acreditan automáticamente al confirmar el pago.<br>
+          ¿Dudas? <a href="mailto:aulaplcsoporte@gmail.com">aulaplcsoporte@gmail.com</a>
+        </p>
+      </div>
+    </div>
+  `)
+}
+
+function closeMpModal() {
+  const m = document.getElementById('mpModal')
+  if (m) m.remove()
+}
+
+function showCreditToast(amount) {
+  const old = document.querySelector('.credits-toast')
+  if (old) old.remove()
+  const t = document.createElement('div')
+  t.className = 'credits-toast'
+  t.textContent = `💎 +${amount.toLocaleString()} CRÉDITOS RECIBIDOS`
+  document.body.appendChild(t)
+  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')))
+  setTimeout(() => {
+    t.classList.remove('show')
+    setTimeout(() => t.remove(), 450)
+  }, 4000)
+}
+
+// ── RETORNO DESDE MERCADOPAGO (URL params) ──
+// MercadoPago redirige con: ?collection_status=approved&collection_id=XXX&preference_id=YYY
+function checkPaymentReturn() {
+  try {
+    const p = new URLSearchParams(window.location.search)
+    const status = p.get('collection_status') || p.get('status') || p.get('mp_status')
+    const payId  = p.get('collection_id')     || p.get('payment_id')
+    const prefId = p.get('preference_id')
+
+    const isApproved = status === 'approved' && payId
+    const isOurPref  = !prefId || prefId === MP_PREF_ID
+
+    if (isApproved && isOurPref) {
+      const key = `mp_done_${payId}`
+      if (!localStorage.getItem(key)) {
+        credits += CREDIT_PACK
+        localStorage.setItem(key, '1')
+        saveState()
+        updateUI()
+        if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
+        showCreditToast(CREDIT_PACK)
+        setTimeout(() => {
+          document.getElementById('resultBox').innerHTML =
+            `<span class="result-win">💎 +${CREDIT_PACK} créditos añadidos. ¡Gracias por tu compra! 🎉</span>`
+        }, 300)
+      }
+      // Limpiar URL sin recargar
+      window.history.replaceState({}, '', '/casino')
+    }
+  } catch (e) { console.warn('checkPaymentReturn error:', e) }
+}
+
+// ── SINCRONIZACIÓN EN TIEMPO REAL CON FIRESTORE ──
+// Se activa cuando el backend webhook actualiza casino_credits en Firestore
+window.addEventListener('casinoCreditsUpdated', (e) => {
+  const newCr = e.detail.credits
+  if (typeof newCr !== 'number') return
+  if (newCr !== credits) {
+    const diff = newCr - credits
+    credits = newCr
+    updateUI()
+    // No llamamos saveState() para no crear un loop; solo localStorage
+    localStorage.setItem('casino_aulaplc', JSON.stringify({
+      credits, sessionWin, spinsToday, history, refillSec,
+      nextRefill: refillSec > 0 ? Date.now() + refillSec * 1000 : null
+    }))
+    if (diff > 0) {
+      showCreditToast(diff)
+      setTimeout(() => {
+        document.getElementById('resultBox').innerHTML =
+          `<span class="result-win">💎 +${diff} créditos recibidos!</span>`
+      }, 100)
+    }
+  }
+})
+
+// ── CARGA INICIAL DESDE FIRESTORE (al autenticarse) ──
+window.addEventListener('casinoAuthReady', async () => {
+  try {
+    if (typeof window.getCasinoCredits !== 'function') return
+    const fsCr = await window.getCasinoCredits()
+    if (fsCr !== null && typeof fsCr === 'number') {
+      if (fsCr > credits) {
+        // Firestore tiene más créditos (p.ej. compra en otro dispositivo)
+        const diff = fsCr - credits
+        credits = fsCr
+        updateUI()
+        saveState()
+        if (diff >= CREDIT_PACK) showCreditToast(diff)
+      } else if (fsCr < credits) {
+        // Local tiene más → sincronizar Firestore hacia arriba
+        if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
+      }
+    } else {
+      // Primera vez con cuenta: registrar créditos locales en Firestore
+      if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
+    }
+  } catch (e) { console.warn('Casino auth sync error:', e) }
+})
+
 // ── INIT ──
 buildReels()
 loadState()
 renderHistory()
+checkPaymentReturn()
 
 </script>
 {% endblock %}

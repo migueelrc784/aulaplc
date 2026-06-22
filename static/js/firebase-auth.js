@@ -16,7 +16,8 @@ import {
   doc, 
   getDoc, 
   setDoc, 
-  serverTimestamp 
+  serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // ─── 1. CONFIGURACIÓN FIREBASE ───────────────────────────
@@ -40,6 +41,10 @@ const provider = new GoogleAuthProvider();
 let currentUser = null;
 let isPremium   = false;
 
+// ─── Casino credits ──────────────────────────────────────
+let _casinoUnsubscribe  = null;   // listener Firestore activo
+let _localCasinoCredits = null;   // último valor que nosotros escribimos (para ignorar eco)
+
 // ─── 4. LISTENER PRINCIPAL ──────────────────────────────
 onAuthStateChanged(auth, async (user) => {
   if (user) {
@@ -51,10 +56,22 @@ onAuthStateChanged(auth, async (user) => {
     updateModulesAccess(isPremium);
     await loadModuleProgress();   // ← carga progreso guardado
 
+    // Casino: arrancar listener de créditos en tiempo real
+    setupCasinoCreditsListener(user.uid);
+
+    // Notificar a casino.html que auth está lista
+    window.dispatchEvent(new CustomEvent('casinoAuthReady', {
+      detail: { uid: user.uid, user }
+    }));
+
     console.log(`✅ Sesión activa: ${user.displayName} | Premium: ${isPremium}`);
   } else {
     currentUser = null;
     isPremium   = false;
+
+    // Detener listener de casino si existía
+    if (_casinoUnsubscribe) { _casinoUnsubscribe(); _casinoUnsubscribe = null; }
+    _localCasinoCredits = null;
 
     renderUserLoggedOut();
     updateModulesAccess(false);
@@ -462,7 +479,59 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") { closeLoginModal(); closeUserMenu(); }
 });
 
-// ─── 14. EXPORTAR AL SCOPE GLOBAL ───────────────────────
+// ─── 14. CASINO — CRÉDITOS ──────────────────────────────
+/**
+ * Listener Firestore en tiempo real.
+ * Si el backend (webhook MercadoPago → Flask) actualiza casino_credits,
+ * el casino recibe el cambio en milisegundos sin que el usuario haga nada.
+ */
+function setupCasinoCreditsListener(uid) {
+  if (_casinoUnsubscribe) _casinoUnsubscribe();        // cancelar listener anterior
+
+  _casinoUnsubscribe = onSnapshot(doc(db, "usuarios", uid), (snap) => {
+    if (!snap.exists()) return;
+    const data = snap.data();
+    if (typeof data.casino_credits !== 'number') return;
+
+    // Ignorar el eco de nuestra propia escritura
+    if (data.casino_credits === _localCasinoCredits) return;
+
+    // Cambio externo (p.ej. webhook del backend acreditó una compra)
+    window.dispatchEvent(new CustomEvent('casinoCreditsUpdated', {
+      detail: { credits: data.casino_credits }
+    }));
+  });
+}
+
+/** Lee los créditos de casino desde Firestore (una sola vez). */
+async function getCasinoCredits() {
+  if (!currentUser) return null;
+  try {
+    const snap = await getDoc(doc(db, "usuarios", currentUser.uid));
+    if (!snap.exists()) return null;
+    const val = snap.data().casino_credits;
+    return typeof val === 'number' ? val : null;
+  } catch (e) {
+    console.error("❌ Error leyendo casino_credits:", e);
+    return null;
+  }
+}
+
+/** Guarda los créditos de casino en Firestore. */
+async function saveCasinoCredits(amount) {
+  if (!currentUser || typeof amount !== 'number') return;
+  _localCasinoCredits = amount;    // marcar como escritura propia → no disparar evento
+  try {
+    await setDoc(doc(db, "usuarios", currentUser.uid), {
+      casino_credits: amount
+    }, { merge: true });
+  } catch (e) {
+    console.error("❌ Error guardando casino_credits:", e);
+    _localCasinoCredits = null;    // permitir reintentos
+  }
+}
+
+// ─── 15. EXPORTAR AL SCOPE GLOBAL ───────────────────────
 window.loginWithGoogle          = loginWithGoogle;
 window.logout                   = logout;
 window.openLoginModal           = openLoginModal;
@@ -472,3 +541,6 @@ window.openPaymentFlow          = openPaymentFlow;
 window.handleModalBackdropClick = handleModalBackdropClick;
 window.saveModuleProgress       = saveModuleProgress;
 window.loadModuleProgress       = loadModuleProgress;
+// Casino credits
+window.getCasinoCredits         = getCasinoCredits;
+window.saveCasinoCredits        = saveCasinoCredits;

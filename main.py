@@ -94,3 +94,16 @@ app = app
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+@app.route('/webhook/mercadopago', methods=['POST'])
+def mp_webhook():
+    data = request.json
+    if data.get('type') == 'payment':
+        payment_id = data['data']['id']
+        # Verificar con la API de MP que el pago está aprobado
+        # Luego actualizar Firestore:
+        uid = obtener_uid_del_pago(payment_id)  # de tu lógica
+        db.collection('usuarios').document(uid).update({
+            'casino_credits': firestore.Increment(2000)
+        })
+    return '', 200
