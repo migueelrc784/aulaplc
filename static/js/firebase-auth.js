@@ -49,6 +49,7 @@ let _localCasinoCredits = null;   // último valor que nosotros escribimos (para
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
+    window.currentUserUid = user.uid;
     isPremium   = await checkPremiumStatus(user.uid);
 
     await saveUserToFirestore(user);
@@ -67,6 +68,7 @@ onAuthStateChanged(auth, async (user) => {
     console.log(`✅ Sesión activa: ${user.displayName} | Premium: ${isPremium}`);
   } else {
     currentUser = null;
+    window.currentUserUid = null;
     isPremium   = false;
 
     // Detener listener de casino si existía

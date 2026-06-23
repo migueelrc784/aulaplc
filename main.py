@@ -92,7 +92,19 @@ def casino_comprar():
 
     data     = request.get_json(silent=True) or {}
     monto    = int(data.get("monto", 0))
-    uid      = str(data.get("uid", "anonimo"))
+    uid      = str(data.get("uid", "")).strip()
+
+    # Bloquear compras sin sesión iniciada
+    if not uid or uid == "anonimo":
+        return jsonify({"error": "Debes iniciar sesión para comprar créditos"}), 401
+
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    # Verificar que el uid corresponda a un usuario real registrado
+    user_snap = db.collection("usuarios").document(uid).get()
+    if not user_snap.exists:
+        return jsonify({"error": "Usuario no válido"}), 401
 
     if monto not in MONTOS_VALIDOS:
         return jsonify({"error": "Monto inválido"}), 400
@@ -147,7 +159,7 @@ def casino_webhook():
     if not payment_id:
         return "", 200
 
-    # Evitar doble acreditación
+    # Evitar doble acreditación (chequeo rápido, la protección real es el create() atómico de abajo)
     pago_ref = db.collection("mp_pagos").document(payment_id)
     if pago_ref.get().exists:
         return "", 200
@@ -166,14 +178,20 @@ def casino_webhook():
     if not uid or uid == "anonimo" or creditos <= 0:
         return "", 200
 
-    # Marcar como procesado
-    pago_ref.set({
-        "payment_id": payment_id,
-        "uid":        uid,
-        "creditos":   creditos,
-        "procesado":  True,
-        "fecha":      datetime.utcnow().isoformat()
-    })
+    # Marcar como procesado de forma ATÓMICA: create() falla si el documento
+    # ya existe, evitando que dos webhooks simultáneos (reintentos de MP)
+    # acrediten el mismo pago dos veces.
+    try:
+        pago_ref.create({
+            "payment_id": payment_id,
+            "uid":        uid,
+            "creditos":   creditos,
+            "procesado":  True,
+            "fecha":      datetime.utcnow().isoformat()
+        })
+    except Exception:
+        # Ya fue creado por otra petición concurrente: pago ya procesado
+        return "", 200
 
     # Acreditar con transacción atómica
     user_ref = db.collection("usuarios").document(uid)

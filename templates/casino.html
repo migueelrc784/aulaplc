@@ -1157,6 +1157,15 @@ function saveState() {
 function openCreditPurchase() {
   if (document.getElementById('mpModal')) return
 
+  if (!window.currentUserUid) {
+    if (typeof window.openLoginModal === 'function') {
+      window.openLoginModal()
+    } else {
+      alert('Debes iniciar sesión para comprar créditos.')
+    }
+    return
+  }
+
   const opcionesHTML = MP_PACKS.map(p => `
     <button class="mp-monto-btn ${p.pesos === montoSeleccionado ? 'selected' : ''}"
             onclick="selectMonto(${p.pesos})" data-pesos="${p.pesos}">
@@ -1196,15 +1205,20 @@ function selectMonto(pesos) {
 
 async function iniciarPago() {
   const btn = document.getElementById('mpPayBtn')
+
+  // Requiere sesión iniciada (uid expuesto por firebase-auth.js)
+  const uid = window.currentUserUid || null
+  if (!uid) {
+    if (typeof window.openLoginModal === 'function') {
+      window.openLoginModal()
+    } else {
+      alert('Debes iniciar sesión para comprar créditos.')
+    }
+    return
+  }
+
   btn.disabled = true
   btn.innerHTML = '⟳ Generando link...'
-
-  // Obtener uid de Firebase si está disponible
-  let uid = 'anonimo'
-  try {
-    const user = firebase?.auth?.()?.currentUser
-    if (user) uid = user.uid
-  } catch(e) {}
 
   try {
     const res  = await fetch('/api/casino/comprar', {
@@ -1218,7 +1232,7 @@ async function iniciarPago() {
       window.location.href = data.init_point  // redirige al checkout de MP
     } else {
       btn.disabled = false
-      btn.innerHTML = '✕ Error — intenta de nuevo'
+      btn.innerHTML = '✕ ' + (data.error || 'Error — intenta de nuevo')
     }
   } catch(e) {
     btn.disabled = false
