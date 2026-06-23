@@ -495,11 +495,7 @@ function setBetAmount(v){
   event.target.classList.add('active')
 }
 
-// ── RNG AMAÑADO ──
-// Target: ~30% de tiradas resultan en al menos 1 apuesta ganadora
-// Implementación: si hay apuestas, con probabilidad BOOST_PROB
-// forzamos el resultado a uno que gane alguna apuesta.
-const BOOST_PROB = 0.20  // 30% de tiradas "guiadas" a ganar
+const BOOST_PROB = 0.20  
 
 function getRigged(){
   const keys = Object.keys(bets)
