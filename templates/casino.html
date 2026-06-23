@@ -33,7 +33,6 @@
   font-size: 32px; font-weight: 700;
   color: #f5c518;
   letter-spacing: 4px;
-  text-shadow: 0 0 30px rgba(245,197,24,0.4);
   margin-bottom: 4px;
 }
 
@@ -77,18 +76,11 @@
   font-family: 'Orbitron', sans-serif;
   font-size: 11px; font-weight: 700; letter-spacing: 2px;
   cursor: pointer; transition: .2s;
-  animation: pulse-violet 2.5s ease-in-out infinite;
-}
-
-@keyframes pulse-violet {
-  0%,100% { box-shadow: 0 0 0 rgba(167,139,250,0); }
-  50%      { box-shadow: 0 0 18px rgba(167,139,250,0.25); }
 }
 
 .buy-credits-btn:hover {
   border-color: #a78bfa; background: #1a1035;
-  box-shadow: 0 0 28px rgba(167,139,250,0.22) !important;
-  transform: translateY(-2px); animation: none;
+  transform: translateY(-2px);
 }
 
 /* ── LAYOUT PRINCIPAL ── */
@@ -125,7 +117,6 @@
   border-right: 10px solid transparent;
   border-top: 22px solid #f5c518;
   z-index: 10;
-  filter: drop-shadow(0 0 6px rgba(245,197,24,0.8));
 }
 
 #rouletteCanvas {
@@ -133,7 +124,7 @@
   box-shadow:
     0 0 0 6px #0d120f,
     0 0 0 10px rgba(0,150,60,0.3),
-    0 0 50px rgba(0,0,0,0.9);
+    0 10px 30px rgba(0,0,0,0.6);
   display: block;
 }
 
@@ -145,9 +136,9 @@
   transition: .3s;
 }
 
-.result-number.red   { color: #ef4444; text-shadow: 0 0 20px rgba(239,68,68,0.6); }
-.result-number.black { color: #e5e7eb; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
-.result-number.green { color: #22c55e; text-shadow: 0 0 20px rgba(34,197,94,0.7); }
+.result-number.red   { color: #ef4444; }
+.result-number.black { color: #e5e7eb; }
+.result-number.green { color: #22c55e; }
 .result-number.idle  { color: #374151; }
 
 .result-label {
@@ -234,7 +225,6 @@
 .btn-red.selected, .btn-red:hover {
   border-color: #ef4444; color: #fff;
   background: linear-gradient(135deg, #7f1d1d, #450a0a);
-  box-shadow: 0 0 14px rgba(239,68,68,0.3);
 }
 
 .btn-black {
@@ -245,7 +235,6 @@
 .btn-black.selected, .btn-black:hover {
   border-color: #9ca3af; color: #fff;
   background: linear-gradient(135deg, #374151, #1f2937);
-  box-shadow: 0 0 14px rgba(156,163,175,0.3);
 }
 
 .btn-green {
@@ -256,7 +245,6 @@
 .btn-green.selected, .btn-green:hover {
   border-color: #22c55e; color: #fff;
   background: linear-gradient(135deg, #14532d, #052e16);
-  box-shadow: 0 0 14px rgba(34,197,94,0.35);
 }
 
 /* Grid de números */
@@ -285,7 +273,6 @@
 
 .num-btn.red-num:hover, .num-btn.red-num.selected {
   background: #7f1d1d; border-color: #ef4444; color: #fff;
-  box-shadow: 0 0 8px rgba(239,68,68,0.4);
 }
 
 .num-btn.black-num {
@@ -294,7 +281,6 @@
 
 .num-btn.black-num:hover, .num-btn.black-num.selected {
   background: #374151; border-color: #9ca3af; color: #fff;
-  box-shadow: 0 0 8px rgba(156,163,175,0.3);
 }
 
 .num-btn.zero-num {
@@ -303,7 +289,6 @@
 
 .num-btn.zero-num:hover, .num-btn.zero-num.selected {
   background: #14532d; border-color: #22c55e; color: #fff;
-  box-shadow: 0 0 8px rgba(34,197,94,0.4);
 }
 
 /* Selección activa display */
@@ -350,8 +335,8 @@
   transition: .3s;
 }
 
-.result-win     { color: #22c55e; text-shadow: 0 0 20px rgba(34,197,94,0.5); }
-.result-big     { color: #f5c518; text-shadow: 0 0 30px rgba(245,197,24,0.7); font-size: 21px; }
+.result-win     { color: #22c55e; }
+.result-big     { color: #f5c518; font-size: 21px; }
 .result-loss    { color: #374151; }
 
 /* ── TABLA DE PAGOS ── */
@@ -437,7 +422,7 @@
   border: 1px solid #2a2040; border-radius: 22px;
   padding: 40px 36px 32px; max-width: 380px; width: 92%;
   text-align: center; position: relative;
-  box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 40px rgba(167,139,250,0.08);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 
 .mp-modal-close {
@@ -1001,49 +986,75 @@ async function spin() {
 function animateRoulette(targetIdx) {
   return new Promise(resolve => {
     const startAngle = wheelAngle
-    // Cuántos giros: 5 completos + llegar al segmento objetivo
-    const targetAngle = startAngle - (Math.PI * 2 * 5)
-                        - (targetIdx * SEG_ANGLE)
-                        - (Math.PI / 2) // el puntero está arriba
+
+    // Ángulo absoluto (no depende de startAngle) en el que debe quedar
+    // la rueda para que el CENTRO del segmento ganador caiga exactamente
+    // bajo el puntero, fijo en -PI/2 en el marco de la pantalla:
+    //   rotation + targetIdx*SEG_ANGLE + SEG_ANGLE/2 = -PI/2
+    //   => rotation = -PI/2 - targetIdx*SEG_ANGLE - SEG_ANGLE/2
+    const finalAngleAbs = -Math.PI / 2 - (targetIdx * SEG_ANGLE) - (SEG_ANGLE / 2)
+
+    // A partir de ahí, restamos vueltas completas extra (sentido horario)
+    // para que el giro avance siempre hacia adelante desde startAngle,
+    // sin importar en qué ángulo haya quedado la rueda la tirada anterior.
+    const EXTRA_TURNS = 5
+    const twoPi = Math.PI * 2
+    // Cuántas vueltas completas hay que restar a finalAngleAbs para que
+    // quede justo debajo (en sentido decreciente) de startAngle:
+    const vueltasBase = Math.floor((startAngle - finalAngleAbs) / twoPi)
+    const wheelTargetAngle = finalAngleAbs + (vueltasBase - EXTRA_TURNS) * twoPi
+
     const totalDuration = 4000 // ms
     const startTime = performance.now()
 
-    // Bola: empieza en el borde exterior y baja a la zona central al final
+    // Radio de la bola: empieza pegada al borde y termina asentada en el
+    // centro del segmento ganador
     const ballStartR = R * 0.87
     const ballEndR   = R * 0.60
-    let   bAngle     = 0
-    const ballStartTime = startTime
+
+    // La bola gira en sentido contrario a la rueda. Su ángulo final
+    // (en el marco fijo de la pantalla) tiene que coincidir EXACTAMENTE
+    // con el centro del segmento ganador una vez la rueda ya está quieta
+    // en wheelTargetAngle. El centro de ese segmento, en el marco fijo,
+    // es wheelTargetAngle + targetIdx*SEG_ANGLE + SEG_ANGLE/2 — que por
+    // construcción de wheelTargetAngle siempre equivale a -PI/2 (donde
+    // está el puntero), pero lo calculamos a partir del valor real para
+    // que funcione sin importar cuántas tiradas previas tenga wheelAngle.
+    const ballFinalAngle = wheelTargetAngle + targetIdx * SEG_ANGLE + SEG_ANGLE / 2
+    const ballExtraTurns = 7 // vueltas que da la bola antes de frenar
+    const ballStartAngle = ballFinalAngle + (Math.PI * 2 * ballExtraTurns)
 
     function frame(now) {
       const elapsed  = now - startTime
       const progress = Math.min(elapsed / totalDuration, 1)
 
-      // Easing out cubic
+      // Easing out cubic para la rueda (frena progresivamente)
       const ease = 1 - Math.pow(1 - progress, 3)
+      wheelAngle = startAngle + (wheelTargetAngle - startAngle) * ease
 
-      // Rueda gira en sentido horario
-      wheelAngle = startAngle + (targetAngle - startAngle) * ease
-
-      // Bola gira en sentido ANTI-horario más rápido al inicio
-      const ballSpeed = Math.max(0.01, 0.18 * (1 - ease))
-      bAngle += ballSpeed
+      // La bola frena más tarde y más bruscamente que la rueda, simulando
+      // que pierde impulso y empieza a "rebotar" hacia el centro al final.
+      // Usamos un ease-out más fuerte (quintic) para que la frenada final
+      // se sienta como una caída, no como un corte.
+      const ballEase = 1 - Math.pow(1 - progress, 5)
+      const ballAngleNow = ballStartAngle + (ballFinalAngle - ballStartAngle) * ballEase
 
       // La bola va cayendo hacia el centro gradualmente en la última mitad
-      const ballProgress = Math.max(0, (progress - 0.5) / 0.5)
-      const currentBallR = ballStartR - (ballStartR - ballEndR) * ballProgress
+      const ballProgress = Math.max(0, (progress - 0.55) / 0.45)
+      const ballFallEase  = ballProgress * ballProgress * (3 - 2 * ballProgress) // smoothstep
+      const currentBallR = ballStartR - (ballStartR - ballEndR) * ballFallEase
 
       drawWheel(wheelAngle)
-      drawBall(-bAngle - Math.PI/2, currentBallR, true)
+      drawBall(ballAngleNow, currentBallR, true)
 
       if (progress < 1) {
         animFrame = requestAnimationFrame(frame)
       } else {
-        // Alinear exactamente
-        wheelAngle = targetAngle
+        // Frame final: ya coincide exactamente con el cálculo de arriba,
+        // no hace falta reposicionar nada.
+        wheelAngle = wheelTargetAngle
         drawWheel(wheelAngle)
-        // Bola en la posición del segmento ganador
-        const finalBallAngle = wheelAngle + targetIdx * SEG_ANGLE + SEG_ANGLE / 2
-        drawBall(finalBallAngle, ballEndR, true)
+        drawBall(ballFinalAngle, ballEndR, true)
         resolve()
       }
     }
