@@ -6,544 +6,177 @@
 {% block og_title %}Ruleta AulaPLC Casino{% endblock %}
 {% block og_url %}/casino{% endblock %}
 
+
 {% block extra_head %}
 <style>
-
-/* ══════════════════════════════════════════
-   RULETA PAGE
-══════════════════════════════════════════ */
-
 * { box-sizing: border-box; }
+.casino-page { min-height:100vh; background:#050a0e; background-image: radial-gradient(ellipse 70% 50% at 50% -5%,rgba(0,180,80,0.08),transparent), radial-gradient(ellipse 40% 40% at 85% 80%,rgba(200,40,40,0.06),transparent); padding:24px 16px 60px; font-family:'Inter',sans-serif; }
+.casino-header { text-align:center; margin-bottom:24px; }
+.casino-title { font-family:'Orbitron',sans-serif; font-size:32px; font-weight:700; color:#f5c518; letter-spacing:4px; margin-bottom:4px; }
+.casino-subtitle { color:#4a5568; font-size:12px; letter-spacing:2px; text-transform:uppercase; }
+.credits-bar { display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:24px; flex-wrap:wrap; }
+.credits-box { background:linear-gradient(135deg,#0d1a10,#060e08); border:1px solid rgba(0,200,80,0.2); border-radius:14px; padding:12px 22px; text-align:center; min-width:130px; }
+.credits-label { font-size:10px; color:#4a5568; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+.credits-amount { font-family:'Orbitron',sans-serif; font-size:22px; font-weight:700; color:#f5c518; }
+.credits-amount span { font-size:13px; color:#78716c; }
+.buy-credits-btn { display:flex; align-items:center; gap:8px; padding:12px 22px; border:1px solid rgba(167,139,250,0.35); border-radius:12px; background:linear-gradient(135deg,#130d24,#0c0818); color:#a78bfa; font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px; cursor:pointer; transition:.2s; }
+.buy-credits-btn:hover { border-color:#a78bfa; background:#1a1035; transform:translateY(-2px); }
 
-.casino-page {
-  min-height: 100vh;
-  background: #050a0e;
-  background-image:
-    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(0,180,80,0.08), transparent),
-    radial-gradient(ellipse 40% 40% at 85% 80%, rgba(200,40,40,0.06), transparent);
-  padding: 24px 16px 60px;
-  font-family: 'Inter', sans-serif;
-}
+/* Layout principal */
+.casino-main { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:300px 1fr; gap:20px; align-items:start; }
+@media(max-width:800px){ .casino-main{ grid-template-columns:1fr; } }
 
-/* ── HEADER ── */
-.casino-header { text-align: center; margin-bottom: 24px; }
+/* Rueda */
+.wheel-panel { background:linear-gradient(160deg,#0d120f,#090e0a); border:1px solid rgba(0,180,60,0.2); border-radius:22px; padding:24px; display:flex; flex-direction:column; align-items:center; gap:16px; }
+.wheel-wrapper { position:relative; width:280px; height:280px; }
+.wheel-pointer { position:absolute; top:-14px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-top:22px solid #f5c518; z-index:10; }
+#rouletteCanvas { border-radius:50%; box-shadow:0 0 0 6px #0d120f,0 0 0 10px rgba(0,150,60,0.3),0 10px 30px rgba(0,0,0,0.6); display:block; }
+.result-number { font-family:'Orbitron',sans-serif; font-size:48px; font-weight:900; line-height:1; min-width:80px; text-align:center; transition:.3s; }
+.result-number.red { color:#ef4444; } .result-number.black { color:#e5e7eb; } .result-number.green { color:#22c55e; } .result-number.idle { color:#374151; }
+.result-label { font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#4a5568; margin-top:2px; }
+.result-msg { text-align:center; min-height:42px; font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; transition:.3s; }
+.result-win { color:#22c55e; } .result-big { color:#f5c518; font-size:18px; } .result-loss { color:#374151; }
 
-.casino-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 32px; font-weight: 700;
-  color: #f5c518;
-  letter-spacing: 4px;
-  margin-bottom: 4px;
-}
+/* Panel de apuestas derecho */
+.bet-panel { display:flex; flex-direction:column; gap:14px; }
+.bet-panel-inner { background:linear-gradient(160deg,#0d120f,#090e0a); border:1px solid rgba(0,180,60,0.2); border-radius:22px; padding:18px; }
+.panel-title { font-family:'Orbitron',sans-serif; font-size:10px; color:#4a5568; letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:10px; }
 
-.casino-subtitle {
-  color: #4a5568; font-size: 12px;
-  letter-spacing: 2px; text-transform: uppercase;
-}
+/* Apuestas activas */
+.active-bets { display:flex; flex-wrap:wrap; gap:6px; min-height:36px; padding:8px; background:#060e08; border-radius:10px; border:1px solid rgba(0,180,60,0.1); }
+.bet-chip { display:flex; align-items:center; gap:5px; background:#1a2e1a; border:1px solid #22c55e; border-radius:20px; padding:4px 10px; font-size:12px; color:#22c55e; cursor:pointer; transition:.15s; }
+.bet-chip:hover { background:#7f1d1d; border-color:#ef4444; color:#fca5a5; }
+.bet-chip .chip-x { font-size:10px; opacity:.7; }
+.no-bets-msg { color:#374151; font-size:12px; width:100%; text-align:center; padding:4px 0; }
 
-/* ── CRÉDITOS BAR ── */
-.credits-bar {
-  display: flex; align-items: center; justify-content: center;
-  gap: 14px; margin-bottom: 24px; flex-wrap: wrap;
-}
+/* Monto por apuesta */
+.bet-amount-row { display:flex; align-items:center; gap:8px; justify-content:center; }
+.bet-btn { width:34px; height:34px; border-radius:8px; border:1px solid #1e2d1e; background:#0d1a0d; color:#4ade80; font-size:18px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.15s; }
+.bet-btn:hover { background:#162016; border-color:#4ade80; }
+.bet-amount-display { font-family:'Orbitron',sans-serif; font-size:22px; font-weight:700; color:#f5c518; min-width:70px; text-align:center; }
+.bet-presets { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; }
+.bet-preset { padding:6px 4px; border-radius:7px; border:1px solid #1e2d1e; background:#0d1a0d; color:#4a5568; font-size:11px; font-weight:700; cursor:pointer; transition:.15s; text-align:center; }
+.bet-preset:hover,.bet-preset.active { border-color:#f5c518; color:#f5c518; background:#1a1400; }
 
-.credits-box {
-  background: linear-gradient(135deg, #0d1a10, #060e08);
-  border: 1px solid rgba(0,200,80,0.2);
-  border-radius: 14px; padding: 12px 22px;
-  text-align: center; min-width: 140px;
-}
-
-.credits-label {
-  font-size: 10px; color: #4a5568;
-  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;
-}
-
-.credits-amount {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 26px; font-weight: 700; color: #f5c518;
-}
-
-.credits-amount span { font-size: 13px; color: #78716c; }
-
-.buy-credits-btn {
-  display: flex; align-items: center; gap: 8px;
-  padding: 12px 22px;
-  border: 1px solid rgba(167,139,250,0.35);
-  border-radius: 12px;
-  background: linear-gradient(135deg, #130d24, #0c0818);
-  color: #a78bfa;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 11px; font-weight: 700; letter-spacing: 2px;
-  cursor: pointer; transition: .2s;
-}
-
-.buy-credits-btn:hover {
-  border-color: #a78bfa; background: #1a1035;
-  transform: translateY(-2px);
-}
-
-/* ── LAYOUT PRINCIPAL ── */
-.roulette-layout {
-  max-width: 860px; margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  align-items: start;
-}
-
-@media (max-width: 680px) {
-  .roulette-layout { grid-template-columns: 1fr; }
-}
-
-/* ══ RUEDA DE RULETA ══ */
-.wheel-panel {
-  background: linear-gradient(160deg, #0d120f, #090e0a);
-  border: 1px solid rgba(0,180,60,0.2);
-  border-radius: 22px; padding: 24px;
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-}
-
-.wheel-wrapper {
-  position: relative; width: 280px; height: 280px;
-}
-
-/* El triángulo puntero */
-.wheel-pointer {
-  position: absolute; top: -14px; left: 50%;
-  transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 22px solid #f5c518;
-  z-index: 10;
-}
-
-#rouletteCanvas {
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 6px #0d120f,
-    0 0 0 10px rgba(0,150,60,0.3),
-    0 10px 30px rgba(0,0,0,0.6);
-  display: block;
-}
-
-/* Bola resultado */
-.result-number {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 48px; font-weight: 900; line-height: 1;
-  min-width: 80px; text-align: center;
-  transition: .3s;
-}
-
-.result-number.red   { color: #ef4444; }
-.result-number.black { color: #e5e7eb; }
-.result-number.green { color: #22c55e; }
-.result-number.idle  { color: #374151; }
-
-.result-label {
-  font-size: 12px; letter-spacing: 2px;
-  text-transform: uppercase; color: #4a5568;
-  margin-top: 2px;
-}
-
-/* ══ PANEL DE APUESTA ══ */
-.bet-panel {
-  background: linear-gradient(160deg, #0d120f, #090e0a);
-  border: 1px solid rgba(0,180,60,0.2);
-  border-radius: 22px; padding: 22px;
-  display: flex; flex-direction: column; gap: 18px;
-}
-
-.panel-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 11px; color: #4a5568;
-  letter-spacing: 2px; text-transform: uppercase;
-  text-align: center;
-}
-
-/* Selector de apuesta */
-.bet-section { display: flex; flex-direction: column; gap: 8px; }
-
-.bet-row-inline {
-  display: flex; align-items: center; gap: 8px; justify-content: center;
-}
-
-.bet-btn {
-  width: 34px; height: 34px; border-radius: 8px;
-  border: 1px solid #1e2d1e; background: #0d1a0d;
-  color: #4ade80; font-size: 18px; font-weight: 700;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: .15s;
-}
-
-.bet-btn:hover { background: #162016; border-color: #4ade80; }
-
-.bet-amount-display {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 22px; font-weight: 700; color: #f5c518;
-  min-width: 70px; text-align: center;
-}
-
-.bet-presets {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;
-}
-
-.bet-preset {
-  padding: 6px 4px; border-radius: 7px;
-  border: 1px solid #1e2d1e; background: #0d1a0d;
-  color: #4a5568; font-size: 11px; font-weight: 700;
-  cursor: pointer; transition: .15s; text-align: center;
-}
-
-.bet-preset:hover, .bet-preset.active {
-  border-color: #f5c518; color: #f5c518; background: #1a1400;
-}
-
-/* Tipos de apuesta */
-.bet-type-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 7px;
-}
-
-.bet-type-btn {
-  padding: 10px 6px; border-radius: 10px;
-  border: 2px solid transparent; background: #0d1a0d;
-  color: #9ca3af; font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: .2s; text-align: center;
-  letter-spacing: 0.5px;
-}
-
-.bet-type-btn:hover { transform: translateY(-1px); }
-
-.btn-red {
-  border-color: #7f1d1d; color: #fca5a5;
-  background: linear-gradient(135deg, #1c0a0a, #0d0606);
-}
-
-.btn-red.selected, .btn-red:hover {
-  border-color: #ef4444; color: #fff;
-  background: linear-gradient(135deg, #7f1d1d, #450a0a);
-}
-
-.btn-black {
-  border-color: #374151; color: #d1d5db;
-  background: linear-gradient(135deg, #111318, #0d1014);
-}
-
-.btn-black.selected, .btn-black:hover {
-  border-color: #9ca3af; color: #fff;
-  background: linear-gradient(135deg, #374151, #1f2937);
-}
-
-.btn-green {
-  border-color: #14532d; color: #86efac;
-  background: linear-gradient(135deg, #0a1c0f, #060e09);
-}
-
-.btn-green.selected, .btn-green:hover {
-  border-color: #22c55e; color: #fff;
-  background: linear-gradient(135deg, #14532d, #052e16);
-}
+/* Botones tipo de apuesta (colores y grupos) */
+.bet-type-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; }
+.bet-type-btn { padding:10px 6px; border-radius:10px; border:2px solid transparent; background:#0d1a0d; color:#9ca3af; font-size:11px; font-weight:700; cursor:pointer; transition:.2s; text-align:center; letter-spacing:.5px; }
+.bet-type-btn:hover { transform:translateY(-1px); }
+.btn-red { border-color:#7f1d1d; color:#fca5a5; background:linear-gradient(135deg,#1c0a0a,#0d0606); }
+.btn-red:hover,.btn-red.selected { border-color:#ef4444; color:#fff; background:linear-gradient(135deg,#7f1d1d,#450a0a); }
+.btn-black { border-color:#374151; color:#d1d5db; background:linear-gradient(135deg,#111318,#0d1014); }
+.btn-black:hover,.btn-black.selected { border-color:#9ca3af; color:#fff; background:linear-gradient(135deg,#374151,#1f2937); }
+.btn-green { border-color:#14532d; color:#86efac; background:linear-gradient(135deg,#0a1c0f,#060e09); }
+.btn-green:hover,.btn-green.selected { border-color:#22c55e; color:#fff; background:linear-gradient(135deg,#14532d,#052e16); }
+.btn-neutral { border-color:#374151; color:#d1d5db; background:#111318; }
+.btn-neutral:hover,.btn-neutral.selected { border-color:#a78bfa; color:#a78bfa; background:#1a1035; }
 
 /* Grid de números */
-.numbers-grid-title {
-  font-size: 10px; color: #4a5568;
-  letter-spacing: 1px; text-transform: uppercase; text-align: center;
-}
+.numbers-grid { display:grid; grid-template-columns:repeat(9,1fr); gap:3px; }
+.num-btn { aspect-ratio:1; border-radius:5px; border:1px solid transparent; font-size:10px; font-weight:700; cursor:pointer; transition:.15s; display:flex; align-items:center; justify-content:center; position:relative; }
+.num-btn.red-num { background:#1c0a0a; border-color:#7f1d1d; color:#fca5a5; }
+.num-btn.red-num:hover { background:#7f1d1d; border-color:#ef4444; color:#fff; }
+.num-btn.red-num.selected { background:#ef4444; border-color:#fca5a5; color:#fff; box-shadow:0 0 8px rgba(239,68,68,0.6); }
+.num-btn.black-num { background:#111318; border-color:#374151; color:#9ca3af; }
+.num-btn.black-num:hover { background:#374151; border-color:#9ca3af; color:#fff; }
+.num-btn.black-num.selected { background:#6b7280; border-color:#e5e7eb; color:#fff; box-shadow:0 0 8px rgba(107,114,128,0.6); }
+.num-btn.zero-num { background:#0a1c0f; border-color:#14532d; color:#86efac; }
+.num-btn.zero-num:hover { background:#14532d; border-color:#22c55e; color:#fff; }
+.num-btn.zero-num.selected { background:#22c55e; border-color:#86efac; color:#000; box-shadow:0 0 8px rgba(34,197,94,0.6); }
+.num-btn .chip-dot { position:absolute; top:1px; right:1px; width:6px; height:6px; border-radius:50%; background:#f5c518; display:none; }
+.num-btn.has-bet .chip-dot { display:block; }
 
-.numbers-grid {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 4px;
-}
+/* Total apuesta y botones acción */
+.total-bet-row { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; background:#060e08; border-radius:10px; font-size:13px; }
+.total-bet-label { color:#4a5568; }
+.total-bet-value { font-family:'Orbitron',sans-serif; color:#f5c518; font-weight:700; font-size:16px; }
+.spin-btn { width:100%; padding:16px; border:none; border-radius:14px; background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700; letter-spacing:3px; cursor:pointer; transition:.2s; box-shadow:0 4px 20px rgba(22,163,74,0.35); }
+.spin-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 28px rgba(22,163,74,0.5); background:linear-gradient(135deg,#22c55e,#16a34a); }
+.spin-btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+.spin-btn.spinning { background:linear-gradient(135deg,#374151,#1f2937); box-shadow:none; }
+.clear-btn { width:100%; padding:10px; border:1px solid #374151; border-radius:10px; background:transparent; color:#6b7280; font-size:12px; cursor:pointer; transition:.15s; }
+.clear-btn:hover { border-color:#ef4444; color:#ef4444; }
 
-.num-btn {
-  aspect-ratio: 1; border-radius: 6px;
-  border: 1px solid transparent;
-  font-size: 11px; font-weight: 700;
-  cursor: pointer; transition: .15s;
-  display: flex; align-items: center; justify-content: center;
-}
+/* Tabla de pagos */
+.paytable { max-width:1100px; margin:20px auto 0; background:#0d120f; border:1px solid rgba(0,180,60,0.15); border-radius:16px; padding:18px 22px; }
+.paytable-title { font-family:'Orbitron',sans-serif; font-size:10px; color:#4a5568; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; text-align:center; }
+.paytable-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+@media(max-width:600px){ .paytable-grid{ grid-template-columns:1fr 1fr; } }
+.pay-row { display:flex; align-items:center; justify-content:space-between; background:#0a0f0b; border-radius:8px; padding:8px 12px; }
+.pay-label { font-size:12px; color:#9ca3af; }
+.pay-mult { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; color:#f5c518; }
 
-.num-btn.red-num {
-  background: #1c0a0a; border-color: #7f1d1d; color: #fca5a5;
-}
+/* Historial completo */
+.history-section { max-width:1100px; margin:16px auto 0; background:#0d120f; border:1px solid rgba(0,180,60,0.15); border-radius:16px; padding:18px 22px; }
+.history-title { font-family:'Orbitron',sans-serif; font-size:10px; color:#4a5568; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; text-align:center; }
+.history-grid { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+.hist-item { display:flex; flex-direction:column; align-items:center; gap:2px; padding:6px 10px; border-radius:10px; min-width:44px; }
+.hist-item.red { background:rgba(127,29,29,0.4); border:1px solid rgba(239,68,68,0.4); }
+.hist-item.black { background:rgba(31,41,55,0.6); border:1px solid rgba(107,114,128,0.3); }
+.hist-item.green { background:rgba(5,46,22,0.5); border:1px solid rgba(34,197,94,0.4); }
+.hist-num { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; }
+.hist-item.red .hist-num { color:#ef4444; }
+.hist-item.black .hist-num { color:#e5e7eb; }
+.hist-item.green .hist-num { color:#22c55e; }
+.hist-color { font-size:9px; letter-spacing:1px; text-transform:uppercase; }
+.hist-item.red .hist-color { color:#7f1d1d; }
+.hist-item.black .hist-color { color:#374151; }
+.hist-item.green .hist-color { color:#14532d; }
+.hist-empty { color:#374151; font-size:12px; padding:10px; }
 
-.num-btn.red-num:hover, .num-btn.red-num.selected {
-  background: #7f1d1d; border-color: #ef4444; color: #fff;
-}
+/* Mini historial barra superior */
+.history-bar { max-width:1100px; margin:10px auto 0; display:flex; gap:4px; flex-wrap:wrap; justify-content:center; }
+.history-chip { padding:3px 9px; border-radius:20px; font-family:'Orbitron',sans-serif; font-size:10px; font-weight:700; border:1px solid transparent; }
+.chip-win { background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.3); color:#22c55e; }
+.chip-loss { background:rgba(55,65,81,0.3); border-color:rgba(55,65,81,0.4); color:#4b5563; }
+.chip-big { background:rgba(245,197,24,0.1); border-color:rgba(245,197,24,0.3); color:#f5c518; }
 
-.num-btn.black-num {
-  background: #111318; border-color: #374151; color: #9ca3af;
-}
+/* Modal compra */
+.mp-modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.88); display:flex; align-items:center; justify-content:center; z-index:9999; backdrop-filter:blur(4px); }
+.mp-modal { background:linear-gradient(160deg,#13111c,#0e0c17); border:1px solid #2a2040; border-radius:22px; padding:40px 36px 32px; max-width:380px; width:92%; text-align:center; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.6); }
+.mp-modal-close { position:absolute; top:14px; right:18px; background:none; border:none; color:#6b7280; font-size:20px; cursor:pointer; transition:.15s; }
+.mp-modal-close:hover { color:#e5e7eb; }
+.mp-modal-icon { font-size:42px; margin-bottom:12px; }
+.mp-modal-title { font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700; color:#a78bfa; letter-spacing:2px; margin-bottom:20px; }
+.mp-montos-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:20px; }
+.mp-monto-btn { padding:10px 6px; border-radius:10px; border:1px solid #2a2040; background:#12101c; cursor:pointer; transition:.15s; text-align:center; }
+.mp-monto-btn:hover,.mp-monto-btn.selected { border-color:#22c55e; background:#0a1c0f; }
+.mp-monto-cr { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700; color:#f5c518; }
+.mp-monto-precio { font-size:11px; color:#6b7280; margin-top:3px; }
+.mp-monto-btn.selected .mp-monto-precio { color:#22c55e; }
+.mp-pay-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:16px; background:linear-gradient(135deg,#009ee3,#007abf); color:white; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; transition:.2s; font-family:'Inter',sans-serif; box-shadow:0 4px 20px rgba(0,158,227,0.3); }
+.mp-pay-btn:hover { background:linear-gradient(135deg,#00b2ff,#0090d4); transform:translateY(-2px); }
+.mp-modal-note { font-size:11px; color:#374151; margin-top:16px; line-height:1.7; }
+.mp-modal-note a { color:#a78bfa; text-decoration:none; }
 
-.num-btn.black-num:hover, .num-btn.black-num.selected {
-  background: #374151; border-color: #9ca3af; color: #fff;
-}
-
-.num-btn.zero-num {
-  background: #0a1c0f; border-color: #14532d; color: #86efac;
-}
-
-.num-btn.zero-num:hover, .num-btn.zero-num.selected {
-  background: #14532d; border-color: #22c55e; color: #fff;
-}
-
-/* Selección activa display */
-.selection-display {
-  background: #060e08; border: 1px solid rgba(0,180,60,0.15);
-  border-radius: 10px; padding: 10px 14px;
-  font-size: 12px; color: #4a5568; text-align: center;
-  min-height: 36px;
-}
-
-.selection-display strong { color: #f5c518; }
-
-/* Botón GIRAR */
-.spin-btn {
-  width: 100%; padding: 16px;
-  border: none; border-radius: 14px;
-  background: linear-gradient(135deg, #16a34a, #15803d);
-  color: #fff;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 15px; font-weight: 700; letter-spacing: 3px;
-  cursor: pointer; transition: .2s;
-  box-shadow: 0 4px 20px rgba(22,163,74,0.35);
-}
-
-.spin-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(22,163,74,0.5);
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-}
-
-.spin-btn:active:not(:disabled) { transform: scale(0.98); }
-
-.spin-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-
-.spin-btn.spinning {
-  background: linear-gradient(135deg, #374151, #1f2937);
-  box-shadow: none;
-}
-
-/* Resultado texto */
-.result-msg {
-  text-align: center; min-height: 42px;
-  font-family: 'Orbitron', sans-serif; font-size: 17px; font-weight: 700;
-  transition: .3s;
-}
-
-.result-win     { color: #22c55e; }
-.result-big     { color: #f5c518; font-size: 21px; }
-.result-loss    { color: #374151; }
-
-/* ── TABLA DE PAGOS ── */
-.paytable {
-  max-width: 860px; margin: 20px auto 0;
-  background: #0d120f; border: 1px solid rgba(0,180,60,0.15);
-  border-radius: 16px; padding: 18px 22px;
-}
-
-.paytable-title {
-  font-family: 'Orbitron', sans-serif; font-size: 10px;
-  color: #4a5568; letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 12px; text-align: center;
-}
-
-.paytable-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-}
-
-@media (max-width: 500px) {
-  .paytable-grid { grid-template-columns: 1fr 1fr; }
-}
-
-.pay-row {
-  display: flex; align-items: center; justify-content: space-between;
-  background: #0a0f0b; border-radius: 8px; padding: 8px 12px;
-}
-
-.pay-label { font-size: 13px; color: #9ca3af; }
-.pay-label .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
-.pay-label .dot.red   { background: #ef4444; }
-.pay-label .dot.black { background: #6b7280; }
-.pay-label .dot.green { background: #22c55e; }
-
-.pay-mult {
-  font-family: 'Orbitron', sans-serif; font-size: 12px;
-  font-weight: 700; color: #f5c518;
-}
-
-/* ── HISTORIAL ── */
-.history-bar {
-  max-width: 860px; margin: 14px auto 0;
-  display: flex; gap: 5px; flex-wrap: wrap; justify-content: center;
-}
-
-.history-chip {
-  padding: 4px 10px; border-radius: 20px;
-  font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700;
-  border: 1px solid transparent; transition: .2s;
-}
-
-.chip-win  { background: rgba(34,197,94,0.1);  border-color: rgba(34,197,94,0.3);  color: #22c55e; }
-.chip-loss { background: rgba(55,65,81,0.3);   border-color: rgba(55,65,81,0.4);   color: #4b5563; }
-.chip-big  { background: rgba(245,197,24,0.1); border-color: rgba(245,197,24,0.3); color: #f5c518; }
-
-/* ── SIN CRÉDITOS banner ── */
-.no-credits-banner {
-  max-width: 860px; margin: 20px auto 0;
-  background: linear-gradient(135deg, #0c0818, #13111c);
-  border: 1px solid rgba(167,139,250,0.3);
-  border-radius: 16px; padding: 22px 28px;
-  text-align: center;
-}
-
-.no-credits-banner h3 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 16px; color: #a78bfa; letter-spacing: 2px; margin: 0 0 10px;
-}
-
-.no-credits-banner p {
-  font-size: 13px; color: #6b7280; margin: 0 0 18px;
-}
-
-/* ── MODAL COMPRA ── */
-.mp-modal-bg {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.88);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9999; backdrop-filter: blur(4px);
-}
-
-.mp-modal {
-  background: linear-gradient(160deg, #13111c, #0e0c17);
-  border: 1px solid #2a2040; border-radius: 22px;
-  padding: 40px 36px 32px; max-width: 380px; width: 92%;
-  text-align: center; position: relative;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-}
-
-.mp-modal-close {
-  position: absolute; top: 14px; right: 18px;
-  background: none; border: none;
-  color: #6b7280; font-size: 20px; cursor: pointer; transition: .15s;
-}
-
-.mp-modal-close:hover { color: #e5e7eb; }
-.mp-modal-icon { font-size: 42px; margin-bottom: 12px; }
-
-.mp-modal-title {
-  font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700;
-  color: #a78bfa; letter-spacing: 2px; margin-bottom: 20px;
-}
-
-.mp-modal-pack {
-  background: linear-gradient(135deg, #1a1400, #0d0b00);
-  border: 1px solid #f5c51840; border-radius: 14px;
-  padding: 18px; margin-bottom: 24px;
-}
-
-.mp-modal-pack-cr {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 44px; font-weight: 700; color: #f5c518; line-height: 1;
-}
-
-.mp-modal-pack-label { font-size: 11px; color: #6b7280; letter-spacing: 2px; margin-top: 6px; }
-
-.mp-pay-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 16px;
-  background: linear-gradient(135deg, #009ee3, #007abf);
-  color: white; border: none; border-radius: 12px;
-  font-size: 15px; font-weight: 700; cursor: pointer;
-  text-decoration: none; transition: .2s;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 4px 20px rgba(0,158,227,0.3);
-}
-
-.mp-pay-btn:hover {
-  background: linear-gradient(135deg, #00b2ff, #0090d4);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(0,158,227,0.45);
-}
-
-.mp-modal-note { font-size: 11px; color: #374151; margin-top: 16px; line-height: 1.7; }
-.mp-modal-note a { color: #a78bfa; text-decoration: none; }
+/* Modal retiro */
+.wd-modal { background:linear-gradient(160deg,#0d1a10,#060e08); border:1px solid rgba(0,200,80,0.2); border-radius:22px; padding:32px 28px 28px; max-width:420px; width:92%; position:relative; max-height:90vh; overflow-y:auto; }
+.wd-modal input,.wd-modal select { width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; font-size:13px; margin-bottom:14px; }
 
 /* Toast */
-.credits-toast {
-  position: fixed; bottom: 30px; left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: linear-gradient(135deg, #052e16, #065f46);
-  border: 1px solid #22c55e; border-radius: 14px;
-  padding: 14px 28px; color: #22c55e;
-  font-family: 'Orbitron', sans-serif; font-size: 13px;
-  font-weight: 700; letter-spacing: 1px; z-index: 9998;
-  transition: transform .45s cubic-bezier(0.34,1.56,0.64,1);
-  box-shadow: 0 8px 30px rgba(34,197,94,0.3);
-  white-space: nowrap;
-}
+.credits-toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(100px); background:linear-gradient(135deg,#052e16,#065f46); border:1px solid #22c55e; border-radius:14px; padding:14px 28px; color:#22c55e; font-family:'Orbitron',sans-serif; font-size:13px; font-weight:700; letter-spacing:1px; z-index:9998; transition:transform .45s cubic-bezier(0.34,1.56,0.64,1); box-shadow:0 8px 30px rgba(34,197,94,0.3); white-space:nowrap; }
+.credits-toast.show { transform:translateX(-50%) translateY(0); }
 
-.credits-toast.show { transform: translateX(-50%) translateY(0); }
+/* Sin créditos */
+.no-credits-banner { max-width:1100px; margin:20px auto 0; background:linear-gradient(135deg,#0c0818,#13111c); border:1px solid rgba(167,139,250,0.3); border-radius:16px; padding:22px 28px; text-align:center; }
+.no-credits-banner h3 { font-family:'Orbitron',sans-serif; font-size:16px; color:#a78bfa; letter-spacing:2px; margin:0 0 10px; }
+.no-credits-banner p { font-size:13px; color:#6b7280; margin:0 0 18px; }
+.disclaimer { max-width:1100px; margin:18px auto 0; text-align:center; font-size:11px; color:#374151; line-height:1.6; }
 
-/* Disclaimer */
-.disclaimer {
-  max-width: 860px; margin: 18px auto 0;
-  text-align: center; font-size: 11px; color: #374151; line-height: 1.6;
-}
-
-/* ── GRID MONTOS RECARGA ── */
-.mp-montos-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.mp-monto-btn {
-  padding: 10px 6px; border-radius: 10px;
-  border: 1px solid #2a2040; background: #12101c;
-  cursor: pointer; transition: .15s; text-align: center;
-}
-
-.mp-monto-btn:hover, .mp-monto-btn.selected {
-  border-color: #22c55e; background: #0a1c0f;
-}
-
-.mp-monto-cr {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 14px; font-weight: 700; color: #f5c518;
-}
-
-.mp-monto-precio {
-  font-size: 11px; color: #6b7280; margin-top: 3px;
-}
-
-.mp-monto-btn.selected .mp-monto-precio { color: #22c55e; }
-
-/* Win flash de fondo */
-@keyframes win-glow {
-  0%,100% { background-image: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(0,180,80,0.08), transparent); }
-  50%      { background-image: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(0,255,80,0.18), transparent); }
-}
-
-.casino-page.win-anim { animation: win-glow 0.4s ease-in-out 4; }
-
+@keyframes win-glow { 0%,100%{ background-image:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(0,180,80,0.08),transparent); } 50%{ background-image:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(0,255,80,0.22),transparent); } }
+.casino-page.win-anim { animation:win-glow 0.4s ease-in-out 4; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="casino-page" id="casinoPage">
 
-  <!-- HEADER -->
   <div class="casino-header">
     <div class="casino-title">🎡 RULETA AULAPLC</div>
-    <div class="casino-subtitle">Apuesta · Gira · Gana</div>
+    <div class="casino-subtitle">Apuesta múltiple · Gira · Gana</div>
   </div>
 
-  <!-- CRÉDITOS -->
+  <!-- CRÉDITOS BAR -->
   <div class="credits-bar">
     <div class="credits-box">
       <div class="credits-label">Tus créditos</div>
@@ -557,79 +190,86 @@
       <div class="credits-label">Tiradas hoy</div>
       <div class="credits-amount" id="spinsToday" style="color:#a78bfa">0</div>
     </div>
-    <button class="buy-credits-btn" onclick="openCreditPurchase()">
-      💎 RECARGAR CR
-    </button>
-    <button class="buy-credits-btn withdraw-btn" onclick="openWithdrawModal()" style="background:linear-gradient(135deg,#16a34a,#15803d)">
-      💸 RETIRAR
-    </button>
+    <button class="buy-credits-btn" onclick="openCreditPurchase()">💎 RECARGAR CR</button>
+    <button class="buy-credits-btn" onclick="openWithdrawModal()" style="background:linear-gradient(135deg,#16a34a,#15803d);border-color:rgba(34,197,94,0.4);color:#4ade80">💸 RETIRAR</button>
   </div>
 
-  <!-- LAYOUT RULETA -->
-  <div class="roulette-layout">
+  <!-- LAYOUT PRINCIPAL -->
+  <div class="casino-main">
 
-    <!-- PANEL IZQUIERDO: RUEDA -->
+    <!-- RUEDA -->
     <div class="wheel-panel">
-
       <div class="wheel-wrapper" id="wheelWrapper">
         <div class="wheel-pointer"></div>
         <canvas id="rouletteCanvas" width="280" height="280"></canvas>
       </div>
-
       <div style="text-align:center">
         <div class="result-number idle" id="resultNumber">—</div>
         <div class="result-label" id="resultLabel">Esperando apuesta</div>
       </div>
-
+      <div class="result-msg" id="resultBox"></div>
     </div>
 
-    <!-- PANEL DERECHO: APUESTA -->
+    <!-- PANEL APUESTAS -->
     <div class="bet-panel">
 
-      <div class="panel-title">◆ Configura tu apuesta</div>
-
-      <!-- Monto de apuesta -->
-      <div class="bet-section">
-        <div class="panel-title" style="font-size:9px">Monto a apostar</div>
-        <div class="bet-row-inline">
+      <!-- Monto por ficha -->
+      <div class="bet-panel-inner">
+        <div class="panel-title">◆ Valor de ficha</div>
+        <div class="bet-amount-row">
           <button class="bet-btn" onclick="changeBet(-50)">−</button>
           <div class="bet-amount-display" id="betDisplay">100</div>
           <button class="bet-btn" onclick="changeBet(50)">+</button>
         </div>
-        <div class="bet-presets">
-          <button class="bet-preset" onclick="setBet(50)">50</button>
-          <button class="bet-preset" onclick="setBet(100)">100</button>
-          <button class="bet-preset" onclick="setBet(250)">250</button>
-          <button class="bet-preset" onclick="setBet(500)">500</button>
+        <div class="bet-presets" style="margin-top:8px">
+          <button class="bet-preset" onclick="setBetAmount(50)">50</button>
+          <button class="bet-preset" onclick="setBetAmount(100)">100</button>
+          <button class="bet-preset" onclick="setBetAmount(250)">250</button>
+          <button class="bet-preset" onclick="setBetAmount(500)">500</button>
+          <button class="bet-preset" onclick="setBetAmount(1000)">1K</button>
         </div>
       </div>
 
-      <!-- Tipo de apuesta: color -->
-      <div class="bet-section">
-        <div class="panel-title" style="font-size:9px">Apuesta por color</div>
+      <!-- Apuestas especiales -->
+      <div class="bet-panel-inner">
+        <div class="panel-title">◆ Apuestas de color y grupo</div>
         <div class="bet-type-grid">
-          <button class="bet-type-btn btn-red"   onclick="selectColor('red')"   id="btnRed">🔴 ROJO<br><small>×2</small></button>
-          <button class="bet-type-btn btn-black"  onclick="selectColor('black')" id="btnBlack">⚫ NEGRO<br><small>×2</small></button>
-          <button class="bet-type-btn btn-green"  onclick="selectColor('green')" id="btnGreen">🟢 VERDE<br><small>×36</small></button>
+          <button class="bet-type-btn btn-red"   onclick="addBet('red')"    id="btnRed">🔴 ROJO<br><small>×2</small></button>
+          <button class="bet-type-btn btn-black"  onclick="addBet('black')"  id="btnBlack">⚫ NEGRO<br><small>×2</small></button>
+          <button class="bet-type-btn btn-green"  onclick="addBet('green')"  id="btnGreen">🟢 VERDE<br><small>×36</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('even')"  id="btnEven">PAR<br><small>×2</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('odd')"   id="btnOdd">IMPAR<br><small>×2</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('low')"   id="btnLow">1-18<br><small>×2</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('high')"  id="btnHigh">19-36<br><small>×2</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('doz1')"  id="btnDoz1">1ª DOC<br><small>×3</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('doz2')"  id="btnDoz2">2ª DOC<br><small>×3</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('doz3')"  id="btnDoz3">3ª DOC<br><small>×3</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('col1')"  id="btnCol1">COL 1<br><small>×3</small></button>
+          <button class="bet-type-btn btn-neutral" onclick="addBet('col2')"  id="btnCol2">COL 2<br><small>×3</small></button>
         </div>
       </div>
 
-      <!-- Grid de números -->
-      <div class="bet-section">
-        <div class="numbers-grid-title">— o elige un número —</div>
+      <!-- Grid números -->
+      <div class="bet-panel-inner">
+        <div class="panel-title">◆ Apuesta a número exacto</div>
         <div class="numbers-grid" id="numbersGrid"></div>
       </div>
 
-      <!-- Selección actual -->
-      <div class="selection-display" id="selectionDisplay">
-        Selecciona color o número para apostar
+      <!-- Apuestas activas -->
+      <div class="bet-panel-inner">
+        <div class="panel-title">◆ Apuestas activas</div>
+        <div class="active-bets" id="activeBets">
+          <span class="no-bets-msg">Sin apuestas aún — elige arriba</span>
+        </div>
+        <div class="total-bet-row" style="margin-top:10px">
+          <span class="total-bet-label">Total apostado:</span>
+          <span class="total-bet-value" id="totalBetDisplay">0 CR</span>
+        </div>
       </div>
 
-      <!-- Botón girar -->
+      <!-- Botones acción -->
       <button class="spin-btn" id="spinBtn" onclick="spin()">▶ GIRAR</button>
-
-      <!-- Resultado -->
-      <div class="result-msg" id="resultBox"></div>
+      <button class="clear-btn" onclick="clearAllBets()">✕ Borrar todas las apuestas</button>
 
     </div>
   </div>
@@ -638,897 +278,595 @@
   <div class="paytable">
     <div class="paytable-title">Tabla de premios</div>
     <div class="paytable-grid">
-      <div class="pay-row">
-        <span class="pay-label"><span class="dot red"></span>Rojo</span>
-        <span class="pay-mult">× 2</span>
-      </div>
-      <div class="pay-row">
-        <span class="pay-label"><span class="dot black"></span>Negro</span>
-        <span class="pay-mult">× 2</span>
-      </div>
-      <div class="pay-row">
-        <span class="pay-label"><span class="dot green"></span>Verde (0)</span>
-        <span class="pay-mult">× 36</span>
-      </div>
-      <div class="pay-row">
-        <span class="pay-label">Número exacto (rojo/negro)</span>
-        <span class="pay-mult">× 35</span>
-      </div>
-      <div class="pay-row">
-        <span class="pay-label">Número 0 exacto</span>
-        <span class="pay-mult">× 36</span>
-      </div>
-      <div class="pay-row">
-        <span class="pay-label">Sin acierto</span>
-        <span class="pay-mult">— 0 —</span>
-      </div>
+      <div class="pay-row"><span class="pay-label">🔴 Rojo / ⚫ Negro</span><span class="pay-mult">× 2</span></div>
+      <div class="pay-row"><span class="pay-label">🟢 Verde (0)</span><span class="pay-mult">× 36</span></div>
+      <div class="pay-row"><span class="pay-label">Número exacto (1-36)</span><span class="pay-mult">× 35</span></div>
+      <div class="pay-row"><span class="pay-label">Número 0 exacto</span><span class="pay-mult">× 36</span></div>
+      <div class="pay-row"><span class="pay-label">Par / Impar</span><span class="pay-mult">× 2</span></div>
+      <div class="pay-row"><span class="pay-label">1-18 / 19-36</span><span class="pay-mult">× 2</span></div>
+      <div class="pay-row"><span class="pay-label">Docena (1-12, 13-24, 25-36)</span><span class="pay-mult">× 3</span></div>
+      <div class="pay-row"><span class="pay-label">Columna</span><span class="pay-mult">× 3</span></div>
     </div>
   </div>
 
-  <!-- HISTORIAL -->
+  <!-- MINI BARRA HISTORIAL -->
   <div class="history-bar" id="historyBar">
     <span style="font-size:11px;color:#374151;letter-spacing:1px;">ÚLTIMAS TIRADAS —</span>
   </div>
 
-  <!-- DISCLAIMER -->
-  <div class="disclaimer">
-    🎮 Solo entretenimiento · Los créditos son virtuales y no tienen valor monetario
+  <!-- HISTORIAL COMPLETO -->
+  <div class="history-section">
+    <div class="history-title">◆ Historial de números</div>
+    <div class="history-grid" id="historyGrid">
+      <span class="hist-empty">Aún no hay tiradas</span>
+    </div>
   </div>
+
+  <div class="disclaimer">🎮 Solo entretenimiento · Los créditos son virtuales y no tienen valor monetario</div>
 
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-/* ══════════════════════════════════════════
-   RULETA ENGINE — AULAPLC
-══════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   RULETA ENGINE — AULAPLC  (apuestas múltiples + historial)
+══════════════════════════════════════════════════════════ */
 
-// Orden europeo de la ruleta (0 a 36 = 37 casillas)
 const WHEEL_ORDER = [
   0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,
   24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26
 ]
-
-// Números rojos en ruleta europea
 const RED_NUMS = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36])
+const SEGMENTS  = WHEEL_ORDER.length
+const SEG_ANGLE = (Math.PI*2) / SEGMENTS
 
-function numColor(n) {
-  if (n === 0) return 'green'
-  return RED_NUMS.has(n) ? 'red' : 'black'
-}
+function numColor(n){ if(n===0) return 'green'; return RED_NUMS.has(n)?'red':'black' }
 
-// ── MERCADOPAGO — montos disponibles (1 peso = 1 crédito) ──
 const MP_PACKS = [
-  { pesos: 1000,  creditos: 1000  },
-  { pesos: 2000,  creditos: 2000  },
-  { pesos: 3000,  creditos: 3000  },
-  { pesos: 5000,  creditos: 5000  },
-  { pesos: 10000, creditos: 10000 },
+  {pesos:1000,creditos:1000},{pesos:2000,creditos:2000},{pesos:3000,creditos:3000},
+  {pesos:5000,creditos:5000},{pesos:10000,creditos:10000}
 ]
 let montoSeleccionado = 2000
+const RETIRO_MINIMO = 1000
 
-// Estado
+// ── ESTADO ──
 let credits    = 0
-let bet        = 100
+let chipValue  = 100       // valor de la ficha actual
 let sessionWin = 0
 let spinsToday = 0
 let spinning   = false
-let histData   = []
-let selectedType   = null  // 'red'|'black'|'green'|number
-let selectedNumber = null
+let histData   = []        // [{num, color, win}]
 
-// ── CANVAS RULETA ──
-const canvas  = document.getElementById('rouletteCanvas')
-const ctx     = canvas.getContext('2d')
-const CX = canvas.width / 2
-const CY = canvas.height / 2
-const R  = CX - 4
-const SEGMENTS = WHEEL_ORDER.length
-const SEG_ANGLE = (Math.PI * 2) / SEGMENTS
+// Mapa de apuestas: key → monto apostado
+// keys: 'red','black','green','even','odd','low','high',
+//       'doz1','doz2','doz3','col1','col2', o número 0-36 como string
+let bets = {}
 
-let wheelAngle = 0
-let ballAngle  = 0
-let ballR      = R * 0.7
-let animFrame  = null
-let spinning_wheel = false
+// ── CANVAS ──
+const canvas = document.getElementById('rouletteCanvas')
+const ctx    = canvas.getContext('2d')
+const CX = canvas.width/2, CY = canvas.height/2, R = CX-4
+let wheelAngle = 0, animFrame = null
 
-function drawWheel(rotation) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-  // Sombra exterior
-  ctx.save()
-  ctx.shadowBlur = 18
-  ctx.shadowColor = 'rgba(0,0,0,0.7)'
-  ctx.beginPath()
-  ctx.arc(CX, CY, R, 0, Math.PI*2)
-  ctx.fillStyle = '#0d120f'
-  ctx.fill()
-  ctx.restore()
-
-  // Segmentos
-  for (let i = 0; i < SEGMENTS; i++) {
-    const startAngle = rotation + i * SEG_ANGLE
-    const endAngle   = startAngle + SEG_ANGLE
-
-    const num = WHEEL_ORDER[i]
-    const col = numColor(num)
-
-    ctx.beginPath()
-    ctx.moveTo(CX, CY)
-    ctx.arc(CX, CY, R - 2, startAngle, endAngle)
-    ctx.closePath()
-
-    if (col === 'green') {
-      ctx.fillStyle = '#16a34a'
-    } else if (col === 'red') {
-      ctx.fillStyle = '#b91c1c'
-    } else {
-      ctx.fillStyle = '#1f2937'
-    }
-    ctx.fill()
-
-    // Borde separador
-    ctx.strokeStyle = '#0d120f'
-    ctx.lineWidth = 1.5
-    ctx.stroke()
-
-    // Número
-    ctx.save()
-    ctx.translate(CX, CY)
-    ctx.rotate(startAngle + SEG_ANGLE / 2)
-    ctx.translate(R * 0.72, 0)
-    ctx.rotate(Math.PI / 2)
-    ctx.fillStyle = '#ffffff'
-    ctx.font = `bold ${SEGMENTS > 20 ? 8 : 10}px Inter`
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText(String(num), 0, 0)
-    ctx.restore()
+// ── DIBUJO RUEDA ──
+function drawWheel(rotation){
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+  ctx.save(); ctx.shadowBlur=18; ctx.shadowColor='rgba(0,0,0,0.7)'
+  ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fillStyle='#0d120f'; ctx.fill(); ctx.restore()
+  for(let i=0;i<SEGMENTS;i++){
+    const sa=rotation+i*SEG_ANGLE, ea=sa+SEG_ANGLE
+    const num=WHEEL_ORDER[i], col=numColor(num)
+    ctx.beginPath(); ctx.moveTo(CX,CY); ctx.arc(CX,CY,R-2,sa,ea); ctx.closePath()
+    ctx.fillStyle = col==='green'?'#16a34a':col==='red'?'#b91c1c':'#1f2937'
+    ctx.fill(); ctx.strokeStyle='#0d120f'; ctx.lineWidth=1.5; ctx.stroke()
+    ctx.save(); ctx.translate(CX,CY); ctx.rotate(sa+SEG_ANGLE/2)
+    ctx.translate(R*0.72,0); ctx.rotate(Math.PI/2)
+    ctx.fillStyle='#ffffff'; ctx.font=`bold 8px Inter`
+    ctx.textAlign='center'; ctx.textBaseline='middle'
+    ctx.fillText(String(num),0,0); ctx.restore()
   }
-
-  // Aro exterior dorado
-  ctx.beginPath()
-  ctx.arc(CX, CY, R - 1, 0, Math.PI*2)
-  ctx.strokeStyle = '#92400e'
-  ctx.lineWidth = 3
-  ctx.stroke()
-
-  // Centro
-  ctx.beginPath()
-  ctx.arc(CX, CY, 20, 0, Math.PI*2)
-  const grad = ctx.createRadialGradient(CX, CY, 0, CX, CY, 20)
-  grad.addColorStop(0, '#f5c518')
-  grad.addColorStop(1, '#92400e')
-  ctx.fillStyle = grad
-  ctx.fill()
+  ctx.beginPath(); ctx.arc(CX,CY,R-1,0,Math.PI*2)
+  ctx.strokeStyle='#92400e'; ctx.lineWidth=3; ctx.stroke()
+  ctx.beginPath(); ctx.arc(CX,CY,20,0,Math.PI*2)
+  const g=ctx.createRadialGradient(CX,CY,0,CX,CY,20)
+  g.addColorStop(0,'#f5c518'); g.addColorStop(1,'#92400e')
+  ctx.fillStyle=g; ctx.fill()
 }
 
-function drawBall(angle, r, visible) {
-  if (!visible) return
-  const bx = CX + Math.cos(angle) * r
-  const by = CY + Math.sin(angle) * r
-
-  ctx.save()
-  ctx.shadowBlur = 12
-  ctx.shadowColor = 'rgba(255,255,255,0.9)'
-  ctx.beginPath()
-  ctx.arc(bx, by, 7, 0, Math.PI*2)
-  const bg = ctx.createRadialGradient(bx - 2, by - 2, 1, bx, by, 7)
-  bg.addColorStop(0, '#ffffff')
-  bg.addColorStop(1, '#cbd5e1')
-  ctx.fillStyle = bg
-  ctx.fill()
-  ctx.restore()
+function drawBall(angle,r,visible){
+  if(!visible) return
+  const bx=CX+Math.cos(angle)*r, by=CY+Math.sin(angle)*r
+  ctx.save(); ctx.shadowBlur=12; ctx.shadowColor='rgba(255,255,255,0.9)'
+  ctx.beginPath(); ctx.arc(bx,by,7,0,Math.PI*2)
+  const bg=ctx.createRadialGradient(bx-2,by-2,1,bx,by,7)
+  bg.addColorStop(0,'#ffffff'); bg.addColorStop(1,'#cbd5e1')
+  ctx.fillStyle=bg; ctx.fill(); ctx.restore()
 }
 
-function renderStatic(showBall, ballAngleVal, ballRVal) {
-  drawWheel(wheelAngle)
-  drawBall(ballAngleVal, ballRVal, showBall)
-}
-
-// Dibujo inicial sin bola
 drawWheel(0)
 
 // ── GRID DE NÚMEROS ──
-function buildNumbers() {
-  const grid = document.getElementById('numbersGrid')
-  grid.innerHTML = ''
-
-  // 0 primero
-  const z = document.createElement('button')
-  z.className = 'num-btn zero-num'
-  z.textContent = '0'
-  z.onclick = () => selectNumber(0)
-  z.id = 'num0'
-  grid.appendChild(z)
-
-  for (let n = 1; n <= 36; n++) {
-    const b = document.createElement('button')
-    b.className = `num-btn ${RED_NUMS.has(n) ? 'red-num' : 'black-num'}`
-    b.textContent = n
-    b.onclick = () => selectNumber(n)
-    b.id = `num${n}`
-    grid.appendChild(b)
+function buildNumbers(){
+  const grid=document.getElementById('numbersGrid')
+  grid.innerHTML=''
+  const z=document.createElement('button')
+  z.className='num-btn zero-num'; z.textContent='0'; z.id='num0'
+  z.innerHTML='0<span class="chip-dot"></span>'
+  z.onclick=()=>addBet('0'); grid.appendChild(z)
+  for(let n=1;n<=36;n++){
+    const b=document.createElement('button')
+    b.className=`num-btn ${RED_NUMS.has(n)?'red-num':'black-num'}`
+    b.innerHTML=`${n}<span class="chip-dot"></span>`
+    b.id=`num${n}`; b.onclick=()=>addBet(String(n)); grid.appendChild(b)
   }
 }
 
-// ── SELECCIÓN ──
-function clearSelection() {
-  document.getElementById('btnRed').classList.remove('selected')
-  document.getElementById('btnBlack').classList.remove('selected')
-  document.getElementById('btnGreen').classList.remove('selected')
-  document.querySelectorAll('.num-btn').forEach(b => b.classList.remove('selected'))
-  selectedType   = null
-  selectedNumber = null
+// ── GESTIÓN DE APUESTAS ──
+const BET_LABELS = {
+  red:'🔴 Rojo', black:'⚫ Negro', green:'🟢 Verde',
+  even:'Par', odd:'Impar', low:'1-18', high:'19-36',
+  doz1:'1ª Doc', doz2:'2ª Doc', doz3:'3ª Doc',
+  col1:'Col 1', col2:'Col 2'
 }
 
-function selectColor(color) {
-  clearSelection()
-  selectedType = color
-  document.getElementById(`btn${color.charAt(0).toUpperCase()+color.slice(1)}`).classList.add('selected')
-  updateSelectionDisplay()
-  updateUI()
+function betLabel(key){
+  if(BET_LABELS[key]) return BET_LABELS[key]
+  const n=parseInt(key)
+  const c=numColor(n)
+  return `${c==='red'?'🔴':c==='green'?'🟢':'⚫'} Nº ${n}`
 }
 
-function selectNumber(n) {
-  clearSelection()
-  selectedType   = 'number'
-  selectedNumber = n
-  document.getElementById(`num${n}`).classList.add('selected')
-  updateSelectionDisplay()
-  updateUI()
+function addBet(key){
+  if(spinning) return
+  const cost = chipValue
+  if(credits < totalBetAmount() + cost){
+    flashMsg('Créditos insuficientes','result-loss'); return
+  }
+  bets[key] = (bets[key]||0) + cost
+  // Marcar botón número si aplica
+  if(!isNaN(parseInt(key))){ const b=document.getElementById(`num${key}`); if(b) b.classList.add('selected','has-bet') }
+  renderActiveBets()
 }
 
-function updateSelectionDisplay() {
-  const el = document.getElementById('selectionDisplay')
-  if (!selectedType) {
-    el.innerHTML = 'Selecciona color o número para apostar'
+function removeBet(key){
+  if(spinning) return
+  delete bets[key]
+  if(!isNaN(parseInt(key))){ const b=document.getElementById(`num${key}`); if(b) b.classList.remove('selected','has-bet') }
+  renderActiveBets()
+}
+
+function clearAllBets(){
+  if(spinning) return
+  bets={}
+  document.querySelectorAll('.num-btn').forEach(b=>b.classList.remove('selected','has-bet'))
+  renderActiveBets()
+}
+
+function totalBetAmount(){
+  return Object.values(bets).reduce((s,v)=>s+v,0)
+}
+
+function renderActiveBets(){
+  const container=document.getElementById('activeBets')
+  const total=totalBetAmount()
+  if(Object.keys(bets).length===0){
+    container.innerHTML='<span class="no-bets-msg">Sin apuestas aún — elige arriba</span>'
+    document.getElementById('totalBetDisplay').textContent='0 CR'
     return
   }
-  if (selectedType === 'number') {
-    const c = numColor(selectedNumber)
-    const dot = c === 'green' ? '🟢' : c === 'red' ? '🔴' : '⚫'
-    el.innerHTML = `Apostando <strong>${bet} CR</strong> al número <strong>${dot} ${selectedNumber}</strong>`
-  } else if (selectedType === 'red') {
-    el.innerHTML = `Apostando <strong>${bet} CR</strong> a <strong>🔴 ROJO</strong>`
-  } else if (selectedType === 'black') {
-    el.innerHTML = `Apostando <strong>${bet} CR</strong> a <strong>⚫ NEGRO</strong>`
-  } else if (selectedType === 'green') {
-    el.innerHTML = `Apostando <strong>${bet} CR</strong> a <strong>🟢 VERDE (0)</strong>`
+  container.innerHTML=''
+  for(const [key,amount] of Object.entries(bets)){
+    const chip=document.createElement('div')
+    chip.className='bet-chip'
+    chip.innerHTML=`${betLabel(key)} <b>${amount}</b>CR <span class="chip-x" title="Quitar">✕</span>`
+    chip.onclick=()=>removeBet(key)
+    container.appendChild(chip)
   }
+  document.getElementById('totalBetDisplay').textContent=`${total.toLocaleString('es-CL')} CR`
 }
 
-// ── SPIN ──
-async function spin() {
-  if (spinning) return
-  if (credits <= 0) {
-    openCreditPurchase()
-    return
-  }
-  if (!selectedType) {
-    document.getElementById('resultBox').innerHTML =
-      '<span class="result-loss">Elige color o número antes de girar</span>'
-    return
-  }
-  if (credits < bet) {
-    document.getElementById('resultBox').innerHTML =
-      `<span class="result-loss">Créditos insuficientes (tienes ${credits} CR)</span>`
-    return
-  }
-
-  spinning = true
-  credits -= bet
-  spinsToday++
-  updateUI()
-  setSpinBtn(true)
-  document.getElementById('resultBox').innerHTML = ''
-  document.getElementById('resultNumber').textContent = '?'
-  document.getElementById('resultNumber').className = 'result-number idle'
-  document.getElementById('resultLabel').textContent = 'Girando...'
-
-  // Resultado al azar
-  const resultIdx = Math.floor(Math.random() * SEGMENTS)
-  const resultNum = WHEEL_ORDER[resultIdx]
-  const resultCol = numColor(resultNum)
-
-  // Animación: la rueda gira y la bola hace sus vueltas
-  await animateRoulette(resultIdx)
-
-  // Calcular pago
-  let won = 0
-  let resultClass = 'result-loss'
-  let resultText  = `Salió ${resultCol === 'red' ? '🔴' : resultCol === 'green' ? '🟢' : '⚫'} ${resultNum} — Sin premio`
-
-  if (selectedType === 'number' && selectedNumber === resultNum) {
-    const mult = resultNum === 0 ? 36 : 35
-    won = bet * mult
-    resultClass = 'result-big'
-    resultText = `🎉 ¡NÚMERO ${resultNum}! × ${mult} → +${won} CR`
-    document.getElementById('casinoPage').classList.add('win-anim')
-    setTimeout(() => document.getElementById('casinoPage').classList.remove('win-anim'), 2000)
-  } else if (selectedType === resultCol) {
-    const mult = resultCol === 'green' ? 36 : 2
-    won = bet * mult
-    if (mult >= 36) {
-      resultClass = 'result-big'
-      resultText = `🟢 ¡VERDE! × ${mult} → +${won} CR`
-    } else {
-      resultClass = 'result-win'
-      resultText = `✅ ${resultCol === 'red' ? 'Rojo' : 'Negro'} × ${mult} → +${won} CR`
-    }
-  }
-
-  if (won > 0) {
-    credits += won
-    sessionWin += won - bet
-  } else {
-    sessionWin -= bet
-  }
-
-  // Mostrar resultado en la rueda
-  document.getElementById('resultNumber').textContent = resultNum
-  document.getElementById('resultNumber').className   = `result-number ${resultCol}`
-  document.getElementById('resultLabel').textContent  =
-    resultCol === 'red' ? 'ROJO' : resultCol === 'black' ? 'NEGRO' : 'VERDE'
-
-  document.getElementById('resultBox').innerHTML =
-    `<span class="${resultClass}">${resultText}</span>`
-
-  addHistory(won > 0 ? (won >= bet * 10 ? 'big' : 'win') : 'loss', won - bet)
-  updateUI()
-  saveState()
-  spinning = false
-  setSpinBtn(false)
+// ── MONTO FICHA ──
+function changeBet(delta){
+  chipValue=Math.max(50, chipValue+delta)
+  document.getElementById('betDisplay').textContent=chipValue.toLocaleString('es-CL')
+}
+function setBetAmount(v){
+  chipValue=v
+  document.getElementById('betDisplay').textContent=v.toLocaleString('es-CL')
+  document.querySelectorAll('.bet-preset').forEach(b=>b.classList.remove('active'))
+  event.target.classList.add('active')
 }
 
-// Animación de la rueda con la bola
-function animateRoulette(targetIdx) {
-  return new Promise(resolve => {
-    const startAngle = wheelAngle
+// ── RNG AMAÑADO ──
+// Target: ~30% de tiradas resultan en al menos 1 apuesta ganadora
+// Implementación: si hay apuestas, con probabilidad BOOST_PROB
+// forzamos el resultado a uno que gane alguna apuesta.
+const BOOST_PROB = 0.30  // 30% de tiradas "guiadas" a ganar
 
-    // Ángulo absoluto (no depende de startAngle) en el que debe quedar
-    // la rueda para que el CENTRO del segmento ganador caiga exactamente
-    // bajo el puntero, fijo en -PI/2 en el marco de la pantalla:
-    //   rotation + targetIdx*SEG_ANGLE + SEG_ANGLE/2 = -PI/2
-    //   => rotation = -PI/2 - targetIdx*SEG_ANGLE - SEG_ANGLE/2
-    const finalAngleAbs = -Math.PI / 2 - (targetIdx * SEG_ANGLE) - (SEG_ANGLE / 2)
+function getRigged(){
+  const keys = Object.keys(bets)
+  if(keys.length===0 || Math.random()>BOOST_PROB){
+    // Resultado totalmente aleatorio
+    return Math.floor(Math.random()*SEGMENTS)
+  }
+  // Intentar forzar un número ganador para alguna apuesta
+  const winnable = []
+  for(let idx=0;idx<SEGMENTS;idx++){
+    const num=WHEEL_ORDER[idx]
+    if(isWinnerForAnyBet(num)) winnable.push(idx)
+  }
+  if(winnable.length===0) return Math.floor(Math.random()*SEGMENTS)
+  return winnable[Math.floor(Math.random()*winnable.length)]
+}
 
-    // A partir de ahí, restamos vueltas completas extra (sentido horario)
-    // para que el giro avance siempre hacia adelante desde startAngle,
-    // sin importar en qué ángulo haya quedado la rueda la tirada anterior.
-    const EXTRA_TURNS = 5
-    const twoPi = Math.PI * 2
-    // Cuántas vueltas completas hay que restar a finalAngleAbs para que
-    // quede justo debajo (en sentido decreciente) de startAngle:
-    const vueltasBase = Math.floor((startAngle - finalAngleAbs) / twoPi)
-    const wheelTargetAngle = finalAngleAbs + (vueltasBase - EXTRA_TURNS) * twoPi
+function isWinnerForAnyBet(num){
+  const col=numColor(num)
+  for(const key of Object.keys(bets)){
+    if(checkWin(key,num,col)) return true
+  }
+  return false
+}
 
-    const totalDuration = 4000 // ms
-    const startTime = performance.now()
+// ── EVALUAR PAGO ──
+function checkWin(key,num,col){
+  if(key==='red')   return col==='red'
+  if(key==='black') return col==='black'
+  if(key==='green') return col==='green'
+  if(key==='even')  return num!==0 && num%2===0
+  if(key==='odd')   return num!==0 && num%2===1
+  if(key==='low')   return num>=1&&num<=18
+  if(key==='high')  return num>=19&&num<=36
+  if(key==='doz1')  return num>=1&&num<=12
+  if(key==='doz2')  return num>=13&&num<=24
+  if(key==='doz3')  return num>=25&&num<=36
+  if(key==='col1')  return num!==0&&num%3===1
+  if(key==='col2')  return num!==0&&num%3===2
+  // número exacto
+  return parseInt(key)===num
+}
 
-    // Radio de la bola: empieza pegada al borde y termina asentada en el
-    // centro del segmento ganador
-    const ballStartR = R * 0.87
-    const ballEndR   = R * 0.60
+function payoutMultiplier(key,num){
+  if(key==='green')  return 36
+  if(key==='red'||key==='black'||key==='even'||key==='odd'||key==='low'||key==='high') return 2
+  if(key==='doz1'||key==='doz2'||key==='doz3'||key==='col1'||key==='col2') return 3
+  // número exacto
+  return parseInt(key)===0?36:35
+}
 
-    // La bola gira en sentido contrario a la rueda. Su ángulo final
-    // (en el marco fijo de la pantalla) tiene que coincidir EXACTAMENTE
-    // con el centro del segmento ganador una vez la rueda ya está quieta
-    // en wheelTargetAngle. El centro de ese segmento, en el marco fijo,
-    // es wheelTargetAngle + targetIdx*SEG_ANGLE + SEG_ANGLE/2 — que por
-    // construcción de wheelTargetAngle siempre equivale a -PI/2 (donde
-    // está el puntero), pero lo calculamos a partir del valor real para
-    // que funcione sin importar cuántas tiradas previas tenga wheelAngle.
-    const ballFinalAngle = wheelTargetAngle + targetIdx * SEG_ANGLE + SEG_ANGLE / 2
-    const ballExtraTurns = 7 // vueltas que da la bola antes de frenar
-    const ballStartAngle = ballFinalAngle + (Math.PI * 2 * ballExtraTurns)
+// ── ANIMACIÓN ──
+function animateRoulette(targetIdx){
+  return new Promise(resolve=>{
+    const startAngle=wheelAngle
+    const finalAngleAbs=-Math.PI/2-(targetIdx*SEG_ANGLE)-(SEG_ANGLE/2)
+    const EXTRA_TURNS=5, twoPi=Math.PI*2
+    const vueltasBase=Math.floor((startAngle-finalAngleAbs)/twoPi)
+    const wheelTargetAngle=finalAngleAbs+(vueltasBase-EXTRA_TURNS)*twoPi
+    const totalDuration=4000, startTime=performance.now()
+    const ballStartR=R*0.87, ballEndR=R*0.60
+    const ballFinalAngle=wheelTargetAngle+targetIdx*SEG_ANGLE+SEG_ANGLE/2
+    const ballStartAngle=ballFinalAngle+(Math.PI*2*7)
 
-    function frame(now) {
-      const elapsed  = now - startTime
-      const progress = Math.min(elapsed / totalDuration, 1)
-
-      // Easing out cubic para la rueda (frena progresivamente)
-      const ease = 1 - Math.pow(1 - progress, 3)
-      wheelAngle = startAngle + (wheelTargetAngle - startAngle) * ease
-
-      // La bola frena más tarde y más bruscamente que la rueda, simulando
-      // que pierde impulso y empieza a "rebotar" hacia el centro al final.
-      // Usamos un ease-out más fuerte (quintic) para que la frenada final
-      // se sienta como una caída, no como un corte.
-      const ballEase = 1 - Math.pow(1 - progress, 5)
-      const ballAngleNow = ballStartAngle + (ballFinalAngle - ballStartAngle) * ballEase
-
-      // La bola va cayendo hacia el centro gradualmente en la última mitad
-      const ballProgress = Math.max(0, (progress - 0.55) / 0.45)
-      const ballFallEase  = ballProgress * ballProgress * (3 - 2 * ballProgress) // smoothstep
-      const currentBallR = ballStartR - (ballStartR - ballEndR) * ballFallEase
-
-      drawWheel(wheelAngle)
-      drawBall(ballAngleNow, currentBallR, true)
-
-      if (progress < 1) {
-        animFrame = requestAnimationFrame(frame)
-      } else {
-        // Frame final: ya coincide exactamente con el cálculo de arriba,
-        // no hace falta reposicionar nada.
-        wheelAngle = wheelTargetAngle
-        drawWheel(wheelAngle)
-        drawBall(ballFinalAngle, ballEndR, true)
-        resolve()
+    function frame(now){
+      const elapsed=now-startTime, progress=Math.min(elapsed/totalDuration,1)
+      const ease=1-Math.pow(1-progress,3)
+      wheelAngle=startAngle+(wheelTargetAngle-startAngle)*ease
+      const ballEase=1-Math.pow(1-progress,5)
+      const ballAngleNow=ballStartAngle+(ballFinalAngle-ballStartAngle)*ballEase
+      const ballProgress=Math.max(0,(progress-0.55)/0.45)
+      const ballFallEase=ballProgress*ballProgress*(3-2*ballProgress)
+      const currentBallR=ballStartR-(ballStartR-ballEndR)*ballFallEase
+      drawWheel(wheelAngle); drawBall(ballAngleNow,currentBallR,true)
+      if(progress<1){ animFrame=requestAnimationFrame(frame) }
+      else{
+        wheelAngle=wheelTargetAngle; drawWheel(wheelAngle)
+        drawBall(ballFinalAngle,ballEndR,true); resolve()
       }
     }
-
-    if (animFrame) cancelAnimationFrame(animFrame)
+    if(animFrame) cancelAnimationFrame(animFrame)
     requestAnimationFrame(frame)
   })
 }
 
-// ── CONTROLES ──
-function changeBet(delta) {
-  bet = Math.max(50, Math.min(credits || 50, bet + delta))
-  updateSelectionDisplay()
-  updateUI()
-}
+// ── SPIN PRINCIPAL ──
+async function spin(){
+  if(spinning) return
+  const totalBet=totalBetAmount()
+  if(totalBet===0){ flashMsg('Agrega al menos una apuesta primero','result-loss'); return }
+  if(credits<totalBet){ flashMsg('Créditos insuficientes','result-loss'); return }
 
-function setBet(amount) {
-  bet = Math.max(50, Math.min(credits || amount, amount))
-  document.querySelectorAll('.bet-preset').forEach(b => b.classList.remove('active'))
-  event.target.classList.add('active')
-  updateSelectionDisplay()
+  spinning=true
+  credits-=totalBet
+  spinsToday++
   updateUI()
-}
+  setSpinBtn(true)
+  document.getElementById('resultBox').innerHTML=''
+  document.getElementById('resultNumber').textContent='?'
+  document.getElementById('resultNumber').className='result-number idle'
+  document.getElementById('resultLabel').textContent='Girando...'
 
-function setSpinBtn(isSpinning) {
-  const btn = document.getElementById('spinBtn')
-  btn.disabled = isSpinning
-  btn.textContent = isSpinning ? '⟳ GIRANDO...' : '▶ GIRAR'
-  btn.classList.toggle('spinning', isSpinning)
+  const resultIdx=getRigged()
+  const resultNum=WHEEL_ORDER[resultIdx]
+  const resultCol=numColor(resultNum)
+
+  await animateRoulette(resultIdx)
+
+  // Calcular ganancias
+  let wonTotal=0
+  let details=[]
+  for(const [key,amount] of Object.entries(bets)){
+    if(checkWin(key,resultNum,resultCol)){
+      const mult=payoutMultiplier(key,resultNum)
+      const ganancia=amount*mult
+      wonTotal+=ganancia
+      details.push(`${betLabel(key)} ×${mult}=+${ganancia}`)
+    }
+  }
+
+  const netGain=wonTotal-totalBet
+  if(wonTotal>0){
+    credits+=wonTotal
+    sessionWin+=netGain
+    if(netGain>=totalBet*5){
+      document.getElementById('casinoPage').classList.add('win-anim')
+      setTimeout(()=>document.getElementById('casinoPage').classList.remove('win-anim'),2000)
+    }
+  } else {
+    sessionWin-=totalBet
+  }
+
+  // UI resultado
+  document.getElementById('resultNumber').textContent=resultNum
+  document.getElementById('resultNumber').className=`result-number ${resultCol}`
+  document.getElementById('resultLabel').textContent=resultCol==='red'?'ROJO':resultCol==='black'?'NEGRO':'VERDE'
+
+  let resClass='result-loss', resText=''
+  const colorEmoji=resultCol==='red'?'🔴':resultCol==='green'?'🟢':'⚫'
+  if(wonTotal>0){
+    resClass=netGain>=totalBet*5?'result-big':'result-win'
+    resText=`${colorEmoji} ${resultNum} — 🎉 +${wonTotal.toLocaleString('es-CL')} CR (${details.join(' · ')})`
+  } else {
+    resText=`${colorEmoji} ${resultNum} — Sin aciertos`
+  }
+  document.getElementById('resultBox').innerHTML=`<span class="${resClass}">${resText}</span>`
+
+  // Historial
+  addHistory(resultNum, resultCol, wonTotal>0, netGain)
+  updateUI()
+  saveState()
+  spinning=false
+  setSpinBtn(false)
 }
 
 // ── HISTORIAL ──
-function addHistory(type, delta) {
-  histData.unshift({ type, delta })
-  if (histData.length > 14) histData.pop()
+function addHistory(num, color, won, gain){
+  histData.unshift({num, color, won, gain})
+  if(histData.length>50) histData.pop()
   renderHistory()
 }
 
-function renderHistory() {
-  const bar = document.getElementById('historyBar')
-  bar.innerHTML = '<span style="font-size:11px;color:#374151;letter-spacing:1px;">ÚLTIMAS —</span>'
-  histData.forEach(h => {
-    const chip = document.createElement('div')
-    chip.className = `history-chip chip-${h.type}`
-    chip.textContent = h.delta >= 0 ? `+${h.delta}` : `${h.delta}`
+function renderHistory(){
+  // Mini barra arriba
+  const bar=document.getElementById('historyBar')
+  bar.innerHTML='<span style="font-size:11px;color:#374151;letter-spacing:1px;">ÚLTIMAS —</span>'
+  histData.slice(0,20).forEach(h=>{
+    const chip=document.createElement('div')
+    chip.className=`history-chip ${h.won?(h.gain>0?'chip-big':'chip-win'):'chip-loss'}`
+    chip.textContent=h.num
+    chip.style.color=h.color==='red'?'#ef4444':h.color==='green'?'#22c55e':'#9ca3af'
     bar.appendChild(chip)
+  })
+
+  // Grid historial completo
+  const grid=document.getElementById('historyGrid')
+  if(histData.length===0){
+    grid.innerHTML='<span class="hist-empty">Aún no hay tiradas</span>'
+    return
+  }
+  grid.innerHTML=''
+  histData.forEach(h=>{
+    const el=document.createElement('div')
+    el.className=`hist-item ${h.color}`
+    const colorLabel=h.color==='red'?'ROJO':h.color==='black'?'NEGRO':'VERDE'
+    el.innerHTML=`<span class="hist-num">${h.num}</span><span class="hist-color">${colorLabel}</span>`
+    if(h.won) el.title=`+${h.gain} CR`
+    grid.appendChild(el)
   })
 }
 
-// ── UPDATE UI ──
-function updateUI() {
-  document.getElementById('creditsDisplay').innerHTML = `${credits.toLocaleString()} <span>CR</span>`
-  document.getElementById('betDisplay').textContent   = bet
+// ── UI ──
+function setSpinBtn(isSpinning){
+  const btn=document.getElementById('spinBtn')
+  btn.disabled=isSpinning
+  btn.textContent=isSpinning?'⟳ GIRANDO...':'▶ GIRAR'
+  btn.classList.toggle('spinning',isSpinning)
+}
 
-  // Si no hay créditos suficientes, ajustar apuesta
-  if (credits > 0 && bet > credits) {
-    bet = Math.max(50, credits - (credits % 50))
-  }
+function flashMsg(txt,cls){
+  document.getElementById('resultBox').innerHTML=`<span class="${cls}">${txt}</span>`
+}
 
-  const sw = sessionWin
-  document.getElementById('sessionWin').innerHTML =
-    `${sw >= 0 ? '+' : ''}${sw} <span>CR</span>`
-  document.getElementById('sessionWin').style.color = sw >= 0 ? '#22c55e' : '#ef4444'
-  document.getElementById('spinsToday').textContent  = spinsToday
-
-  // Banner sin créditos
-  const noBanner = document.getElementById('noCreditsBanner')
-  if (credits <= 0) {
-    if (!noBanner) {
-      document.querySelector('.roulette-layout').insertAdjacentHTML('afterend', `
-        <div class="no-credits-banner" id="noCreditsBanner">
-          <h3>💎 Sin créditos</h3>
-          <p>Recarga para seguir jugando en la ruleta.</p>
-          <button class="buy-credits-btn" style="margin:0 auto" onclick="openCreditPurchase()">
-            Comprar créditos con MercadoPago
-          </button>
-        </div>`)
-    }
-  } else if (noBanner) {
-    noBanner.remove()
-  }
+function updateUI(){
+  const sw=sessionWin
+  document.getElementById('creditsDisplay').innerHTML=`${credits.toLocaleString('es-CL')} <span>CR</span>`
+  document.getElementById('sessionWin').innerHTML=`${sw>=0?'+':''}${sw.toLocaleString('es-CL')} <span>CR</span>`
+  document.getElementById('sessionWin').style.color=sw>=0?'#22c55e':'#ef4444'
+  document.getElementById('spinsToday').textContent=spinsToday
 }
 
 // ── PERSISTENCIA ──
-function loadState() {
-  const saved = localStorage.getItem('ruleta_aulaplc')
-  if (saved) {
-    try {
-      const s  = JSON.parse(saved)
-      credits   = s.credits    ?? 0
-      sessionWin= s.sessionWin ?? 0
-      spinsToday= s.spinsToday ?? 0
-      histData  = s.history    ?? []
-    } catch(e) {}
-  }
-  updateUI()
-  renderHistory()
+function saveState(){
+  try{
+    localStorage.setItem('ruleta_aulaplc', JSON.stringify({credits,sessionWin,spinsToday,histData}))
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem('ruleta_aulaplc')||'{}')
+    if(s.credits!=null) credits=s.credits
+    if(s.sessionWin!=null) sessionWin=s.sessionWin
+    if(s.spinsToday!=null) spinsToday=s.spinsToday
+    if(s.histData) histData=s.histData.slice(0,50)
+  }catch(e){}
+  updateUI(); renderHistory()
 }
 
-let _fsSaveTimer = null
-
-function saveState() {
-  localStorage.setItem('ruleta_aulaplc', JSON.stringify({
-    credits, sessionWin, spinsToday, history: histData
-  }))
-  if (_fsSaveTimer) clearTimeout(_fsSaveTimer)
-  _fsSaveTimer = setTimeout(() => {
-    if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
-    _fsSaveTimer = null
-  }, 1500)
-}
-
-// ── COMPRA DE CRÉDITOS ──
-function openCreditPurchase() {
-  if (document.getElementById('mpModal')) return
-
-  if (!window.currentUserUid) {
-    if (typeof window.openLoginModal === 'function') {
-      window.openLoginModal()
-    } else {
-      alert('Debes iniciar sesión para comprar créditos.')
-    }
-    return
-  }
-
-  const opcionesHTML = MP_PACKS.map(p => `
-    <button class="mp-monto-btn ${p.pesos === montoSeleccionado ? 'selected' : ''}"
-            onclick="selectMonto(${p.pesos})" data-pesos="${p.pesos}">
-      <div class="mp-monto-cr">${p.creditos.toLocaleString('es-CL')} CR</div>
+// ── MODAL COMPRA CRÉDITOS ──
+function openCreditPurchase(){
+  const rows=MP_PACKS.map(p=>`
+    <div class="mp-monto-btn ${p.pesos===montoSeleccionado?'selected':''}" onclick="selectMonto(${p.pesos},this)">
+      <div class="mp-monto-cr">${p.creditos.toLocaleString('es-CL')}</div>
       <div class="mp-monto-precio">$${p.pesos.toLocaleString('es-CL')} CLP</div>
-    </button>`).join('')
-
-  document.body.insertAdjacentHTML('beforeend', `
-    <div class="mp-modal-bg" id="mpModal" onclick="if(event.target.id==='mpModal')closeMpModal()">
+    </div>`).join('')
+  document.body.insertAdjacentHTML('beforeend',`
+    <div class="mp-modal-bg" id="mpModal" onclick="if(event.target===this)closeCreditModal()">
       <div class="mp-modal">
-        <button class="mp-modal-close" onclick="closeMpModal()">✕</button>
-        <div class="mp-modal-icon">🎡</div>
+        <button class="mp-modal-close" onclick="closeCreditModal()">✕</button>
+        <div class="mp-modal-icon">💎</div>
         <div class="mp-modal-title">RECARGAR CRÉDITOS</div>
-        <div class="mp-montos-grid">${opcionesHTML}</div>
+        <div class="mp-montos-grid">${rows}</div>
         <button class="mp-pay-btn" id="mpPayBtn" onclick="iniciarPago()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <img src="https://imgmp.mlstatic.com/org-img/banners/ar/medios/online/220X38.png" height="18" alt="MP">
           Pagar con MercadoPago
         </button>
-        <p class="mp-modal-note">
-          🔒 Pago seguro · 1 peso = 1 crédito<br>
-          Los créditos se acreditan automáticamente al confirmar el pago.<br>
-          ¿Dudas? <a href="mailto:aulaplcsoporte@gmail.com">aulaplcsoporte@gmail.com</a>
-        </p>
+        <p class="mp-modal-note">1 CR = 1 peso chileno · Acreditación automática en segundos<br>¿Dudas? <a href="mailto:aulaplcsoporte@gmail.com">aulaplcsoporte@gmail.com</a></p>
       </div>
-    </div>
-  `)
+    </div>`)
+}
+function closeCreditModal(){ const m=document.getElementById('mpModal'); if(m) m.remove() }
+function selectMonto(v,el){ montoSeleccionado=v; document.querySelectorAll('.mp-monto-btn').forEach(b=>b.classList.remove('selected')); el.classList.add('selected') }
+async function iniciarPago(){
+  const uid=window.currentUserUid
+  if(!uid){ alert('Debes iniciar sesión primero'); return }
+  const btn=document.getElementById('mpPayBtn')
+  btn.disabled=true; btn.textContent='Generando pago...'
+  try{
+    const res=await fetch('/api/casino/comprar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({monto:montoSeleccionado,uid})})
+    const data=await res.json()
+    if(data.init_point){ window.location.href=data.init_point }
+    else{ alert(data.error||'Error al generar el pago'); btn.disabled=false; btn.textContent='Pagar con MercadoPago' }
+  }catch(e){ alert('Error de conexión'); btn.disabled=false; btn.textContent='Pagar con MercadoPago' }
 }
 
-function selectMonto(pesos) {
-  montoSeleccionado = pesos
-  document.querySelectorAll('.mp-monto-btn').forEach(b => {
-    b.classList.toggle('selected', +b.dataset.pesos === pesos)
-  })
-}
-
-async function iniciarPago() {
-  const btn = document.getElementById('mpPayBtn')
-
-  // Requiere sesión iniciada (uid expuesto por firebase-auth.js)
-  const uid = window.currentUserUid || null
-  if (!uid) {
-    if (typeof window.openLoginModal === 'function') {
-      window.openLoginModal()
-    } else {
-      alert('Debes iniciar sesión para comprar créditos.')
-    }
-    return
-  }
-
-  btn.disabled = true
-  btn.innerHTML = '⟳ Generando link...'
-
-  try {
-    const res  = await fetch('/api/casino/comprar', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ monto: montoSeleccionado, uid })
-    })
-    const data = await res.json()
-
-    if (data.init_point) {
-      window.location.href = data.init_point  // redirige al checkout de MP
-    } else {
-      btn.disabled = false
-      btn.innerHTML = '✕ ' + (data.error || 'Error — intenta de nuevo')
-    }
-  } catch(e) {
-    btn.disabled = false
-    btn.innerHTML = '✕ Error de conexión'
-  }
-}
-
-function closeMpModal() {
-  const m = document.getElementById('mpModal')
-  if (m) m.remove()
-}
-
-// ── RETIRO DE CRÉDITOS ──
-const RETIRO_MINIMO = 1000
-
-function openWithdrawModal() {
-  if (document.getElementById('wdModal')) return
-
-  if (!window.currentUserUid) {
-    if (typeof window.openLoginModal === 'function') {
-      window.openLoginModal()
-    } else {
-      alert('Debes iniciar sesión para retirar créditos.')
-    }
-    return
-  }
-
-  if (credits < RETIRO_MINIMO) {
-    alert(`Necesitas al menos ${RETIRO_MINIMO.toLocaleString('es-CL')} créditos para retirar. Tienes ${credits.toLocaleString('es-CL')}.`)
-    return
-  }
-
-  document.body.insertAdjacentHTML('beforeend', `
-    <div class="mp-modal-bg" id="wdModal" onclick="if(event.target.id==='wdModal')closeWithdrawModal()">
-      <div class="mp-modal" style="max-width:440px; text-align:left;">
+// ── MODAL RETIRO ──
+function openWithdrawModal(){
+  if(!window.currentUserUid){ alert('Debes iniciar sesión para retirar'); return }
+  if(credits<RETIRO_MINIMO){ alert(`Necesitas mínimo ${RETIRO_MINIMO.toLocaleString('es-CL')} CR para retirar`); return }
+  document.body.insertAdjacentHTML('beforeend',`
+    <div class="mp-modal-bg" id="wdModal" onclick="if(event.target===this)closeWithdrawModal()">
+      <div class="wd-modal">
         <button class="mp-modal-close" onclick="closeWithdrawModal()">✕</button>
-        <div class="mp-modal-icon" style="text-align:center;">💸</div>
-        <div class="mp-modal-title" style="text-align:center;">RETIRAR CRÉDITOS</div>
-        <p style="color:#94a3b8; font-size:13px; margin:8px 0 18px; text-align:center;">
-          Saldo disponible: <strong style="color:#fff">${credits.toLocaleString('es-CL')} CR</strong><br>
-          Mínimo para retirar: ${RETIRO_MINIMO.toLocaleString('es-CL')} CR · 1 crédito = $1 CLP
-        </p>
-
-        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Monto a retirar (créditos)</label>
-        <input type="number" id="wdMonto" min="${RETIRO_MINIMO}" max="${credits}" step="1"
-               placeholder="Mínimo ${RETIRO_MINIMO}"
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
-          <div>
-            <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Nombre</label>
-            <input type="text" id="wdNombre" placeholder="Juan"
-                   style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff;">
-          </div>
-          <div>
-            <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Apellido</label>
-            <input type="text" id="wdApellido" placeholder="Pérez"
-                   style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff;">
-          </div>
+        <div class="mp-modal-icon">💸</div>
+        <div class="mp-modal-title" style="font-family:'Orbitron',sans-serif;font-size:14px;color:#4ade80;letter-spacing:2px;margin-bottom:16px">SOLICITAR RETIRO</div>
+        <label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">Monto a retirar (CR)</label>
+        <input type="number" id="wdMonto" min="${RETIRO_MINIMO}" max="${credits}" value="${Math.min(credits,5000)}" style="margin-bottom:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">Nombre</label><input type="text" id="wdNombre" placeholder="Juan"></div>
+          <div><label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">Apellido</label><input type="text" id="wdApellido" placeholder="Pérez"></div>
         </div>
-
-        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">RUT</label>
-        <input type="text" id="wdRut" placeholder="12.345.678-9"
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
-
-        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Banco</label>
-        <select id="wdBanco"
-                style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
+        <label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">RUT</label>
+        <input type="text" id="wdRut" placeholder="12.345.678-9">
+        <label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">Banco</label>
+        <select id="wdBanco">
           <option value="">Selecciona tu banco</option>
-          <option>Banco Estado</option>
-          <option>Banco de Chile / Edwards-Citi</option>
-          <option>Banco Santander</option>
-          <option>Banco BCI</option>
-          <option>Banco Falabella</option>
-          <option>Banco Itaú</option>
-          <option>Banco Security</option>
-          <option>Banco Scotiabank</option>
-          <option>Banco BICE</option>
-          <option>Banco Consorcio</option>
-          <option>Banco Ripley</option>
-          <option>Coopeuch</option>
-          <option>Tenpo</option>
-          <option>Mercado Pago</option>
-          <option>Otro</option>
+          <option>Banco Estado</option><option>Banco de Chile / Edwards-Citi</option>
+          <option>Banco Santander</option><option>Banco BCI</option><option>Banco Falabella</option>
+          <option>Banco Itaú</option><option>Banco Security</option><option>Banco Scotiabank</option>
+          <option>Banco BICE</option><option>Banco Consorcio</option><option>Banco Ripley</option>
+          <option>Coopeuch</option><option>Tenpo</option><option>Mercado Pago</option><option>Otro</option>
         </select>
-
-        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Tipo de cuenta</label>
-        <select id="wdTipoCuenta"
-                style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
+        <label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">Tipo de cuenta</label>
+        <select id="wdTipoCuenta">
           <option value="">Selecciona el tipo</option>
-          <option value="cuenta_rut">Cuenta RUT</option>
-          <option value="cuenta_corriente">Cuenta corriente</option>
-          <option value="cuenta_vista">Cuenta vista</option>
-          <option value="cuenta_ahorro">Cuenta de ahorro</option>
+          <option value="cuenta_rut">Cuenta RUT</option><option value="cuenta_corriente">Cuenta corriente</option>
+          <option value="cuenta_vista">Cuenta vista</option><option value="cuenta_ahorro">Cuenta de ahorro</option>
         </select>
-
-        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Número de cuenta</label>
-        <input type="text" id="wdNumeroCuenta" placeholder="Ej: 00123456789"
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
-
-        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Correo de contacto</label>
-        <input type="email" id="wdCorreo" placeholder="tucorreo@ejemplo.com"
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:18px;">
-
-        <button class="mp-pay-btn" id="wdSubmitBtn" onclick="solicitarRetiro()" style="background:linear-gradient(135deg,#16a34a,#15803d)">
-          Solicitar retiro
-        </button>
-        <p class="mp-modal-note">
-          🕐 Las solicitudes se revisan y pagan manualmente, normalmente en 1-3 días hábiles.<br>
-          Los créditos solicitados se descuentan de inmediato de tu saldo.<br>
-          ¿Dudas? <a href="mailto:aulaplcsoporte@gmail.com">aulaplcsoporte@gmail.com</a>
-        </p>
+        <label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">Número de cuenta</label>
+        <input type="text" id="wdNumeroCuenta" placeholder="Ej: 00123456789">
+        <label style="font-size:12px;color:#cbd5e1;display:block;margin-bottom:4px">Correo de contacto</label>
+        <input type="email" id="wdCorreo" placeholder="tucorreo@ejemplo.com">
+        <button class="mp-pay-btn" id="wdSubmitBtn" onclick="solicitarRetiro()" style="background:linear-gradient(135deg,#16a34a,#15803d);margin-top:4px">Solicitar retiro</button>
+        <p class="mp-modal-note">🕐 Revisión manual en 1-3 días hábiles · Los créditos se descuentan al enviar la solicitud<br>¿Dudas? <a href="mailto:aulaplcsoporte@gmail.com">aulaplcsoporte@gmail.com</a></p>
       </div>
-    </div>
-  `)
+    </div>`)
+}
+function closeWithdrawModal(){ const m=document.getElementById('wdModal'); if(m) m.remove() }
+async function solicitarRetiro(){
+  const btn=document.getElementById('wdSubmitBtn')
+  const monto=parseInt(document.getElementById('wdMonto').value,10)
+  const nombre=document.getElementById('wdNombre').value.trim()
+  const apellido=document.getElementById('wdApellido').value.trim()
+  const rut=document.getElementById('wdRut').value.trim()
+  const banco=document.getElementById('wdBanco').value
+  const tipoCuenta=document.getElementById('wdTipoCuenta').value
+  const numCuenta=document.getElementById('wdNumeroCuenta').value.trim()
+  const correo=document.getElementById('wdCorreo').value.trim()
+  if(!monto||monto<RETIRO_MINIMO){ alert(`Mínimo ${RETIRO_MINIMO} CR`); return }
+  if(monto>credits){ alert('No tienes suficientes créditos'); return }
+  if(!nombre||!apellido){ alert('Ingresa nombre y apellido'); return }
+  if(!rut){ alert('Ingresa tu RUT'); return }
+  if(!banco){ alert('Selecciona tu banco'); return }
+  if(!tipoCuenta){ alert('Selecciona el tipo de cuenta'); return }
+  if(!numCuenta){ alert('Ingresa el número de cuenta'); return }
+  if(!correo||!correo.includes('@')){ alert('Ingresa un correo válido'); return }
+  const uid=window.currentUserUid
+  if(!uid){ alert('Debes iniciar sesión'); return }
+  btn.disabled=true; btn.innerHTML='⟳ Enviando...'
+  try{
+    const res=await fetch('/api/casino/retiro',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({uid,monto,datos_pago:{nombre,apellido,rut,banco,tipo_cuenta:tipoCuenta,numero_cuenta:numCuenta,correo}})})
+    const data=await res.json()
+    if(res.ok&&data.ok){
+      credits=data.nuevo_saldo; updateUI(); saveState(); closeWithdrawModal()
+      alert('✅ Solicitud enviada. Te avisaremos por correo al transferir.')
+    } else { btn.disabled=false; btn.innerHTML='✕ '+(data.error||'Error') }
+  }catch(e){ btn.disabled=false; btn.innerHTML='✕ Error de conexión' }
 }
 
-function closeWithdrawModal() {
-  const m = document.getElementById('wdModal')
-  if (m) m.remove()
-}
-
-async function solicitarRetiro() {
-  const btn        = document.getElementById('wdSubmitBtn')
-  const monto      = parseInt(document.getElementById('wdMonto').value, 10)
-  const nombre     = document.getElementById('wdNombre').value.trim()
-  const apellido   = document.getElementById('wdApellido').value.trim()
-  const rut        = document.getElementById('wdRut').value.trim()
-  const banco      = document.getElementById('wdBanco').value
-  const tipoCuenta = document.getElementById('wdTipoCuenta').value
-  const numCuenta  = document.getElementById('wdNumeroCuenta').value.trim()
-  const correo     = document.getElementById('wdCorreo').value.trim()
-
-  if (!monto || monto < RETIRO_MINIMO) {
-    alert(`El monto mínimo de retiro es ${RETIRO_MINIMO.toLocaleString('es-CL')} créditos.`)
-    return
-  }
-  if (monto > credits) {
-    alert('No tienes suficientes créditos para ese monto.')
-    return
-  }
-  if (!nombre || !apellido) {
-    alert('Ingresa tu nombre y apellido.')
-    return
-  }
-  if (!rut) {
-    alert('Ingresa tu RUT.')
-    return
-  }
-  if (!banco) {
-    alert('Selecciona tu banco.')
-    return
-  }
-  if (!tipoCuenta) {
-    alert('Selecciona el tipo de cuenta.')
-    return
-  }
-  if (!numCuenta) {
-    alert('Ingresa el número de cuenta.')
-    return
-  }
-  if (!correo || !correo.includes('@')) {
-    alert('Ingresa un correo de contacto válido.')
-    return
-  }
-
-  const uid = window.currentUserUid
-  if (!uid) {
-    alert('Debes iniciar sesión.')
-    return
-  }
-
-  const datosPago = {
-    nombre, apellido, rut, banco,
-    tipo_cuenta:    tipoCuenta,
-    numero_cuenta:  numCuenta,
-    correo
-  }
-
-  btn.disabled = true
-  btn.innerHTML = '⟳ Enviando solicitud...'
-
-  try {
-    const res  = await fetch('/api/casino/retiro', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ uid, monto, datos_pago: datosPago })
-    })
-    const data = await res.json()
-
-    if (res.ok && data.ok) {
-      // Reflejar el nuevo saldo (ya descontado en el servidor)
-      credits = data.nuevo_saldo
-      updateUI()
-      saveState()
-      closeWithdrawModal()
-      alert('✅ Solicitud de retiro enviada. Te contactaremos para confirmar el pago.')
-    } else {
-      btn.disabled = false
-      btn.innerHTML = '✕ ' + (data.error || 'Error — intenta de nuevo')
-    }
-  } catch (e) {
-    btn.disabled = false
-    btn.innerHTML = '✕ Error de conexión'
-  }
-}
-
-function showCreditToast(amount) {
-  const old = document.querySelector('.credits-toast')
-  if (old) old.remove()
-  const t = document.createElement('div')
-  t.className = 'credits-toast'
-  t.textContent = `💎 +${amount.toLocaleString()} CRÉDITOS RECIBIDOS`
+// ── TOAST ──
+function showCreditToast(amount){
+  const old=document.querySelector('.credits-toast'); if(old) old.remove()
+  const t=document.createElement('div')
+  t.className='credits-toast'; t.textContent=`💎 +${amount.toLocaleString()} CRÉDITOS RECIBIDOS`
   document.body.appendChild(t)
-  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')))
-  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 450) }, 4000)
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('show')))
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),450) },4000)
 }
 
-// ── RETORNO DESDE MERCADOPAGO ──
-// Los créditos los acredita el webhook en Flask/Firestore.
-// Aquí solo mostramos un mensaje de espera y limpiamos la URL.
-function checkPaymentReturn() {
-  try {
-    const p      = new URLSearchParams(window.location.search)
-    const status = p.get('mp_status') || p.get('collection_status') || p.get('status')
-
-    if (status === 'approved') {
-      setTimeout(() => {
-        document.getElementById('resultBox').innerHTML =
-          '<span class="result-win">💎 Pago aprobado — tus créditos se acreditan en segundos 🎉</span>'
-      }, 400)
-    } else if (status === 'failure') {
-      setTimeout(() => {
-        document.getElementById('resultBox').innerHTML =
-          '<span class="result-loss">El pago no se completó. Intenta de nuevo.</span>'
-      }, 400)
+// ── RETORNO MERCADOPAGO ──
+function checkPaymentReturn(){
+  try{
+    const p=new URLSearchParams(window.location.search)
+    const status=p.get('mp_status')||p.get('collection_status')||p.get('status')
+    if(status==='approved'){
+      setTimeout(()=>{ document.getElementById('resultBox').innerHTML='<span class="result-win">💎 Pago aprobado — tus créditos se acreditan en segundos 🎉</span>' },400)
+    } else if(status==='failure'){
+      setTimeout(()=>{ document.getElementById('resultBox').innerHTML='<span class="result-loss">El pago no se completó. Intenta de nuevo.</span>' },400)
     }
-
-    // Limpiar params de la URL sin recargar
-    if (status) window.history.replaceState({}, '', '/casino')
-  } catch(e) { console.warn('checkPaymentReturn error:', e) }
+    if(status) window.history.replaceState({},'','/casino')
+  }catch(e){}
 }
 
 // ── SINCRONIZACIÓN FIRESTORE ──
-window.addEventListener('casinoCreditsUpdated', (e) => {
-  const newCr = e.detail.credits
-  if (typeof newCr !== 'number') return
-  if (newCr !== credits) {
-    const diff = newCr - credits
-    credits = newCr
-    updateUI()
-    localStorage.setItem('ruleta_aulaplc', JSON.stringify({
-      credits, sessionWin, spinsToday, history: histData
-    }))
-    if (diff > 0) {
-      showCreditToast(diff)
-      setTimeout(() => {
-        document.getElementById('resultBox').innerHTML =
-          `<span class="result-win">💎 +${diff} créditos recibidos!</span>`
-      }, 100)
-    }
+window.addEventListener('casinoCreditsUpdated',(e)=>{
+  const newCr=e.detail.credits
+  if(typeof newCr!=='number') return
+  if(newCr!==credits){
+    const diff=newCr-credits; credits=newCr; updateUI()
+    localStorage.setItem('ruleta_aulaplc',JSON.stringify({credits,sessionWin,spinsToday,histData}))
+    if(diff>0){ showCreditToast(diff); setTimeout(()=>{ document.getElementById('resultBox').innerHTML=`<span class="result-win">💎 +${diff} créditos recibidos!</span>` },100) }
   }
 })
 
-window.addEventListener('casinoAuthReady', async () => {
-  try {
-    if (typeof window.getCasinoCredits !== 'function') return
-    const fsCr = await window.getCasinoCredits()
-    if (fsCr !== null && typeof fsCr === 'number') {
-      if (fsCr > credits) {
-        const diff = fsCr - credits
-        credits = fsCr
-        updateUI()
-        saveState()
-        if (diff >= 1000) showCreditToast(diff)
-      } else if (fsCr < credits) {
-        if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
-      }
-    } else {
-      if (typeof window.saveCasinoCredits === 'function') window.saveCasinoCredits(credits)
-    }
-  } catch(e) { console.warn('Casino auth sync error:', e) }
+window.addEventListener('casinoAuthReady',async()=>{
+  try{
+    if(typeof window.getCasinoCredits!=='function') return
+    const fsCr=await window.getCasinoCredits()
+    if(fsCr!==null&&typeof fsCr==='number'){
+      if(fsCr>credits){ const diff=fsCr-credits; credits=fsCr; updateUI(); saveState(); if(diff>=1000) showCreditToast(diff) }
+      else if(fsCr<credits){ if(typeof window.saveCasinoCredits==='function') window.saveCasinoCredits(credits) }
+    } else { if(typeof window.saveCasinoCredits==='function') window.saveCasinoCredits(credits) }
+  }catch(e){}
 })
 
 // ── INIT ──
