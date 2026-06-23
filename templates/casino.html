@@ -233,16 +233,16 @@
       <div class="bet-panel-inner">
         <div class="panel-title">◆ Valor de ficha</div>
         <div class="bet-amount-row">
-          <button class="bet-btn" onclick="changeBet(-50)">−</button>
+          <button class="bet-btn" onclick="changeBet(-100)">−</button>
           <div class="bet-amount-display" id="betDisplay">100</div>
-          <button class="bet-btn" onclick="changeBet(50)">+</button>
+          <button class="bet-btn" onclick="changeBet(100)">+</button>
         </div>
         <div class="bet-presets" style="margin-top:8px">
-          <button class="bet-preset" onclick="setBetAmount(50)">50</button>
           <button class="bet-preset" onclick="setBetAmount(100)">100</button>
-          <button class="bet-preset" onclick="setBetAmount(250)">250</button>
           <button class="bet-preset" onclick="setBetAmount(500)">500</button>
           <button class="bet-preset" onclick="setBetAmount(1000)">1K</button>
+          <button class="bet-preset" onclick="setBetAmount(5000)">5K</button>
+          <button class="bet-preset" onclick="setBetAmount(10000)">10K</button>
         </div>
       </div>
 
@@ -485,7 +485,7 @@ function renderActiveBets(){
 
 // ── MONTO FICHA ──
 function changeBet(delta){
-  chipValue=Math.max(50, chipValue+delta)
+  chipValue=Math.min(10000, Math.max(100, chipValue+delta))
   document.getElementById('betDisplay').textContent=chipValue.toLocaleString('es-CL')
 }
 function setBetAmount(v){
