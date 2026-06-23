@@ -4,6 +4,29 @@ import os, json
 
 app = Flask(__name__)
 
+# ── CORS para el panel de administración de retiros ───────
+# El panel-retiros.html se abre como archivo local (file://) en la
+# computadora del administrador, así que el navegador necesita estas
+# cabeceras para permitir el fetch hacia este dominio. Solo se aplica
+# a las rutas de gestión de retiros, protegidas además por la clave
+# RECOVERY_SECRET_KEY en el header X-Recovery-Key.
+RETIROS_ADMIN_PREFIX = "/api/casino/retiros"
+
+@app.after_request
+def add_cors_headers(response):
+    if request.path.startswith(RETIROS_ADMIN_PREFIX):
+        response.headers["Access-Control-Allow-Origin"]  = "*"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Recovery-Key"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response
+
+@app.route(f"{RETIROS_ADMIN_PREFIX}", methods=["OPTIONS"])
+@app.route(f"{RETIROS_ADMIN_PREFIX}/<path:_subpath>", methods=["OPTIONS"])
+def retiros_preflight(_subpath=None):
+    # Responde al preflight CORS que el navegador envía antes del
+    # GET/POST real cuando hay headers personalizados como X-Recovery-Key.
+    return "", 204
+
 # ── MERCADOPAGO ───────────────────────────────────────────
 try:
     import mercadopago
