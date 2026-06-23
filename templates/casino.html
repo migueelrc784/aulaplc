@@ -353,6 +353,7 @@ let sessionWin = 0
 let spinsToday = 0
 let spinning   = false
 let histData   = []        // [{num, color, win}]
+let lastSpinTime = 0       // timestamp del último spin (para evitar falsos toasts)
 
 // Mapa de apuestas: key → monto apostado
 // keys: 'red','black','green','even','odd','low','high',
@@ -649,6 +650,7 @@ async function spin(){
   // Historial
   addHistory(resultNum, resultCol, wonTotal>0, netGain)
   updateUI()
+  lastSpinTime = Date.now()
   saveState()
   spinning=false
   setSpinBtn(false)
@@ -714,6 +716,8 @@ function updateUI(){
 function saveState(){
   try{
     localStorage.setItem('ruleta_aulaplc', JSON.stringify({credits,sessionWin,spinsToday,histData}))
+    // Sincronizar Firestore inmediatamente para evitar desfase al comparar
+    if(typeof window.saveCasinoCredits==='function') window.saveCasinoCredits(credits)
   }catch(e){}
 }
 function loadState(){
@@ -877,6 +881,8 @@ window.addEventListener('casinoCreditsUpdated',(e)=>{
 window.addEventListener('casinoAuthReady',async()=>{
   try{
     if(typeof window.getCasinoCredits!=='function') return
+    // Si hubo un spin en los últimos 10s, Firestore puede estar desactualizado → ignorar comparación
+    if(Date.now() - lastSpinTime < 10000) return
     const fsCr=await window.getCasinoCredits()
     if(fsCr!==null&&typeof fsCr==='number'){
       if(fsCr>credits){ const diff=fsCr-credits; credits=fsCr; updateUI(); saveState(); if(diff>=1000) showCreditToast(diff) }
