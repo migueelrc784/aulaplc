@@ -6,6 +6,16 @@
 {% block og_title %}Curso PLC Siemens TIA Portal — AULAPLC STUDIO X{% endblock %}
 {% block meta_description %}Aprende PLC Siemens TIA Portal paso a paso: Ladder, temporizadores, contadores, HMI, SCADA y redes industriales. 30 módulos completos con videos y PDFs.{% endblock %}
 
+{% block extra_head %}
+<script>
+  // Identifica el curso actual para que firebase-auth.js sepa qué acceso
+  // premium chequear (colección premium_access/{uid}_tia-portal). Debe
+  // definirse ANTES de que se cargue el módulo firebase-auth.js (que se
+  // incluye más abajo, en base.html).
+  window.CURSO_ID = 'tia-portal';
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="courses-page">
 
@@ -351,7 +361,7 @@
       <span style="color:#94a3b8; font-size:13px;">Acceso inmediato tras confirmar el pago</span>
     </div>
     <p style="margin-top:14px; font-size:12px; color:#475569;">
-      ¿Ya pagaste? Cierra sesión y vuelve a entrar. Si el acceso no se activa escríbenos a
+      ¿Ya pagaste y no se activó? Espera unos segundos y recarga la página. Si el acceso no se activa escríbenos a
       <a href="mailto:aulaplcsoporte@gmail.com" style="color:#00d4ff;">aulaplcsoporte@gmail.com</a>
     </p>
   </div>

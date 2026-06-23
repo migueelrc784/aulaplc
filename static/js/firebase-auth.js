@@ -50,7 +50,12 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
     window.currentUserUid = user.uid;
-    isPremium   = await checkPremiumStatus(user.uid);
+
+    // El acceso premium es POR CURSO (colección premium_access/{uid}_{curso_id}).
+    // Cada página de curso debe definir window.CURSO_ID antes de cargar este
+    // script (ver base.html → block extra_head). Si la página no es de un
+    // curso (ej. casino, /cursos, /comunidad), no hay premium que chequear.
+    isPremium = window.CURSO_ID ? await checkPremiumStatus(user.uid, window.CURSO_ID) : false;
 
     await saveUserToFirestore(user);
     renderUserLoggedIn(user, isPremium);
@@ -66,6 +71,22 @@ onAuthStateChanged(auth, async (user) => {
     }));
 
     console.log(`✅ Sesión activa: ${user.displayName} | Premium: ${isPremium}`);
+
+    // Si el usuario vuelve desde MercadoPago recién aprobado, el webhook
+    // puede tardar 1-2 segundos en escribir el acceso. Reintentamos unas
+    // pocas veces antes de resignarnos, así el módulo se desbloquea solo
+    // sin que el usuario tenga que recargar la página a mano.
+    const mpStatus = new URLSearchParams(window.location.search).get("mp_status");
+    if (mpStatus === "approved" && window.CURSO_ID && !isPremium) {
+      for (let intento = 0; intento < 5 && !isPremium; intento++) {
+        await new Promise(r => setTimeout(r, 1500));
+        isPremium = await checkPremiumStatus(user.uid, window.CURSO_ID);
+      }
+      if (isPremium) {
+        renderUserLoggedIn(user, isPremium);
+        updateModulesAccess(isPremium);
+      }
+    }
   } else {
     currentUser = null;
     window.currentUserUid = null;
@@ -114,10 +135,17 @@ async function logout() {
 }
 
 // ─── 6. FIRESTORE — USUARIOS ────────────────────────────
-async function checkPremiumStatus(uid) {
+/**
+ * Verifica si el usuario tiene acceso premium a un curso específico,
+ * consultando la colección premium_access (un documento por compra,
+ * id = `${uid}_${cursoId}`). El acceso lo otorga el webhook de
+ * MercadoPago en el backend cuando el pago se aprueba.
+ */
+async function checkPremiumStatus(uid, cursoId) {
+  if (!cursoId) return false;
   try {
-    const docSnap = await getDoc(doc(db, "usuarios", uid));
-    return docSnap.exists() ? docSnap.data().premium === true : false;
+    const docSnap = await getDoc(doc(db, "premium_access", `${uid}_${cursoId}`));
+    return docSnap.exists();
   } catch (error) {
     console.error("❌ Error verificando premium:", error);
     return false;
@@ -435,45 +463,48 @@ function closeUserMenuOnClickOutside(e) {
   if (wrapper && !wrapper.contains(e.target)) closeUserMenu();
 }
 
-// ─── 12. FLUJO DE PAGO ──────────────────────────────────
-function openPaymentFlow() {
+// ─── 12. FLUJO DE PAGO (Checkout Pro de MercadoPago) ────
+/**
+ * Crea una preferencia de pago en el backend para el curso actual
+ * (window.CURSO_ID) y redirige al usuario al Checkout Pro de
+ * MercadoPago. El acceso se otorga automáticamente vía webhook en
+ * cuanto MercadoPago confirma el pago — no requiere intervención
+ * manual ni que el usuario "recargue y espere".
+ */
+async function openPaymentFlow() {
   closeUserMenu();
   if (!currentUser) { openLoginModal(); return; }
-  window.open("https://mpago.li/1ZTgeFf", "_blank");
-  showPostPaymentInstructions();
-}
 
-function showPostPaymentInstructions() {
-  if (document.getElementById("payment-instructions")) return;
-  document.body.insertAdjacentHTML("beforeend", `
-    <div id="payment-instructions" onclick="if(event.target.id==='payment-instructions') this.remove()" style="
-      position:fixed; inset:0; background:rgba(0,0,0,0.8);
-      display:flex; align-items:center; justify-content:center; z-index:9999;
-    ">
-      <div style="
-        background:#0f172a; border:1px solid #1e293b;
-        border-radius:16px; padding:36px; max-width:440px; width:90%;
-        text-align:center; position:relative;
-      ">
-        <button onclick="document.getElementById('payment-instructions').remove()" style="
-          position:absolute; top:12px; right:16px;
-          background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer;
-        ">✕</button>
-        <div style="font-size:36px; margin-bottom:16px;">💳</div>
-        <h2 style="color:#fff;">Completa tu pago</h2>
-        <p style="color:#94a3b8; margin-top:8px;">Se abrió la ventana de MercadoPago. Una vez confirmado el pago:</p>
-        <ol style="text-align:left; margin:16px 0; padding-left:20px; color:#94a3b8; font-size:13px; line-height:2;">
-          <li>El acceso se activa en minutos</li>
-          <li>Recarga esta página</li>
-          <li>Los módulos premium se desbloquean solos</li>
-        </ol>
-        <p style="font-size:13px; color:#64748b;">
-          ¿Problemas? Escríbenos a 
-          <a href="mailto:aulaplcsoporte@gmail.com" style="color:#00d4ff;">aulaplcsoporte@gmail.com</a>
-        </p>
-      </div>
-    </div>
-  `);
+  const cursoId = window.CURSO_ID;
+  if (!cursoId) {
+    console.error("❌ openPaymentFlow: no se definió window.CURSO_ID en esta página");
+    return;
+  }
+
+  const btns = document.querySelectorAll(`button[onclick="openPaymentFlow()"]`);
+  btns.forEach(b => { b.disabled = true; b.dataset._texto = b.innerText; b.innerText = "Redirigiendo a MercadoPago..."; });
+
+  try {
+    const res = await fetch(`/api/cursos/${cursoId}/comprar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uid: currentUser.uid })
+    });
+    const data = await res.json();
+
+    if (!res.ok || !data.init_point) {
+      showAuthError(data.error || "No se pudo iniciar el pago. Intenta nuevamente.");
+      btns.forEach(b => { b.disabled = false; b.innerText = b.dataset._texto || "💳 Activar Premium"; });
+      return;
+    }
+
+    // Checkout Pro: redirige al usuario directamente a MercadoPago.
+    window.location.href = data.init_point;
+  } catch (error) {
+    console.error("❌ Error iniciando el pago:", error);
+    showAuthError("Error de conexión al iniciar el pago.");
+    btns.forEach(b => { b.disabled = false; b.innerText = b.dataset._texto || "💳 Activar Premium"; });
+  }
 }
 
 // ─── 13. TECLA ESC ──────────────────────────────────────

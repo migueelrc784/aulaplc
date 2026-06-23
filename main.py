@@ -614,6 +614,178 @@ def casino_recuperar_pagos():
         offset += limit
 
     return jsonify(resultado)
+
+
+# ════════════════════════════════════════════════════════════════
+#  CURSOS PREMIUM (Checkout Pro MercadoPago)
+#  Mismo patrón que el casino: preferencia de pago + webhook que
+#  verifica contra la API de MP y escribe en Firestore de forma
+#  atómica para evitar doble procesamiento.
+# ════════════════════════════════════════════════════════════════
+
+# Catálogo de cursos premium habilitados para compra.
+# Para agregar otro curso a futuro, solo se agrega una entrada aquí;
+# no hay que tocar el resto de la lógica de pago/webhook.
+CURSOS_PREMIUM = {
+    "tia-portal": {
+        "titulo": "Curso PLC Siemens TIA Portal — Acceso Premium",
+        "precio": 1990,   # CLP
+    },
+    # "hmi-scada": {"titulo": "Curso HMI/SCADA — Acceso Premium", "precio": 1990},
+}
+
+
+def _premium_doc_id(uid, curso_id):
+    return f"{uid}_{curso_id}"
+
+
+# ── CURSOS: CONSULTAR SI EL USUARIO TIENE ACCESO PREMIUM ─────────
+@app.route("/api/cursos/<curso_id>/acceso", methods=["GET"])
+def cursos_acceso(curso_id):
+    if curso_id not in CURSOS_PREMIUM:
+        return jsonify({"error": "Curso no válido"}), 404
+
+    uid = request.args.get("uid", "").strip()
+    if not uid or uid == "anonimo":
+        return jsonify({"tiene_acceso": False})
+
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    doc = db.collection("premium_access").document(_premium_doc_id(uid, curso_id)).get()
+    return jsonify({"tiene_acceso": doc.exists})
+
+
+# ── CURSOS: CREAR PREFERENCIA DE PAGO (Checkout Pro) ──────────────
+@app.route("/api/cursos/<curso_id>/comprar", methods=["POST"])
+def cursos_comprar(curso_id):
+    if curso_id not in CURSOS_PREMIUM:
+        return jsonify({"error": "Curso no válido"}), 404
+
+    if not sdk:
+        return jsonify({"error": "Pagos no configurados"}), 503
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    data = request.get_json(silent=True) or {}
+    uid  = str(data.get("uid", "")).strip()
+
+    if not uid or uid == "anonimo":
+        return jsonify({"error": "Debes iniciar sesión para comprar"}), 401
+
+    # Verificar que el uid corresponda a un usuario real registrado
+    user_snap = db.collection("usuarios").document(uid).get()
+    if not user_snap.exists:
+        return jsonify({"error": "Usuario no válido"}), 401
+
+    # Si ya tiene acceso, no generar otra preferencia de pago
+    acceso_ref = db.collection("premium_access").document(_premium_doc_id(uid, curso_id))
+    if acceso_ref.get().exists:
+        return jsonify({"error": "Ya tienes acceso a este curso"}), 400
+
+    curso = CURSOS_PREMIUM[curso_id]
+
+    preference_data = {
+        "items": [{
+            "title":       curso["titulo"],
+            "quantity":    1,
+            "unit_price":  curso["precio"],
+            "currency_id": "CLP"
+        }],
+        "metadata": {
+            "uid":      uid,
+            "curso_id": curso_id
+        },
+        "back_urls": {
+            "success": f"https://aulaplc.com/cursos/{curso_id}?mp_status=approved",
+            "failure": f"https://aulaplc.com/cursos/{curso_id}?mp_status=failure",
+            "pending": f"https://aulaplc.com/cursos/{curso_id}?mp_status=pending"
+        },
+        "auto_return":      "approved",
+        "notification_url": "https://aulaplc.com/api/cursos/webhook"
+    }
+
+    result = sdk.preference().create(preference_data)
+
+    if result["status"] != 201:
+        return jsonify({"error": "Error MercadoPago"}), 500
+
+    return jsonify({"init_point": result["response"]["init_point"]})
+
+
+# ── CURSOS: WEBHOOK MERCADOPAGO ───────────────────────────────────
+@app.route("/api/cursos/webhook", methods=["POST"])
+def cursos_webhook():
+    if not sdk or not db:
+        return "", 200
+
+    data  = request.get_json(silent=True) or {}
+    topic = request.args.get("topic") or data.get("type", "")
+
+    if topic not in ("payment", "payment.updated"):
+        return "", 200
+
+    payment_id = (
+        str((data.get("data") or {}).get("id", ""))
+        or request.args.get("id", "")
+    )
+
+    if not payment_id:
+        return "", 200
+
+    # Evitar doble procesamiento (chequeo rápido, la protección real es el
+    # create() atómico de abajo)
+    pago_ref = db.collection("mp_pagos_cursos").document(payment_id)
+    if pago_ref.get().exists:
+        return "", 200
+
+    # Verificar el pago directamente con MercadoPago (no confiar en el body)
+    payment_info = sdk.payment().get(payment_id)
+    payment      = payment_info.get("response", {})
+
+    if payment.get("status") != "approved":
+        return "", 200
+
+    metadata = payment.get("metadata", {})
+    uid      = metadata.get("uid", "")
+    curso_id = metadata.get("curso_id", "")
+
+    if not uid or uid == "anonimo" or curso_id not in CURSOS_PREMIUM:
+        return "", 200
+
+    # Registrar el pago de forma ATÓMICA: create() falla si el documento ya
+    # existe, evitando que reintentos simultáneos del webhook procesen el
+    # mismo pago dos veces.
+    try:
+        pago_ref.create({
+            "payment_id": payment_id,
+            "uid":        uid,
+            "curso_id":   curso_id,
+            "procesado":  True,
+            "fecha":      datetime.utcnow().isoformat()
+        })
+    except Exception:
+        # Ya fue creado por otra petición concurrente: pago ya procesado
+        return "", 200
+
+    # Otorgar el acceso premium (idempotente: set() simplemente confirma el
+    # acceso si por algún motivo ya existía)
+    acceso_ref = db.collection("premium_access").document(_premium_doc_id(uid, curso_id))
+    try:
+        acceso_ref.set({
+            "uid":        uid,
+            "curso_id":   curso_id,
+            "payment_id": payment_id,
+            "fecha":      datetime.utcnow().isoformat()
+        })
+    except Exception as e:
+        pago_ref.delete()
+        print(f"Error otorgando acceso premium: {e}")
+        return "", 500
+
+    return "", 200
+
+
 @app.route("/sitemap.xml")
 def sitemap():
     pages = [
