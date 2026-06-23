@@ -575,6 +575,9 @@
     <button class="buy-credits-btn" onclick="openCreditPurchase()">
       💎 RECARGAR CR
     </button>
+    <button class="buy-credits-btn withdraw-btn" onclick="openWithdrawModal()" style="background:linear-gradient(135deg,#16a34a,#15803d)">
+      💸 RETIRAR
+    </button>
   </div>
 
   <!-- LAYOUT RULETA -->
@@ -1243,6 +1246,114 @@ async function iniciarPago() {
 function closeMpModal() {
   const m = document.getElementById('mpModal')
   if (m) m.remove()
+}
+
+// ── RETIRO DE CRÉDITOS ──
+const RETIRO_MINIMO = 1000
+
+function openWithdrawModal() {
+  if (document.getElementById('wdModal')) return
+
+  if (!window.currentUserUid) {
+    if (typeof window.openLoginModal === 'function') {
+      window.openLoginModal()
+    } else {
+      alert('Debes iniciar sesión para retirar créditos.')
+    }
+    return
+  }
+
+  if (credits < RETIRO_MINIMO) {
+    alert(`Necesitas al menos ${RETIRO_MINIMO.toLocaleString('es-CL')} créditos para retirar. Tienes ${credits.toLocaleString('es-CL')}.`)
+    return
+  }
+
+  document.body.insertAdjacentHTML('beforeend', `
+    <div class="mp-modal-bg" id="wdModal" onclick="if(event.target.id==='wdModal')closeWithdrawModal()">
+      <div class="mp-modal">
+        <button class="mp-modal-close" onclick="closeWithdrawModal()">✕</button>
+        <div class="mp-modal-icon">💸</div>
+        <div class="mp-modal-title">RETIRAR CRÉDITOS</div>
+        <p style="color:#94a3b8; font-size:13px; margin:8px 0 16px; text-align:center;">
+          Saldo disponible: <strong style="color:#fff">${credits.toLocaleString('es-CL')} CR</strong><br>
+          Mínimo para retirar: ${RETIRO_MINIMO.toLocaleString('es-CL')} CR · 1 crédito = $1 CLP
+        </p>
+        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Monto a retirar (créditos)</label>
+        <input type="number" id="wdMonto" min="${RETIRO_MINIMO}" max="${credits}" step="1"
+               placeholder="Mínimo ${RETIRO_MINIMO}"
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:12px;">
+        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Alias / CVU / cuenta MercadoPago para recibir el pago</label>
+        <input type="text" id="wdDatosPago" placeholder="Ej: tu.alias.mp o número de cuenta"
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:16px;">
+        <button class="mp-pay-btn" id="wdSubmitBtn" onclick="solicitarRetiro()" style="background:linear-gradient(135deg,#16a34a,#15803d)">
+          Solicitar retiro
+        </button>
+        <p class="mp-modal-note">
+          🕐 Las solicitudes se revisan y pagan manualmente, normalmente en 1-3 días hábiles.<br>
+          Los créditos solicitados se descuentan de inmediato de tu saldo.<br>
+          ¿Dudas? <a href="mailto:aulaplcsoporte@gmail.com">aulaplcsoporte@gmail.com</a>
+        </p>
+      </div>
+    </div>
+  `)
+}
+
+function closeWithdrawModal() {
+  const m = document.getElementById('wdModal')
+  if (m) m.remove()
+}
+
+async function solicitarRetiro() {
+  const btn        = document.getElementById('wdSubmitBtn')
+  const montoInput = document.getElementById('wdMonto')
+  const datosPago  = document.getElementById('wdDatosPago').value.trim()
+  const monto      = parseInt(montoInput.value, 10)
+
+  if (!monto || monto < RETIRO_MINIMO) {
+    alert(`El monto mínimo de retiro es ${RETIRO_MINIMO.toLocaleString('es-CL')} créditos.`)
+    return
+  }
+  if (monto > credits) {
+    alert('No tienes suficientes créditos para ese monto.')
+    return
+  }
+  if (!datosPago) {
+    alert('Ingresa tu alias/cuenta para recibir el pago.')
+    return
+  }
+
+  const uid = window.currentUserUid
+  if (!uid) {
+    alert('Debes iniciar sesión.')
+    return
+  }
+
+  btn.disabled = true
+  btn.innerHTML = '⟳ Enviando solicitud...'
+
+  try {
+    const res  = await fetch('/api/casino/retiro', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ uid, monto, datos_pago: datosPago })
+    })
+    const data = await res.json()
+
+    if (res.ok && data.ok) {
+      // Reflejar el nuevo saldo (ya descontado en el servidor)
+      credits = data.nuevo_saldo
+      updateUI()
+      saveState()
+      closeWithdrawModal()
+      alert('✅ Solicitud de retiro enviada. Te contactaremos para confirmar el pago.')
+    } else {
+      btn.disabled = false
+      btn.innerHTML = '✕ ' + (data.error || 'Error — intenta de nuevo')
+    }
+  } catch (e) {
+    btn.disabled = false
+    btn.innerHTML = '✕ Error de conexión'
+  }
 }
 
 function showCreditToast(amount) {

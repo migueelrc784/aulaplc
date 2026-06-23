@@ -13,7 +13,6 @@ except ImportError:
     sdk = None
 
 # ── FIREBASE / FIRESTORE ──────────────────────────────────
-_firebase_init_error = None
 try:
     import firebase_admin
     from firebase_admin import credentials, firestore as fs
@@ -26,7 +25,6 @@ try:
             cred = credentials.Certificate("serviceAccountKey.json")
         else:
             cred = None
-            _firebase_init_error = "No se encontró FIREBASE_CREDENTIALS ni serviceAccountKey.json"
 
         if cred:
             firebase_admin.initialize_app(cred)
@@ -34,30 +32,7 @@ try:
     db = fs.client() if firebase_admin._apps else None
 except Exception as e:
     print(f"Firebase init error: {e}")
-    _firebase_init_error = f"{type(e).__name__}: {e}"
     db = None
-
-
-# ── DIAGNÓSTICO TEMPORAL (borrar después de usar) ─────────
-@app.route("/api/debug/firebase")
-def debug_firebase():
-    cred_json_raw = os.environ.get("FIREBASE_CREDENTIALS", "")
-    info = {
-        "db_inicializado": db is not None,
-        "firebase_credentials_existe": bool(cred_json_raw),
-        "firebase_credentials_largo": len(cred_json_raw),
-        "error": _firebase_init_error,
-    }
-    if cred_json_raw:
-        try:
-            parsed = json.loads(cred_json_raw)
-            info["json_valido"] = True
-            info["project_id"] = parsed.get("project_id")
-            info["client_email"] = parsed.get("client_email")
-        except Exception as e:
-            info["json_valido"] = False
-            info["json_error"] = str(e)
-    return jsonify(info)
 
 PRECIO_POR_CREDITO = 1
 MONTOS_VALIDOS     = {1000, 2000, 3000, 5000, 10000}
@@ -164,6 +139,161 @@ def casino_comprar():
     return jsonify({"init_point": result["response"]["init_point"]})
 
 
+# ── CASINO: SOLICITAR RETIRO ───────────────────────────────
+RETIRO_MINIMO = 1000
+
+@app.route("/api/casino/retiro", methods=["POST"])
+def casino_retiro():
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    data       = request.get_json(silent=True) or {}
+    uid        = str(data.get("uid", "")).strip()
+    datos_pago = str(data.get("datos_pago", "")).strip()
+
+    try:
+        monto = int(data.get("monto", 0))
+    except (TypeError, ValueError):
+        return jsonify({"error": "Monto inválido"}), 400
+
+    if not uid or uid == "anonimo":
+        return jsonify({"error": "Debes iniciar sesión para retirar"}), 401
+
+    if monto < RETIRO_MINIMO:
+        return jsonify({"error": f"El monto mínimo de retiro es {RETIRO_MINIMO}"}), 400
+
+    if not datos_pago:
+        return jsonify({"error": "Debes indicar tus datos de pago"}), 400
+
+    user_ref = db.collection("usuarios").document(uid)
+    user_snap = user_ref.get()
+    if not user_snap.exists:
+        return jsonify({"error": "Usuario no válido"}), 401
+
+    # Descontar el saldo de forma atómica: falla si no hay saldo suficiente,
+    # evitando que el usuario quede con saldo negativo o retire dos veces
+    # el mismo crédito con solicitudes simultáneas.
+    @fs.transactional
+    def descontar(transaction, ref):
+        snap     = ref.get(transaction=transaction)
+        actuales = (snap.to_dict() or {}).get("casino_credits", 0)
+        if actuales < monto:
+            raise ValueError("saldo_insuficiente")
+        transaction.update(ref, {"casino_credits": actuales - monto})
+        return actuales - monto
+
+    try:
+        nuevo_saldo = descontar(db.transaction(), user_ref)
+    except ValueError:
+        return jsonify({"error": "Saldo insuficiente"}), 400
+    except Exception as e:
+        print(f"Error descontando saldo para retiro: {e}")
+        return jsonify({"error": "Error al procesar el retiro"}), 500
+
+    # Crear la solicitud de retiro pendiente de pago manual
+    retiro_ref = db.collection("retiros").document()
+    retiro_ref.set({
+        "uid":         uid,
+        "monto":       monto,
+        "datos_pago":  datos_pago,
+        "estado":      "pendiente",
+        "fecha":       datetime.utcnow().isoformat()
+    })
+
+    return jsonify({"ok": True, "nuevo_saldo": nuevo_saldo, "retiro_id": retiro_ref.id})
+
+
+# ── CASINO: GESTIÓN DE RETIROS (admin) ────────────────────
+# Endpoints protegidos con RECOVERY_SECRET_KEY (header X-Recovery-Key)
+# para que el dueño del sitio liste, apruebe o rechace solicitudes.
+
+@app.route("/api/casino/retiros", methods=["GET"])
+def casino_listar_retiros():
+    secret = os.environ.get("RECOVERY_SECRET_KEY", "")
+    if not secret or request.headers.get("X-Recovery-Key", "") != secret:
+        return jsonify({"error": "No autorizado"}), 401
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    estado = request.args.get("estado", "pendiente")
+    query  = db.collection("retiros")
+    if estado != "todos":
+        query = query.where("estado", "==", estado)
+
+    docs = query.stream()
+    retiros = []
+    for d in docs:
+        item = d.to_dict()
+        item["id"] = d.id
+        retiros.append(item)
+
+    retiros.sort(key=lambda r: r.get("fecha", ""), reverse=True)
+    return jsonify({"retiros": retiros})
+
+
+@app.route("/api/casino/retiros/<retiro_id>/marcar-pagado", methods=["POST"])
+def casino_marcar_pagado(retiro_id):
+    secret = os.environ.get("RECOVERY_SECRET_KEY", "")
+    if not secret or request.headers.get("X-Recovery-Key", "") != secret:
+        return jsonify({"error": "No autorizado"}), 401
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    retiro_ref = db.collection("retiros").document(retiro_id)
+    snap = retiro_ref.get()
+    if not snap.exists:
+        return jsonify({"error": "Retiro no encontrado"}), 404
+    if snap.to_dict().get("estado") != "pendiente":
+        return jsonify({"error": "Este retiro ya fue procesado"}), 400
+
+    retiro_ref.update({
+        "estado":      "pagado",
+        "fecha_pago":  datetime.utcnow().isoformat()
+    })
+    return jsonify({"ok": True})
+
+
+@app.route("/api/casino/retiros/<retiro_id>/rechazar", methods=["POST"])
+def casino_rechazar_retiro(retiro_id):
+    secret = os.environ.get("RECOVERY_SECRET_KEY", "")
+    if not secret or request.headers.get("X-Recovery-Key", "") != secret:
+        return jsonify({"error": "No autorizado"}), 401
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    retiro_ref = db.collection("retiros").document(retiro_id)
+    snap = retiro_ref.get()
+    if not snap.exists:
+        return jsonify({"error": "Retiro no encontrado"}), 404
+
+    retiro = snap.to_dict()
+    if retiro.get("estado") != "pendiente":
+        return jsonify({"error": "Este retiro ya fue procesado"}), 400
+
+    uid    = retiro.get("uid")
+    monto  = int(retiro.get("monto", 0))
+    user_ref = db.collection("usuarios").document(uid)
+
+    # Devolver los créditos al usuario de forma atómica
+    @fs.transactional
+    def devolver(transaction, ref):
+        snap_u   = ref.get(transaction=transaction)
+        actuales = (snap_u.to_dict() or {}).get("casino_credits", 0)
+        transaction.update(ref, {"casino_credits": actuales + monto})
+
+    try:
+        devolver(db.transaction(), user_ref)
+    except Exception as e:
+        print(f"Error devolviendo créditos al rechazar retiro: {e}")
+        return jsonify({"error": "Error al devolver créditos"}), 500
+
+    retiro_ref.update({
+        "estado":      "rechazado",
+        "fecha_pago":  datetime.utcnow().isoformat()
+    })
+    return jsonify({"ok": True})
+
+
 # ── CASINO: WEBHOOK MERCADOPAGO ───────────────────────────
 @app.route("/api/casino/webhook", methods=["POST"])
 def casino_webhook():
@@ -237,7 +367,110 @@ def casino_webhook():
     return "", 200
 
 
-# ── SITEMAP ───────────────────────────────────────────────
+# ── CASINO: RECUPERACIÓN DE PAGOS NO ACREDITADOS ──────────
+# Endpoint temporal protegido. Revisa los pagos aprobados en MercadoPago
+# de los últimos N días y acredita los que falten en Firestore (casos en
+# que el webhook no pudo escribir porque Firebase Admin estaba mal
+# configurado). Requiere header X-Recovery-Key con el valor de la
+# variable de entorno RECOVERY_SECRET_KEY.
+@app.route("/api/casino/recuperar-pagos", methods=["POST"])
+def casino_recuperar_pagos():
+    secret = os.environ.get("RECOVERY_SECRET_KEY", "")
+    if not secret or request.headers.get("X-Recovery-Key", "") != secret:
+        return jsonify({"error": "No autorizado"}), 401
+
+    if not sdk or not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    dias = int((request.get_json(silent=True) or {}).get("dias", 30))
+    desde = (datetime.utcnow() - __import__("datetime").timedelta(days=dias)).strftime("%Y-%m-%dT00:00:00.000-00:00")
+
+    resultado = {
+        "revisados":          0,
+        "ya_acreditados":     0,
+        "recien_acreditados": [],
+        "sin_metadata":       [],
+        "errores":            []
+    }
+
+    offset = 0
+    limit  = 50
+
+    while True:
+        search = sdk.payment().search({
+            "range":        "date_created",
+            "begin_date":   desde,
+            "end_date":     "NOW",
+            "sort":         "date_created",
+            "criteria":     "desc",
+            "offset":       offset,
+            "limit":        limit
+        })
+
+        results = (search.get("response") or {}).get("results", [])
+        if not results:
+            break
+
+        for payment in results:
+            resultado["revisados"] += 1
+
+            if payment.get("status") != "approved":
+                continue
+
+            payment_id = str(payment.get("id", ""))
+            if not payment_id:
+                continue
+
+            pago_ref = db.collection("mp_pagos").document(payment_id)
+            if pago_ref.get().exists:
+                resultado["ya_acreditados"] += 1
+                continue
+
+            metadata = payment.get("metadata", {}) or {}
+            uid      = metadata.get("uid", "")
+            creditos = int(metadata.get("creditos", 0) or 0)
+
+            if not uid or uid == "anonimo" or creditos <= 0:
+                resultado["sin_metadata"].append(payment_id)
+                continue
+
+            try:
+                pago_ref.create({
+                    "payment_id": payment_id,
+                    "uid":        uid,
+                    "creditos":   creditos,
+                    "procesado":  True,
+                    "fecha":      datetime.utcnow().isoformat(),
+                    "via":        "recuperacion_manual"
+                })
+            except Exception:
+                resultado["ya_acreditados"] += 1
+                continue
+
+            user_ref = db.collection("usuarios").document(uid)
+
+            @fs.transactional
+            def acreditar(transaction, ref):
+                snap     = ref.get(transaction=transaction)
+                actuales = (snap.to_dict() or {}).get("casino_credits", 0)
+                transaction.update(ref, {"casino_credits": actuales + creditos})
+
+            try:
+                acreditar(db.transaction(), user_ref)
+                resultado["recien_acreditados"].append({
+                    "payment_id": payment_id,
+                    "uid":        uid,
+                    "creditos":   creditos
+                })
+            except Exception as e:
+                pago_ref.delete()
+                resultado["errores"].append({"payment_id": payment_id, "uid": uid, "error": str(e)})
+
+        if len(results) < limit:
+            break
+        offset += limit
+
+    return jsonify(resultado)
 @app.route("/sitemap.xml")
 def sitemap():
     pages = [
