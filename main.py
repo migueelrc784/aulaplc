@@ -142,6 +142,8 @@ def casino_comprar():
 # ── CASINO: SOLICITAR RETIRO ───────────────────────────────
 RETIRO_MINIMO = 1000
 
+TIPOS_CUENTA_VALIDOS = {"cuenta_rut", "cuenta_corriente", "cuenta_vista", "cuenta_ahorro"}
+
 @app.route("/api/casino/retiro", methods=["POST"])
 def casino_retiro():
     if not db:
@@ -149,7 +151,18 @@ def casino_retiro():
 
     data       = request.get_json(silent=True) or {}
     uid        = str(data.get("uid", "")).strip()
-    datos_pago = str(data.get("datos_pago", "")).strip()
+    datos_pago_raw = data.get("datos_pago") or {}
+
+    if not isinstance(datos_pago_raw, dict):
+        return jsonify({"error": "Datos de pago inválidos"}), 400
+
+    nombre        = str(datos_pago_raw.get("nombre", "")).strip()
+    apellido      = str(datos_pago_raw.get("apellido", "")).strip()
+    rut           = str(datos_pago_raw.get("rut", "")).strip()
+    banco         = str(datos_pago_raw.get("banco", "")).strip()
+    tipo_cuenta   = str(datos_pago_raw.get("tipo_cuenta", "")).strip()
+    numero_cuenta = str(datos_pago_raw.get("numero_cuenta", "")).strip()
+    correo        = str(datos_pago_raw.get("correo", "")).strip()
 
     try:
         monto = int(data.get("monto", 0))
@@ -162,8 +175,24 @@ def casino_retiro():
     if monto < RETIRO_MINIMO:
         return jsonify({"error": f"El monto mínimo de retiro es {RETIRO_MINIMO}"}), 400
 
-    if not datos_pago:
-        return jsonify({"error": "Debes indicar tus datos de pago"}), 400
+    if not all([nombre, apellido, rut, banco, numero_cuenta, correo]):
+        return jsonify({"error": "Debes completar todos los datos de pago"}), 400
+
+    if tipo_cuenta not in TIPOS_CUENTA_VALIDOS:
+        return jsonify({"error": "Tipo de cuenta inválido"}), 400
+
+    if "@" not in correo:
+        return jsonify({"error": "Correo inválido"}), 400
+
+    datos_pago = {
+        "nombre":        nombre,
+        "apellido":      apellido,
+        "rut":           rut,
+        "banco":         banco,
+        "tipo_cuenta":   tipo_cuenta,
+        "numero_cuenta": numero_cuenta,
+        "correo":        correo,
+    }
 
     user_ref = db.collection("usuarios").document(uid)
     user_snap = user_ref.get()

@@ -1281,21 +1281,76 @@ function openWithdrawModal() {
 
   document.body.insertAdjacentHTML('beforeend', `
     <div class="mp-modal-bg" id="wdModal" onclick="if(event.target.id==='wdModal')closeWithdrawModal()">
-      <div class="mp-modal">
+      <div class="mp-modal" style="max-width:440px; text-align:left;">
         <button class="mp-modal-close" onclick="closeWithdrawModal()">✕</button>
-        <div class="mp-modal-icon">💸</div>
-        <div class="mp-modal-title">RETIRAR CRÉDITOS</div>
-        <p style="color:#94a3b8; font-size:13px; margin:8px 0 16px; text-align:center;">
+        <div class="mp-modal-icon" style="text-align:center;">💸</div>
+        <div class="mp-modal-title" style="text-align:center;">RETIRAR CRÉDITOS</div>
+        <p style="color:#94a3b8; font-size:13px; margin:8px 0 18px; text-align:center;">
           Saldo disponible: <strong style="color:#fff">${credits.toLocaleString('es-CL')} CR</strong><br>
           Mínimo para retirar: ${RETIRO_MINIMO.toLocaleString('es-CL')} CR · 1 crédito = $1 CLP
         </p>
+
         <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Monto a retirar (créditos)</label>
         <input type="number" id="wdMonto" min="${RETIRO_MINIMO}" max="${credits}" step="1"
                placeholder="Mínimo ${RETIRO_MINIMO}"
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:12px;">
-        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Alias / CVU / cuenta MercadoPago para recibir el pago</label>
-        <input type="text" id="wdDatosPago" placeholder="Ej: tu.alias.mp o número de cuenta"
-               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:16px;">
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+          <div>
+            <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Nombre</label>
+            <input type="text" id="wdNombre" placeholder="Juan"
+                   style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff;">
+          </div>
+          <div>
+            <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Apellido</label>
+            <input type="text" id="wdApellido" placeholder="Pérez"
+                   style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff;">
+          </div>
+        </div>
+
+        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">RUT</label>
+        <input type="text" id="wdRut" placeholder="12.345.678-9"
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
+
+        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Banco</label>
+        <select id="wdBanco"
+                style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
+          <option value="">Selecciona tu banco</option>
+          <option>Banco Estado</option>
+          <option>Banco de Chile / Edwards-Citi</option>
+          <option>Banco Santander</option>
+          <option>Banco BCI</option>
+          <option>Banco Falabella</option>
+          <option>Banco Itaú</option>
+          <option>Banco Security</option>
+          <option>Banco Scotiabank</option>
+          <option>Banco BICE</option>
+          <option>Banco Consorcio</option>
+          <option>Banco Ripley</option>
+          <option>Coopeuch</option>
+          <option>Tenpo</option>
+          <option>Mercado Pago</option>
+          <option>Otro</option>
+        </select>
+
+        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Tipo de cuenta</label>
+        <select id="wdTipoCuenta"
+                style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
+          <option value="">Selecciona el tipo</option>
+          <option value="cuenta_rut">Cuenta RUT</option>
+          <option value="cuenta_corriente">Cuenta corriente</option>
+          <option value="cuenta_vista">Cuenta vista</option>
+          <option value="cuenta_ahorro">Cuenta de ahorro</option>
+        </select>
+
+        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Número de cuenta</label>
+        <input type="text" id="wdNumeroCuenta" placeholder="Ej: 00123456789"
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:14px;">
+
+        <label style="display:block; font-size:12px; color:#cbd5e1; margin-bottom:4px;">Correo de contacto</label>
+        <input type="email" id="wdCorreo" placeholder="tucorreo@ejemplo.com"
+               style="width:100%; padding:10px; border-radius:8px; border:1px solid #334155; background:#0f172a; color:#fff; margin-bottom:18px;">
+
         <button class="mp-pay-btn" id="wdSubmitBtn" onclick="solicitarRetiro()" style="background:linear-gradient(135deg,#16a34a,#15803d)">
           Solicitar retiro
         </button>
@@ -1316,9 +1371,14 @@ function closeWithdrawModal() {
 
 async function solicitarRetiro() {
   const btn        = document.getElementById('wdSubmitBtn')
-  const montoInput = document.getElementById('wdMonto')
-  const datosPago  = document.getElementById('wdDatosPago').value.trim()
-  const monto      = parseInt(montoInput.value, 10)
+  const monto      = parseInt(document.getElementById('wdMonto').value, 10)
+  const nombre     = document.getElementById('wdNombre').value.trim()
+  const apellido   = document.getElementById('wdApellido').value.trim()
+  const rut        = document.getElementById('wdRut').value.trim()
+  const banco      = document.getElementById('wdBanco').value
+  const tipoCuenta = document.getElementById('wdTipoCuenta').value
+  const numCuenta  = document.getElementById('wdNumeroCuenta').value.trim()
+  const correo     = document.getElementById('wdCorreo').value.trim()
 
   if (!monto || monto < RETIRO_MINIMO) {
     alert(`El monto mínimo de retiro es ${RETIRO_MINIMO.toLocaleString('es-CL')} créditos.`)
@@ -1328,8 +1388,28 @@ async function solicitarRetiro() {
     alert('No tienes suficientes créditos para ese monto.')
     return
   }
-  if (!datosPago) {
-    alert('Ingresa tu alias/cuenta para recibir el pago.')
+  if (!nombre || !apellido) {
+    alert('Ingresa tu nombre y apellido.')
+    return
+  }
+  if (!rut) {
+    alert('Ingresa tu RUT.')
+    return
+  }
+  if (!banco) {
+    alert('Selecciona tu banco.')
+    return
+  }
+  if (!tipoCuenta) {
+    alert('Selecciona el tipo de cuenta.')
+    return
+  }
+  if (!numCuenta) {
+    alert('Ingresa el número de cuenta.')
+    return
+  }
+  if (!correo || !correo.includes('@')) {
+    alert('Ingresa un correo de contacto válido.')
     return
   }
 
@@ -1337,6 +1417,13 @@ async function solicitarRetiro() {
   if (!uid) {
     alert('Debes iniciar sesión.')
     return
+  }
+
+  const datosPago = {
+    nombre, apellido, rut, banco,
+    tipo_cuenta:    tipoCuenta,
+    numero_cuenta:  numCuenta,
+    correo
   }
 
   btn.disabled = true
