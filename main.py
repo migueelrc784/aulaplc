@@ -13,6 +13,7 @@ except ImportError:
     sdk = None
 
 # ── FIREBASE / FIRESTORE ──────────────────────────────────
+_firebase_init_error = None
 try:
     import firebase_admin
     from firebase_admin import credentials, firestore as fs
@@ -25,6 +26,7 @@ try:
             cred = credentials.Certificate("serviceAccountKey.json")
         else:
             cred = None
+            _firebase_init_error = "No se encontró FIREBASE_CREDENTIALS ni serviceAccountKey.json"
 
         if cred:
             firebase_admin.initialize_app(cred)
@@ -32,7 +34,30 @@ try:
     db = fs.client() if firebase_admin._apps else None
 except Exception as e:
     print(f"Firebase init error: {e}")
+    _firebase_init_error = f"{type(e).__name__}: {e}"
     db = None
+
+
+# ── DIAGNÓSTICO TEMPORAL (borrar después de usar) ─────────
+@app.route("/api/debug/firebase")
+def debug_firebase():
+    cred_json_raw = os.environ.get("FIREBASE_CREDENTIALS", "")
+    info = {
+        "db_inicializado": db is not None,
+        "firebase_credentials_existe": bool(cred_json_raw),
+        "firebase_credentials_largo": len(cred_json_raw),
+        "error": _firebase_init_error,
+    }
+    if cred_json_raw:
+        try:
+            parsed = json.loads(cred_json_raw)
+            info["json_valido"] = True
+            info["project_id"] = parsed.get("project_id")
+            info["client_email"] = parsed.get("client_email")
+        except Exception as e:
+            info["json_valido"] = False
+            info["json_error"] = str(e)
+    return jsonify(info)
 
 PRECIO_POR_CREDITO = 1
 MONTOS_VALIDOS     = {1000, 2000, 3000, 5000, 10000}
