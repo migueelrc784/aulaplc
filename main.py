@@ -1,6 +1,8 @@
 from flask import Flask, render_template, send_from_directory, redirect, Response, request, jsonify
 from datetime import datetime
 import os, json
+import smtplib
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
@@ -59,6 +61,33 @@ except Exception as e:
 
 PRECIO_POR_CREDITO = 1
 MONTOS_VALIDOS     = {1000, 2000, 3000, 5000, 10000}
+
+# ── EMAIL (Gmail SMTP) ────────────────────────────────────
+EMAIL_REMITENTE = os.environ.get("EMAIL_REMITENTE", "aulaplcsoporte@gmail.com")
+EMAIL_PASSWORD  = os.environ.get("EMAIL_APP_PASSWORD", "")
+
+def enviar_correo(destinatario, asunto, cuerpo):
+    """Envía un correo simple por Gmail SMTP. No lanza excepción hacia
+    arriba: si falla, solo lo registra en logs, para no bloquear la
+    acción principal (marcar el retiro como pagado) por un problema
+    de correo."""
+    if not EMAIL_PASSWORD:
+        print("Email no enviado: falta EMAIL_APP_PASSWORD")
+        return False
+
+    try:
+        msg = MIMEText(cuerpo)
+        msg["Subject"] = asunto
+        msg["From"]    = EMAIL_REMITENTE
+        msg["To"]      = destinatario
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(EMAIL_REMITENTE, EMAIL_PASSWORD)
+            server.sendmail(EMAIL_REMITENTE, [destinatario], msg.as_string())
+        return True
+    except Exception as e:
+        print(f"Error enviando correo a {destinatario}: {e}")
+        return False
 
 # ── PÁGINA PRINCIPAL ──────────────────────────────────────
 @app.route("/")
@@ -302,6 +331,43 @@ def casino_marcar_pagado(retiro_id):
         "estado":      "pagado",
         "fecha_pago":  datetime.utcnow().isoformat()
     })
+
+    # Enviar correo de confirmación al usuario
+    retiro = snap.to_dict()
+    datos_pago = retiro.get("datos_pago") or {}
+    correo_usuario = datos_pago.get("correo", "")
+    nombre_usuario = datos_pago.get("nombre", "")
+    monto_retiro   = int(retiro.get("monto", 0))
+    banco          = datos_pago.get("banco", "")
+    tipo_cuenta    = datos_pago.get("tipo_cuenta", "").replace("_", " ").capitalize()
+    numero_cuenta  = datos_pago.get("numero_cuenta", "")
+
+    if correo_usuario:
+        cuerpo = f"""Hola {nombre_usuario},
+
+Tu solicitud de retiro ha sido procesada exitosamente. ✅
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+  Monto transferido: ${monto_retiro:,} CLP
+  Banco: {banco}
+  Tipo de cuenta: {tipo_cuenta}
+  N° cuenta: {numero_cuenta}
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+La transferencia fue realizada a los datos bancarios que indicaste en tu solicitud.
+Si tienes alguna consulta, puedes escribirnos a aulaplcsoporte@gmail.com.
+
+¡Gracias por usar AulaPLC Casino!
+
+— Equipo AulaPLC
+https://aulaplc.com
+"""
+        enviar_correo(
+            correo_usuario,
+            f"✅ Pago realizado — ${monto_retiro:,} CLP | AulaPLC Casino",
+            cuerpo
+        )
+
     return jsonify({"ok": True})
 
 
@@ -343,6 +409,31 @@ def casino_rechazar_retiro(retiro_id):
         "estado":      "rechazado",
         "fecha_pago":  datetime.utcnow().isoformat()
     })
+
+    # Notificar al usuario que su retiro fue rechazado y los créditos devueltos
+    datos_pago_r   = retiro.get("datos_pago") or {}
+    correo_usuario = datos_pago_r.get("correo", "")
+    nombre_usuario = datos_pago_r.get("nombre", "")
+
+    if correo_usuario:
+        cuerpo_rechazo = f"""Hola {nombre_usuario},
+
+Tu solicitud de retiro de ${monto:,} CLP no pudo ser procesada en esta oportunidad. ❌
+
+Los créditos han sido devueltos automáticamente a tu cuenta en AulaPLC Casino.
+Puedes intentar un nuevo retiro cuando quieras.
+
+Si crees que esto es un error o necesitas ayuda, contáctanos a aulaplcsoporte@gmail.com.
+
+— Equipo AulaPLC
+https://aulaplc.com
+"""
+        enviar_correo(
+            correo_usuario,
+            f"❌ Retiro rechazado — ${monto:,} CLP devueltos | AulaPLC Casino",
+            cuerpo_rechazo
+        )
+
     return jsonify({"ok": True})
 
 
