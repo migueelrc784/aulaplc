@@ -85,6 +85,22 @@
 .num-btn.zero-num.selected { background:#22c55e; border-color:#86efac; color:#000; box-shadow:0 0 8px rgba(34,197,94,0.6); }
 .num-btn .chip-dot { position:absolute; top:1px; right:1px; width:6px; height:6px; border-radius:50%; background:#f5c518; display:none; }
 .num-btn.has-bet .chip-dot { display:block; }
+/* Grid números compacto */
+.numbers-grid-sm { display:grid; grid-template-columns:repeat(10,1fr); gap:2px; }
+.numbers-grid-sm .num-btn { aspect-ratio:1; font-size:9px; border-radius:4px; }
+/* Grid grupos compacto */
+.bet-type-grid-sm { display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
+.bet-type-btn-sm { padding:6px 3px; border-radius:8px; border:2px solid transparent; background:#0d1a0d; color:#9ca3af; font-size:10px; font-weight:700; cursor:pointer; transition:.2s; text-align:center; }
+.bet-type-btn-sm small { font-size:9px; opacity:.8; }
+.bet-type-btn-sm:hover { transform:translateY(-1px); }
+.bet-type-btn-sm.btn-red { border-color:#7f1d1d; color:#fca5a5; background:linear-gradient(135deg,#1c0a0a,#0d0606); }
+.bet-type-btn-sm.btn-red:hover { border-color:#ef4444; color:#fff; background:linear-gradient(135deg,#7f1d1d,#450a0a); }
+.bet-type-btn-sm.btn-black { border-color:#374151; color:#d1d5db; background:linear-gradient(135deg,#111318,#0d1014); }
+.bet-type-btn-sm.btn-black:hover { border-color:#9ca3af; color:#fff; background:linear-gradient(135deg,#374151,#1f2937); }
+.bet-type-btn-sm.btn-green { border-color:#14532d; color:#86efac; background:linear-gradient(135deg,#0a1c0f,#060e09); }
+.bet-type-btn-sm.btn-green:hover { border-color:#22c55e; color:#fff; background:linear-gradient(135deg,#14532d,#052e16); }
+.bet-type-btn-sm.btn-neutral { border-color:#374151; color:#d1d5db; background:#111318; }
+.bet-type-btn-sm.btn-neutral:hover { border-color:#a78bfa; color:#a78bfa; background:#1a1035; }
 
 /* Total apuesta y botones acción */
 .total-bet-row { display:flex; align-items:center; justify-content:space-between; padding:8px 12px; background:#060e08; border-radius:10px; font-size:13px; }
@@ -213,7 +229,7 @@
     <!-- PANEL APUESTAS -->
     <div class="bet-panel">
 
-      <!-- Monto por ficha -->
+      <!-- Valor ficha + GIRAR arriba -->
       <div class="bet-panel-inner">
         <div class="panel-title">◆ Valor de ficha</div>
         <div class="bet-amount-row">
@@ -230,36 +246,15 @@
         </div>
       </div>
 
-      <!-- Apuestas especiales -->
-      <div class="bet-panel-inner">
-        <div class="panel-title">◆ Apuestas de color y grupo</div>
-        <div class="bet-type-grid">
-          <button class="bet-type-btn btn-red"   onclick="addBet('red')"    id="btnRed">🔴 ROJO<br><small>×2</small></button>
-          <button class="bet-type-btn btn-black"  onclick="addBet('black')"  id="btnBlack">⚫ NEGRO<br><small>×2</small></button>
-          <button class="bet-type-btn btn-green"  onclick="addBet('green')"  id="btnGreen">🟢 VERDE<br><small>×36</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('even')"  id="btnEven">PAR<br><small>×2</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('odd')"   id="btnOdd">IMPAR<br><small>×2</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('low')"   id="btnLow">1-18<br><small>×2</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('high')"  id="btnHigh">19-36<br><small>×2</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('doz1')"  id="btnDoz1">1ª DOC<br><small>×3</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('doz2')"  id="btnDoz2">2ª DOC<br><small>×3</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('doz3')"  id="btnDoz3">3ª DOC<br><small>×3</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('col1')"  id="btnCol1">COL 1<br><small>×3</small></button>
-          <button class="bet-type-btn btn-neutral" onclick="addBet('col2')"  id="btnCol2">COL 2<br><small>×3</small></button>
-        </div>
-      </div>
-
-      <!-- Grid números -->
-      <div class="bet-panel-inner">
-        <div class="panel-title">◆ Apuesta a número exacto</div>
-        <div class="numbers-grid" id="numbersGrid"></div>
-      </div>
+      <!-- GIRAR arriba -->
+      <button class="spin-btn" id="spinBtn" onclick="spin()">▶ GIRAR</button>
+      <button class="clear-btn" onclick="clearAllBets()">✕ Borrar todas las apuestas</button>
 
       <!-- Apuestas activas -->
       <div class="bet-panel-inner">
         <div class="panel-title">◆ Apuestas activas</div>
         <div class="active-bets" id="activeBets">
-          <span class="no-bets-msg">Sin apuestas aún — elige arriba</span>
+          <span class="no-bets-msg">Sin apuestas aún — elige abajo</span>
         </div>
         <div class="total-bet-row" style="margin-top:10px">
           <span class="total-bet-label">Total apostado:</span>
@@ -267,9 +262,30 @@
         </div>
       </div>
 
-      <!-- Botones acción -->
-      <button class="spin-btn" id="spinBtn" onclick="spin()">▶ GIRAR</button>
-      <button class="clear-btn" onclick="clearAllBets()">✕ Borrar todas las apuestas</button>
+      <!-- Grid números (arriba de grupos) -->
+      <div class="bet-panel-inner">
+        <div class="panel-title">◆ Apuesta a número exacto</div>
+        <div class="numbers-grid-sm" id="numbersGrid"></div>
+      </div>
+
+      <!-- Color y grupo (abajo) -->
+      <div class="bet-panel-inner">
+        <div class="panel-title">◆ Color y grupo</div>
+        <div class="bet-type-grid-sm">
+          <button class="bet-type-btn-sm btn-red"   onclick="addBet('red')"   id="btnRed">🔴 ROJO<br><small>×2</small></button>
+          <button class="bet-type-btn-sm btn-black"  onclick="addBet('black')" id="btnBlack">⚫ NEGRO<br><small>×2</small></button>
+          <button class="bet-type-btn-sm btn-green"  onclick="addBet('green')" id="btnGreen">🟢 VERDE<br><small>×36</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('even')" id="btnEven">PAR<br><small>×2</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('odd')"  id="btnOdd">IMPAR<br><small>×2</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('low')"  id="btnLow">1-18<br><small>×2</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('high')" id="btnHigh">19-36<br><small>×2</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('doz1')" id="btnDoz1">1ª DOC<br><small>×3</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('doz2')" id="btnDoz2">2ª DOC<br><small>×3</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('doz3')" id="btnDoz3">3ª DOC<br><small>×3</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('col1')" id="btnCol1">COL 1<br><small>×3</small></button>
+          <button class="bet-type-btn-sm btn-neutral" onclick="addBet('col2')" id="btnCol2">COL 2<br><small>×3</small></button>
+        </div>
+      </div>
 
     </div>
   </div>
