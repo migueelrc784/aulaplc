@@ -105,10 +105,10 @@
     <div class="module-body" id="body-modulo1">
       <p>Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.</p>
       <iframe width="100%" height="420" src="https://www.youtube.com/embed/LGsKXPOd9lo" title="Módulo 1" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
-      <iframe src="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" width="100%" height="700" style="margin-top:20px; border:none; border-radius:12px; background:white;"></iframe>
+      <iframe data-pdf="modulo1" id="iframe-mod1" src="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" width="100%" height="700" style="margin-top:20px; border:none; border-radius:12px; background:white;"></iframe>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" target="_blank"><button type="button" class="btn blue">ABRIR PDF</button></a>
-        <a href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" download><button type="button" class="btn yellow">DESCARGAR PDF</button></a>
+        <a data-pdf="modulo1" href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" target="_blank"><button type="button" class="btn blue">ABRIR PDF</button></a>
+        <a data-pdf="modulo1" data-pdf-download="true" href="{{ url_for('static', filename='pdfs/modulo1.pdf') }}" download><button type="button" class="btn yellow">DESCARGAR PDF</button></a>
         <button type="button" class="btn green" id="completado-modulo1" onclick="toggleModuloCompletado('modulo1')">MARCAR COMPLETADO</button>
       </div>
     </div>
@@ -130,7 +130,7 @@
       <p>Aprende programación Ladder industrial desde cero: contactos NO/NC, bobinas, temporizadores TON, TOF, TP y enclavamientos.</p>
       <iframe width="100%" height="420" src="https://www.youtube.com/embed/ZdQO5_X9pzA" title="Módulo 2" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="{{ url_for('static', filename='pdfs/GUIA_LADDER.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 GUÍA LADDER PDF</button></a>
+        <a data-pdf="GUIA_LADDER" href="{{ url_for('static', filename='pdfs/GUIA_LADDER.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 GUÍA LADDER PDF</button></a>
         <button type="button" class="btn green" onclick="mostrarQuiz()">⚡ INICIAR PRÁCTICA</button>
         <button type="button" class="btn blue" id="completado-modulo2" onclick="toggleModuloCompletado('modulo2')">MARCAR COMPLETADO</button>
       </div>
@@ -162,7 +162,7 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo3_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-        <a href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 3</button></a>
+        <a data-pdf="Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial" href="{{ url_for('static', filename='pdfs/Configuracion_de_Sensores_Salidas_Digitales__Simulacion_Industrial.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 3</button></a>
         <button type="button" class="btn blue" id="completado-modulo3" onclick="toggleModuloCompletado('modulo3')">MARCAR COMPLETADO</button>
       </div>
     </div>
@@ -186,7 +186,7 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo4_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-        <a href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 4</button></a>
+        <a data-pdf="modulo4" href="{{ url_for('static', filename='pdfs/modulo4.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 4</button></a>
         <button type="button" class="btn blue" id="completado-modulo4" onclick="toggleModuloCompletado('modulo4')">MARCAR COMPLETADO</button>
       </div>
       <div style="margin-top:20px; background:#111827; padding:25px; border-radius:15px;">
@@ -233,7 +233,7 @@
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
         <a href="{{ url_for('static', filename='proyectos/modulo5_tia_portal.zip') }}" download><button type="button" class="btn green">⬇️ DESCARGAR PROYECTO</button></a>
-        <a href="{{ url_for('static', filename='pdfs/modulo5.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 5</button></a>
+        <a data-pdf="modulo5" href="{{ url_for('static', filename='pdfs/modulo5.pdf') }}" target="_blank"><button type="button" class="btn yellow">📘 PDF MÓDULO 5</button></a>
         <button type="button" class="btn blue" id="completado-modulo5" onclick="toggleModuloCompletado('modulo5')">MARCAR COMPLETADO</button>
       </div>
     </div>
@@ -256,7 +256,7 @@
       <iframe width="100%" height="420" src="https://www.youtube.com/embed/wWzGTV7STd0" title="Módulo 6" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
-        <a href="{{ url_for('static', filename='pdfs/modulo6.pdf') }}" target="_blank"><button type="button" class="btn green">📄 PDF MÓDULO 6</button></a>
+        <a data-pdf="modulo6" href="{{ url_for('static', filename='pdfs/modulo6.pdf') }}" target="_blank"><button type="button" class="btn green">📄 PDF MÓDULO 6</button></a>
         <button type="button" class="btn blue" id="completado-modulo6" onclick="toggleModuloCompletado('modulo6')">MARCAR COMPLETADO</button>
       </div>
     </div>
@@ -279,7 +279,7 @@
       <iframe width="100%" height="420" src="https://www.youtube.com/embed/9MCzEUNb5Nk" title="Módulo 7" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
-        <a href="{{ url_for('static', filename='pdfs/modulo7.pdf') }}" target="_blank"><button type="button" class="btn green">📄 PDF MÓDULO 7</button></a>
+        <a data-pdf="modulo7" href="{{ url_for('static', filename='pdfs/modulo7.pdf') }}" target="_blank"><button type="button" class="btn green">📄 PDF MÓDULO 7</button></a>
         <button type="button" class="btn blue" id="completado-modulo7" onclick="toggleModuloCompletado('modulo7')">MARCAR COMPLETADO</button>
       </div>
     </div>
@@ -302,7 +302,7 @@
       <iframe width="100%" height="420" src="https://www.youtube.com/embed/D8W0YRtxZHs" title="Módulo 8" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
-        <a href="{{ url_for('static', filename='pdfs/modulo8.pdf') }}" target="_blank"><button type="button" class="btn green">📄 DESCARGAR PDF</button></a>
+        <a data-pdf="modulo8" href="{{ url_for('static', filename='pdfs/modulo8.pdf') }}" target="_blank"><button type="button" class="btn green">📄 DESCARGAR PDF</button></a>
         <button type="button" class="btn blue" id="completado-modulo8" onclick="toggleModuloCompletado('modulo8')">MARCAR COMPLETADO</button>
       </div>
     </div>
@@ -325,7 +325,7 @@
       <iframe width="100%" height="420" src="https://www.youtube.com/embed/VIDEO_ID_MODULO9" title="Módulo 9" frameborder="0" allowfullscreen style="margin-top:20px; border-radius:12px;"></iframe>
       <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
         <a href="/simulador-plc"><button type="button" class="btn blue">🖥️ SIMULAR PLC</button></a>
-        <a href="{{ url_for('static', filename='pdfs/modulo9.pdf') }}" target="_blank"><button type="button" class="btn green">📄 DESCARGAR PDF</button></a>
+        <a data-pdf="modulo9" href="{{ url_for('static', filename='pdfs/modulo9.pdf') }}" target="_blank"><button type="button" class="btn green">📄 DESCARGAR PDF</button></a>
         <button type="button" class="btn blue" id="completado-modulo9" onclick="toggleModuloCompletado('modulo9')">MARCAR COMPLETADO</button>
       </div>
     </div>
@@ -561,6 +561,45 @@ async function toggleModuloCompletado(modulo){
 }
 
 window.addEventListener('load', cargarProgresoInicial);
+
+/* ── PDFs dinámicos según idioma (ES / EN) ──
+   Los PDF en inglés deben subirse a static/pdfs/ con el MISMO nombre
+   que el de español + sufijo "_en". Ejemplo:
+     static/pdfs/modulo1.pdf     → español (ya existe)
+     static/pdfs/modulo1_en.pdf  → inglés (subir cuando esté listo)
+   Si el PDF en inglés todavía no existe, no pasa nada: el link
+   sencillamente no se sobrescribe y sigue apuntando al de español. */
+function actualizarPDFsIdioma(){
+  const lang = window.getLang ? window.getLang() : 'es';
+  const sufijo = lang === 'en' ? '_en' : '';
+  document.querySelectorAll('[data-pdf]').forEach(el => {
+    const base = el.dataset.pdf;
+    // Reconstruye la URL manteniendo la carpeta static/pdfs/ existente
+    const original = el.getAttribute('href') || el.getAttribute('src');
+    if(!original) return;
+    const carpeta = original.substring(0, original.lastIndexOf('/') + 1);
+    const nuevaUrl = carpeta + base + sufijo + '.pdf';
+    if (el.tagName === 'IFRAME') {
+      el.src = nuevaUrl;
+    } else {
+      el.href = nuevaUrl;
+    }
+  });
+}
+
+// Enganchamos con el cambio de idioma de traducciones.js sin romper
+// lo que setLang ya hace (traducir textos, botones ES/EN, etc.)
+(function(){
+  const _setLangOriginal = window.setLang;
+  window.setLang = function(lang){
+    if(_setLangOriginal) _setLangOriginal(lang);
+    actualizarPDFsIdioma();
+  };
+})();
+
+// Aplica el idioma correcto a los PDFs apenas carga la página
+// (por si el usuario ya tenía EN guardado de una visita anterior)
+window.addEventListener('load', actualizarPDFsIdioma);
 </script>
 
 {% endblock %}
