@@ -533,11 +533,11 @@ const MAP_POR_PAGINA = {
   ],
 
   // /cursos/tia-portal
-  tia: [
-    { k:"tiaTitle",       s:".courses-page .courses-title" },
-    { k:"tiaSubtitle",    s:".courses-page .courses-subtitle" },
-    { k:"btnVolverCursos",s:".btn.red" },
-  ],
+  // (el contenido de esta página se traduce con el motor dinámico
+  //  TIA_DICT / traducirPaginaTia más abajo, porque tiene mucho texto
+  //  fijo en el HTML — módulos, botones, badges, quiz — que no pasa
+  //  por el objeto T)
+  tia: [],
 
   // /dudas  — las cards se reconstruyen dinámicamente vía JS (ver applyFAQ)
   dudas: [
@@ -569,6 +569,310 @@ const PLACEHOLDERS = [
   { k:"comunidadTituloPlaceholder", s:"#comunidadTitulo" },
   { k:"comunidadTextoPlaceholder",  s:"#comunidadTexto" },
 ]
+
+// =========================================================
+//  TRADUCCIÓN DINÁMICA — /cursos/tia-portal
+//  Esta página tiene mucho texto fijo directo en el HTML
+//  (títulos de módulo, descripciones, botones, badges de
+//  estado PENDIENTE/COMPLETADO, quiz) que no pasa por el
+//  objeto T ni por MAP_POR_PAGINA. Se traduce por diccionario
+//  de texto exacto: la primera vez que se ve un elemento se
+//  guarda su texto original (español) en data-i18n-es, y desde
+//  ahí se alterna ES/EN sin perder el original.
+// =========================================================
+const TIA_DICT = {
+  // Encabezado
+  "CURSO PLC SIEMENS TIA PORTAL": "PLC SIEMENS TIA PORTAL COURSE",
+  "30 módulos de automatización industrial con videos, PDFs y simulaciones reales.":
+    "30 modules of industrial automation with videos, PDFs and real simulations.",
+
+  // Tarjeta de descarga de TIA Portal
+  "DESCARGAR TIA PORTAL": "DOWNLOAD TIA PORTAL",
+  "Antes de comenzar instala TIA Portal para poder realizar todas las prácticas, simulaciones y ejercicios incluidos en los módulos.":
+    "Before you start, install TIA Portal so you can complete all the practices, simulations and exercises included in the modules.",
+  "Incluye:": "Includes:",
+  "Descargar TIA Portal": "Download TIA Portal",
+  "Configuración inicial": "Initial configuration",
+  "Activación de PLCSIM": "PLCSIM activation",
+  "Preparación para los siguientes módulos": "Preparation for the following modules",
+  "VER VIDEO DE INSTALACIÓN": "WATCH INSTALLATION VIDEO",
+
+  // Botones genéricos reutilizados en varios módulos
+  "ABRIR PDF": "OPEN PDF",
+  "DESCARGAR PDF": "DOWNLOAD PDF",
+  "MARCAR COMPLETADO": "MARK AS COMPLETE",
+  "✅ COMPLETADO (clic para quitar)": "✅ COMPLETED (click to remove)",
+  "PENDIENTE": "PENDING",
+  "✅ COMPLETADO": "✅ COMPLETED",
+  "🖥️ SIMULAR PLC": "🖥️ SIMULATE PLC",
+  "⬇️ DESCARGAR PROYECTO": "⬇️ DOWNLOAD PROJECT",
+  "🔒 BLOQUEADO": "🔒 LOCKED",
+  "VOLVER A CURSOS": "BACK TO COURSES",
+
+  // Módulo 1
+  "MÓDULO 1 - INTRODUCCIÓN A PLC": "MODULE 1 - INTRODUCTION TO PLC",
+  "Aprende qué es un PLC Siemens, funcionamiento de CPU, módulos y arquitectura industrial.":
+    "Learn what a Siemens PLC is, CPU operation, modules and industrial architecture.",
+
+  // Módulo 2
+  "MÓDULO 2 - PROGRAMACIÓN LADDER": "MODULE 2 - LADDER PROGRAMMING",
+  "Programación Ladder industrial desde cero: contactos NO/NC, bobinas, temporizadores y enclavamientos.":
+    "Industrial Ladder programming from scratch: NO/NC contacts, coils, timers and interlocks.",
+  "Aprende programación Ladder industrial desde cero: contactos NO/NC, bobinas, temporizadores TON, TOF, TP y enclavamientos.":
+    "Learn industrial Ladder programming from scratch: NO/NC contacts, coils, TON, TOF, TP timers and interlocks.",
+  "📘 GUÍA LADDER PDF": "📘 LADDER GUIDE PDF",
+  "⚡ INICIAR PRÁCTICA": "⚡ START PRACTICE",
+  "🧠 TEST DE PROGRAMACIÓN LADDER": "🧠 LADDER PROGRAMMING TEST",
+  "➡ SIGUIENTE PREGUNTA": "➡ NEXT QUESTION",
+  "✅ TEST FINALIZADO": "✅ TEST COMPLETED",
+  "Has completado las 8 preguntas de programación Ladder.":
+    "You have completed all 8 Ladder programming questions.",
+  "✅ CORRECTO": "✅ CORRECT",
+  "❌ INCORRECTO": "❌ INCORRECT",
+  "1. ¿Qué hace un contacto normalmente abierto (NO)?": "1. What does a normally open (NO) contact do?",
+  "Permite el paso lógico cuando se activa": "Allows logical flow when activated",
+  "Bloquea siempre la corriente": "Always blocks the current",
+  "Apaga automáticamente el PLC": "Automatically turns off the PLC",
+  "2. ¿Qué representa una bobina en Ladder?": "2. What does a coil represent in Ladder?",
+  "Una resistencia eléctrica": "An electrical resistor",
+  "Una salida o memoria del PLC": "A PLC output or memory",
+  "Un transformador": "A transformer",
+  "3. ¿Para qué sirve un temporizador TON?": "3. What is a TON timer used for?",
+  "Activar una salida con retardo": "Activate an output with a delay",
+  "Apagar el PLC": "Turn off the PLC",
+  "Generar pulsos infinitos": "Generate infinite pulses",
+  "4. ¿Qué hace un contacto normalmente cerrado (NC)?": "4. What does a normally closed (NC) contact do?",
+  "Permite paso lógico cuando está desactivado": "Allows logical flow when deactivated",
+  "Siempre está energizado": "Is always energized",
+  "Genera una alarma": "Generates an alarm",
+  "5. ¿Qué realiza un temporizador TOF?": "5. What does a TOF timer do?",
+  "Retarda el encendido": "Delays turn-on",
+  "Mantiene la salida activa tras apagar la entrada": "Keeps the output active after the input turns off",
+  "Reinicia el PLC": "Restarts the PLC",
+  "6. ¿Qué hace un temporizador TP?": "6. What does a TP timer do?",
+  "Genera un pulso temporizado": "Generates a timed pulse",
+  "Apaga motores": "Turns off motors",
+  "Controla temperatura": "Controls temperature",
+  "7. ¿Qué es un enclavamiento industrial?": "7. What is an industrial interlock?",
+  "Un sistema que mantiene activada una salida": "A system that keeps an output active",
+  "Un tipo de sensor": "A type of sensor",
+  "Un variador de frecuencia": "A frequency drive",
+  "8. ¿Qué lenguaje usan comúnmente los PLC industriales?": "8. What language do industrial PLCs commonly use?",
+
+  // Módulo 3
+  "⚡ MÓDULO 3 - ENTRADAS Y SALIDAS": "⚡ MODULE 3 - INPUTS AND OUTPUTS",
+  "Configuración de sensores industriales, entradas y salidas digitales.":
+    "Configuration of industrial sensors, digital inputs and outputs.",
+  "📘 PDF MÓDULO 3": "📘 MODULE 3 PDF",
+
+  // Módulo 4
+  "⏱️ MÓDULO 4 - TEMPORIZADORES TON, TOF Y TP": "⏱️ MODULE 4 - TON, TOF AND TP TIMERS",
+  "Temporizadores industriales en sistemas PLC Siemens y procesos automatizados reales.":
+    "Industrial timers in Siemens PLC systems and real automated processes.",
+  "Aprende a utilizar temporizadores industriales en sistemas PLC Siemens y procesos automatizados reales.":
+    "Learn to use industrial timers in Siemens PLC systems and real automated processes.",
+  "📘 PDF MÓDULO 4": "📘 MODULE 4 PDF",
+  "📝 Quiz - Temporizadores": "📝 Quiz - Timers",
+  "1. ¿Qué hace un temporizador TON?": "1. What does a TON timer do?",
+  "Activa una salida inmediatamente": "Activates an output immediately",
+  "Genera un retardo al encendido": "Generates a turn-on delay",
+  "Genera pulsos continuos": "Generates continuous pulses",
+  "2. ¿Qué hace un temporizador TOF?": "2. What does a TOF timer do?",
+  "Genera un pulso fijo": "Generates a fixed pulse",
+  "Retarda el apagado": "Delays turn-off",
+  "3. ¿Qué hace un temporizador TP?": "3. What does a TP timer do?",
+  "Genera un pulso de duración fija": "Generates a fixed-duration pulse",
+  "Mantiene una salida permanente": "Keeps an output permanently on",
+  "✅ Correcto. TON genera retardo al encendido.": "✅ Correct. TON generates a turn-on delay.",
+  "❌ Incorrecto. TON genera un retardo al encendido.": "❌ Incorrect. TON generates a turn-on delay.",
+  "✅ Correcto. TOF retarda el apagado.": "✅ Correct. TOF delays turn-off.",
+  "❌ Incorrecto. TOF retrasa el apagado de la salida.": "❌ Incorrect. TOF delays the output turn-off.",
+  "✅ Correcto. TP genera un pulso temporizado.": "✅ Correct. TP generates a timed pulse.",
+  "❌ Incorrecto. TP genera un pulso de duración fija.": "❌ Incorrect. TP generates a fixed-duration pulse.",
+
+  // Módulo 5
+  "🔢 MÓDULO 5 - CONTADORES CTU Y CTD": "🔢 MODULE 5 - CTU AND CTD COUNTERS",
+  "Contadores industriales CTU y CTD para conteo de piezas y automatización de producción.":
+    "Industrial CTU and CTD counters for parts counting and production automation.",
+  "Programación de contadores industriales CTU y CTD para conteo de piezas y automatización de producción.":
+    "Programming of industrial CTU and CTD counters for parts counting and production automation.",
+  "📘 PDF MÓDULO 5": "📘 MODULE 5 PDF",
+
+  // Módulo 6
+  "🔄 MÓDULO 6 - MARCAS Y MEMORIAS": "🔄 MODULE 6 - FLAGS AND MEMORY",
+  "Marcas internas (M), variables globales y memorias remanentes en PLC Siemens TIA Portal.":
+    "Internal flags (M), global variables and retentive memory in Siemens PLC TIA Portal.",
+  "Uso de marcas internas (M), variables globales y memorias remanentes en PLC Siemens TIA Portal para lógica avanzada.":
+    "Use of internal flags (M), global variables and retentive memory in Siemens PLC TIA Portal for advanced logic.",
+  "📄 PDF MÓDULO 6": "📄 MODULE 6 PDF",
+
+  // Módulo 7
+  "➗ MÓDULO 7 - OPERACIONES MATEMÁTICAS": "➗ MODULE 7 - MATH OPERATIONS",
+  "Suma, resta, multiplicación, división y conversión de tipos de datos en TIA Portal.":
+    "Addition, subtraction, multiplication, division and data type conversion in TIA Portal.",
+  "Instrucciones matemáticas en Ladder: suma, resta, multiplicación, división y conversión de tipos de datos en TIA Portal.":
+    "Math instructions in Ladder: addition, subtraction, multiplication, division and data type conversion in TIA Portal.",
+  "📄 PDF MÓDULO 7": "📄 MODULE 7 PDF",
+
+  // Módulo 8
+  "📊 MÓDULO 8 - ANALOGICAS Y PID": "📊 MODULE 8 - ANALOG SIGNALS AND PID",
+  "Señales analógicas 4-20mA y 0-10V, escalado de señales y control PID básico.":
+    "4-20mA and 0-10V analog signals, signal scaling and basic PID control.",
+  "Lectura de señales analógicas 4-20mA y 0-10V, escalado de señales y control PID básico en PLC Siemens.":
+    "Reading 4-20mA and 0-10V analog signals, signal scaling and basic PID control in Siemens PLC.",
+  "📄 DESCARGAR PDF": "📄 DOWNLOAD PDF",
+
+  // Módulo 9
+  "🏭 MÓDULO 9 - PROYECTO INTEGRADOR BÁSICO": "🏭 MODULE 9 - BASIC INTEGRATIVE PROJECT",
+  "Proyecto real: control de cinta transportadora con sensores, motores, contadores y temporizadores.":
+    "Real project: conveyor belt control with sensors, motors, counters and timers.",
+  "Proyecto real integrador: control de cinta transportadora con sensores, motores, contadores y temporizadores en TIA Portal.":
+    "Real integrative project: conveyor belt control with sensors, motors, counters and timers in TIA Portal.",
+
+  // Banner premium
+  "⚡ DESBLOQUEA EL CURSO COMPLETO": "⚡ UNLOCK THE FULL COURSE",
+  "Accede a los 21 módulos avanzados (10 al 30) con una sola compra. Tu acceso se activa automáticamente después del pago.":
+    "Access the 21 advanced modules (10 to 30) with a single purchase. Your access activates automatically after payment.",
+  "💳 ACTIVAR PREMIUM — $ 1.990 CLP": "💳 ACTIVATE PREMIUM — $ 1.990 CLP",
+  "Acceso inmediato tras confirmar el pago": "Immediate access after confirming payment",
+  "¿Ya pagaste y no se activó? Espera unos segundos y recarga la página. Si el acceso no se activa escríbenos a":
+    "Already paid and it didn't activate? Wait a few seconds and reload the page. If access doesn't activate, write to us at",
+  "21 MÓDULOS PREMIUM": "21 PREMIUM MODULES",
+  "🔒 MÓDULO 10": "🔒 MODULE 10",
+  "🔒 MÓDULO 11": "🔒 MODULE 11",
+  "🔒 MÓDULO 12": "🔒 MODULE 12",
+  "🔒 MÓDULO 13": "🔒 MODULE 13",
+  "🔒 MÓDULO 14": "🔒 MODULE 14",
+  "🔒 MÓDULO 15": "🔒 MODULE 15",
+  "🔒 MÓDULO 16-30": "🔒 MODULE 16-30",
+  "Funciones FC y FB": "FC and FB functions",
+  "Bloques de datos DB": "DB data blocks",
+  "HMI Siemens KTP": "Siemens KTP HMI",
+  "SCADA con WinCC": "SCADA with WinCC",
+  "PROFINET Industrial": "Industrial PROFINET",
+  "Modbus TCP/RTU": "Modbus TCP/RTU",
+  "+15 módulos avanzados": "+15 advanced modules",
+
+  // Módulos premium 10-30 (tarjetas completas, generadas por Jinja)
+  "🔒 MÓDULO 10 - FUNCIONES FC Y FB": "🔒 MODULE 10 - FC AND FB FUNCTIONS",
+  "Programación estructurada con bloques de función FC, FB y bloques de datos DB en TIA Portal.":
+    "Structured programming with FC, FB function blocks and DB data blocks in TIA Portal.",
+  "🔒 MÓDULO 11 - BLOQUES DE DATOS DB": "🔒 MODULE 11 - DB DATA BLOCKS",
+  "Creación y uso de bloques de datos globales e instancia para almacenar y transferir información entre bloques.":
+    "Creating and using global and instance data blocks to store and transfer information between blocks.",
+  "🔒 MÓDULO 12 - HMI SIEMENS KTP": "🔒 MODULE 12 - SIEMENS KTP HMI",
+  "Diseño de pantallas HMI profesionales KTP700/KTP900 con animaciones, botones y comunicación con PLC.":
+    "Design of professional KTP700/KTP900 HMI screens with animations, buttons and PLC communication.",
+  "🔒 MÓDULO 13 - SCADA CON WINCC": "🔒 MODULE 13 - SCADA WITH WINCC",
+  "Supervisión industrial, alarmas, tendencias y monitoreo en tiempo real con WinCC en TIA Portal.":
+    "Industrial supervision, alarms, trends and real-time monitoring with WinCC in TIA Portal.",
+  "🔒 MÓDULO 14 - PROFINET INDUSTRIAL": "🔒 MODULE 14 - INDUSTRIAL PROFINET",
+  "Configuración de redes PROFINET, dispositivos IO, diagnóstico y topología de red industrial Siemens.":
+    "Configuration of PROFINET networks, IO devices, diagnostics and Siemens industrial network topology.",
+  "🔒 MÓDULO 15 - MODBUS TCP Y RTU": "🔒 MODULE 15 - MODBUS TCP AND RTU",
+  "Comunicación Modbus TCP y RTU entre PLC, variadores, sensores y sistemas SCADA industriales.":
+    "Modbus TCP and RTU communication between PLCs, drives, sensors and industrial SCADA systems.",
+  "🔒 MÓDULO 16 - ETHERNET/IP Y OPC UA": "🔒 MODULE 16 - ETHERNET/IP AND OPC UA",
+  "Integración de dispositivos con Ethernet/IP y servidor OPC UA para industria 4.0 y SCADA moderno.":
+    "Device integration with Ethernet/IP and OPC UA server for Industry 4.0 and modern SCADA.",
+  "🔒 MÓDULO 17 - CONTROL PID AVANZADO": "🔒 MODULE 17 - ADVANCED PID CONTROL",
+  "Configuración y ajuste de lazos de control PID para temperatura, presión y flujo en procesos industriales.":
+    "Configuration and tuning of PID control loops for temperature, pressure and flow in industrial processes.",
+  "🔒 MÓDULO 18 - VARIADORES SINAMICS G120": "🔒 MODULE 18 - SINAMICS G120 DRIVES",
+  "Control de variadores de frecuencia Siemens SINAMICS G120 desde PLC por PROFINET y Modbus.":
+    "Control of Siemens SINAMICS G120 frequency drives from PLC via PROFINET and Modbus.",
+  "🔒 MÓDULO 19 - MOTORES Y ARRANCADORES": "🔒 MODULE 19 - MOTORS AND STARTERS",
+  "Control de motores trifásicos, arrancadores suaves, inversión de giro y protecciones eléctricas desde PLC.":
+    "Control of three-phase motors, soft starters, direction reversal and electrical protections from PLC.",
+  "🔒 MÓDULO 20 - SEGURIDAD FUNCIONAL": "🔒 MODULE 20 - FUNCTIONAL SAFETY",
+  "Implementación de paradas de emergencia, SIL, categorías de seguridad y módulos F en TIA Portal.":
+    "Implementation of emergency stops, SIL, safety categories and F-modules in TIA Portal.",
+  "🔒 MÓDULO 21 - DIAGNÓSTICO Y MANTENIMIENTO": "🔒 MODULE 21 - DIAGNOSTICS AND MAINTENANCE",
+  "Herramientas de diagnóstico TIA Portal, tabla de observación, forzado de variables y mantenimiento preventivo.":
+    "TIA Portal diagnostic tools, watch table, variable forcing and preventive maintenance.",
+  "🔒 MÓDULO 22 - PROYECTO CINTA TRANSPORTADORA": "🔒 MODULE 22 - CONVEYOR BELT PROJECT",
+  "Proyecto industrial completo: cinta transportadora con clasificación de piezas, sensores y HMI.":
+    "Complete industrial project: conveyor belt with part sorting, sensors and HMI.",
+  "🔒 MÓDULO 23 - PROYECTO LLENADO DE TANQUES": "🔒 MODULE 23 - TANK FILLING PROJECT",
+  "Control automático de nivel con sensores analógicos, válvulas y PID en sistema de tanques industriales.":
+    "Automatic level control with analog sensors, valves and PID in an industrial tank system.",
+  "🔒 MÓDULO 24 - PROYECTO CONTROL DE ACCESO": "🔒 MODULE 24 - ACCESS CONTROL PROJECT",
+  "Sistema de acceso industrial con lectores, RFID, HMI y registro de eventos en PLC Siemens.":
+    "Industrial access system with readers, RFID, HMI and event logging in Siemens PLC.",
+  "🔒 MÓDULO 25 - PROYECTO LÍNEA DE PRODUCCIÓN": "🔒 MODULE 25 - PRODUCTION LINE PROJECT",
+  "Automatización completa de una línea de producción multi-estación con PLC, HMI, robots y SCADA.":
+    "Complete automation of a multi-station production line with PLC, HMI, robots and SCADA.",
+  "🔒 MÓDULO 26 - INDUSTRIA 4.0 E IIoT": "🔒 MODULE 26 - INDUSTRY 4.0 AND IIoT",
+  "Conectividad industrial IoT: MQTT, nube, dashboards y análisis de datos desde PLC Siemens.":
+    "Industrial IoT connectivity: MQTT, cloud, dashboards and data analysis from Siemens PLC.",
+  "🔒 MÓDULO 27 - GEMELO DIGITAL": "🔒 MODULE 27 - DIGITAL TWIN",
+  "Concepto y aplicación de gemelos digitales industriales con TIA Portal y simuladores avanzados.":
+    "Concept and application of industrial digital twins with TIA Portal and advanced simulators.",
+  "🔒 MÓDULO 28 - PROGRAMACIÓN SCL AVANZADA": "🔒 MODULE 28 - ADVANCED SCL PROGRAMMING",
+  "Lenguaje de alto nivel SCL en TIA Portal: estructuras, arrays, punteros y algoritmos avanzados.":
+    "High-level SCL language in TIA Portal: structures, arrays, pointers and advanced algorithms.",
+  "🔒 MÓDULO 29 - GRAFCET Y SFC": "🔒 MODULE 29 - GRAFCET AND SFC",
+  "Programación secuencial con GRAFCET y SFC en TIA Portal para máquinas y líneas de producción.":
+    "Sequential programming with GRAFCET and SFC in TIA Portal for machines and production lines.",
+  "🔒 MÓDULO 30 - PROYECTO FINAL CERTIFICADO": "🔒 MODULE 30 - CERTIFIED FINAL PROJECT",
+  "Proyecto final integrador con todos los conocimientos del curso. Incluye certificado de finalización.":
+    "Final integrative project with everything learned in the course. Includes a completion certificate.",
+}
+
+let tiaTraduciendo = false
+
+// Traduce (o restaura) un elemento hoja de texto según el idioma actual,
+// guardando siempre el original en español la primera vez que se ve.
+function traducirNodoTia(el) {
+  if (el.dataset.i18nEs === undefined) el.dataset.i18nEs = el.textContent
+  const original = el.dataset.i18nEs
+  const clave = original.trim()
+  el.textContent = (langActual === "en" && TIA_DICT[clave]) ? TIA_DICT[clave] : original
+}
+
+function traducirPaginaTia() {
+  const root = document.querySelector(".courses-page")
+  if (!root || tiaTraduciendo) return
+  tiaTraduciendo = true
+
+  // Cualquier elemento "hoja" (sin hijos de tipo elemento) con texto propio
+  root.querySelectorAll("h1, h2, h3, p, span, button, strong, div, a, small").forEach(el => {
+    if (el.children.length > 0) return
+    if (!el.textContent || !el.textContent.trim()) return
+    traducirNodoTia(el)
+  })
+
+  // Caso especial: el párrafo "¿Ya pagaste...?" tiene un <a href="mailto:">
+  // dentro, así que no es un nodo hoja puro — se traduce solo su primer
+  // nodo de texto, dejando intacto el link del correo.
+  const mailP = root.querySelector("p:has(a[href^='mailto:'])")
+  if (mailP) {
+    const first = mailP.childNodes[0]
+    if (first && first.nodeType === 3) {
+      if (mailP.dataset.i18nEs === undefined) mailP.dataset.i18nEs = first.textContent
+      const clave = mailP.dataset.i18nEs.trim()
+      first.textContent = (langActual === "en" && TIA_DICT[clave]) ? TIA_DICT[clave] + " " : mailP.dataset.i18nEs
+    }
+  }
+
+  tiaTraduciendo = false
+}
+
+// El contenido de /cursos/tia-portal cambia dinámicamente (acordeón de
+// módulos, badges PENDIENTE/COMPLETADO, quiz interactivo). Un
+// MutationObserver reaplica la traducción cada vez que aparece texto
+// nuevo, para que nada se quede pegado en español al usar la página.
+function observarPaginaTia() {
+  const root = document.querySelector(".courses-page")
+  if (!root) return
+  let debounce = null
+  const obs = new MutationObserver(() => {
+    if (tiaTraduciendo) return
+    clearTimeout(debounce)
+    debounce = setTimeout(traducirPaginaTia, 30)
+  })
+  obs.observe(root, { childList: true, characterData: true, subtree: true })
+}
 
 // =========================================================
 //  MOTOR DE TRADUCCIÓN
@@ -660,6 +964,11 @@ window.setLang = function(lang) {
     })
   }
 
+  // ── TIA Portal: módulos, botones, badges y quiz ──
+  if (pagina === "tia") {
+    traducirPaginaTia()
+  }
+
   // ── Comunidad: botón "Nueva pregunta" ──
   if (pagina === "comunidad") {
     const btnNueva = document.getElementById("btn-nueva-pregunta")
@@ -699,6 +1008,7 @@ function insertLangSelector() {
 document.addEventListener("DOMContentLoaded", () => {
   insertLangSelector()
   setLang(langActual)
+  if (paginaActual() === "tia") observarPaginaTia()
 })
 
 // =========================================================
