@@ -733,10 +733,14 @@ const TIA_DICT = {
   "⚡ DESBLOQUEA EL CURSO COMPLETO": "⚡ UNLOCK THE FULL COURSE",
   "Accede a los 21 módulos avanzados (10 al 30) con una sola compra. Tu acceso se activa automáticamente después del pago.":
     "Access the 21 advanced modules (10 to 30) with a single purchase. Your access activates automatically after payment.",
-  "💳 ACTIVAR PREMIUM — $ 1.990 CLP": "💳 ACTIVATE PREMIUM — $ 1.990 CLP",
+  "💳 ACTIVAR PREMIUM — $ 1.990 CLP": "💳 ACTIVATE PREMIUM — $9.90 USD",
   "Acceso inmediato tras confirmar el pago": "Immediate access after confirming payment",
   "¿Ya pagaste y no se activó? Espera unos segundos y recarga la página. Si el acceso no se activa escríbenos a":
     "Already paid and it didn't activate? Wait a few seconds and reload the page. If access doesn't activate, write to us at",
+  "$ 1.990 CLP": "$9.90 USD",
+  "Contenido Premium": "Premium Content",
+  "💳 Activar Premium": "💳 Activate Premium",
+  "ACCEDER": "ACCESS",
   "21 MÓDULOS PREMIUM": "21 PREMIUM MODULES",
   "🔒 MÓDULO 10": "🔒 MODULE 10",
   "🔒 MÓDULO 11": "🔒 MODULE 11",
@@ -831,21 +835,24 @@ function traducirNodoTia(el) {
 }
 
 function traducirPaginaTia() {
-  const root = document.querySelector(".courses-page")
-  if (!root || tiaTraduciendo) return
+  const roots = [document.querySelector(".courses-page"), document.getElementById("auth-area")].filter(Boolean)
+  if (!roots.length || tiaTraduciendo) return
   tiaTraduciendo = true
 
-  // Cualquier elemento "hoja" (sin hijos de tipo elemento) con texto propio
-  root.querySelectorAll("h1, h2, h3, p, span, button, strong, div, a, small").forEach(el => {
-    if (el.children.length > 0) return
-    if (!el.textContent || !el.textContent.trim()) return
-    traducirNodoTia(el)
+  roots.forEach(root => {
+    // Cualquier elemento "hoja" (sin hijos de tipo elemento) con texto propio
+    root.querySelectorAll("h1, h2, h3, p, span, button, strong, div, a, small").forEach(el => {
+      if (el.children.length > 0) return
+      if (!el.textContent || !el.textContent.trim()) return
+      traducirNodoTia(el)
+    })
   })
 
   // Caso especial: el párrafo "¿Ya pagaste...?" tiene un <a href="mailto:">
   // dentro, así que no es un nodo hoja puro — se traduce solo su primer
   // nodo de texto, dejando intacto el link del correo.
-  const mailP = root.querySelector("p:has(a[href^='mailto:'])")
+  const courseRoot = document.querySelector(".courses-page")
+  const mailP = courseRoot && courseRoot.querySelector("p:has(a[href^='mailto:'])")
   if (mailP) {
     const first = mailP.childNodes[0]
     if (first && first.nodeType === 3) {
@@ -859,20 +866,41 @@ function traducirPaginaTia() {
 }
 
 // El contenido de /cursos/tia-portal cambia dinámicamente (acordeón de
-// módulos, badges PENDIENTE/COMPLETADO, quiz interactivo). Un
-// MutationObserver reaplica la traducción cada vez que aparece texto
+// módulos, badges PENDIENTE/COMPLETADO, quiz interactivo, overlay de
+// módulos bloqueados y menú de usuario insertados por firebase-auth.js).
+// Un MutationObserver reaplica la traducción cada vez que aparece texto
 // nuevo, para que nada se quede pegado en español al usar la página.
 function observarPaginaTia() {
-  const root = document.querySelector(".courses-page")
-  if (!root) return
+  const targets = [document.querySelector(".courses-page"), document.getElementById("auth-area")].filter(Boolean)
+  if (!targets.length) return
   let debounce = null
   const obs = new MutationObserver(() => {
     if (tiaTraduciendo) return
     clearTimeout(debounce)
     debounce = setTimeout(traducirPaginaTia, 30)
   })
-  obs.observe(root, { childList: true, characterData: true, subtree: true })
+  targets.forEach(t => obs.observe(t, { childList: true, characterData: true, subtree: true }))
 }
+
+// =========================================================
+//  PAGO EN INGLÉS → PAYPAL
+//  El flujo normal (openPaymentFlow, en firebase-auth.js) lleva al
+//  Checkout Pro de MercadoPago, pensado para pagos en pesos chilenos.
+//  Si el usuario está viendo la página en inglés, lo mandamos en
+//  cambio a PayPal (pago en USD), interceptando el clic ANTES de que
+//  se ejecute el onclick="openPaymentFlow()" del botón.
+// =========================================================
+const PAYPAL_LINK = "https://www.paypal.com/ncp/payment/K2A32WD88T8HS"
+
+document.addEventListener("click", (e) => {
+  if (langActual !== "en") return
+  const btn = e.target.closest('[onclick="openPaymentFlow()"]')
+  if (!btn) return
+  e.preventDefault()
+  e.stopPropagation()
+  e.stopImmediatePropagation()
+  window.open(PAYPAL_LINK, "_blank", "noopener")
+}, true) // fase de captura: se adelanta al onclick inline del botón
 
 // =========================================================
 //  MOTOR DE TRADUCCIÓN
