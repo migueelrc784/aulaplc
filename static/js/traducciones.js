@@ -983,8 +983,8 @@ window.setLang = function(lang) {
   const btnES = document.getElementById("lang-btn-es")
   const btnEN = document.getElementById("lang-btn-en")
   if (btnES && btnEN) {
-    const on  = "padding:4px 10px;border-radius:6px;border:1px solid #388bfd;background:#388bfd;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;"
-    const off = "padding:4px 10px;border-radius:6px;border:1px solid #374151;background:transparent;color:#94a3b8;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;"
+    const on  = "width:26px;height:26px;padding:0;border-radius:50%;border:2px solid #388bfd;background:transparent;cursor:pointer;overflow:hidden;opacity:1;"
+    const off = "width:26px;height:26px;padding:0;border-radius:50%;border:2px solid #374151;background:transparent;cursor:pointer;overflow:hidden;opacity:0.5;"
     btnES.style.cssText = lang === "es" ? on : off
     btnEN.style.cssText = lang === "en" ? on : off
   }
@@ -1078,13 +1078,13 @@ function insertLangSelector() {
   const wrapper = document.createElement("div")
   wrapper.style.cssText = "display:flex;align-items:center;gap:6px;margin-right:10px;"
   wrapper.innerHTML = `
-    <button id="lang-btn-es" onclick="setLang('es')"
-      style="padding:4px 10px;border-radius:6px;border:1px solid #388bfd;background:#388bfd;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;">
-      ES
+    <button id="lang-btn-es" onclick="setLang('es')" title="Español"
+      style="width:26px;height:26px;padding:0;border-radius:50%;border:2px solid #388bfd;background:transparent;cursor:pointer;overflow:hidden;opacity:1;">
+      <img src="/static/img/españa.jpg" alt="ES" style="width:100%;height:100%;object-fit:cover;display:block;">
     </button>
-    <button id="lang-btn-en" onclick="setLang('en')"
-      style="padding:4px 10px;border-radius:6px;border:1px solid #374151;background:transparent;color:#94a3b8;font-size:11px;font-weight:700;cursor:pointer;font-family:Orbitron;">
-      EN
+    <button id="lang-btn-en" onclick="setLang('en')" title="English"
+      style="width:26px;height:26px;padding:0;border-radius:50%;border:2px solid #374151;background:transparent;cursor:pointer;overflow:hidden;opacity:0.5;">
+      <img src="/static/img/estadosunidos.jpg" alt="EN" style="width:100%;height:100%;object-fit:cover;display:block;">
     </button>
   `
   status.insertBefore(wrapper, status.firstChild)
