@@ -841,7 +841,7 @@ function traducirPaginaTia() {
 
   roots.forEach(root => {
     // Cualquier elemento "hoja" (sin hijos de tipo elemento) con texto propio
-    root.querySelectorAll("h1, h2, h3, p, span, button, strong, div, a, small").forEach(el => {
+    root.querySelectorAll("h1, h2, h3, p, span, button, strong, div, a, small, b, li").forEach(el => {
       if (el.children.length > 0) return
       if (!el.textContent || !el.textContent.trim()) return
       traducirNodoTia(el)
