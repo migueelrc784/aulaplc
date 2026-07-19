@@ -1080,7 +1080,7 @@ function insertLangSelector() {
   wrapper.innerHTML = `
     <button id="lang-btn-es" onclick="setLang('es')" title="Español"
       style="width:26px;height:26px;padding:0;border-radius:50%;border:2px solid #388bfd;background:transparent;cursor:pointer;overflow:hidden;opacity:1;">
-      <img src="/static/img/españa.jpg" alt="ES" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <img src="/static/img/espana.jpg" alt="ES" style="width:100%;height:100%;object-fit:cover;display:block;">
     </button>
     <button id="lang-btn-en" onclick="setLang('en')" title="English"
       style="width:26px;height:26px;padding:0;border-radius:50%;border:2px solid #374151;background:transparent;cursor:pointer;overflow:hidden;opacity:0.5;">
