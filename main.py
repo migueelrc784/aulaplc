@@ -3,6 +3,7 @@ from datetime import datetime
 import os, json
 import smtplib
 from email.mime.text import MIMEText
+import requests
 
 app = Flask(__name__)
 
@@ -36,6 +37,31 @@ try:
     sdk = mercadopago.SDK(MP_ACCESS_TOKEN) if MP_ACCESS_TOKEN else None
 except ImportError:
     sdk = None
+
+# ── PAYPAL ─────────────────────────────────────────────────
+# Se usa la API REST de PayPal directamente (Orders API v2) en vez de
+# un SDK, para no agregar otra dependencia. Requiere una app creada en
+# https://developer.paypal.com/dashboard/applications con Client ID y
+# Secret, y un Webhook apuntando a /api/cursos/paypal-webhook suscrito
+# a los eventos CHECKOUT.ORDER.APPROVED y PAYMENT.CAPTURE.COMPLETED.
+PAYPAL_CLIENT_ID     = os.environ.get("PAYPAL_CLIENT_ID", "")
+PAYPAL_CLIENT_SECRET = os.environ.get("PAYPAL_CLIENT_SECRET", "")
+PAYPAL_WEBHOOK_ID    = os.environ.get("PAYPAL_WEBHOOK_ID", "")
+# "https://api-m.sandbox.paypal.com" mientras se prueba, luego cambiar
+# la variable de entorno a "https://api-m.paypal.com" en producción.
+PAYPAL_API_BASE = os.environ.get("PAYPAL_API_BASE", "https://api-m.paypal.com")
+
+
+def _paypal_token():
+    """Pide un access token OAuth2 de PayPal (client credentials)."""
+    resp = requests.post(
+        f"{PAYPAL_API_BASE}/v1/oauth2/token",
+        auth=(PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET),
+        data={"grant_type": "client_credentials"},
+        timeout=15,
+    )
+    resp.raise_for_status()
+    return resp.json()["access_token"]
 
 # ── FIREBASE / FIRESTORE ──────────────────────────────────
 try:
@@ -629,9 +655,10 @@ def casino_recuperar_pagos():
 CURSOS_PREMIUM = {
     "tia-portal": {
         "titulo": "Curso PLC Siemens TIA Portal — Acceso Premium",
-        "precio": 1990,   # CLP
+        "precio": 1990,       # CLP (MercadoPago)
+        "precio_usd": 10,     # USD (PayPal)
     },
-    # "hmi-scada": {"titulo": "Curso HMI/SCADA — Acceso Premium", "precio": 1990},
+    # "hmi-scada": {"titulo": "Curso HMI/SCADA — Acceso Premium", "precio": 1990, "precio_usd": 10},
 }
 
 
@@ -786,7 +813,234 @@ def cursos_webhook():
     return "", 200
 
 
-@app.route("/sitemap.xml")
+# ════════════════════════════════════════════════════════════════
+#  CURSOS PREMIUM — PAYPAL (pago en USD, para usuarios en inglés)
+#  Mismo resultado final que MercadoPago: escribe en
+#  premium_access/{uid}_{curso_id}. La diferencia es que PayPal no
+#  cobra automáticamente al aprobar la orden — hay que capturarla
+#  explícitamente, lo que se hace acá mismo al recibir el webhook
+#  CHECKOUT.ORDER.APPROVED.
+# ════════════════════════════════════════════════════════════════
+
+# ── CURSOS: CREAR ORDEN DE PAGO (PayPal Orders API v2) ────────────
+@app.route("/api/cursos/<curso_id>/comprar-paypal", methods=["POST"])
+def cursos_comprar_paypal(curso_id):
+    if curso_id not in CURSOS_PREMIUM:
+        return jsonify({"error": "Curso no válido"}), 404
+
+    if not PAYPAL_CLIENT_ID or not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "Pagos con PayPal no configurados"}), 503
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    data = request.get_json(silent=True) or {}
+    uid  = str(data.get("uid", "")).strip()
+
+    if not uid or uid == "anonimo":
+        return jsonify({"error": "Debes iniciar sesión para comprar"}), 401
+
+    # Verificar que el uid corresponda a un usuario real registrado
+    user_snap = db.collection("usuarios").document(uid).get()
+    if not user_snap.exists:
+        return jsonify({"error": "Usuario no válido"}), 401
+
+    # Si ya tiene acceso, no generar otra orden de pago
+    acceso_ref = db.collection("premium_access").document(_premium_doc_id(uid, curso_id))
+    if acceso_ref.get().exists:
+        return jsonify({"error": "Ya tienes acceso a este curso"}), 400
+
+    curso      = CURSOS_PREMIUM[curso_id]
+    precio_usd = curso.get("precio_usd")
+    if not precio_usd:
+        return jsonify({"error": "Curso sin precio en USD configurado"}), 400
+
+    try:
+        token = _paypal_token()
+    except Exception as e:
+        print(f"Error obteniendo token PayPal: {e}")
+        return jsonify({"error": "Error PayPal"}), 500
+
+    # El uid y el curso viajan en custom_id: es lo único que el webhook
+    # de PayPal nos devuelve para saber a quién otorgarle el acceso.
+    order_data = {
+        "intent": "CAPTURE",
+        "purchase_units": [{
+            "custom_id":   f"{uid}|{curso_id}",
+            "description": curso["titulo"][:127],
+            "amount": {
+                "currency_code": "USD",
+                "value": f"{precio_usd:.2f}"
+            }
+        }],
+        "application_context": {
+            "brand_name":  "AULAPLC",
+            "return_url":  f"https://aulaplc.com/cursos/{curso_id}?paypal_status=approved",
+            "cancel_url":  f"https://aulaplc.com/cursos/{curso_id}?paypal_status=cancelled",
+            "user_action": "PAY_NOW",
+        }
+    }
+
+    try:
+        resp = requests.post(
+            f"{PAYPAL_API_BASE}/v2/checkout/orders",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json=order_data,
+            timeout=15,
+        )
+    except Exception as e:
+        print(f"Error creando orden PayPal: {e}")
+        return jsonify({"error": "Error PayPal"}), 500
+
+    if resp.status_code not in (200, 201):
+        print(f"Error creando orden PayPal: {resp.status_code} {resp.text}")
+        return jsonify({"error": "Error PayPal"}), 500
+
+    order       = resp.json()
+    approve_url = next((l["href"] for l in order.get("links", []) if l.get("rel") == "approve"), None)
+
+    if not approve_url:
+        return jsonify({"error": "Error PayPal"}), 500
+
+    # Se devuelve con la misma clave "init_point" que usa MercadoPago para
+    # que el frontend pueda reusar exactamente el mismo código de redirección.
+    return jsonify({"init_point": approve_url})
+
+
+def _otorgar_acceso_paypal(payment_id, custom_id):
+    """Otorga acceso premium a partir del custom_id ('uid|curso_id') que
+    viaja en la orden de PayPal. Idempotente: si el pago ya fue
+    procesado o el acceso ya existía, no hace nada distinto."""
+    if not custom_id or "|" not in custom_id:
+        return
+    uid, curso_id = custom_id.split("|", 1)
+    if not uid or curso_id not in CURSOS_PREMIUM:
+        return
+
+    # Evitar doble procesamiento del mismo pago (create() es atómico:
+    # falla si el documento ya existe)
+    pago_ref = db.collection("paypal_pagos_cursos").document(payment_id)
+    try:
+        pago_ref.create({
+            "payment_id": payment_id,
+            "uid":        uid,
+            "curso_id":   curso_id,
+            "procesado":  True,
+            "fecha":      datetime.utcnow().isoformat()
+        })
+    except Exception:
+        # Ya fue creado por otra petición concurrente (o por el otro
+        # evento de webhook): pago ya procesado
+        return
+
+    acceso_ref = db.collection("premium_access").document(_premium_doc_id(uid, curso_id))
+    try:
+        acceso_ref.set({
+            "uid":        uid,
+            "curso_id":   curso_id,
+            "payment_id": payment_id,
+            "metodo":     "paypal",
+            "fecha":      datetime.utcnow().isoformat()
+        })
+    except Exception as e:
+        pago_ref.delete()
+        print(f"Error otorgando acceso premium (PayPal): {e}")
+
+
+def _verificar_firma_webhook_paypal(token, event):
+    """Verifica contra la propia API de PayPal que el webhook recibido es
+    auténtico (no confiar nunca en el body solo). Devuelve True/False."""
+    if not PAYPAL_WEBHOOK_ID:
+        print("Webhook PayPal: falta configurar PAYPAL_WEBHOOK_ID, se ignora por seguridad")
+        return False
+
+    verify_payload = {
+        "auth_algo":         request.headers.get("Paypal-Auth-Algo", ""),
+        "cert_url":          request.headers.get("Paypal-Cert-Url", ""),
+        "transmission_id":   request.headers.get("Paypal-Transmission-Id", ""),
+        "transmission_sig":  request.headers.get("Paypal-Transmission-Sig", ""),
+        "transmission_time": request.headers.get("Paypal-Transmission-Time", ""),
+        "webhook_id":        PAYPAL_WEBHOOK_ID,
+        "webhook_event":     event,
+    }
+
+    try:
+        resp = requests.post(
+            f"{PAYPAL_API_BASE}/v1/notifications/verify-webhook-signature",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json=verify_payload,
+            timeout=15,
+        )
+    except Exception as e:
+        print(f"Error verificando firma de webhook PayPal: {e}")
+        return False
+
+    return resp.status_code == 200 and resp.json().get("verification_status") == "SUCCESS"
+
+
+# ── CURSOS: WEBHOOK PAYPAL ─────────────────────────────────────────
+@app.route("/api/cursos/paypal-webhook", methods=["POST"])
+def cursos_paypal_webhook():
+    if not db or not PAYPAL_CLIENT_ID or not PAYPAL_CLIENT_SECRET:
+        return "", 200
+
+    event      = request.get_json(silent=True) or {}
+    event_type = event.get("event_type", "")
+
+    if event_type not in ("CHECKOUT.ORDER.APPROVED", "PAYMENT.CAPTURE.COMPLETED"):
+        return "", 200
+
+    try:
+        token = _paypal_token()
+    except Exception as e:
+        print(f"Error obteniendo token PayPal (webhook): {e}")
+        return "", 200
+
+    if not _verificar_firma_webhook_paypal(token, event):
+        print("Webhook PayPal: firma inválida, se ignora")
+        return "", 200
+
+    resource = event.get("resource", {})
+
+    if event_type == "CHECKOUT.ORDER.APPROVED":
+        # PayPal no cobra solo con la aprobación: hay que capturar la
+        # orden explícitamente. Una vez capturada, PayPal dispara además
+        # PAYMENT.CAPTURE.COMPLETED (por eso _otorgar_acceso_paypal es
+        # idempotente: no importa si se otorga el acceso desde acá o
+        # desde ese otro evento, o desde ambos).
+        order_id  = resource.get("id", "")
+        custom_id = ""
+        for pu in resource.get("purchase_units", []):
+            custom_id = pu.get("custom_id", "")
+            if custom_id:
+                break
+
+        if not order_id or not custom_id:
+            return "", 200
+
+        try:
+            requests.post(
+                f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}/capture",
+                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+                timeout=15,
+            )
+        except Exception as e:
+            print(f"Error capturando orden PayPal {order_id}: {e}")
+
+        _otorgar_acceso_paypal(order_id, custom_id)
+        return "", 200
+
+    if event_type == "PAYMENT.CAPTURE.COMPLETED":
+        if resource.get("status") != "COMPLETED":
+            return "", 200
+        payment_id = resource.get("id", "")
+        custom_id  = resource.get("custom_id", "")
+        _otorgar_acceso_paypal(payment_id, custom_id)
+        return "", 200
+
+    return "", 200
+
+
+
 def sitemap():
     pages = [
         {"url": "/cursos",            "priority": "1.0", "changefreq": "weekly"},

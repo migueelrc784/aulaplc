@@ -733,11 +733,11 @@ const TIA_DICT = {
   "⚡ DESBLOQUEA EL CURSO COMPLETO": "⚡ UNLOCK THE FULL COURSE",
   "Accede a los 21 módulos avanzados (10 al 30) con una sola compra. Tu acceso se activa automáticamente después del pago.":
     "Access the 21 advanced modules (10 to 30) with a single purchase. Your access activates automatically after payment.",
-  "💳 ACTIVAR PREMIUM — $ 1.990 CLP": "💳 ACTIVATE PREMIUM — $9.90 USD",
+  "💳 ACTIVAR PREMIUM — $ 1.990 CLP": "💳 ACTIVATE PREMIUM — $10 USD",
   "Acceso inmediato tras confirmar el pago": "Immediate access after confirming payment",
   "¿Ya pagaste y no se activó? Espera unos segundos y recarga la página. Si el acceso no se activa escríbenos a":
     "Already paid and it didn't activate? Wait a few seconds and reload the page. If access doesn't activate, write to us at",
-  "$ 1.990 CLP": "$9.90 USD",
+  "$ 1.990 CLP": "$10 USD",
   "Contenido Premium": "Premium Content",
   "💳 Activar Premium": "💳 Activate Premium",
   "ACCEDER": "ACCESS",
@@ -883,14 +883,59 @@ function observarPaginaTia() {
 }
 
 // =========================================================
-//  PAGO EN INGLÉS → PAYPAL
-//  El flujo normal (openPaymentFlow, en firebase-auth.js) lleva al
-//  Checkout Pro de MercadoPago, pensado para pagos en pesos chilenos.
-//  Si el usuario está viendo la página en inglés, lo mandamos en
-//  cambio a PayPal (pago en USD), interceptando el clic ANTES de que
-//  se ejecute el onclick="openPaymentFlow()" del botón.
+//  PAGO EN INGLÉS → PAYPAL (automático, con desbloqueo real)
+//  El flujo normal (openPaymentFlow, en firebase-auth.js) crea una
+//  preferencia en MercadoPago (pesos chilenos) y el curso se
+//  desbloquea solo vía webhook cuando MP confirma el pago.
+//  Si el usuario está viendo la página en inglés, en vez de eso
+//  llamamos a /api/cursos/<cursoId>/comprar-paypal (backend, en
+//  main.py) para crear una orden real de PayPal en USD con el uid
+//  incrustado. El webhook de PayPal en el backend hace exactamente
+//  lo mismo que el de MercadoPago: escribe premium_access/{uid}_{curso}
+//  y el curso se desbloquea solo, sin intervención manual.
+//  Interceptamos el clic ANTES de que se dispare el
+//  onclick="openPaymentFlow()" original del botón.
 // =========================================================
-const PAYPAL_LINK = "https://www.paypal.com/ncp/payment/K2A32WD88T8HS"
+async function iniciarPagoPaypal(btn) {
+  if (!window.currentUserUid) {
+    if (window.openLoginModal) window.openLoginModal()
+    return
+  }
+  const cursoId = window.CURSO_ID
+  if (!cursoId) {
+    console.error("❌ iniciarPagoPaypal: no se definió window.CURSO_ID en esta página")
+    return
+  }
+
+  const textoOriginal = btn.textContent
+  btn.disabled = true
+  btn.textContent = "Redirecting to PayPal..."
+
+  try {
+    const res = await fetch(`/api/cursos/${cursoId}/comprar-paypal`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uid: window.currentUserUid })
+    })
+    const data = await res.json()
+
+    if (!res.ok || !data.init_point) {
+      alert(data.error || "Could not start the payment. Please try again.")
+      btn.disabled = false
+      btn.textContent = textoOriginal
+      return
+    }
+
+    // Redirige a la página de checkout de PayPal (el mismo patrón que
+    // MercadoPago con init_point)
+    window.location.href = data.init_point
+  } catch (e) {
+    console.error("❌ Error iniciando el pago con PayPal:", e)
+    alert("Connection error while starting the payment.")
+    btn.disabled = false
+    btn.textContent = textoOriginal
+  }
+}
 
 document.addEventListener("click", (e) => {
   if (langActual !== "en") return
@@ -899,7 +944,7 @@ document.addEventListener("click", (e) => {
   e.preventDefault()
   e.stopPropagation()
   e.stopImmediatePropagation()
-  window.open(PAYPAL_LINK, "_blank", "noopener")
+  iniciarPagoPaypal(btn)
 }, true) // fase de captura: se adelanta al onclick inline del botón
 
 // =========================================================
