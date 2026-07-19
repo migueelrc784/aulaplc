@@ -530,6 +530,21 @@ const MAP_POR_PAGINA = {
     { k:"curso2Desc",     s:".course-card:nth-child(2) p" },
     { k:"curso3Title",    s:".course-card:nth-child(3) h2" },
     { k:"curso3Desc",     s:".course-card:nth-child(3) p" },
+
+    // Botones curso 1 (TIA Portal)
+    { k:"btnEntrar",      s:".course-card:nth-child(1) .btn.green" },
+    { k:"btnDescargarPDF",s:".course-card:nth-child(1) .btn.blue" },
+    { k:"btnVerVideos",   s:".course-card:nth-child(1) .btn.yellow" },
+
+    // Botones curso 2 (HMI + SCADA)
+    { k:"btnEntrar",      s:".course-card:nth-child(2) .btn.blue" },
+    { k:"btnDescargarMat",s:".course-card:nth-child(2) .btn.green" },
+    { k:"btnVerVideos",   s:".course-card:nth-child(2) .btn.yellow" },
+
+    // Botones curso 3 (Variadores)
+    { k:"btnEntrar",      s:".course-card:nth-child(3) .btn.yellow" },
+    { k:"btnManualesPDF", s:".course-card:nth-child(3) .btn.blue" },
+    { k:"btnVerVideos",   s:".course-card:nth-child(3) .btn.green" },
   ],
 
   // /cursos/tia-portal
