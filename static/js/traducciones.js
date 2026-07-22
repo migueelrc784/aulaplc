@@ -614,6 +614,7 @@ const TIA_DICT = {
 
   // Tarjeta de descarga de Factor IO
   "DESCARGAR FACTOR IO": "DOWNLOAD FACTOR IO",
+  "DESCARGAR POR MEDIAFIRE": "DOWNLOAD VIA MEDIAFIRE",
   "Descarga e instala Factor IO para poder realizar las simulaciones de procesos industriales conectadas a TIA Portal.":
     "Download and install Factor IO so you can run the industrial process simulations connected to TIA Portal.",
   "Descargar Factor IO": "Download Factor IO",
