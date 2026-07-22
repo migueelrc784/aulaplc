@@ -612,6 +612,14 @@ const TIA_DICT = {
   "Preparación para los siguientes módulos": "Preparation for the following modules",
   "VER VIDEO DE INSTALACIÓN": "WATCH INSTALLATION VIDEO",
 
+  // Tarjeta de descarga de Factor IO
+  "DESCARGAR FACTOR IO": "DOWNLOAD FACTOR IO",
+  "Descarga e instala Factor IO para poder realizar las simulaciones de procesos industriales conectadas a TIA Portal.":
+    "Download and install Factor IO so you can run the industrial process simulations connected to TIA Portal.",
+  "Descargar Factor IO": "Download Factor IO",
+  "Conexión con PLCSIM": "Connection with PLCSIM",
+  "Preparación para las simulaciones": "Preparation for the simulations",
+
   // Botones genéricos reutilizados en varios módulos
   "ABRIR PDF": "OPEN PDF",
   "DESCARGAR PDF": "DOWNLOAD PDF",
