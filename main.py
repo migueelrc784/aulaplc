@@ -8,7 +8,7 @@ import requests
 app = Flask(__name__)
 
 # ── CORS para el panel de administración de retiros ───────
-# El panel-retiros.html se abre como archivo local (file://) en la
+# El panel-retiros.htm se abre como archivo local (file://) en la
 # computadora del administrador, así que el navegador necesita estas
 # cabeceras para permitir el fetch hacia este dominio. Solo se aplica
 # a las rutas de gestión de retiros, protegidas además por la clave
