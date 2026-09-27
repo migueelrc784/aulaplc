@@ -105,6 +105,40 @@
 
 {% block extra_scripts %}
 <script>
+// Chequea si el usuario logueado ya tiene acceso pagado a la VM y, si es
+// así, quita el candado visual (opacity + pointer-events) del bloque de
+// descarga. No depende de ningún script externo: se hace acá directo.
+(function () {
+  const CURSO_ID_VM = 'vm-rockwell-completa';
+  let intentos = 0;
+
+  function desbloquearDescarga() {
+    document.querySelectorAll('[data-requiere-premium="true"]').forEach(function (el) {
+      el.style.opacity = '1';
+      el.style.pointerEvents = 'auto';
+    });
+  }
+
+  async function chequearAccesoVM() {
+    // firebase-auth.js puede tardar un poco en loguear al usuario; reintenta
+    // por unos segundos antes de rendirse.
+    if (!window.currentUserUid || window.currentUserUid === 'anonimo') {
+      intentos++;
+      if (intentos < 20) setTimeout(chequearAccesoVM, 500);
+      return;
+    }
+    try {
+      const res = await fetch(`/api/cursos/${CURSO_ID_VM}/acceso?uid=${encodeURIComponent(window.currentUserUid)}`);
+      const data = await res.json();
+      if (data && data.tiene_acceso) desbloquearDescarga();
+    } catch (e) {
+      console.error('Error comprobando acceso premium de la VM:', e);
+    }
+  }
+
+  chequearAccesoVM();
+})();
+
 // Pide el link real de descarga al servidor. El link NUNCA está escrito en
 // el HTML: el servidor solo lo entrega si el uid ya tiene el acceso premium
 // pagado confirmado en Firestore (ver /api/cursos/<id>/descarga en main.py).
