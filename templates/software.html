@@ -193,6 +193,31 @@
   // antes y simplemente vuelve a entrar a la página).
   confirmarRegresoPaypal();
   chequearAccesoVM();
+
+  // ── Quitar el botón genérico "ACTIVAR PREMIUM" / "ACTIVATE PREMIUM" ──
+  // firebase-auth.js lo inyecta automáticamente en cualquier página que
+  // defina window.CURSO_ID, pensado para el flujo de MercadoPago de los
+  // cursos (como TIA Portal). En esta página ya tenemos nuestro propio
+  // banner de compra con PayPal, así que ese botón sobra y solo estorba.
+  // No tocamos firebase-auth.js (lo sigue necesitando el curso de
+  // Siemens): simplemente lo removemos del DOM apenas aparece acá.
+  function quitarBotonPremiumGenerico() {
+    const gate = document.getElementById('premium-gate-vm-rockwell');
+    const card = gate ? gate.closest('.course-card') : null;
+    if (!card) return;
+    card.querySelectorAll('[onclick="openPaymentFlow()"]').forEach(function (el) { el.remove(); });
+    card.querySelectorAll('button, a').forEach(function (el) {
+      const txt = el.textContent.trim().toUpperCase();
+      if (txt === 'ACTIVAR PREMIUM' || txt === 'ACTIVATE PREMIUM') el.remove();
+    });
+  }
+
+  quitarBotonPremiumGenerico();
+  // firebase-auth.js puede tardar en decidir si inyecta el botón (espera
+  // el estado de login), así que además observamos el DOM por si aparece
+  // después de la primera pasada.
+  new MutationObserver(quitarBotonPremiumGenerico)
+    .observe(document.body, { childList: true, subtree: true });
 })();
 
 // Pide el link real de descarga al servidor. El link NUNCA está escrito en
