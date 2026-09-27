@@ -464,6 +464,7 @@ function paginaActual() {
   if (p.includes("simulador-vfd"))   return "vfd"
   if (p.includes("simulador-plc"))   return "plc"
   if (p.includes("tia-portal"))      return "tia"
+  if (p.includes("software"))        return "software"
   if (p.includes("cursos"))          return "cursos"
   if (p.includes("comunidad"))       return "comunidad"
   if (p.includes("dudas"))           return "dudas"
@@ -848,6 +849,38 @@ const TIA_DICT = {
   "🔒 MÓDULO 30 - PROYECTO FINAL CERTIFICADO": "🔒 MODULE 30 - CERTIFIED FINAL PROJECT",
   "Proyecto final integrador con todos los conocimientos del curso. Incluye certificado de finalización.":
     "Final integrative project with everything learned in the course. Includes a completion certificate.",
+
+  // =========================================================
+  //  /software — Software y Máquinas Virtuales
+  //  Usa el mismo motor de traducción por diccionario que la
+  //  página de TIA Portal (traducirPaginaTia), porque también
+  //  tiene mucho texto fijo directo en el HTML.
+  // =========================================================
+  "SOFTWARE Y MÁQUINAS VIRTUALES": "SOFTWARE AND VIRTUAL MACHINES",
+  "Descarga el software y las VMs necesarias para practicar automatización industrial.":
+    "Download the software and VMs you need to practice industrial automation.",
+
+  "VM ROCKWELL — VERSIÓN GRATIS": "VM ROCKWELL — FREE VERSION",
+  "Máquina virtual preconfigurada con RSLogix 500, lista para practicar sin instalar nada.":
+    "Preconfigured virtual machine with RSLogix 500, ready to practice without installing anything.",
+  "GRATIS": "FREE",
+
+  "VM ROCKWELL — VERSIÓN COMPLETA": "VM ROCKWELL — FULL VERSION",
+  "Máquina virtual con RSLogix 500, RSLogix 5000 y Studio 5000 instalados y listos para usar.":
+    "Virtual machine with RSLogix 500, RSLogix 5000 and Studio 5000 installed and ready to use.",
+  "COMPLETA": "FULL",
+
+  "Acceso completo a esta VM": "Full access to this VM",
+  "💳 COMPRAR VM — $10 USD (PAYPAL)": "💳 BUY VM — $10 USD (PAYPAL)",
+  "El acceso se activa automáticamente tras confirmar el pago. ¿Ya pagaste y no ves la descarga? Recarga la página o escríbenos a":
+    "Access is activated automatically once the payment is confirmed. Already paid and don't see the download? Reload the page or email us at",
+
+  "DESCARGAR VM": "DOWNLOAD VM",
+  "GUÍA DE INSTALACIÓN": "INSTALLATION GUIDE",
+
+  "VM SIEMENS — TIA PORTAL V20 + PLCSIM": "VM SIEMENS — TIA PORTAL V20 + PLCSIM",
+  "Máquina virtual con TIA Portal V20 y PLCSIM instalados para programar y simular PLCs Siemens.":
+    "Virtual machine with TIA Portal V20 and PLCSIM installed to program and simulate Siemens PLCs.",
 }
 
 let tiaTraduciendo = false
@@ -934,9 +967,14 @@ async function iniciarPagoPaypal(btn) {
     return
   }
 
+  // Textos bilingües: esta función se usa tanto desde el interceptor de
+  // /cursos/tia-portal (solo se dispara con langActual === "en") como desde
+  // el botón directo de /software, que puede pulsarse en español o inglés.
+  const esES = (typeof langActual !== "undefined" ? langActual : (window.getLang ? window.getLang() : "es")) === "es"
+
   const textoOriginal = btn.textContent
   btn.disabled = true
-  btn.textContent = "Redirecting to PayPal..."
+  btn.textContent = esES ? "Redirigiendo a PayPal..." : "Redirecting to PayPal..."
 
   try {
     const res = await fetch(`/api/cursos/${cursoId}/comprar-paypal`, {
@@ -947,7 +985,7 @@ async function iniciarPagoPaypal(btn) {
     const data = await res.json()
 
     if (!res.ok || !data.init_point) {
-      alert(data.error || "Could not start the payment. Please try again.")
+      alert(data.error || (esES ? "No se pudo iniciar el pago. Intenta de nuevo." : "Could not start the payment. Please try again."))
       btn.disabled = false
       btn.textContent = textoOriginal
       return
@@ -958,7 +996,7 @@ async function iniciarPagoPaypal(btn) {
     window.location.href = data.init_point
   } catch (e) {
     console.error("❌ Error iniciando el pago con PayPal:", e)
-    alert("Connection error while starting the payment.")
+    alert(esES ? "Error de conexión al iniciar el pago." : "Connection error while starting the payment.")
     btn.disabled = false
     btn.textContent = textoOriginal
   }
@@ -1064,8 +1102,8 @@ window.setLang = function(lang) {
     })
   }
 
-  // ── TIA Portal: módulos, botones, badges y quiz ──
-  if (pagina === "tia") {
+  // ── TIA Portal y Software/VMs: contenido fijo por diccionario ──
+  if (pagina === "tia" || pagina === "software") {
     traducirPaginaTia()
   }
 
@@ -1108,7 +1146,7 @@ function insertLangSelector() {
 document.addEventListener("DOMContentLoaded", () => {
   insertLangSelector()
   setLang(langActual)
-  if (paginaActual() === "tia") observarPaginaTia()
+  if (paginaActual() === "tia" || paginaActual() === "software") observarPaginaTia()
 })
 
 // =========================================================

@@ -949,6 +949,86 @@ def cursos_comprar_paypal(curso_id):
     return jsonify({"init_point": approve_url})
 
 
+# ── CURSOS: CONFIRMAR ORDEN PAYPAL AL VOLVER (respaldo del webhook) ──
+# PayPal redirige al comprador de vuelta a return_url apenas aprueba la
+# orden (antes de que el webhook llegue, y a veces sin que llegue nunca si
+# PAYPAL_WEBHOOK_ID no está configurado o el webhook no quedó bien suscrito
+# en el dashboard de PayPal). Este endpoint permite que el propio frontend,
+# justo al volver de PayPal con "token" (el order id) en la URL, confirme y
+# capture la orden directamente y otorgue el acceso al toque, sin depender
+# de que el webhook funcione. Es idempotente porque reusa
+# _otorgar_acceso_paypal, así que no hay problema si el webhook además llega
+# más tarde y también intenta otorgar el mismo acceso.
+@app.route("/api/cursos/<curso_id>/confirmar-paypal", methods=["POST"])
+def cursos_confirmar_paypal(curso_id):
+    if curso_id not in CURSOS_PREMIUM:
+        return jsonify({"error": "Curso no válido"}), 404
+    if not PAYPAL_CLIENT_ID or not PAYPAL_CLIENT_SECRET:
+        return jsonify({"error": "Pagos con PayPal no configurados"}), 503
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    data     = request.get_json(silent=True) or {}
+    uid      = str(data.get("uid", "")).strip()
+    order_id = str(data.get("order_id", "")).strip()
+
+    if not uid or uid == "anonimo" or not order_id:
+        return jsonify({"error": "Datos incompletos"}), 400
+
+    try:
+        token = _paypal_token()
+    except Exception as e:
+        print(f"Error obteniendo token PayPal (confirmar): {e}")
+        return jsonify({"error": "Error PayPal"}), 500
+
+    try:
+        resp = requests.get(
+            f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        order = resp.json()
+    except Exception as e:
+        print(f"Error consultando orden PayPal {order_id}: {e}")
+        return jsonify({"error": "Error PayPal"}), 500
+
+    # El custom_id ("uid|curso_id") se lee de la respuesta de la propia API
+    # de PayPal, nunca del body que manda el cliente: así nos aseguramos de
+    # que el uid/curso que se están desbloqueando son los que de verdad
+    # pagaron esta orden específica.
+    custom_id = ""
+    for pu in order.get("purchase_units", []):
+        custom_id = pu.get("custom_id", "")
+        if custom_id:
+            break
+
+    if custom_id != f"{uid}|{curso_id}":
+        return jsonify({"error": "La orden no corresponde a este usuario o curso"}), 403
+
+    status = order.get("status", "")
+
+    if status == "APPROVED":
+        try:
+            cap_resp = requests.post(
+                f"{PAYPAL_API_BASE}/v2/checkout/orders/{order_id}/capture",
+                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+                timeout=15,
+            )
+            if cap_resp.status_code not in (200, 201):
+                print(f"Error capturando orden PayPal {order_id}: {cap_resp.status_code} {cap_resp.text}")
+        except Exception as e:
+            print(f"Error capturando orden PayPal {order_id}: {e}")
+    elif status != "COMPLETED":
+        return jsonify({"error": f"La orden todavía no está aprobada (estado: {status})"}), 400
+
+    _otorgar_acceso_paypal(order_id, custom_id)
+
+    acceso_ref     = db.collection("premium_access").document(_premium_doc_id(uid, curso_id))
+    tiene_acceso   = acceso_ref.get().exists
+    return jsonify({"tiene_acceso": tiene_acceso})
+
+
 def _otorgar_acceso_paypal(payment_id, custom_id):
     """Otorga acceso premium a partir del custom_id ('uid|curso_id') que
     viaja en la orden de PayPal. Idempotente: si el pago ya fue

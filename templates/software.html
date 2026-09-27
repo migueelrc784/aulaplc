@@ -110,7 +110,8 @@
 // descarga. No depende de ningún script externo: se hace acá directo.
 (function () {
   const CURSO_ID_VM = 'vm-rockwell-completa';
-  let intentos = 0;
+  let intentosAcceso  = 0;
+  let intentosRetorno = 0;
 
   function desbloquearDescarga() {
     document.querySelectorAll('[data-requiere-premium="true"]').forEach(function (el) {
@@ -119,12 +120,63 @@
     });
   }
 
+  // Espera a que firebase-auth.js loguee al usuario (puede tardar un poco)
+  // antes de ejecutar cb. Reintenta por unos segundos antes de rendirse.
+  function esperarUid(cb) {
+    if (window.currentUserUid && window.currentUserUid !== 'anonimo') { cb(); return; }
+    intentosRetorno++;
+    if (intentosRetorno < 20) setTimeout(function () { esperarUid(cb); }, 500);
+  }
+
+  // ── ARREGLO: confirmar el pago apenas se vuelve de PayPal ──────────
+  // Antes, el desbloqueo dependía 100% del webhook de PayPal escribiendo
+  // en Firestore; si el webhook tarda, no está bien suscrito en el
+  // dashboard de PayPal, o falta la variable de entorno
+  // PAYPAL_WEBHOOK_ID, el acceso nunca se otorgaba y el candado quedaba
+  // bloqueado aunque el pago sí se hubiera hecho. Ahora, si PayPal acaba
+  // de redirigir de vuelta con la orden aprobada (?paypal_status=approved
+  // y "token" = id de la orden), la confirmamos directamente contra
+  // /api/cursos/<id>/confirmar-paypal, que consulta y captura la orden en
+  // la propia API de PayPal y otorga el acceso al toque, sin esperar el
+  // webhook. Si el webhook además llega después, no pasa nada: es
+  // idempotente.
+  function confirmarRegresoPaypal() {
+    const params  = new URLSearchParams(window.location.search);
+    const status  = params.get('paypal_status');
+    const orderId = params.get('token');
+    if (status !== 'approved' || !orderId) return;
+
+    esperarUid(async function () {
+      try {
+        const res = await fetch(`/api/cursos/${CURSO_ID_VM}/confirmar-paypal`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ uid: window.currentUserUid, order_id: orderId })
+        });
+        const data = await res.json();
+        if (data && data.tiene_acceso) {
+          desbloquearDescarga();
+        } else {
+          console.error('No se pudo confirmar el pago de PayPal:', data && data.error);
+        }
+      } catch (e) {
+        console.error('Error confirmando el pago de PayPal:', e);
+      } finally {
+        // Limpia los parámetros de PayPal de la URL para no reintentar la
+        // confirmación cada vez que se recarga la página.
+        params.delete('paypal_status');
+        params.delete('token');
+        params.delete('PayerID');
+        const query = params.toString();
+        window.history.replaceState({}, '', window.location.pathname + (query ? '?' + query : ''));
+      }
+    });
+  }
+
   async function chequearAccesoVM() {
-    // firebase-auth.js puede tardar un poco en loguear al usuario; reintenta
-    // por unos segundos antes de rendirse.
     if (!window.currentUserUid || window.currentUserUid === 'anonimo') {
-      intentos++;
-      if (intentos < 20) setTimeout(chequearAccesoVM, 500);
+      intentosAcceso++;
+      if (intentosAcceso < 20) setTimeout(chequearAccesoVM, 500);
       return;
     }
     try {
@@ -136,6 +188,10 @@
     }
   }
 
+  // Si venimos de vuelta de PayPal, confirmamos esa orden puntual y además
+  // dejamos el chequeo normal corriendo (cubre a quien ya había pagado
+  // antes y simplemente vuelve a entrar a la página).
+  confirmarRegresoPaypal();
   chequearAccesoVM();
 })();
 
@@ -143,29 +199,31 @@
 // el HTML: el servidor solo lo entrega si el uid ya tiene el acceso premium
 // pagado confirmado en Firestore (ver /api/cursos/<id>/descarga en main.py).
 async function descargarVMPremium(btn, cursoId) {
+  const esES = (window.getLang ? window.getLang() : 'es') === 'es';
+
   if (!window.currentUserUid || window.currentUserUid === 'anonimo') {
     if (window.openLoginModal) window.openLoginModal();
-    else alert('Debes iniciar sesión para descargar.');
+    else alert(esES ? 'Debes iniciar sesión para descargar.' : 'You must be signed in to download.');
     return;
   }
 
   const textoOriginal = btn.textContent;
   btn.disabled = true;
-  btn.textContent = 'Verificando acceso...';
+  btn.textContent = esES ? 'Verificando acceso...' : 'Checking access...';
 
   try {
     const res = await fetch(`/api/cursos/${cursoId}/descarga?uid=${encodeURIComponent(window.currentUserUid)}`);
     const data = await res.json();
 
     if (!res.ok || !data.url) {
-      alert(data.error || 'Todavía no tienes acceso a esta descarga.');
+      alert(data.error || (esES ? 'Todavía no tienes acceso a esta descarga.' : "You don't have access to this download yet."));
       return;
     }
 
     window.open(data.url, '_blank', 'noopener');
   } catch (e) {
     console.error('Error obteniendo el link de descarga:', e);
-    alert('Error de conexión al verificar el acceso.');
+    alert(esES ? 'Error de conexión al verificar el acceso.' : 'Connection error while checking access.');
   } finally {
     btn.disabled = false;
     btn.textContent = textoOriginal;
