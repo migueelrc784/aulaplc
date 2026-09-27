@@ -663,6 +663,16 @@ CURSOS_PREMIUM = {
         "precio_usd": 10,     # USD (PayPal)
     },
     # "hmi-scada": {"titulo": "Curso HMI/SCADA — Acceso Premium", "precio": 1990, "precio_usd": 10},
+
+    # VM Rockwell Completa (/software): solo se vende vía PayPal en USD,
+    # por eso no tiene "precio" en CLP (no se usa el flujo de MercadoPago
+    # para este producto). "return_path" indica a qué página volver
+    # después del pago (por defecto es /cursos/{curso_id}).
+    "vm-rockwell-completa": {
+        "titulo": "VM Rockwell Completa (RSLogix 500 + RSLogix 5000 + Studio 5000)",
+        "precio_usd": 10,     # USD (PayPal)
+        "return_path": "/software",
+    },
 }
 
 
@@ -866,6 +876,7 @@ def cursos_comprar_paypal(curso_id):
 
     # El uid y el curso viajan en custom_id: es lo único que el webhook
     # de PayPal nos devuelve para saber a quién otorgarle el acceso.
+    return_path = curso.get("return_path", f"/cursos/{curso_id}")
     order_data = {
         "intent": "CAPTURE",
         "purchase_units": [{
@@ -878,8 +889,8 @@ def cursos_comprar_paypal(curso_id):
         }],
         "application_context": {
             "brand_name":  "AULAPLC",
-            "return_url":  f"https://aulaplc.com/cursos/{curso_id}?paypal_status=approved",
-            "cancel_url":  f"https://aulaplc.com/cursos/{curso_id}?paypal_status=cancelled",
+            "return_url":  f"https://aulaplc.com{return_path}?paypal_status=approved",
+            "cancel_url":  f"https://aulaplc.com{return_path}?paypal_status=cancelled",
             "user_action": "PAY_NOW",
         }
     }
@@ -1086,4 +1097,3 @@ def robots():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
