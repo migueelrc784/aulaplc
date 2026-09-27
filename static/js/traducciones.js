@@ -18,6 +18,7 @@ const T = {
 
     // ── NAV ──
     navCursos:     "CURSOS",
+    navSoftware:   "SOFTWARE Y MÁQUINAS VIRTUALES",
     navComunidad:  "COMUNIDAD",
     navSimPLC:     "SIMULADOR PLC",
     navSimVFD:     "SIMULADOR VFD",
@@ -240,6 +241,7 @@ const T = {
 
     // ── NAV ──
     navCursos:     "COURSES",
+    navSoftware:   "SOFTWARE & VIRTUAL MACHINES",
     navComunidad:  "COMMUNITY",
     navSimPLC:     "PLC SIMULATOR",
     navSimVFD:     "VFD SIMULATOR",
@@ -478,11 +480,12 @@ const MAP_GLOBAL = [
   { k:"appSubtitle",   s:".header-logo-sub, .subtitle" },
   // Nav
   { k:"navCursos",     s:".nav-btn:nth-child(1)" },
-  { k:"navComunidad",  s:".nav-btn:nth-child(2)" },
-  { k:"navSimPLC",     s:".nav-btn:nth-child(3)" },
-  { k:"navSimVFD",     s:".nav-btn:nth-child(4)" },
-  { k:"navDudas",      s:".nav-btn:nth-child(5)" },
-  { k:"navTienda",     s:".nav-btn:nth-child(6)" },
+  { k:"navSoftware",   s:".nav-btn:nth-child(2)" },
+  { k:"navComunidad",  s:".nav-btn:nth-child(3)" },
+  { k:"navSimPLC",     s:".nav-btn:nth-child(4)" },
+  { k:"navSimVFD",     s:".nav-btn:nth-child(5)" },
+  { k:"navDudas",      s:".nav-btn:nth-child(6)" },
+  { k:"navTienda",     s:".nav-btn:nth-child(7)" },
   // Loader (si existe)
   { k:"loaderTitle",   s:"#loader h1" },
   { k:"loaderText",    s:"#loader p" },
