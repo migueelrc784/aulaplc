@@ -69,7 +69,15 @@
       </div>
 
       <!-- DESCARGA BLOQUEADA HASTA CONFIRMAR EL PAGO -->
-      <div data-requiere-premium="true" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; opacity:0.55; pointer-events:none;">
+      <!-- Ojo: NO usar data-requiere-premium acá — ese atributo lo escanea
+           firebase-auth.js (updateModulesAccess) para inyectar su propio
+           candado genérico con botón "Activar Premium" encima de
+           cualquier elemento que lo tenga, lo cual duplicaba/interfería
+           con el candado propio de esta página. Este bloque se desbloquea
+           solo mediante chequearAccesoVM()/confirmarRegresoPaypal() más
+           abajo, así que usa un atributo propio que firebase-auth.js
+           ignora. -->
+      <div data-vm-premium="true" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; opacity:0.55; pointer-events:none;">
         <div style="text-align:center;">
           <span style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">🔒 BLOQUEADO</span>
         </div>
@@ -114,7 +122,7 @@
   let intentosRetorno = 0;
 
   function desbloquearDescarga() {
-    document.querySelectorAll('[data-requiere-premium="true"]').forEach(function (el) {
+    document.querySelectorAll('[data-vm-premium="true"]').forEach(function (el) {
       el.style.opacity = '1';
       el.style.pointerEvents = 'auto';
     });
@@ -195,27 +203,18 @@
   chequearAccesoVM();
 
   // ── Quitar el botón genérico "ACTIVAR PREMIUM" / "ACTIVATE PREMIUM" ──
-  // firebase-auth.js lo inyecta automáticamente en cualquier página que
-  // defina window.CURSO_ID, pensado para el flujo de MercadoPago de los
-  // cursos (como TIA Portal). En esta página ya tenemos nuestro propio
-  // banner de compra con PayPal, así que ese botón sobra y solo estorba.
-  // No tocamos firebase-auth.js (lo sigue necesitando el curso de
-  // Siemens): simplemente lo removemos del DOM apenas aparece acá.
+  // ARREGLADO EN LA RAÍZ: este bloque ya no usa data-requiere-premium, así
+  // que firebase-auth.js (updateModulesAccess) no lo toca. Este chequeo
+  // extra queda solo como red de seguridad por si algún día se reintroduce
+  // sin querer ese atributo aquí.
   function quitarBotonPremiumGenerico() {
     const gate = document.getElementById('premium-gate-vm-rockwell');
     const card = gate ? gate.closest('.course-card') : null;
     if (!card) return;
-    card.querySelectorAll('[onclick="openPaymentFlow()"]').forEach(function (el) { el.remove(); });
-    card.querySelectorAll('button, a').forEach(function (el) {
-      const txt = el.textContent.trim().toUpperCase();
-      if (txt === 'ACTIVAR PREMIUM' || txt === 'ACTIVATE PREMIUM') el.remove();
-    });
+    card.querySelectorAll('.lock-overlay').forEach(function (el) { el.remove(); });
   }
 
   quitarBotonPremiumGenerico();
-  // firebase-auth.js puede tardar en decidir si inyecta el botón (espera
-  // el estado de login), así que además observamos el DOM por si aparece
-  // después de la primera pasada.
   new MutationObserver(quitarBotonPremiumGenerico)
     .observe(document.body, { childList: true, subtree: true });
 })();
