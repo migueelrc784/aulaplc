@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Software y Máquinas Virtuales PLC — AULAPLC{% endblock %}
+{% block canonical %}/software{% endblock %}
+{% block og_url %}/software{% endblock %}
+{% block og_title %}Software y Máquinas Virtuales — AULAPLC STUDIO X{% endblock %}
+{% block meta_description %}Descarga Studio 5000, RSLogix 500, RSLogix 5000 y máquinas virtuales preconfiguradas de Allen Bradley.{% endblock %}
+
+{% block content %}
+<div class="courses-page">
+  <h1 class="courses-title">SOFTWARE Y MÁQUINAS VIRTUALES</h1>
+  <p class="courses-subtitle">Descarga el software y las VMs necesarias para practicar automatización industrial.</p>
+
+  <div class="courses-grid">
+
+    <!-- SOFTWARE 1 -->
+    <div class="course-card">
+      <h2>STUDIO 5000</h2>
+      <p>Software oficial de Allen Bradley para programar PLCs ControlLogix y CompactLogix en Ladder.</p>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">ALLEN BRADLEY</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">STUDIO 5000</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">PLC</span>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <a href="{{ url_for('static', filename='proyectos/studio_5000.zip') }}" target="_blank">
+          <button class="btn green" style="width:100%;">DESCARGAR SOFTWARE</button>
+        </a>
+        <a href="{{ url_for('static', filename='pdfs/guia_instalacion_studio5000.pdf') }}" target="_blank">
+          <button class="btn blue" style="width:100%;">GUÍA DE INSTALACIÓN</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- SOFTWARE 2 -->
+    <div class="course-card">
+      <h2>RSLOGIX 500</h2>
+      <p>Software para programar PLCs de la familia SLC 500 y MicroLogix en Ladder.</p>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">ALLEN BRADLEY</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">RSLOGIX 500</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">SLC / MICROLOGIX</span>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <a href="{{ url_for('static', filename='proyectos/rslogix_500.zip') }}" target="_blank">
+          <button class="btn blue" style="width:100%;">DESCARGAR SOFTWARE</button>
+        </a>
+        <a href="{{ url_for('static', filename='pdfs/guia_instalacion_rslogix500.pdf') }}" target="_blank">
+          <button class="btn green" style="width:100%;">GUÍA DE INSTALACIÓN</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- SOFTWARE 3 -->
+    <div class="course-card">
+      <h2>RSLOGIX 5000</h2>
+      <p>Software para programar PLCs ControlLogix y CompactLogix, predecesor de Studio 5000.</p>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">ALLEN BRADLEY</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">RSLOGIX 5000</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">CONTROLLOGIX</span>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <a href="{{ url_for('static', filename='proyectos/rslogix_5000.zip') }}" target="_blank">
+          <button class="btn yellow" style="width:100%;">DESCARGAR SOFTWARE</button>
+        </a>
+        <a href="{{ url_for('static', filename='pdfs/guia_instalacion_rslogix5000.pdf') }}" target="_blank">
+          <button class="btn blue" style="width:100%;">GUÍA DE INSTALACIÓN</button>
+        </a>
+      </div>
+    </div>
+
+    <!-- SOFTWARE 4 -->
+    <div class="course-card">
+      <h2>RSLOGIX EMULATE 5000</h2>
+      <p>Emulador de PLCs Allen Bradley para probar tus programas Ladder sin hardware físico.</p>
+      <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">ALLEN BRADLEY</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">EMULATE 5000</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">SIMULACIÓN</span>
+      </div>
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <a href="{{ url_for('static', filename='proyectos/rslogix_emulate.zip') }}" target="_blank">
+          <button class="btn yellow" style="width:100%;">DESCARGAR EMULADOR</button>
+        </a>
+        <a href="/simulador-plc">
+          <button class="btn blue" style="width:100%;">USAR SIMULADOR ONLINE</button>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

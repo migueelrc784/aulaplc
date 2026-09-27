@@ -1082,3 +1082,7 @@ def robots():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/software")
+def software():
+    return render_template("software.html")
