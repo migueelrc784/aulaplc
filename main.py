@@ -138,6 +138,10 @@ def tia_portal():
 def hmi_scada():
     return render_template("hmi-scada.html")
 
+@app.route("/software")
+def software():
+    return render_template("software.html")
+
 @app.route("/comunidad")
 def comunidad():
     return render_template("comunidad.html")
@@ -1083,6 +1087,3 @@ def robots():
 if __name__ == "__main__":
     app.run(debug=True)
 
-@app.route("/software")
-def software():
-    return render_template("software.html")
