@@ -680,6 +680,34 @@ def _premium_doc_id(uid, curso_id):
     return f"{uid}_{curso_id}"
 
 
+# Links de descarga que NO deben estar en el HTML (para que no se vean con
+# "Inspeccionar" antes de pagar). Se entregan solo a través del endpoint de
+# abajo, y solo si el uid ya tiene acceso premium confirmado en Firestore.
+DESCARGAS_PREMIUM = {
+    "vm-rockwell-completa": "https://drive.google.com/file/d/14waNfQmT8nn1yt3jReSOnLbyZvr41l34/view?usp=sharing",
+}
+
+
+# ── CURSOS: OBTENER LINK DE DESCARGA (solo si ya pagó) ────────────
+@app.route("/api/cursos/<curso_id>/descarga", methods=["GET"])
+def cursos_descarga(curso_id):
+    if curso_id not in DESCARGAS_PREMIUM:
+        return jsonify({"error": "Sin descarga configurada para este producto"}), 404
+
+    uid = request.args.get("uid", "").strip()
+    if not uid or uid == "anonimo":
+        return jsonify({"error": "Debes iniciar sesión para descargar"}), 401
+
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    doc = db.collection("premium_access").document(_premium_doc_id(uid, curso_id)).get()
+    if not doc.exists:
+        return jsonify({"error": "Todavía no tienes acceso a esta descarga"}), 403
+
+    return jsonify({"url": DESCARGAS_PREMIUM[curso_id]})
+
+
 # ── CURSOS: CONSULTAR SI EL USUARIO TIENE ACCESO PREMIUM ─────────
 @app.route("/api/cursos/<curso_id>/acceso", methods=["GET"])
 def cursos_acceso(curso_id):

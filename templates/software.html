@@ -73,9 +73,7 @@
         <div style="text-align:center;">
           <span style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">🔒 BLOQUEADO</span>
         </div>
-        <a href="https://drive.google.com/file/d/14waNfQmT8nn1yt3jReSOnLbyZvr41l34/view?usp=sharing" target="_blank" rel="noopener">
-          <button class="btn yellow" style="width:100%;">DESCARGAR VM</button>
-        </a>
+        <button class="btn yellow" style="width:100%;" onclick="descargarVMPremium(this, 'vm-rockwell-completa')">DESCARGAR VM</button>
         <a href="{{ url_for('static', filename='pdfs/guia_instalacion_vm_rockwell_completa.pdf') }}" target="_blank">
           <button class="btn blue" style="width:100%;">GUÍA DE INSTALACIÓN</button>
         </a>
@@ -103,4 +101,41 @@
 
   </div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Pide el link real de descarga al servidor. El link NUNCA está escrito en
+// el HTML: el servidor solo lo entrega si el uid ya tiene el acceso premium
+// pagado confirmado en Firestore (ver /api/cursos/<id>/descarga en main.py).
+async function descargarVMPremium(btn, cursoId) {
+  if (!window.currentUserUid || window.currentUserUid === 'anonimo') {
+    if (window.openLoginModal) window.openLoginModal();
+    else alert('Debes iniciar sesión para descargar.');
+    return;
+  }
+
+  const textoOriginal = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Verificando acceso...';
+
+  try {
+    const res = await fetch(`/api/cursos/${cursoId}/descarga?uid=${encodeURIComponent(window.currentUserUid)}`);
+    const data = await res.json();
+
+    if (!res.ok || !data.url) {
+      alert(data.error || 'Todavía no tienes acceso a esta descarga.');
+      return;
+    }
+
+    window.open(data.url, '_blank', 'noopener');
+  } catch (e) {
+    console.error('Error obteniendo el link de descarga:', e);
+    alert('Error de conexión al verificar el acceso.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = textoOriginal;
+  }
+}
+</script>
 {% endblock %}
