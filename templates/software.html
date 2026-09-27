@@ -51,7 +51,7 @@
         <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">COMPLETA</span>
       </div>
 
-      <!-- BANNER DE COMPRA -->
+      <!-- BANNER DE COMPRA (se oculta con JS en cuanto se confirma el acceso) -->
       <div id="premium-gate-vm-rockwell" style="margin-top:20px; background:#0b1220; border:1px solid #1e293b; border-radius:10px; padding:16px;">
         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
           <span style="color:#94a3b8; font-size:13px;">Acceso completo a esta VM</span>
@@ -68,6 +68,16 @@
         </p>
       </div>
 
+      <!-- MENSAJE DE ACCESO YA ACTIVO — oculto por defecto; se muestra con
+           JS (desbloquearDescarga) en cuanto el usuario ya tiene el pago
+           confirmado, en vez del banner de compra de arriba. -->
+      <div id="acceso-activo-vm-rockwell" style="display:none; margin-top:20px; background:rgba(0,255,153,0.08); border:1px solid #00ff99; border-radius:10px; padding:16px; text-align:center;">
+        <span style="font-size:22px;">✅</span>
+        <p style="margin-top:6px; color:#00ff99; font-family:Orbitron; font-weight:700; font-size:13px; letter-spacing:0.5px;">
+          Ya tienes acceso a esta máquina virtual de forma indefinida
+        </p>
+      </div>
+
       <!-- DESCARGA BLOQUEADA HASTA CONFIRMAR EL PAGO -->
       <!-- Ojo: NO usar data-requiere-premium acá — ese atributo lo escanea
            firebase-auth.js (updateModulesAccess) para inyectar su propio
@@ -79,7 +89,7 @@
            ignora. -->
       <div data-vm-premium="true" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; opacity:0.55; pointer-events:none;">
         <div style="text-align:center;">
-          <span style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">🔒 BLOQUEADO</span>
+          <span id="badge-vm-rockwell" style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">🔒 BLOQUEADO</span>
         </div>
         <button class="btn yellow" style="width:100%;" onclick="descargarVMPremium(this, 'vm-rockwell-completa')">DESCARGAR VM</button>
         <a href="{{ url_for('static', filename='pdfs/guia_instalacion_vm_rockwell_completa.pdf') }}" target="_blank">
@@ -126,6 +136,27 @@
       el.style.opacity = '1';
       el.style.pointerEvents = 'auto';
     });
+
+    // Oculta el recuadro de "comprar" y muestra el de "ya tienes acceso"
+    // en su lugar — quedan dentro de la misma tarjeta (course-card) de la
+    // VM Rockwell Completa, así que basta con buscarlos por id.
+    const gate  = document.getElementById('premium-gate-vm-rockwell');
+    const activo = document.getElementById('acceso-activo-vm-rockwell');
+    if (gate) gate.style.display = 'none';
+    if (activo) activo.style.display = 'block';
+
+    // Corrige el badge "🔒 BLOQUEADO" a un estado desbloqueado, en el
+    // idioma que corresponda. Se fija dataset.i18nEs a mano (con el
+    // "original" en español) para que el motor de traducción genérico de
+    // traducciones.js (que reacciona a cualquier cambio del DOM) no lo
+    // vuelva a pisar con el texto viejo "BLOQUEADO" al re-ejecutarse.
+    const badge = document.getElementById('badge-vm-rockwell');
+    if (badge) {
+      badge.style.background = '#00ff99';
+      badge.dataset.i18nEs = '✅ DESBLOQUEADO';
+      const esEN = (window.getLang ? window.getLang() : 'es') === 'en';
+      badge.textContent = esEN ? '✅ UNLOCKED' : '✅ DESBLOQUEADO';
+    }
   }
 
   // Espera a que firebase-auth.js loguee al usuario (puede tardar un poco)

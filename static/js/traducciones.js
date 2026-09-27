@@ -881,6 +881,10 @@ const TIA_DICT = {
   "VM SIEMENS — TIA PORTAL V20 + PLCSIM": "VM SIEMENS — TIA PORTAL V20 + PLCSIM",
   "Máquina virtual con TIA Portal V20 y PLCSIM instalados para programar y simular PLCs Siemens.":
     "Virtual machine with TIA Portal V20 and PLCSIM installed to program and simulate Siemens PLCs.",
+
+  "Ya tienes acceso a esta máquina virtual de forma indefinida":
+    "You already have access to this virtual machine indefinitely",
+  "✅ DESBLOQUEADO": "✅ UNLOCKED",
 }
 
 let tiaTraduciendo = false
