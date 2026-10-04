@@ -692,9 +692,7 @@ def _premium_doc_id(uid, curso_id):
 # abajo, y solo si el uid ya tiene acceso premium confirmado en Firestore.
 DESCARGAS_PREMIUM = {
     "vm-rockwell-completa": "https://drive.google.com/file/d/14waNfQmT8nn1yt3jReSOnLbyZvr41l34/view?usp=sharing",
-    # TODO: pega aquí el link PRIVADO de descarga de la VM Siemens V16
-    # (Drive, Mega, etc.). No lo dejes en /static: sería público.
-    "vm-siemens-tia-v16": "PEGA_AQUI_EL_LINK_DE_DESCARGA_DE_LA_VM_SIEMENS",
+    "vm-siemens-tia-v16": "https://drive.google.com/file/d/1FnoZdgxTs1xGBa-xHWSLaImXMksJZW3i/view?usp=sharing",
 }
 
 
