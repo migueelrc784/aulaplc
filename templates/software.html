@@ -52,28 +52,96 @@
       </div>
 
       <!-- BANNER DE COMPRA (se oculta con JS en cuanto se confirma el acceso) -->
-      <div id="premium-gate-vm-rockwell" style="margin-top:20px; background:#0b1220; border:1px solid #1e293b; border-radius:10px; padding:16px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-          <span style="color:#94a3b8; font-size:13px;">Acceso completo a esta VM</span>
-          <div style="background:linear-gradient(135deg,#00ff99,#00d4ff); color:#000; font-family:Orbitron; font-weight:900; font-size:18px; padding:6px 16px; border-radius:8px; letter-spacing:1px; white-space:nowrap;">
-            $ 10 USD
-          </div>
+      <style>
+        .vm-box { margin-top:20px; background:#0b1220; border:1px solid #1e293b; border-radius:12px; overflow:hidden; }
+        .vm-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 18px; background:#0f1a2c; border-bottom:1px solid #1e293b; }
+        .vm-head span { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#94a3b8; font-weight:600; }
+        .vm-head .vm-tag { color:#00ff99; border:1px solid rgba(0,255,153,.4); background:rgba(0,255,153,.08); padding:4px 10px; border-radius:4px; font-weight:700; }
+        .vm-body { padding:22px 18px 18px; }
+        .vm-old { color:#64748b; font-size:16px; text-decoration:line-through; text-decoration-thickness:1.5px; }
+        .vm-price { display:flex; align-items:baseline; gap:10px; margin-top:4px; }
+        .vm-price strong { font-family:Orbitron; font-size:40px; font-weight:800; color:#fff; line-height:1; }
+        .vm-price em { font-style:normal; font-size:13px; color:#94a3b8; letter-spacing:1px; }
+        .vm-save { margin-top:10px; font-size:12px; color:#94a3b8; }
+        .vm-save b { color:#00ff99; font-weight:600; }
+        .vm-sep { border:none; border-top:1px solid #1e293b; margin:18px 0; }
+        .vm-title { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#94a3b8; font-weight:600; margin-bottom:12px; }
+        .vm-benef { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+        .vm-benef li { display:flex; gap:10px; align-items:flex-start; color:#cbd5e1; font-size:13px; line-height:1.45; }
+        .vm-benef li svg { flex-shrink:0; margin-top:2px; }
+        .vm-benef li b { color:#f1f5f9; font-weight:600; }
+        .vm-cta { width:100%; margin-top:20px; padding:15px; background:#00ff99; color:#04110b; border:none; border-radius:8px; font-family:Orbitron; font-size:13px; font-weight:800; letter-spacing:1px; cursor:pointer; transition:background .2s, transform .15s; }
+        .vm-cta:hover { background:#33ffad; transform:translateY(-1px); }
+        .vm-trust { margin-top:14px; display:flex; justify-content:center; flex-wrap:wrap; gap:6px 18px; font-size:11px; color:#94a3b8; }
+        .vm-trust span { display:flex; align-items:center; gap:6px; }
+        .vm-help { margin-top:14px; padding-top:14px; border-top:1px solid #1e293b; font-size:11px; color:#64748b; text-align:center; line-height:1.5; }
+      </style>
+      <div id="premium-gate-vm-rockwell" class="vm-box">
+
+        <div class="vm-head">
+          <span>Acceso completo</span>
+          <span class="vm-tag">Oferta de lanzamiento -80%</span>
         </div>
-        <button onclick="iniciarPagoPaypal(this)" style="width:100%; margin-top:14px; padding:14px; background:linear-gradient(135deg,#00ff99,#00d4ff); color:#000; border:none; border-radius:10px; font-family:Orbitron; font-size:13px; font-weight:900; cursor:pointer; letter-spacing:1px; box-shadow:0 0 20px rgba(0,255,153,0.3);">
-          💳 COMPRAR VM — $10 USD (PAYPAL)
-        </button>
-        <p style="margin-top:10px; font-size:11px; color:#475569;">
-          El acceso se activa automáticamente tras confirmar el pago. ¿Ya pagaste y no ves la descarga? Recarga la página o escríbenos a
-          <a href="mailto:aulaplcsoporte@gmail.com" style="color:#00d4ff;">aulaplcsoporte@gmail.com</a>
-        </p>
+
+        <div class="vm-body">
+          <div class="vm-old">Precio regular: $50 USD</div>
+          <div class="vm-price">
+            <strong>$10</strong><em>USD · PAGO ÚNICO</em>
+          </div>
+          <div class="vm-save">Ahorras <b>$40 USD</b> · Acceso de por vida, sin mensualidades</div>
+
+          <hr class="vm-sep">
+
+          <div class="vm-title">Incluye</div>
+          <ul class="vm-benef">
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>RSLogix 500, RSLogix 5000 y Studio 5000</b> instalados y configurados</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Sin instalaciones ni licencias:</b> abres la VM y empiezas a programar</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Entorno aislado:</b> tu equipo no se modifica</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Guía de instalación en video</b> paso a paso</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Soporte por correo</b> incluido</span>
+            </li>
+          </ul>
+
+          <button class="vm-cta" onclick="iniciarPagoPaypal(this)">COMPRAR AHORA · $10 USD</button>
+
+          <div class="vm-trust">
+            <span>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="#94a3b8" stroke-width="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2" stroke="#94a3b8" stroke-width="1.5"/></svg>
+              Pago seguro con PayPal
+            </span>
+            <span>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M9 1.5L3.5 9H8l-1 5.5L12.5 7H8l1-5.5z" stroke="#94a3b8" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              Activación automática
+            </span>
+          </div>
+
+          <p class="vm-help">
+            ¿Ya pagaste y no ves la descarga? Recarga la página o escríbenos a
+            <a href="mailto:aulaplcsoporte@gmail.com" style="color:#00d4ff;">aulaplcsoporte@gmail.com</a>
+          </p>
+        </div>
       </div>
 
-      <!-- MENSAJE DE ACCESO YA ACTIVO — oculto por defecto; se muestra con
+      
+<!-- MENSAJE DE ACCESO YA ACTIVO — oculto por defecto; se muestra con
            JS (desbloquearDescarga) en cuanto el usuario ya tiene el pago
            confirmado, en vez del banner de compra de arriba. -->
       <div id="acceso-activo-vm-rockwell" style="display:none; margin-top:20px; background:rgba(0,255,153,0.08); border:1px solid #00ff99; border-radius:10px; padding:16px; text-align:center;">
-        <span style="font-size:22px;">✅</span>
-        <p style="margin-top:6px; color:#00ff99; font-family:Orbitron; font-weight:700; font-size:13px; letter-spacing:0.5px;">
+        <p style="margin-top:0; color:#00ff99; font-family:Orbitron; font-weight:700; font-size:13px; letter-spacing:0.5px;">
           Ya tienes acceso a esta máquina virtual de forma indefinida
         </p>
       </div>
@@ -89,7 +157,7 @@
            ignora. -->
       <div data-vm-premium="true" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; opacity:0.55; pointer-events:none;">
         <div style="text-align:center;">
-          <span id="badge-vm-rockwell" style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">🔒 BLOQUEADO</span>
+          <span id="badge-vm-rockwell" style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">BLOQUEADO</span>
         </div>
         <button class="btn yellow" style="width:100%;" onclick="descargarVMPremium(this, 'vm-rockwell-completa')">DESCARGAR VM</button>
         <a href="https://youtu.be/xFNizHpH-n8" target="_blank" rel="noopener">
@@ -145,7 +213,7 @@
     if (gate) gate.style.display = 'none';
     if (activo) activo.style.display = 'block';
 
-    // Corrige el badge "🔒 BLOQUEADO" a un estado desbloqueado, en el
+    // Corrige el badge "BLOQUEADO" a un estado desbloqueado, en el
     // idioma que corresponda. Se fija dataset.i18nEs a mano (con el
     // "original" en español) para que el motor de traducción genérico de
     // traducciones.js (que reacciona a cualquier cambio del DOM) no lo
@@ -153,9 +221,9 @@
     const badge = document.getElementById('badge-vm-rockwell');
     if (badge) {
       badge.style.background = '#00ff99';
-      badge.dataset.i18nEs = '✅ DESBLOQUEADO';
+      badge.dataset.i18nEs = 'DESBLOQUEADO';
       const esEN = (window.getLang ? window.getLang() : 'es') === 'en';
-      badge.textContent = esEN ? '✅ UNLOCKED' : '✅ DESBLOQUEADO';
+      badge.textContent = esEN ? 'UNLOCKED' : 'DESBLOQUEADO';
     }
   }
 
