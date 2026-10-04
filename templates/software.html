@@ -158,7 +158,7 @@
             </li>
           </ul>
 
-          <button class="vm-cta" onclick="iniciarPagoPaypal(this)">COMPRAR AHORA · $10 USD</button>
+          <button class="vm-cta" onclick="iniciarPagoVM(this, 'vm-rockwell-completa')">COMPRAR AHORA · $10 USD</button>
 
           <div class="vm-trust">
             <span>
@@ -197,7 +197,7 @@
            solo mediante chequearAccesoVM()/confirmarRegresoPaypal() más
            abajo, así que usa un atributo propio que firebase-auth.js
            ignora. -->
-      <div data-vm-premium="true" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; opacity:0.55; pointer-events:none;">
+      <div data-vm-premium="vm-rockwell-completa" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; opacity:0.55; pointer-events:none;">
         <div style="text-align:center;">
           <span id="badge-vm-rockwell" style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">BLOQUEADO</span>
         </div>
@@ -208,49 +208,103 @@
       </div>
     </div>
 
-    <!-- VM 3: SIEMENS TIA PORTAL V16 + PLCSIM -->
+    <!-- VM 3: SIEMENS TIA PORTAL V16 (PAGA — PAYPAL) -->
     <div class="course-card">
-      <h2>VM SIEMENS — TIA PORTAL V16 + PLCSIM</h2>
-      <p>Máquina virtual con TIA Portal V16 y PLCSIM instalados para programar y simular PLCs Siemens.</p>
+      <h2>VM SIEMENS — TIA PORTAL V16 COMPLETA</h2>
+      <p>Máquina virtual con TIA Portal V16, PLCSIM y el ecosistema Siemens más usado en la industria, lista para programar y simular.</p>
       <div style="margin-top:15px; display:flex; gap:10px; flex-wrap:wrap;">
         <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00ff99;">SIEMENS</span>
-        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">TIA PORTAL V16</span>
-        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">PLCSIM</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#00d4ff;">TIA PORTAL V16 + PLCSIM</span>
+        <span style="background:#0f1f2f; padding:6px 12px; border-radius:8px; font-size:13px; color:#ffd500;">COMPLETA</span>
       </div>
 
-      <div class="vm-box">
+      <!-- BANNER DE COMPRA (se oculta con JS al confirmar el acceso) -->
+      <div id="premium-gate-vm-siemens" class="vm-box">
         <div class="vm-head">
-          <span>Software incluido</span>
-          <span class="vm-tag">Descarga gratuita</span>
+          <span>Acceso completo</span>
+          <span class="vm-tag">Oferta de lanzamiento -80%</span>
         </div>
-        <div class="vm-body" style="padding-bottom:6px;">
+        <div class="vm-body">
+          <div class="vm-old">Precio regular: $15 USD</div>
+          <div class="vm-price">
+            <strong>$3</strong><em>USD · PAGO ÚNICO</em>
+          </div>
+          <div class="vm-save">Ahorras <b>$12 USD</b> · Acceso de por vida, sin mensualidades</div>
+
+          <hr class="vm-sep">
+
+          <div class="vm-title">Incluye</div>
           <ul class="vm-benef">
             <li>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span><b>TIA Portal V16</b> para programar PLCs Siemens</span>
+              <span><b>TIA Portal V16 y S7-PLCSIM V16</b> para programar y simular PLCs S7-1200 y S7-1500</span>
             </li>
             <li>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span><b>PLCSIM</b> para simular tus programas sin PLC físico</span>
+              <span><b>SIMATIC Manager y STEP 7 MicroWIN SP9</b> para proyectos S7-300/400 y S7-200</span>
             </li>
             <li>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span><b>Sin instalaciones:</b> abres la VM y empiezas a practicar</span>
+              <span><b>WinCC flexible 2008 y ProTool/Pro CS</b> para diseño de pantallas HMI</span>
             </li>
             <li>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span><b>Guía de instalación en PDF</b> paso a paso</span>
+              <span><b>SINAMICS STARTER, V-ASSISTANT y Drive Monitor</b> para variadores de frecuencia</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Factory I/O</b> para simular procesos industriales en 3D</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Herramientas extra:</b> SIMOCODE ES, S7-PCT, S7-200 Explorer, TD Keypad Designer, PNOZmulti Configurator y Automation License Manager</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Sin instalaciones ni licencias:</b> abres la VM y empiezas a practicar</span>
+            </li>
+            <li>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3.2 3L13 4.5" stroke="#00ff99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span><b>Guía de instalación en PDF</b> y soporte por correo</span>
             </li>
           </ul>
+
+          <button class="vm-cta" onclick="iniciarPagoVM(this, 'vm-siemens-tia-v16')">COMPRAR AHORA · $3 USD</button>
+
+          <div class="vm-trust">
+            <span>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="#94a3b8" stroke-width="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2" stroke="#94a3b8" stroke-width="1.5"/></svg>
+              Pago seguro con PayPal
+            </span>
+            <span>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M9 1.5L3.5 9H8l-1 5.5L12.5 7H8l1-5.5z" stroke="#94a3b8" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              Activación automática
+            </span>
+          </div>
+
+          <p class="vm-help">
+            ¿Ya pagaste y no ves la descarga? Recarga la página o escríbenos a
+            <a href="mailto:aulaplcsoporte@gmail.com" style="color:#00d4ff;">aulaplcsoporte@gmail.com</a>
+          </p>
         </div>
-        <div style="padding:14px 18px 18px;">
-          <a href="{{ url_for('static', filename='proyectos/vm_siemens_tia_v20.zip') }}" target="_blank">
-            <button class="btn blue" style="width:100%;">DESCARGAR VM</button>
-          </a>
-          <a href="{{ url_for('static', filename='pdfs/guia_instalacion_vm_siemens_tia_v20.pdf') }}" target="_blank" style="display:block; margin-top:12px;">
-            <button class="btn green" style="width:100%;">GUÍA DE INSTALACIÓN</button>
-          </a>
+      </div>
+
+      <!-- ACCESO ACTIVO (oculto por defecto) -->
+      <div id="acceso-activo-vm-siemens" style="display:none; margin-top:20px; background:rgba(0,255,153,0.08); border:1px solid #00ff99; border-radius:10px; padding:16px; text-align:center;">
+        <p style="margin-top:0; color:#00ff99; font-family:Orbitron; font-weight:700; font-size:13px; letter-spacing:0.5px;">
+          Ya tienes acceso a esta máquina virtual de forma indefinida
+        </p>
+      </div>
+
+      <!-- DESCARGA BLOQUEADA HASTA CONFIRMAR EL PAGO -->
+      <div data-vm-premium="vm-siemens-tia-v16" style="margin-top:20px; display:flex; flex-direction:column; gap:12px; opacity:0.55; pointer-events:none;">
+        <div style="text-align:center;">
+          <span id="badge-vm-siemens" style="background:#ffb400; color:#000; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; font-family:Orbitron;">BLOQUEADO</span>
         </div>
+        <button class="btn yellow" style="width:100%;" onclick="descargarVMPremium(this, 'vm-siemens-tia-v16')">DESCARGAR VM</button>
+        <a href="{{ url_for('static', filename='pdfs/guia_instalacion_vm_siemens_tia_v20.pdf') }}" target="_blank">
+          <button class="btn blue" style="width:100%;">GUÍA DE INSTALACIÓN</button>
+        </a>
       </div>
     </div>
 
@@ -260,34 +314,37 @@
 
 {% block extra_scripts %}
 <script>
-// Chequea si el usuario logueado ya tiene acceso pagado a la VM y, si es
-// así, quita el candado visual (opacity + pointer-events) del bloque de
-// descarga. No depende de ningún script externo: se hace acá directo.
+// Productos de pago de esta página. Para sumar otro, agrégalo aquí.
+const VMS = [
+  { id: 'vm-rockwell-completa', gate: 'premium-gate-vm-rockwell', activo: 'acceso-activo-vm-rockwell', badge: 'badge-vm-rockwell' },
+  { id: 'vm-siemens-tia-v16',   gate: 'premium-gate-vm-siemens',  activo: 'acceso-activo-vm-siemens',  badge: 'badge-vm-siemens' }
+];
+
+// Antes de ir a PayPal: recordamos qué producto se está comprando (para
+// confirmarlo correctamente al volver) y se lo indicamos al flujo de pago.
+function iniciarPagoVM(btn, cursoId) {
+  try { sessionStorage.setItem('vm_pending', cursoId); } catch (e) {}
+  window.CURSO_ID = cursoId;
+  iniciarPagoPaypal(btn);
+}
+
 (function () {
-  const CURSO_ID_VM = 'vm-rockwell-completa';
   let intentosAcceso  = 0;
   let intentosRetorno = 0;
 
-  function desbloquearDescarga() {
-    document.querySelectorAll('[data-vm-premium="true"]').forEach(function (el) {
+  function desbloquear(vm) {
+    document.querySelectorAll('[data-vm-premium="' + vm.id + '"]').forEach(function (el) {
       el.style.opacity = '1';
       el.style.pointerEvents = 'auto';
     });
-
-    // Oculta el recuadro de "comprar" y muestra el de "ya tienes acceso"
-    // en su lugar — quedan dentro de la misma tarjeta (course-card) de la
-    // VM Rockwell Completa, así que basta con buscarlos por id.
-    const gate  = document.getElementById('premium-gate-vm-rockwell');
-    const activo = document.getElementById('acceso-activo-vm-rockwell');
+    const gate   = document.getElementById(vm.gate);
+    const activo = document.getElementById(vm.activo);
     if (gate) gate.style.display = 'none';
     if (activo) activo.style.display = 'block';
 
-    // Corrige el badge "BLOQUEADO" a un estado desbloqueado, en el
-    // idioma que corresponda. Se fija dataset.i18nEs a mano (con el
-    // "original" en español) para que el motor de traducción genérico de
-    // traducciones.js (que reacciona a cualquier cambio del DOM) no lo
-    // vuelva a pisar con el texto viejo "BLOQUEADO" al re-ejecutarse.
-    const badge = document.getElementById('badge-vm-rockwell');
+    // Se fija dataset.i18nEs para que el motor de traducción no vuelva a
+    // pisar el texto con el valor viejo.
+    const badge = document.getElementById(vm.badge);
     if (badge) {
       badge.style.background = '#00ff99';
       badge.dataset.i18nEs = 'DESBLOQUEADO';
@@ -296,50 +353,41 @@
     }
   }
 
-  // Espera a que firebase-auth.js loguee al usuario (puede tardar un poco)
-  // antes de ejecutar cb. Reintenta por unos segundos antes de rendirse.
   function esperarUid(cb) {
     if (window.currentUserUid && window.currentUserUid !== 'anonimo') { cb(); return; }
     intentosRetorno++;
     if (intentosRetorno < 20) setTimeout(function () { esperarUid(cb); }, 500);
   }
 
-  // ── ARREGLO: confirmar el pago apenas se vuelve de PayPal ──────────
-  // Antes, el desbloqueo dependía 100% del webhook de PayPal escribiendo
-  // en Firestore; si el webhook tarda, no está bien suscrito en el
-  // dashboard de PayPal, o falta la variable de entorno
-  // PAYPAL_WEBHOOK_ID, el acceso nunca se otorgaba y el candado quedaba
-  // bloqueado aunque el pago sí se hubiera hecho. Ahora, si PayPal acaba
-  // de redirigir de vuelta con la orden aprobada (?paypal_status=approved
-  // y "token" = id de la orden), la confirmamos directamente contra
-  // /api/cursos/<id>/confirmar-paypal, que consulta y captura la orden en
-  // la propia API de PayPal y otorga el acceso al toque, sin esperar el
-  // webhook. Si el webhook además llega después, no pasa nada: es
-  // idempotente.
+  // Al volver de PayPal (?paypal_status=approved&token=ORDEN) confirmamos la
+  // orden del producto que se estaba comprando, sin esperar al webhook.
   function confirmarRegresoPaypal() {
     const params  = new URLSearchParams(window.location.search);
     const status  = params.get('paypal_status');
     const orderId = params.get('token');
     if (status !== 'approved' || !orderId) return;
 
+    let pendiente = null;
+    try { pendiente = sessionStorage.getItem('vm_pending'); } catch (e) {}
+    const vm = VMS.find(function (v) { return v.id === pendiente; }) || VMS[0];
+
     esperarUid(async function () {
       try {
-        const res = await fetch(`/api/cursos/${CURSO_ID_VM}/confirmar-paypal`, {
+        const res = await fetch('/api/cursos/' + vm.id + '/confirmar-paypal', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ uid: window.currentUserUid, order_id: orderId })
         });
         const data = await res.json();
         if (data && data.tiene_acceso) {
-          desbloquearDescarga();
+          desbloquear(vm);
         } else {
           console.error('No se pudo confirmar el pago de PayPal:', data && data.error);
         }
       } catch (e) {
         console.error('Error confirmando el pago de PayPal:', e);
       } finally {
-        // Limpia los parámetros de PayPal de la URL para no reintentar la
-        // confirmación cada vez que se recarga la página.
+        try { sessionStorage.removeItem('vm_pending'); } catch (e) {}
         params.delete('paypal_status');
         params.delete('token');
         params.delete('PayerID');
@@ -349,37 +397,35 @@
     });
   }
 
-  async function chequearAccesoVM() {
+  async function chequearAccesos() {
     if (!window.currentUserUid || window.currentUserUid === 'anonimo') {
       intentosAcceso++;
-      if (intentosAcceso < 20) setTimeout(chequearAccesoVM, 500);
+      if (intentosAcceso < 20) setTimeout(chequearAccesos, 500);
       return;
     }
-    try {
-      const res = await fetch(`/api/cursos/${CURSO_ID_VM}/acceso?uid=${encodeURIComponent(window.currentUserUid)}`);
-      const data = await res.json();
-      if (data && data.tiene_acceso) desbloquearDescarga();
-    } catch (e) {
-      console.error('Error comprobando acceso premium de la VM:', e);
-    }
+    VMS.forEach(async function (vm) {
+      try {
+        const res = await fetch('/api/cursos/' + vm.id + '/acceso?uid=' + encodeURIComponent(window.currentUserUid));
+        const data = await res.json();
+        if (data && data.tiene_acceso) desbloquear(vm);
+      } catch (e) {
+        console.error('Error comprobando acceso premium de ' + vm.id + ':', e);
+      }
+    });
   }
 
-  // Si venimos de vuelta de PayPal, confirmamos esa orden puntual y además
-  // dejamos el chequeo normal corriendo (cubre a quien ya había pagado
-  // antes y simplemente vuelve a entrar a la página).
   confirmarRegresoPaypal();
-  chequearAccesoVM();
+  chequearAccesos();
 
-  // ── Quitar el botón genérico "ACTIVAR PREMIUM" / "ACTIVATE PREMIUM" ──
-  // ARREGLADO EN LA RAÍZ: este bloque ya no usa data-requiere-premium, así
-  // que firebase-auth.js (updateModulesAccess) no lo toca. Este chequeo
-  // extra queda solo como red de seguridad por si algún día se reintroduce
-  // sin querer ese atributo aquí.
+  // Red de seguridad: quita el candado genérico de firebase-auth.js si
+  // alguna vez se inyecta dentro de estas tarjetas.
   function quitarBotonPremiumGenerico() {
-    const gate = document.getElementById('premium-gate-vm-rockwell');
-    const card = gate ? gate.closest('.course-card') : null;
-    if (!card) return;
-    card.querySelectorAll('.lock-overlay').forEach(function (el) { el.remove(); });
+    VMS.forEach(function (vm) {
+      const gate = document.getElementById(vm.gate);
+      const card = gate ? gate.closest('.course-card') : null;
+      if (!card) return;
+      card.querySelectorAll('.lock-overlay').forEach(function (el) { el.remove(); });
+    });
   }
 
   quitarBotonPremiumGenerico();
@@ -387,9 +433,8 @@
     .observe(document.body, { childList: true, subtree: true });
 })();
 
-// Pide el link real de descarga al servidor. El link NUNCA está escrito en
-// el HTML: el servidor solo lo entrega si el uid ya tiene el acceso premium
-// pagado confirmado en Firestore (ver /api/cursos/<id>/descarga en main.py).
+// Pide el link real de descarga al servidor. El link NUNCA está en el HTML:
+// el servidor solo lo entrega si el uid tiene el acceso pagado confirmado.
 async function descargarVMPremium(btn, cursoId) {
   const esES = (window.getLang ? window.getLang() : 'es') === 'es';
 
@@ -404,7 +449,7 @@ async function descargarVMPremium(btn, cursoId) {
   btn.textContent = esES ? 'Verificando acceso...' : 'Checking access...';
 
   try {
-    const res = await fetch(`/api/cursos/${cursoId}/descarga?uid=${encodeURIComponent(window.currentUserUid)}`);
+    const res = await fetch('/api/cursos/' + cursoId + '/descarga?uid=' + encodeURIComponent(window.currentUserUid));
     const data = await res.json();
 
     if (!res.ok || !data.url) {
