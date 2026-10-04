@@ -16,7 +16,13 @@
 {% endblock %}
 
 {% block content %}
-<div class="courses-page">
+<style>
+  /* Layout de esta página: tarjetas más anchas y contenido pegado arriba */
+  .vm-page { max-width:1400px !important; width:100% !important; margin-left:auto !important; margin-right:auto !important; padding-left:24px !important; padding-right:24px !important; box-sizing:border-box; }
+  .vm-page .courses-grid { display:grid !important; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)) !important; gap:24px !important; align-items:start !important; }
+  .vm-page .course-card { display:block !important; height:auto !important; min-height:0 !important; width:auto !important; max-width:none !important; box-sizing:border-box; }
+</style>
+<div class="courses-page vm-page">
   <h1 class="courses-title">SOFTWARE Y MÁQUINAS VIRTUALES</h1>
   <p class="courses-subtitle">Descarga el software y las VMs necesarias para practicar automatización industrial.</p>
 
