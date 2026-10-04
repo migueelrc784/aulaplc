@@ -673,6 +673,13 @@ CURSOS_PREMIUM = {
         "precio_usd": 10,     # USD (PayPal)
         "return_path": "/software",
     },
+
+    # VM Siemens TIA Portal V16 (/software): también solo PayPal en USD.
+    "vm-siemens-tia-v16": {
+        "titulo": "VM Siemens TIA Portal V16 + PLCSIM (VM completa)",
+        "precio_usd": 3,      # USD (PayPal)
+        "return_path": "/software",
+    },
 }
 
 
@@ -685,6 +692,9 @@ def _premium_doc_id(uid, curso_id):
 # abajo, y solo si el uid ya tiene acceso premium confirmado en Firestore.
 DESCARGAS_PREMIUM = {
     "vm-rockwell-completa": "https://drive.google.com/file/d/14waNfQmT8nn1yt3jReSOnLbyZvr41l34/view?usp=sharing",
+    # TODO: pega aquí el link PRIVADO de descarga de la VM Siemens V16
+    # (Drive, Mega, etc.). No lo dejes en /static: sería público.
+    "vm-siemens-tia-v16": "PEGA_AQUI_EL_LINK_DE_DESCARGA_DE_LA_VM_SIEMENS",
 }
 
 
@@ -705,7 +715,12 @@ def cursos_descarga(curso_id):
     if not doc.exists:
         return jsonify({"error": "Todavía no tienes acceso a esta descarga"}), 403
 
-    return jsonify({"url": DESCARGAS_PREMIUM[curso_id]})
+    url = DESCARGAS_PREMIUM[curso_id]
+    if not url.startswith("http"):
+        # Link aún sin configurar: no entregar el texto placeholder.
+        return jsonify({"error": "La descarga aún no está disponible, escríbenos a soporte"}), 503
+
+    return jsonify({"url": url})
 
 
 # ── CURSOS: CONSULTAR SI EL USUARIO TIENE ACCESO PREMIUM ─────────
