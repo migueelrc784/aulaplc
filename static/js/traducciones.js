@@ -861,30 +861,81 @@ const TIA_DICT = {
     "Download the software and VMs you need to practice industrial automation.",
 
   "VM ROCKWELL — VERSIÓN GRATIS": "VM ROCKWELL — FREE VERSION",
-  "Máquina virtual preconfigurada con RSLogix 500, lista para practicar sin instalar nada.":
-    "Preconfigured virtual machine with RSLogix 500, ready to practice without installing anything.",
+  "Máquina virtual preconfigurada con RSLogix 500 y herramientas de simulación, lista para practicar sin instalar nada.":
+    "Preconfigured virtual machine with RSLogix 500 and simulation tools, ready to practice without installing anything.",
   "GRATIS": "FREE",
+  "Software incluido": "Included software",
+  "Descarga gratuita": "Free download",
+  "para programar PLCs SLC 500 y MicroLogix": "to program SLC 500 and MicroLogix PLCs",
+  "para simular tu programa sin PLC físico": "to simulate your program without a physical PLC",
+  "para la comunicación con el emulador y los equipos": "for communication with the emulator and your devices",
+  "para diseñar pantallas HMI": "to design HMI screens",
+  "como servidor de comunicación OPC": "as an OPC communication server",
+  "para simular circuitos neumáticos": "to simulate pneumatic circuits",
 
   "VM ROCKWELL — VERSIÓN COMPLETA": "VM ROCKWELL — FULL VERSION",
   "Máquina virtual con RSLogix 500, RSLogix 5000 y Studio 5000 instalados y listos para usar.":
     "Virtual machine with RSLogix 500, RSLogix 5000 and Studio 5000 installed and ready to use.",
   "COMPLETA": "FULL",
 
-  "Acceso completo a esta VM": "Full access to this VM",
-  "💳 COMPRAR VM — $10 USD (PAYPAL)": "💳 BUY VM — $10 USD (PAYPAL)",
+  // ── Recuadro de compra (común a las VMs de pago) ──
+  "Acceso completo": "Full access",
+  "Oferta de lanzamiento -80%": "Launch offer -80%",
+  "Precio regular: $50 USD": "Regular price: $50 USD",
+  "Precio regular: $15 USD": "Regular price: $15 USD",
+  "USD · PAGO ÚNICO": "USD · ONE-TIME PAYMENT",
+  "Ahorras": "You save",
+  "· Acceso de por vida, sin mensualidades": "· Lifetime access, no monthly fees",
+  "Incluye": "Includes",
+  "COMPRAR AHORA · $10 USD": "BUY NOW · $10 USD",
+  "COMPRAR AHORA · $3 USD": "BUY NOW · $3 USD",
+  "Pago seguro con PayPal": "Secure payment with PayPal",
+  "Activación automática": "Automatic activation",
   "El acceso se activa automáticamente tras confirmar el pago. ¿Ya pagaste y no ves la descarga? Recarga la página o escríbenos a":
     "Access is activated automatically once the payment is confirmed. Already paid and don't see the download? Reload the page or email us at",
+  "¿Ya pagaste y no ves la descarga? Recarga la página o escríbenos a":
+    "Already paid and don't see the download? Reload the page or email us at",
+
+  // ── Beneficios VM Rockwell completa ──
+  "RSLogix 500, RSLogix 5000 y Studio 5000": "RSLogix 500, RSLogix 5000 and Studio 5000",
+  "instalados y configurados": "installed and configured",
+  "Sin instalaciones ni licencias:": "No installations or licenses:",
+  "abres la VM y empiezas a programar": "open the VM and start programming",
+  "Entorno aislado:": "Isolated environment:",
+  "tu equipo no se modifica": "your computer is not modified",
+  "Guía de instalación en video": "Video installation guide",
+  "paso a paso": "step by step",
+  "Soporte por correo": "Email support",
+  "incluido": "included",
+
+  // ── Estado de acceso ──
+  "BLOQUEADO": "LOCKED",
+  "DESBLOQUEADO": "UNLOCKED",
+  "Ya tienes acceso a esta máquina virtual de forma indefinida":
+    "You already have access to this virtual machine indefinitely",
 
   "DESCARGAR VM": "DOWNLOAD VM",
   "GUÍA DE INSTALACIÓN": "INSTALLATION GUIDE",
 
-  "VM SIEMENS — TIA PORTAL V20 + PLCSIM": "VM SIEMENS — TIA PORTAL V20 + PLCSIM",
-  "Máquina virtual con TIA Portal V20 y PLCSIM instalados para programar y simular PLCs Siemens.":
-    "Virtual machine with TIA Portal V20 and PLCSIM installed to program and simulate Siemens PLCs.",
-
-  "Ya tienes acceso a esta máquina virtual de forma indefinida":
-    "You already have access to this virtual machine indefinitely",
-  "✅ DESBLOQUEADO": "✅ UNLOCKED",
+  // ── VM Siemens TIA Portal V16 ──
+  "VM SIEMENS — TIA PORTAL V16 COMPLETA": "VM SIEMENS — TIA PORTAL V16 FULL",
+  "Máquina virtual con TIA Portal V16, PLCSIM y el ecosistema Siemens más usado en la industria, lista para programar y simular.":
+    "Virtual machine with TIA Portal V16, PLCSIM and the most widely used Siemens ecosystem in industry, ready to program and simulate.",
+  "TIA Portal V16 y S7-PLCSIM V16": "TIA Portal V16 and S7-PLCSIM V16",
+  "para programar y simular PLCs S7-1200 y S7-1500": "to program and simulate S7-1200 and S7-1500 PLCs",
+  "SIMATIC Manager y STEP 7 MicroWIN SP9": "SIMATIC Manager and STEP 7 MicroWIN SP9",
+  "para proyectos S7-300/400 y S7-200": "for S7-300/400 and S7-200 projects",
+  "WinCC flexible 2008 y ProTool/Pro CS": "WinCC flexible 2008 and ProTool/Pro CS",
+  "para diseño de pantallas HMI": "for HMI screen design",
+  "SINAMICS STARTER, V-ASSISTANT y Drive Monitor": "SINAMICS STARTER, V-ASSISTANT and Drive Monitor",
+  "para variadores de frecuencia": "for frequency drives",
+  "para simular procesos industriales en 3D": "to simulate industrial processes in 3D",
+  "Herramientas extra:": "Extra tools:",
+  "SIMOCODE ES, S7-PCT, S7-200 Explorer, TD Keypad Designer, PNOZmulti Configurator y Automation License Manager":
+    "SIMOCODE ES, S7-PCT, S7-200 Explorer, TD Keypad Designer, PNOZmulti Configurator and Automation License Manager",
+  "abres la VM y empiezas a practicar": "open the VM and start practicing",
+  "Guía de instalación en PDF": "PDF installation guide",
+  "y soporte por correo": "and email support",
 }
 
 let tiaTraduciendo = false
@@ -915,16 +966,17 @@ function traducirPaginaTia() {
   // Caso especial: el párrafo "¿Ya pagaste...?" tiene un <a href="mailto:">
   // dentro, así que no es un nodo hoja puro — se traduce solo su primer
   // nodo de texto, dejando intacto el link del correo.
+  // (hay uno por cada VM de pago, por eso se recorren todos)
   const courseRoot = document.querySelector(".courses-page")
-  const mailP = courseRoot && courseRoot.querySelector("p:has(a[href^='mailto:'])")
-  if (mailP) {
+  const mailPs = courseRoot ? courseRoot.querySelectorAll("p:has(a[href^='mailto:'])") : []
+  mailPs.forEach(mailP => {
     const first = mailP.childNodes[0]
     if (first && first.nodeType === 3) {
       if (mailP.dataset.i18nEs === undefined) mailP.dataset.i18nEs = first.textContent
       const clave = mailP.dataset.i18nEs.trim()
       first.textContent = (langActual === "en" && TIA_DICT[clave]) ? TIA_DICT[clave] + " " : mailP.dataset.i18nEs
     }
-  }
+  })
 
   tiaTraduciendo = false
 }
