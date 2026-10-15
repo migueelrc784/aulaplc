@@ -692,7 +692,16 @@ def _premium_doc_id(uid, curso_id):
 # abajo, y solo si el uid ya tiene acceso premium confirmado en Firestore.
 DESCARGAS_PREMIUM = {
     "vm-rockwell-completa": "https://drive.google.com/file/d/14waNfQmT8nn1yt3jReSOnLbyZvr41l34/view?usp=sharing",
+    # Segunda VM de la compra "VM Rockwell Completa" (mismo pago, 2 máquinas).
+    "vm-rockwell-completa-2": "https://drive.google.com/file/d/1YGqgEVqJD65LisfyKpFMAEnmeAMtcV1K/view?usp=sharing",
     "vm-siemens-tia-v16": "https://drive.google.com/file/d/1FnoZdgxTs1xGBa-xHWSLaImXMksJZW3i/view?usp=sharing",
+}
+
+# Descargas que no se compran por separado: el acceso se valida contra el
+# producto indicado. Ej: la 2ª VM Rockwell se desbloquea con la misma compra
+# de "vm-rockwell-completa".
+DESCARGAS_ACCESO_DE = {
+    "vm-rockwell-completa-2": "vm-rockwell-completa",
 }
 
 
@@ -709,7 +718,8 @@ def cursos_descarga(curso_id):
     if not db:
         return jsonify({"error": "Servicio no disponible"}), 503
 
-    doc = db.collection("premium_access").document(_premium_doc_id(uid, curso_id)).get()
+    producto_acceso = DESCARGAS_ACCESO_DE.get(curso_id, curso_id)
+    doc = db.collection("premium_access").document(_premium_doc_id(uid, producto_acceso)).get()
     if not doc.exists:
         return jsonify({"error": "Todavía no tienes acceso a esta descarga"}), 403
 
