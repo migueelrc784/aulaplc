@@ -936,6 +936,26 @@ const TIA_DICT = {
   "abres la VM y empiezas a practicar": "open the VM and start practicing",
   "Guía de instalación en PDF": "PDF installation guide",
   "y soporte por correo": "and email support",
+
+  // ── Programaciones industriales (RSLogix 5000 + TIA Portal) ──
+  "PROGRAMACIONES INDUSTRIALES": "INDUSTRIAL PROGRAMS",
+  "Programas de PLC reales, del tipo que se usa en la industria, para estudiar, adaptar y reutilizar en tus propios proyectos.":
+    "Real PLC programs of the kind used in industry, to study, adapt and reuse in your own projects.",
+  "PROYECTOS": "PROJECTS",
+  "Pack de programaciones": "Programs pack",
+  "Acceso de por vida, sin mensualidades": "Lifetime access, no monthly fees",
+  "Programaciones en RSLogix 5000": "RSLogix 5000 programs",
+  "proyectos de Allen Bradley (ControlLogix / CompactLogix)": "Allen Bradley projects (ControlLogix / CompactLogix)",
+  "Programaciones en TIA Portal": "TIA Portal programs",
+  "proyectos de Siemens (S7-1200 / S7-1500)": "Siemens projects (S7-1200 / S7-1500)",
+  "Basadas en aplicaciones industriales reales": "Based on real industrial applications",
+  "para que aprendas cómo se programa en planta": "so you learn how programming is done on the plant floor",
+  "Descarga directa": "Direct download",
+  "acceso inmediato después del pago": "instant access after payment",
+  "COMPRAR AHORA · $100 USD": "BUY NOW · $100 USD",
+  "Ya tienes acceso a estas programaciones de forma indefinida":
+    "You already have access to these programs indefinitely",
+  "DESCARGAR PROGRAMACIONES": "DOWNLOAD PROGRAMS",
 }
 
 let tiaTraduciendo = false
