@@ -757,6 +757,39 @@ def cursos_acceso(curso_id):
     return jsonify({"tiene_acceso": doc.exists})
 
 
+# ── CURSOS: TOTAL DE COMPRADORES (contador público) ──────────────
+# Cuenta los accesos premium confirmados de un producto. Es público porque
+# solo devuelve un número (sin uids ni datos de nadie).
+# COMPRAS_PREVIAS permite sumar ventas hechas fuera del sistema (que no
+# tengan documento en premium_access). Déjalo en 0 si las 18 y 34 compras
+# ya están registradas en Firestore.
+COMPRAS_PREVIAS = {
+    "vm-rockwell-completa": 0,
+    "vm-siemens-tia-v16":   0,
+}
+
+@app.route("/api/cursos/<curso_id>/total-compras", methods=["GET"])
+def cursos_total_compras(curso_id):
+    if curso_id not in CURSOS_PREMIUM:
+        return jsonify({"error": "Curso no válido"}), 404
+    if not db:
+        return jsonify({"error": "Servicio no disponible"}), 503
+
+    try:
+        query = db.collection("premium_access").where("curso_id", "==", curso_id)
+        try:
+            # Agregación count(): no descarga los documentos, solo cuenta.
+            total = query.count().get()[0][0].value
+        except Exception:
+            # Respaldo para versiones viejas de firebase-admin.
+            total = sum(1 for _ in query.stream())
+    except Exception as e:
+        print(f"Error contando compras de {curso_id}: {e}")
+        return jsonify({"error": "No se pudo obtener el total"}), 500
+
+    return jsonify({"total": int(total) + COMPRAS_PREVIAS.get(curso_id, 0)})
+
+
 # ── CURSOS: CREAR PREFERENCIA DE PAGO (Checkout Pro) ──────────────
 @app.route("/api/cursos/<curso_id>/comprar", methods=["POST"])
 def cursos_comprar(curso_id):

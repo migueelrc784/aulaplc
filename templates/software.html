@@ -78,7 +78,7 @@
             <strong>$10</strong><span class="vm-unit">USD · PAGO ÚNICO</span>
           </div>
           <div class="vm-save"><span>Ahorras</span> <b>$40 USD</b> <span>· Acceso de por vida, sin mensualidades</span></div>
-          <div class="vm-sold"><span><b>18</b> usuarios ya compraron esta VM</span></div>
+          <div class="vm-sold"><span><b data-vm-contador="vm-rockwell-completa">18</b> usuarios ya compraron esta VM</span></div>
 
           <hr class="vm-sep">
 
@@ -267,7 +267,7 @@
             <strong>$3</strong><span class="vm-unit">USD · PAGO ÚNICO</span>
           </div>
           <div class="vm-save"><span>Ahorras</span> <b>$12 USD</b> <span>· Acceso de por vida, sin mensualidades</span></div>
-          <div class="vm-sold"><span><b>34</b> usuarios ya compraron esta VM</span></div>
+          <div class="vm-sold"><span><b data-vm-contador="vm-siemens-tia-v16">34</b> usuarios ya compraron esta VM</span></div>
 
           <hr class="vm-sep">
 
@@ -508,6 +508,7 @@ async function iniciarPagoVM(btn, cursoId) {
         const data = await res.json();
         if (data && data.tiene_acceso) {
           desbloquear(vm);
+          cargarContadores();
         } else {
           console.error('No se pudo confirmar el pago de PayPal:', data && data.error);
         }
@@ -541,6 +542,22 @@ async function iniciarPagoVM(btn, cursoId) {
     });
   }
 
+  // Contador de compradores: lo pide al servidor para cada producto que
+  // tenga un <b data-vm-contador="ID">. Si falla, queda el número del HTML.
+  async function cargarContadores() {
+    document.querySelectorAll('[data-vm-contador]').forEach(async function (el) {
+      const id = el.getAttribute('data-vm-contador');
+      try {
+        const res = await fetch('/api/cursos/' + id + '/total-compras');
+        const data = await res.json();
+        if (res.ok && data && Number.isFinite(data.total)) el.textContent = data.total;
+      } catch (e) {
+        console.error('Error cargando contador de ' + id + ':', e);
+      }
+    });
+  }
+
+  cargarContadores();
   confirmarRegresoPaypal();
   chequearAccesos();
 
