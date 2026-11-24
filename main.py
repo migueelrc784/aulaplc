@@ -669,15 +669,15 @@ CURSOS_PREMIUM = {
     # para este producto). "return_path" indica a qué página volver
     # después del pago (por defecto es /cursos/{curso_id}).
     "vm-rockwell-completa": {
-        "titulo": "VM Rockwell Completa (RSLogix 500 + RSLogix 5000 + Studio 5000)",
-        "precio_usd": 10,     # USD (PayPal)
+        "titulo": "VM Rockwell Completa x2 — Windows 7 + Windows XP (RSLogix 500 + RSLogix 5000 + Studio 5000)",
+        "precio_usd": 20,     # USD (PayPal)
         "return_path": "/software",
     },
 
     # VM Siemens TIA Portal V16 (/software): también solo PayPal en USD.
     "vm-siemens-tia-v16": {
         "titulo": "VM Siemens TIA Portal V16 + PLCSIM (VM completa)",
-        "precio_usd": 3,      # USD (PayPal)
+        "precio_usd": 10,     # USD (PayPal)
         "return_path": "/software",
     },
 
