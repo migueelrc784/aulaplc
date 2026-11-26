@@ -670,21 +670,21 @@ CURSOS_PREMIUM = {
     # después del pago (por defecto es /cursos/{curso_id}).
     "vm-rockwell-completa": {
         "titulo": "VM Rockwell Completa x2 — Windows 7 + Windows XP (RSLogix 500 + RSLogix 5000 + Studio 5000)",
-        "precio_usd": 20,     # USD (PayPal)
+        "precio_usd": 19.9,   # USD (PayPal)
         "return_path": "/software",
     },
 
     # VM Siemens TIA Portal V16 (/software): también solo PayPal en USD.
     "vm-siemens-tia-v16": {
         "titulo": "VM Siemens TIA Portal V16 + PLCSIM (VM completa)",
-        "precio_usd": 10,     # USD (PayPal)
+        "precio_usd": 9.9,    # USD (PayPal)
         "return_path": "/software",
     },
 
     # Programaciones industriales (RSLogix 5000 + TIA Portal): solo PayPal en USD.
     "programaciones-industriales": {
         "titulo": "Programaciones Industriales (RSLogix 5000 + TIA Portal + HMI PanelView / Monitouch)",
-        "precio_usd": 20,     # USD (PayPal)
+        "precio_usd": 19.9,   # USD (PayPal)
         "return_path": "/software",
     },
 }
@@ -702,7 +702,7 @@ DESCARGAS_PREMIUM = {
     # Segunda VM de la compra "VM Rockwell Completa" (mismo pago, 2 máquinas).
     "vm-rockwell-completa-2": "https://drive.google.com/file/d/1YGqgEVqJD65LisfyKpFMAEnmeAMtcV1K/view?usp=sharing",
     "vm-siemens-tia-v16": "https://drive.google.com/file/d/1FnoZdgxTs1xGBa-xHWSLaImXMksJZW3i/view?usp=sharing",
-    # Programaciones industriales (se desbloquea con la compra de $20 USD).
+    # Programaciones industriales (se desbloquea con la compra de $19.9 USD).
     "programaciones-industriales": "https://drive.google.com/file/d/11Ca_vQKFaPwFElSI3mpZRltQ17_SSIm-/view?usp=sharing",
 }
 
