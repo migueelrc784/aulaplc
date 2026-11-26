@@ -79,8 +79,8 @@
       </style>
       <div class="oferta-banner" data-oferta>
         <div class="oferta-titulo">EN OFERTA</div>
-        <div class="oferta-sub">El precio de oferta termina pronto</div>
-        <div class="oferta-reloj"><small>Termina en</small><b data-oferta-reloj>--:--:--</b></div>
+        <div class="oferta-sub">El precio de oferta se va en</div>
+        <div class="oferta-reloj"><b>1 DÍA</b></div>
       </div>
       <div id="premium-gate-vm-rockwell" class="vm-box" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
 
@@ -196,8 +196,8 @@
       <!-- BANNER DE COMPRA (se oculta con JS al confirmar el acceso) -->
       <div class="oferta-banner" data-oferta>
         <div class="oferta-titulo">EN OFERTA</div>
-        <div class="oferta-sub">El precio de oferta termina pronto</div>
-        <div class="oferta-reloj"><small>Termina en</small><b data-oferta-reloj>--:--:--</b></div>
+        <div class="oferta-sub">El precio de oferta se va en</div>
+        <div class="oferta-reloj"><b>1 DÍA</b></div>
       </div>
       <div id="premium-gate-prog-industriales" class="vm-box" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
         <div class="vm-head">
@@ -290,8 +290,8 @@
       <!-- BANNER DE COMPRA (se oculta con JS al confirmar el acceso) -->
       <div class="oferta-banner" data-oferta>
         <div class="oferta-titulo">EN OFERTA</div>
-        <div class="oferta-sub">El precio de oferta termina pronto</div>
-        <div class="oferta-reloj"><small>Termina en</small><b data-oferta-reloj>--:--:--</b></div>
+        <div class="oferta-sub">El precio de oferta se va en</div>
+        <div class="oferta-reloj"><b>1 DÍA</b></div>
       </div>
       <div id="premium-gate-vm-siemens" class="vm-box" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
         <div class="vm-head">
@@ -449,31 +449,6 @@ const VMS = [
   { id: 'vm-siemens-tia-v16',   gate: 'premium-gate-vm-siemens',  activo: 'acceso-activo-vm-siemens',  badge: 'badge-vm-siemens' },
   { id: 'programaciones-industriales', gate: 'premium-gate-prog-industriales', activo: 'acceso-activo-prog-industriales', badge: 'badge-prog-industriales' }
 ];
-
-// Cuenta regresiva de la oferta. Cambia esta fecha cuando quieras
-// programar el fin de la oferta (hora de Chile, UTC-03:00).
-const OFERTA_FIN = new Date('2026-11-27T23:59:59-03:00').getTime();
-
-(function () {
-  function pad(n) { return String(n).padStart(2, '0'); }
-  function tick() {
-    const resta = OFERTA_FIN - Date.now();
-    const banners = document.querySelectorAll('[data-oferta]');
-    if (resta <= 0) {
-      banners.forEach(function (b) { b.style.display = 'none'; });
-      return false;
-    }
-    const h = Math.floor(resta / 3600000);
-    const m = Math.floor((resta % 3600000) / 60000);
-    const s = Math.floor((resta % 60000) / 1000);
-    const txt = pad(h) + ':' + pad(m) + ':' + pad(s);
-    document.querySelectorAll('[data-oferta-reloj]').forEach(function (el) { el.textContent = txt; });
-    return true;
-  }
-  if (tick()) {
-    const t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000);
-  }
-})();
 
 // Compra con PayPal: crea la orden en el backend para el producto indicado
 // y redirige al usuario a PayPal. Al volver, confirmarRegresoPaypal() (abajo)
