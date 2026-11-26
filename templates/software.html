@@ -21,6 +21,18 @@
   .vm-page { max-width:1400px !important; width:100% !important; margin-left:auto !important; margin-right:auto !important; padding-left:24px !important; padding-right:24px !important; box-sizing:border-box; }
   .vm-page .courses-grid { display:grid !important; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)) !important; gap:24px !important; align-items:start !important; }
   .vm-page .course-card { display:block !important; height:auto !important; min-height:0 !important; width:auto !important; max-width:none !important; box-sizing:border-box; }
+
+  /* Banner de oferta */
+  .oferta-banner { position:relative; margin-top:20px; border-radius:12px 12px 0 0; padding:16px 18px 14px; text-align:center; background:linear-gradient(135deg,#ff2d2d 0%,#ff6a00 100%); color:#fff; overflow:hidden; box-shadow:0 6px 24px rgba(255,70,0,.35); }
+  .oferta-banner::after { content:""; position:absolute; top:0; left:-60%; width:40%; height:100%; background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent); transform:skewX(-20deg); animation:ofertaBrillo 3.2s ease-in-out infinite; }
+  @keyframes ofertaBrillo { 0%{left:-60%;} 55%,100%{left:130%;} }
+  .oferta-banner .oferta-titulo { font-family:Orbitron; font-weight:900; font-size:30px; letter-spacing:4px; line-height:1; text-shadow:0 2px 8px rgba(0,0,0,.3); }
+  .oferta-banner .oferta-sub { margin-top:6px; font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; opacity:.95; }
+  .oferta-banner .oferta-reloj { margin-top:10px; display:inline-flex; align-items:center; gap:8px; background:rgba(0,0,0,.28); border-radius:8px; padding:7px 14px; }
+  .oferta-banner .oferta-reloj b { font-family:Orbitron; font-size:20px; font-weight:800; letter-spacing:2px; font-variant-numeric:tabular-nums; }
+  .oferta-banner .oferta-reloj small { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; opacity:.85; }
+  .oferta-banner + .vm-head { border-radius:0; }
+  @media (max-width:420px) { .oferta-banner .oferta-titulo { font-size:24px; letter-spacing:3px; } .oferta-banner .oferta-reloj b { font-size:17px; } }
 </style>
 <div class="courses-page vm-page">
   <h1 class="courses-title">SOFTWARE Y MÁQUINAS VIRTUALES</h1>
@@ -65,7 +77,12 @@
         .vm-trust span { display:flex; align-items:center; gap:6px; }
         .vm-help { margin-top:14px; padding-top:14px; border-top:1px solid #1e293b; font-size:11px; color:#64748b; text-align:center; line-height:1.5; }
       </style>
-      <div id="premium-gate-vm-rockwell" class="vm-box">
+      <div class="oferta-banner" data-oferta>
+        <div class="oferta-titulo">EN OFERTA</div>
+        <div class="oferta-sub">El precio de oferta termina pronto</div>
+        <div class="oferta-reloj"><small>Termina en</small><b data-oferta-reloj>--:--:--</b></div>
+      </div>
+      <div id="premium-gate-vm-rockwell" class="vm-box" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
 
         <div class="vm-head">
           <span>Acceso completo</span>
@@ -177,7 +194,12 @@
       </div>
 
       <!-- BANNER DE COMPRA (se oculta con JS al confirmar el acceso) -->
-      <div id="premium-gate-prog-industriales" class="vm-box">
+      <div class="oferta-banner" data-oferta>
+        <div class="oferta-titulo">EN OFERTA</div>
+        <div class="oferta-sub">El precio de oferta termina pronto</div>
+        <div class="oferta-reloj"><small>Termina en</small><b data-oferta-reloj>--:--:--</b></div>
+      </div>
+      <div id="premium-gate-prog-industriales" class="vm-box" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
         <div class="vm-head">
           <span>Acceso completo</span>
           <span class="vm-tag">Pack de programaciones</span>
@@ -266,7 +288,12 @@
       </div>
 
       <!-- BANNER DE COMPRA (se oculta con JS al confirmar el acceso) -->
-      <div id="premium-gate-vm-siemens" class="vm-box">
+      <div class="oferta-banner" data-oferta>
+        <div class="oferta-titulo">EN OFERTA</div>
+        <div class="oferta-sub">El precio de oferta termina pronto</div>
+        <div class="oferta-reloj"><small>Termina en</small><b data-oferta-reloj>--:--:--</b></div>
+      </div>
+      <div id="premium-gate-vm-siemens" class="vm-box" style="margin-top:0; border-top-left-radius:0; border-top-right-radius:0;">
         <div class="vm-head">
           <span>Acceso completo</span>
           <span class="vm-tag">Oferta de lanzamiento -33%</span>
@@ -423,6 +450,31 @@ const VMS = [
   { id: 'programaciones-industriales', gate: 'premium-gate-prog-industriales', activo: 'acceso-activo-prog-industriales', badge: 'badge-prog-industriales' }
 ];
 
+// Cuenta regresiva de la oferta. Cambia esta fecha cuando quieras
+// programar el fin de la oferta (hora de Chile, UTC-03:00).
+const OFERTA_FIN = new Date('2026-11-27T23:59:59-03:00').getTime();
+
+(function () {
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function tick() {
+    const resta = OFERTA_FIN - Date.now();
+    const banners = document.querySelectorAll('[data-oferta]');
+    if (resta <= 0) {
+      banners.forEach(function (b) { b.style.display = 'none'; });
+      return false;
+    }
+    const h = Math.floor(resta / 3600000);
+    const m = Math.floor((resta % 3600000) / 60000);
+    const s = Math.floor((resta % 60000) / 1000);
+    const txt = pad(h) + ':' + pad(m) + ':' + pad(s);
+    document.querySelectorAll('[data-oferta-reloj]').forEach(function (el) { el.textContent = txt; });
+    return true;
+  }
+  if (tick()) {
+    const t = setInterval(function () { if (!tick()) clearInterval(t); }, 1000);
+  }
+})();
+
 // Compra con PayPal: crea la orden en el backend para el producto indicado
 // y redirige al usuario a PayPal. Al volver, confirmarRegresoPaypal() (abajo)
 // confirma la orden del producto que se estaba comprando.
@@ -476,7 +528,11 @@ async function iniciarPagoVM(btn, cursoId) {
     });
     const gate   = document.getElementById(vm.gate);
     const activo = document.getElementById(vm.activo);
-    if (gate) gate.style.display = 'none';
+    if (gate) {
+      gate.style.display = 'none';
+      const prev = gate.previousElementSibling;
+      if (prev && prev.hasAttribute('data-oferta')) prev.style.display = 'none';
+    }
     if (activo) activo.style.display = 'block';
 
     // Se fija dataset.i18nEs para que el motor de traducción no vuelva a
